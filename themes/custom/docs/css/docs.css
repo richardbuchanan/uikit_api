@@ -1,0 +1,226 @@
+html {
+  overflow-y: scroll;
+}
+
+/**
+ * Navbar
+ */
+.uk-navbar {
+  background: #3dc0f1;
+}
+.uk-navbar #logo-large img,
+.uk-navbar #logo-small img {
+  height: 28px;
+}
+.uk-navbar .uk-navbar-toggle {
+  color: #fff;
+}
+.uk-navbar-nav > li > a {
+  color: #fff;
+  text-shadow: none;
+}
+.uk-navbar-nav > li.uk-active > a {
+  background-color: #15afea;
+  color: #fff;
+}
+.uk-navbar-nav > li > a:focus,
+.uk-navbar-nav > li > a:hover,
+.uk-navbar-nav > li.uk-active > a:focus,
+.uk-navbar-nav > li.uk-active > a:hover,
+#autocomplete ul > li:focus,
+#autocomplete ul > li:hover {
+  background-color: #04a1dd;
+  color: #fff;
+}
+html.js input.form-autocomplete {
+  background-image: none;
+}
+html.js .ctools-collapsible-container .ctools-collapsible-handle {
+  display: inline-block;
+}
+
+.uk-alert ul > li {
+  list-style: none;
+}
+.uk-alert > :not(.uk-alert-close):not(.uk-hidden) {
+  margin-right: 30px;
+}
+
+.uk-form select:focus,
+.uk-form textarea:focus,
+.uk-form input:not([type]):focus,
+.uk-form input[type="text"]:focus,
+.uk-form input[type="password"]:focus,
+.uk-form input[type="datetime"]:focus,
+.uk-form input[type="datetime-local"]:focus,
+.uk-form input[type="date"]:focus,
+.uk-form input[type="month"]:focus,
+.uk-form input[type="time"]:focus,
+.uk-form input[type="week"]:focus,
+.uk-form input[type="number"]:focus,
+.uk-form input[type="email"]:focus,
+.uk-form input[type="url"]:focus,
+.uk-form input[type="search"]:focus,
+.uk-form input[type="tel"]:focus,
+.uk-form input[type="color"]:focus,
+.uk-table th,
+.uk-table td {
+  border-color: #04a1dd;
+}
+.uk-form .form-type-textfield + button {
+  margin: 15px 0;
+}
+
+.resizable-textarea textarea {
+  -webkit-border-bottom-left-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.resizable-textarea .docs-grippie {
+  background: #fafafa;
+  border: 1px solid #ddd;
+  border-top-width: 0;
+  color: #aaa;
+  cursor: s-resize;
+}
+.resizable-textarea .docs-grippie i {
+  -webkit-transform: scale(2.5, 1);
+  -moz-transform: scale(2.5, 1);
+  -ms-transform: scale(2.5, 1);
+  -o-transform: scale(2.5, 1);
+  transform: scale(2.5, 1);
+}
+.text-format-wrapper .filter-wrapper {
+  -webkit-border-top-left-radius: 0;
+  -webkit-border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-top: none;
+}
+.views-exposed-form .views-exposed-widget .form-submit {
+  margin-top: 1.8em;
+}
+td.views-field-title {
+  white-space: nowrap;
+}
+
+.ctools-collapsible-container {
+  margin-top: 5px;
+}
+.ctools-collapsible-container > i {
+  cursor: pointer;
+  width: 18px;
+}
+.ctools-collapsible-content > * {
+  margin-top: 10px;
+}
+.ctools-collapsed .ctools-collapsible-content {
+  display: none;
+}
+.ctools-collapsible-content {
+  clear: both;
+}
+.ctools-collapsible-content dl {
+  margin-left: 1.5em;
+}
+.ctools-collapsible-content dt {
+  margin-top: 0.625em;
+}
+.ctools-collapsible-content dt small {
+  font-size: 0.923em;
+}
+.ctools-collapsible-content dd {
+  padding-left: 0.625em;
+}
+
+#api-search-form button {
+  margin-top: 0.5em;
+}
+
+.block-api .uk-nav > li > a > .uk-badge {
+  font-size: 13px;
+  margin: 2px 0;
+}
+.block-api .uk-nav > li.uk-active > a > .uk-badge {
+  background: #fff;
+  color: #00a8e6;
+}
+
+#logo-large {
+  padding: 0;
+}
+.uk-navbar-brand,
+.uk-navbar-brand:focus,
+.uk-navbar-brand:hover {
+  color: #fff;
+  text-shadow: none;
+}
+.uk-navbar-brand span {
+  line-height: 2.4em;
+}
+.uk-article-title .uk-badge {
+  font-size: 18px;
+  line-height: 24px;
+}
+.docs-link-anchor:focus,
+.docs-link-anchor:hover,
+.docs-link-anchor a:focus,
+.docs-link-anchor a:hover {
+  text-decoration: none;
+}
+.docs-link-anchor > h3 {
+  display: inline;
+}
+
+#footer {
+  background: #04a1dd;
+  padding: 50px 0;
+}
+#footer,
+#footer a {
+  color: #eee !important;
+}
+@media (min-width: 768px) {
+  #footer {
+    padding: 90px 0;
+  }
+}
+@media (min-width: 1220px) {
+  #footer {
+    padding: 120px 0;
+  }
+}
+
+#api-function-signature tr.active td.branch {
+  display: inline-block;
+  margin-left: -2px;
+  padding-left: 0;
+  text-align: left;
+}
+#docs-api-file {
+  margin-top: 15px;
+}
+#docs-api-objects > h3 {
+  margin-bottom: 0;
+}
+.api-documentation > p:first-of-type {
+  margin-top: 0;
+}
+.docs-api-title {
+  font-size: 26px;
+  line-height: 23px;
+}
+.docs-link-anchor .uk-icon {
+  opacity: 0;
+}
+.docs-link-anchor:focus .uk-icon,
+.docs-link-anchor:hover .uk-icon {
+  opacity: 1;
+}
+.docs-link-anchor + * {
+  margin-top: 0;
+}
+#api-alternatives > li > .active {
+  color: #444;
+}

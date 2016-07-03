@@ -1,0 +1,7 @@
+name = Docs admin
+description = UIkit admin sub-theme.
+core = 7.x
+
+stylesheets[all][] = 'css/uikit.almost-flat.css'
+stylesheets[all][] = 'css/components/progress.almost-flat.css'
+stylesheets[all][] = 'css/docs-admin.css'

@@ -1,0 +1,21 @@
+.docs-panel-box {
+  border-right-width: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.docs-nav-side li.done * {
+  color: #659f13;
+}
+.docs-nav-side li:not(.done) a {
+  padding-left: 30px;
+}
+@media (min-width: 768px) {
+  .docs-main {
+    padding-left: 50px !important;
+    border-left: 1px solid #E5E5E5;
+  }
+  .docs-sidebar {
+    margin-right: -1px !important;
+    border-right: 1px solid #E5E5E5;
+  }
+}

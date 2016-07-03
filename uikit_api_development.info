@@ -1,0 +1,41 @@
+name = UIkit API Development
+description = Install with commonly used features pre-configured, as well as some development contributed modules for UIkit API development.
+version = VERSION
+core = 7.x
+exclusive = true
+dependencies[] = block
+dependencies[] = comment
+dependencies[] = contextual
+dependencies[] = dashboard
+dependencies[] = help
+dependencies[] = image
+dependencies[] = list
+dependencies[] = menu
+dependencies[] = number
+dependencies[] = options
+dependencies[] = path
+dependencies[] = taxonomy
+dependencies[] = dblog
+dependencies[] = search
+dependencies[] = shortcut
+dependencies[] = field_ui
+dependencies[] = file
+dependencies[] = rdf
+dependencies[] = blog
+dependencies[] = book
+dependencies[] = devel
+dependencies[] = devel_themer
+dependencies[] = adminimal_admin_menu
+dependencies[] = jquery_update
+dependencies[] = api
+dependencies[] = docs_companion
+dependencies[] = views_ui
+dependencies[] = module_filter
+dependencies[] = backup_migrate
+dependencies[] = queue_ui
+
+; Information added by Drupal.org packaging script on 2016-02-24
+version = "7.43"
+project = "drupal"
+datestamp = "1456343506"
+
