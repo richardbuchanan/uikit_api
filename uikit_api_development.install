@@ -531,6 +531,10 @@ function uikit_api_development_install_tasks(&$install_state) {
       'display' => FALSE,
       'type' => 'batch',
     ),
+    '_drupal_api_reference_branch_form' => array(
+      'display_name' => st('Configure Drupal API Reference Branch'),
+      'type' => 'form',
+    ),
   );
 
   return $tasks;
@@ -605,6 +609,37 @@ function _configure_uikit_api() {
     'finished' => 'uikit_api_finished',
   );
   return $batch;
+}
+
+/**
+ * Form constructor to configure the Drupal API branch.
+ */
+function _drupal_api_reference_branch_form($form, &$form_state) {
+  drupal_set_title('Configure Drupal API Reference Branch');
+  module_load_include('inc', 'api', 'api.admin');
+
+  $form = drupal_get_form('api_api_branch_edit_form');
+  $form['drupal_api'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Create Drupal API reference branch'),
+    '#description' => t('<p>This will create a default branch for the Drupal core project. Preset values have been disabled, but you are free to make changes to the rest.</p>'),
+    '#weight' => -100,
+  );
+  $form['title']['#value'] = t('Drupal 7.x');
+  $form['data']['url']['#value'] = 'https://api.drupal.org/api/drupal/full_list/7.x';
+  $form['data']['url']['#disabled'] = TRUE;
+  $form['data']['search_url']['#value'] = 'https://api.drupal.org/api/drupal/7.x/search/';
+  $form['data']['search_url']['#disabled'] = TRUE;
+  $form['data']['core_compatibility']['#value'] = t('7.x');
+  $form['data']['core_compatibility']['#disabled'] = TRUE;
+  $form['data']['project_type']['#value'] = t('core');
+  $form['data']['project_type']['#disabled'] = TRUE;
+  $form['data']['page_limit']['#value'] = 2000;
+  $form['data']['timeout']['#value'] = 30;
+  $form['update_frequency']['#value'] = 604800;
+  $form['update_frequency']['#disabled'] = TRUE;
+  $form['submit']['#value'] = t('Save and continue');
+  return $form;
 }
 
 /**

@@ -1,0 +1,6 @@
+pre .ini .value {
+  color: #099;
+}
+.php .php-function-or-constant a {
+  font-weight: bold;
+}

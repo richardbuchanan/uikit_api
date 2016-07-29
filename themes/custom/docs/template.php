@@ -300,7 +300,14 @@ function docs_preprocess_region(&$variables) {
 function docs_preprocess_textfield(&$variables) {
   $element = $variables['element'];
   $autocomplete = isset($element['#autocomplete_path']) ? $element['#autocomplete_path'] : FALSE;
-  $api_search = $autocomplete && $autocomplete == 'api/search/autocomplete/1';
+  $api_search = FALSE;
+
+  if ($autocomplete) {
+    $autocomplete_path = explode('/', $autocomplete);
+    $api_search = $autocomplete_path[0] == 'api' &&
+      $autocomplete_path[1] == 'search' &&
+      $autocomplete_path[2] == 'autocomplete';
+  }
 
   if ($api_search) {
     $variables['theme_hook_suggestions'][] = 'textfield__api_search';
@@ -568,47 +575,6 @@ function api_listing_counts($branch) {
 
   $cached_counts[$key] = $return;
   return $return;
-}
-
-/**
- * Retrieves the active API docblock object.
- *
- * @return object|void
- *   The active API docblock object or NULL if not an API page.
- */
-function _db_api_active_item() {
-  static $item;
-  if (!isset($item)) {
-    if ($item = menu_get_object('api_item', 4)) {
-      if ($item->object_type === 'group') {
-        $query = db_select('api_reference_storage', 'r');
-        $results = $query
-          ->fields('r')
-          ->condition('r.from_did', $item->did)
-          ->execute()
-          ->fetchAllAssoc('from_did');
-        $item->subgroup = !empty($results);
-      }
-    }
-    elseif ($item = menu_get_object('api_filename', 2)) {
-      // Just return the item.
-    }
-    elseif (($branch = api_get_active_branch()) && (current_path() === "api/$branch->project" || current_path() === "api/$branch->project/$branch->branch_name")) {
-      $item = db_select('api_documentation', 'd')
-        ->fields('d')
-        ->condition('branch_id', $branch->branch_id)
-        ->condition('object_type', 'mainpage')
-        ->execute()
-        ->fetchObject();
-      if ($item) {
-        api_set_html_page_title(check_plain($item->title));
-      }
-    }
-    else {
-      $item = FALSE;
-    }
-  }
-  return $item;
 }
 
 /**

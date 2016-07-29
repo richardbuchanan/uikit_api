@@ -1,0 +1,8 @@
+name = UIkit sub-theme
+description = A starter theme for using UIkit as a base theme
+core = 7.x
+base theme = uikit
+hidden = true
+
+stylesheets[all][] = css/uikit-subtheme.css
+scripts[] = js/uikit-subtheme.js

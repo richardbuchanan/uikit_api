@@ -61,7 +61,7 @@ function docs_companion_preprocess_menu_link(&$variables) {
  */
 function _docs_companion_copyright_block() {
   $module = drupal_get_path('module', 'docs_companion');
-  $filename = $module . '/inc/copyright.inc';
+  $filename = $module . '/includes/copyright.inc';
   $handle = fopen($filename, "r");
   $contents = fread($handle, filesize($filename));
   fclose($handle);
@@ -72,4 +72,87 @@ function _docs_companion_copyright_block() {
 
 function _docs_redirect_node_page() {
   drupal_goto('<front>');
+}
+
+/**
+ * Retrieves the active API docblock object.
+ *
+ * @return object|void
+ *   The active API docblock object or NULL if not an API page.
+ */
+function _db_api_active_item() {
+  static $item;
+  if (!isset($item)) {
+    if ($item = menu_get_object('api_item', 4)) {
+      if ($item->object_type === 'group') {
+        $query = db_select('api_reference_storage', 'r');
+        $results = $query
+          ->fields('r')
+          ->condition('r.from_did', $item->did)
+          ->execute()
+          ->fetchAllAssoc('from_did');
+        $item->subgroup = !empty($results);
+      }
+    }
+    elseif ($item = menu_get_object('api_filename', 2)) {
+      // Just return the item.
+    }
+    elseif (($branch = api_get_active_branch()) && (current_path() === "api/$branch->project" || current_path() === "api/$branch->project/$branch->branch_name")) {
+      $item = db_select('api_documentation', 'd')
+        ->fields('d')
+        ->condition('branch_id', $branch->branch_id)
+        ->condition('object_type', 'mainpage')
+        ->execute()
+        ->fetchObject();
+      if ($item) {
+        api_set_html_page_title(check_plain($item->title));
+      }
+    }
+    else {
+      $item = FALSE;
+    }
+  }
+  return $item;
+}
+
+/**
+ * Extracts the group and parent groups (if applicable) from a docblock.
+ *
+ * @param array $docblock
+ *   The docblock array.
+ * @param bool $parent_only
+ *   Toggle determining whether or not to just return the parent group.
+ *
+ * @return string|FALSE
+ *   The group or parent group. FALSE on error.
+ */
+function _db_api_find_group(array $docblock, $parent_only = FALSE) {
+  $filename = preg_replace('/^(documentation|docs|doc)?\/?/', '', $docblock['file_name']);
+  $paths = explode('/', $filename);
+  $file = preg_replace('/\.md$/i', '', array_pop($paths));
+  $parent_group = implode('_', $paths);
+  if (empty($parent_group)) {
+    $parent_group = FALSE;
+  }
+  elseif ($parent_only) {
+    return $parent_group;
+  }
+
+  // If the file is named "readme" and it's located in a sub-directory (a.k.a.
+  // $parent_group), then use it as the group name.
+  if (preg_match('/^readme$/i', $file)) {
+    if ($parent_group) {
+      $group = $parent_group;
+      $parent_group = FALSE;
+    }
+    else {
+      return FALSE;
+    }
+  }
+  else {
+    $group = strtolower($file);
+    $group = preg_replace('/\s+/', ' ', $group);
+    $group = preg_replace('/[^a-z0-9_]/', '_', $group);
+  }
+  return $parent_group ? $parent_group . '_' . $group : $group;
 }

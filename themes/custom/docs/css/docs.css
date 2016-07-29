@@ -46,27 +46,6 @@ html.js .ctools-collapsible-container .ctools-collapsible-handle {
   margin-right: 30px;
 }
 
-.uk-form select:focus,
-.uk-form textarea:focus,
-.uk-form input:not([type]):focus,
-.uk-form input[type="text"]:focus,
-.uk-form input[type="password"]:focus,
-.uk-form input[type="datetime"]:focus,
-.uk-form input[type="datetime-local"]:focus,
-.uk-form input[type="date"]:focus,
-.uk-form input[type="month"]:focus,
-.uk-form input[type="time"]:focus,
-.uk-form input[type="week"]:focus,
-.uk-form input[type="number"]:focus,
-.uk-form input[type="email"]:focus,
-.uk-form input[type="url"]:focus,
-.uk-form input[type="search"]:focus,
-.uk-form input[type="tel"]:focus,
-.uk-form input[type="color"]:focus,
-.uk-table th,
-.uk-table td {
-  border-color: #04a1dd;
-}
 .uk-form .form-type-textfield + button {
   margin: 15px 0;
 }
@@ -163,14 +142,22 @@ td.views-field-title {
   font-size: 18px;
   line-height: 24px;
 }
-.docs-link-anchor:focus,
-.docs-link-anchor:hover,
-.docs-link-anchor a:focus,
-.docs-link-anchor a:hover {
-  text-decoration: none;
+.docs-link-anchor [class*='uk-icon-'] {
+  color: #333;
+  opacity: 0;
+  -webkit-transition: color 300ms ease-in-out, opacity 300ms ease-in-out;
+  -o-transition: color 300ms ease-in-out, opacity 300ms ease-in-out;
+  transition: color 300ms ease-in-out, opacity 300ms ease-in-out;
 }
-.docs-link-anchor > h3 {
-  display: inline;
+.docs-link-anchor:focus [class*='uk-icon-'],
+.docs-link-anchor:hover [class*='uk-icon-'] {
+  opacity: 0.5;
+}
+.docs-article-subtitle {
+  padding-left: 6px;
+  border-left: 3px solid #1fa2d6;
+  font-size: 16px;
+  line-height: 16px;
 }
 
 #footer {
@@ -210,16 +197,6 @@ td.views-field-title {
 .docs-api-title {
   font-size: 26px;
   line-height: 23px;
-}
-.docs-link-anchor .uk-icon {
-  opacity: 0;
-}
-.docs-link-anchor:focus .uk-icon,
-.docs-link-anchor:hover .uk-icon {
-  opacity: 1;
-}
-.docs-link-anchor + * {
-  margin-top: 0;
 }
 #api-alternatives > li > .active {
   color: #444;

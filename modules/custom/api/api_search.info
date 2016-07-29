@@ -1,0 +1,6 @@
+name = API Search Integration
+description = Provides Search (Core and Solr) integration for API module. This module has been forked for the UIkit API installation profile. DO NOT replace this with the original API module code.
+package = Development
+core = 7.x
+configure = admin/config/development/api/search
+dependencies[] = api
