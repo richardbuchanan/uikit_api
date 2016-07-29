@@ -1,4 +1,4 @@
-name = UIkit API Development
+name = UIkit API profile
 description = Install with commonly used features pre-configured, as well as some development contributed modules for UIkit API development.
 version = VERSION
 core = 7.x

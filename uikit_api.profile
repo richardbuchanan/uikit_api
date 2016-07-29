@@ -9,7 +9,7 @@
  *
  * Allows the profile to alter the site configuration form.
  */
-function uikit_api_development_form_install_configure_form_alter(&$form, $form_state) {
+function uikit_api_form_install_configure_form_alter(&$form, $form_state) {
   $form['site_information']['site_name']['#default_value'] = 'UIkit API';
   $form['site_information']['site_mail']['#default_value'] = 'richard_buchanan@buchanandesigngroup.com';
   $form['admin_account']['account']['name']['#default_value'] = 'Administrator';
