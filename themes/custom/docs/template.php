@@ -281,16 +281,20 @@ function docs_preprocess_region(&$variables) {
     $variables['wrapper_attributes_array']['class'][] = 'uk-panel-box';
     $variables['wrapper_attributes_array']['class'][] = 'uk-panel-box-secondary';
 
-    if (_uikit_library_load()) {
-      // Load sticky component stylesheet and script.
-      $library_path = _uikit_get_library_path();
-      drupal_add_css($library_path . '/css/components/sticky.min.css', array(
-        'group' => CSS_THEME,
-      ));
-      drupal_add_js($library_path . '/js/components/sticky.min.js', array(
-        'group' => JS_THEME,
-      ));
-    }
+    drupal_add_css("//cdnjs.cloudflare.com/ajax/libs/uikit/2.26.4/css/components/sticky.min.css", array(
+      'type' => 'external',
+      'group' => CSS_THEME,
+      'every_page' => TRUE,
+      'weight' => -10,
+      'version' => '2.26.4',
+    ));
+    drupal_add_js("//cdnjs.cloudflare.com/ajax/libs/uikit/2.26.4/js/components/sticky.min.js", array(
+      'type' => 'external',
+      'group' => JS_THEME,
+      'every_page' => TRUE,
+      'weight' => -10,
+      'version' => '2.26.4',
+    ));
   }
 }
 

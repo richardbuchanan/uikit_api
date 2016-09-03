@@ -354,6 +354,10 @@
     left: -90%;
   }
 }
+
+/**
+ * Table filter tips
+ */
 .table-filter-tips td.get {
   white-space: nowrap;
 }
@@ -369,17 +373,15 @@
   padding: 10px;
 }
 
-a.contextual-links-trigger {
-  background-image: none;
-  border: 0;
-  overflow: visible;
-  text-indent: 4px;
-  position: relative;
-  top: 2px;
-}
+/**
+ * Contextual links
+ */
 div.contextual-links-wrapper {
-  top: 0;
-  right: 0;
+  font-size: 1em;
+}
+.contextual-links-region-active {
+  background-color: #fff;
+  outline: #059 dashed 2px;
 }
 .contextual-links-region .uk-dropdown,
 .contextual-links-region .uk-dropdown-blank {
@@ -387,10 +389,74 @@ div.contextual-links-wrapper {
   right: 0;
   top: 24px;
 }
-div.contextual-links-active a.contextual-links-trigger {
-  background-color: transparent;
+a.contextual-links-trigger {
+  background: transparent none;
   border: 0;
+  overflow: visible;
+  text-indent: 4px;
+  position: relative;
+  top: 2px;
 }
-div.contextual-links-active a.contextual-links-trigger-active {
+a.contextual-links-trigger-active {
+  color: #07d;
+}
+a.contextual-links-trigger-active:active,
+a.contextual-links-trigger-active:focus,
+a.contextual-links-trigger-active:hover {
   color: #059;
+}
+
+/**
+ * Comments
+ */
+.uk-comment-list {
+  padding: 0;
+  list-style: none;
+}
+.uk-comment-header {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #e5e5e5;
+  background: #fafafa;
+}
+.uk-comment-primary .uk-comment-header {
+  border-color: rgba(45, 112, 145, .3);
+  background-color: #ebf7fd;
+  color: #2d7091;
+  text-shadow: 0 1px 0 #fff;
+}
+.uk-comment-body {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.uk-comment-list > .indented {
+  margin: 25px 0 0 0;
+  list-style: none;
+}
+@media (min-width: 768px) {
+  .uk-comment-list > .indented {
+    padding-left: 100px;
+  }
+}
+
+/**
+ * Node links
+ */
+.node-links .uk-subnav > * > * {
+  color: #07d;
+}
+
+/**
+ * Alerts
+ */
+.uk-alert > ul {
+  margin-top: 0;
+}
+
+/**
+ * Search form
+ */
+#search-form #edit-basic #edit-submit,
+#search-form #edit-advanced #edit-submit--2 {
+  margin-top: 15px;
 }

@@ -1,4 +1,15 @@
 (function($){
+  $(document).ready(function() {
+    footerPosition();
+  });
+
+  $(window).resize(function() {
+    footerPosition();
+  });
+
+  $(document).click(function() {
+    footerPosition();
+  });
 
   $(function() {
 
@@ -17,6 +28,25 @@
 
   });
 
+  function footerPosition() {
+    var bodyHeight = $('body').outerHeight(true) - 30;
+    var adminMenu = $('#admin-menu');
+    var page = $('#page');
+    var pageHeader = $('#page-header');
+    var footer = $('#footer');
+    var contentHeight = adminMenu.outerHeight() + page.outerHeight() + pageHeader.outerHeight() + footer.outerHeight();
+
+    if (contentHeight < bodyHeight) {
+      footer.css({
+        'position': 'fixed',
+        'bottom': 0,
+        'width': '100%'
+      });
+    }
+    else {
+      footer.css('position', 'static');
+    }
+  }
 
   /**
    * Copyright (c) 2014, Leon Sorokin

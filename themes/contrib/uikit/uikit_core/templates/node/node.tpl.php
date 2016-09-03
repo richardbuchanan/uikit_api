@@ -86,7 +86,7 @@
   <?php print $user_picture; ?>
 
   <?php print render($title_prefix); ?>
-  <?php if (!$page && !drupal_is_front_page()): ?>
+  <?php if (!$page): ?>
     <h2<?php print $title_attributes; ?>><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
   <?php endif; ?>
   <?php print render($title_suffix); ?>
@@ -106,13 +106,17 @@
     ?>
   </div>
 
-  <div class="node-links uk-clearfix">
+  <div class="node-links">
     <?php print render($content['links']); ?>
+
+    <?php if (!$teaser): ?>
+      <hr class="uk-article-divider">
+    <?php endif; ?>
   </div>
 
-  <?php print render($content['comments']); ?>
-
 </article>
+
+<?php print render($content['comments']); ?>
 
 <?php if ($teaser): ?>
   <hr class="uk-article-divider">

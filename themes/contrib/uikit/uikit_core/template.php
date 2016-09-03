@@ -11,48 +11,12 @@
 include_once dirname(__FILE__) . '/includes/get.inc';
 
 /**
- * Implements hook_libraries_info().
- */
-function uikit_libraries_info() {
-  $libraries = array();
-  $libraries['uikit'] = array(
-    'name' => 'UIkit library',
-    'vendor url' => 'http://getuikit.com',
-    'download url' => 'https://github.com/uikit/uikit/releases',
-    'version arguments' => array(
-      'file' => 'css/uikit.css',
-      'pattern' => '@^/\*! UIkit ([\d\.]+)@',
-      'lines' => 5,
-      'cols' => 20,
-    ),
-    'version callback' => '_uikit_get_library_version',
-    'files' => array(
-      'js' => array(
-        'js/uikit.js' => array(
-          'type' => 'file',
-          'group' => JS_THEME,
-          'weight' => -10,
-          'every_page' => TRUE,
-        ),
-      ),
-      'css' => array(
-        'css/uikit.css' => array(
-          'type' => 'file',
-          'group' => CSS_THEME,
-          'weight' => -10,
-          'every_page' => TRUE,
-        ),
-      ),
-    ),
-  );
-
-  return $libraries;
-}
-
-/**
  * Implements template_preprocess_html().
  */
 function uikit_preprocess_html(&$variables) {
+  global $theme_key;
+  uikit_get_cdn_assets();
+
   // Create an HTML5 doctype variable.
   $variables['doctype'] = '<!DOCTYPE html>' . "\n";
 
@@ -80,13 +44,13 @@ function uikit_preprocess_html(&$variables) {
     $variables['rdf_namespaces'] = ' prefix="' . implode('  ', $rdf_namespaces) . '"';
   }
 
-  if (theme_get_setting('x_ua_compatible')) {
+  if (theme_get_setting('x_ua_compatible', $theme_key)) {
     $meta_x_ua_compatible = array(
       '#type' => 'html_tag',
       '#tag' => 'meta',
       '#attributes' => array(
         'http-equiv' => 'x-ua-compatible',
-        'content' => 'IE=' . theme_get_setting('x_ua_compatible'),
+        'content' => 'IE=' . theme_get_setting('x_ua_compatible', $theme_key),
       ),
       '#weight' => -9998,
     );
@@ -95,14 +59,14 @@ function uikit_preprocess_html(&$variables) {
   }
 
   // Get viewport metadata settings for mobile devices.
-  $device_width_ratio = theme_get_setting('viewport_device_width_ratio');
-  $custom_device_width = theme_get_setting('viewport_custom_width');
-  $device_height_ratio = theme_get_setting('viewport_device_height_ratio');
-  $custom_device_height = theme_get_setting('viewport_custom_height');
-  $initial_scale = theme_get_setting('viewport_initial_scale');
-  $maximum_scale = theme_get_setting('viewport_maximum_scale');
-  $minimum_scale = theme_get_setting('viewport_minimum_scale');
-  $user_scalable = theme_get_setting('viewport_user_scalable');
+  $device_width_ratio = theme_get_setting('viewport_device_width_ratio', $theme_key);
+  $custom_device_width = theme_get_setting('viewport_custom_width', $theme_key);
+  $device_height_ratio = theme_get_setting('viewport_device_height_ratio', $theme_key);
+  $custom_device_height = theme_get_setting('viewport_custom_height', $theme_key);
+  $initial_scale = theme_get_setting('viewport_initial_scale', $theme_key);
+  $maximum_scale = theme_get_setting('viewport_maximum_scale', $theme_key);
+  $minimum_scale = theme_get_setting('viewport_minimum_scale', $theme_key);
+  $user_scalable = theme_get_setting('viewport_user_scalable', $theme_key);
   $viewport_array = array();
 
   if ($device_width_ratio == 'device-width') {
@@ -156,16 +120,13 @@ function uikit_process_html(&$variables) {
  * Implements template_preprocess_page().
  */
 function uikit_preprocess_page(&$variables) {
-  // Checks if the uikit library can be loaded.
-  if (_uikit_library_load()) {
-    libraries_load('uikit');
-  }
+  global $theme_key;
 
   $sidebar_first = $variables['page']['sidebar_first'];
   $sidebar_second = $variables['page']['sidebar_second'];
-  $standard_layout = theme_get_setting('standard_sidebar_positions');
-  $tablet_layout = theme_get_setting('tablet_sidebar_positions');
-  $mobile_layout = theme_get_setting('mobile_sidebar_positions');
+  $standard_layout = theme_get_setting('standard_sidebar_positions', $theme_key);
+  $tablet_layout = theme_get_setting('tablet_sidebar_positions', $theme_key);
+  $mobile_layout = theme_get_setting('mobile_sidebar_positions', $theme_key);
 
   $standard_grail = $standard_layout === 'holy-grail';
   $standard_left = $standard_layout === 'sidebars-left';
@@ -182,14 +143,14 @@ function uikit_preprocess_page(&$variables) {
 
   // Assign page container attributes.
   $page_container_attributes['id'] = 'page';
-  if (theme_get_setting('page_container')) {
+  if (theme_get_setting('page_container', $theme_key)) {
     $page_container_attributes['class'][] = 'uk-container';
   }
-  if (theme_get_setting('page_centering')) {
+  if (theme_get_setting('page_centering', $theme_key)) {
     $page_container_attributes['class'][] = 'uk-container-center';
   }
-  if (theme_get_setting('page_margin')) {
-    $page_container_attributes['class'][] = theme_get_setting('page_margin');
+  if (theme_get_setting('page_margin', $theme_key)) {
+    $page_container_attributes['class'][] = theme_get_setting('page_margin', $theme_key);
   }
   $variables['page_container_attributes_array'] = $page_container_attributes;
 
@@ -360,10 +321,10 @@ function uikit_preprocess_page(&$variables) {
   $variables['header_attributes_array'] = array(
     'id' => 'page-header',
   );
-  if (theme_get_setting('navbar_container')) {
+  if (theme_get_setting('navbar_container', $theme_key)) {
     $variables['header_attributes_array']['class'][] = 'uk-container';
   }
-  if (theme_get_setting('navbar_centering')) {
+  if (theme_get_setting('navbar_centering', $theme_key)) {
     $variables['header_attributes_array']['class'][] = 'uk-container-center';
   }
 
@@ -373,12 +334,12 @@ function uikit_preprocess_page(&$variables) {
     'class' => array('uk-navbar'),
   );
 
-  if (theme_get_setting('navbar_attached')) {
+  if (theme_get_setting('navbar_attached', $theme_key)) {
     $variables['navbar_attributes_array']['class'][] = 'uk-navbar-attached';
   }
 
-  if (theme_get_setting('navbar_margin_top')) {
-    switch (theme_get_setting('navbar_margin_top')) {
+  if (theme_get_setting('navbar_margin_top', $theme_key)) {
+    switch (theme_get_setting('navbar_margin_top', $theme_key)) {
       case 1:
         $variables['navbar_attributes_array']['class'][] = 'uk-margin-top';
         break;
@@ -393,8 +354,8 @@ function uikit_preprocess_page(&$variables) {
     }
   }
 
-  if (theme_get_setting('navbar_margin_bottom')) {
-    switch (theme_get_setting('navbar_margin_bottom')) {
+  if (theme_get_setting('navbar_margin_bottom', $theme_key)) {
+    switch (theme_get_setting('navbar_margin_bottom', $theme_key)) {
       case 1:
         $variables['navbar_attributes_array']['class'][] = 'uk-margin-bottom';
         break;
@@ -418,7 +379,7 @@ function uikit_preprocess_page(&$variables) {
   $offcanvas_secondary = '';
 
   if ($variables['main_menu']) {
-    if (theme_get_setting('main_menu_alignment')) {
+    if (theme_get_setting('main_menu_alignment', $theme_key)) {
       $navbar_main .= '<div id="navbar-flip--main-menu" class="uk-navbar-flip">';
     }
     $navbar_main .= theme('links__system_main_menu', array(
@@ -433,7 +394,7 @@ function uikit_preprocess_page(&$variables) {
         'class' => 'uk-hidden',
       ),
     ));
-    if (theme_get_setting('main_menu_alignment')) {
+    if (theme_get_setting('main_menu_alignment', $theme_key)) {
       $navbar_main .= '</div>';
     }
 
@@ -452,7 +413,7 @@ function uikit_preprocess_page(&$variables) {
   }
 
   if ($variables['secondary_menu']) {
-    if (theme_get_setting('secondary_menu_alignment')) {
+    if (theme_get_setting('secondary_menu_alignment', $theme_key)) {
       $navbar_secondary .= '<div id="navbar-flip--secondary-menu" class="uk-navbar-flip">';
     }
     $navbar_secondary .= theme('links__system_secondary_menu', array(
@@ -467,7 +428,7 @@ function uikit_preprocess_page(&$variables) {
         'class' => 'uk-hidden',
       ),
     ));
-    if (theme_get_setting('secondary_menu_alignment')) {
+    if (theme_get_setting('secondary_menu_alignment', $theme_key)) {
       $navbar_secondary .= '</div>';
     }
     $offcanvas_secondary = theme('links__system_secondary_menu__offcanvas', array(
@@ -489,10 +450,10 @@ function uikit_preprocess_page(&$variables) {
   foreach ($menus as $menu_name => $menu_title) {
     $menu_links = str_replace('-', '_', $menu_name);
 
-    if (theme_get_setting($menu_name . '_in_navbar')) {
+    if (theme_get_setting($menu_name . '_in_navbar', $theme_key)) {
       $navbar_menu = menu_navigation_links($menu_name);
 
-      if (theme_get_setting($menu_links . '_additional_alignment')) {
+      if (theme_get_setting($menu_links . '_additional_alignment', $theme_key)) {
         $navbar_menus .= "<div id=\"navbar-flip--$menu_name\" class=\"uk-navbar-flip\">";
       }
       $navbar_menus .= theme('links__' . $menu_links, array(
@@ -507,7 +468,7 @@ function uikit_preprocess_page(&$variables) {
           'class' => 'uk-hidden',
         ),
       ));
-      if (theme_get_setting($menu_links . '_alignment')) {
+      if (theme_get_setting($menu_links . '_alignment', $theme_key)) {
         $navbar_menus .= '</div>';
       }
     }
@@ -520,42 +481,7 @@ function uikit_preprocess_page(&$variables) {
   $variables['offcanvas_secondary'] = $offcanvas_secondary;
 
   // Create variable for breadcrumb display setting.
-  $variables['display_breadcrumb'] = theme_get_setting('display_breadcrumbs');
-
-  // Get theme specific jQuery version.
-  $jquery_version = theme_get_setting('jquery_update_jquery_version');
-
-  // Get site wide jQuery version if theme specific one is not set.
-  if (!$jquery_version && module_exists('jquery_update')) {
-    $jquery_version = variable_get('jquery_update_jquery_version', '1.10');
-  }
-
-  // Check if the jquery_update module is both installed and enabled.
-  if (!module_exists('jquery_update')) {
-    $message = t('jQuery Update is not enabled. UIkit requires a minimum jQuery version of 1.10 or higher. Please enable the <a href="@jquery_update_project_url">jQuery Update</a> module and <a href="@jquery_update_configure">configure</a> the default jQuery version.', array(
-      '@jquery_update_project_url' => 'https://www.drupal.org/project/jquery_update',
-      '@jquery_update_configure' => url('admin/config/development/jquery_update'),
-    ));
-    drupal_set_message($message, 'error', FALSE);
-  }
-
-  // Check if the minimum jQuery version is met.
-  if (module_exists('jquery_update') && !version_compare($jquery_version, '1.10', '>=')) {
-    $message = t('UIkit requires a minimum jQuery version of 1.10 or higher. Please <a href="@jquery_update_configure">configure</a> the default jQuery version.', array(
-      '@jquery_update_configure' => url('admin/config/development/jquery_update'),
-    ));
-    drupal_set_message($message, 'error', FALSE);
-  }
-
-  // Check if the libraries module is both installed and enabled.
-  if (!module_exists('libraries')) {
-    $message = t('UIkit requires the Libraries module. Please enable the <a href="@libraries_project_url">Libraries</a> module and follow <a href="@uikit_get_started">these instructions</a> to install the UIkit asset files.', array(
-      '@libraries_project_url' => 'https://www.drupal.org/project/libraries',
-      '@uikit_get_started' => check_url('admin/appearance/settings/uikit#edit-get-started'),
-    ));
-    drupal_set_message($message, 'error', FALSE);
-  }
-
+  $variables['display_breadcrumb'] = theme_get_setting('display_breadcrumbs', $theme_key);
 }
 
 /**
@@ -574,11 +500,16 @@ function uikit_process_page(&$variables) {
  * Implements template_preprocess_node().
  */
 function uikit_preprocess_node(&$variables) {
+  $node = $variables['node'];
+
   // Add the uk-article-title class to all node titles.
   $variables['title_attributes_array']['class'][] = 'uk-article-title';
 
-  // Add the uk-flex-right class to node links to align them.
-  $variables['content']['links']['#attributes']['class'][] = 'uk-flex-right';
+  // Theme the submitted meta data.
+  $datetime = date( 'F j, Y', $node->created);
+  if (variable_get('node_submitted_' . $node->type, TRUE)) {
+    $variables['submitted'] = t('Written by !username on !datetime', array('!username' => $variables['name'], '!datetime' => $datetime));
+  }
 }
 
 /**
@@ -600,7 +531,7 @@ function uikit_preprocess_region(&$variables) {
   foreach ($regions as $key => $value) {
     // Get the settings for each region being used.
     if ($region == $key) {
-      $style_setting = theme_get_setting($key . '_style');
+      $style_setting = theme_get_setting($key . '_style', $theme_key);
       $region_style = $style_setting ? $style_setting : 0;
 
       if ($region_style) {
@@ -635,6 +566,18 @@ function uikit_preprocess_block(&$variables) {
 }
 
 /**
+ * Implements template_preprocess_HOOK().
+ */
+function uikit_preprocess_breadcrumb(&$variables) {
+  global $theme_key;
+
+  // Remove home link from breadcrumb if disabled in theme settings.
+  if (!theme_get_setting('breakcrumbs_home_link', $theme_key)) {
+    array_shift($variables['breadcrumb']);
+  }
+}
+
+/**
  * Implements hook_preprocess_HOOK() for theme_button().
  */
 function uikit_preprocess_button(&$variables) {
@@ -647,13 +590,24 @@ function uikit_preprocess_button(&$variables) {
  * Implements template_preprocess_comment().
  */
 function uikit_preprocess_comment(&$variables) {
+  global $theme_key;
   $comment = $variables['elements']['#comment'];
   $node = $variables['elements']['#node'];
 
+  // Check if user picture in comments is enabled.
+  $comment_picture = theme_get_setting('toggle_comment_user_picture', $theme_key) ? 1 : 0;
+
+  // Check if user pictures are enabled.
+  $user_pictures = variable_get('user_pictures') ? 1 : 0;
+
+  // Chech if a default picture has been set.
+  $user_picture_default = !empty(variable_get('user_picture_default')) ? 1 : 0;
+
   // Add comment classes.
   $variables['classes_array'][] = 'uk-comment';
-  $variables['classes_array'][] = 'uk-clearfix';
-  $variables['classes_array'][] = 'uk-margin-top';
+  if ($variables['elements']['#comment']->divs > 0) {
+    $variables['classes_array'][] = 'uk-comment-primary';
+  }
   $variables['title_attributes_array']['class'][] = 'uk-comment-title';
   $variables['content_attributes_array']['class'][] = 'uk-comment-body';
 
@@ -677,6 +631,15 @@ function uikit_preprocess_comment(&$variables) {
   // Use separate submitted by and date variables.
   $variables['submitted_user'] = t('!username', array('!username' => $variables['author']));
   $variables['submitted_date'] = t('!datetime', array('!datetime' => $variables['created']));
+
+  if ($comment_picture && $user_pictures && $user_picture_default && empty($variables['picture'])) {
+    // Provide a default image when the user does not have a picture uploaded.
+    if (empty($variables['picture'])) {
+      $default = ' data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNi4wLjQsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkViZW5lXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iNTBweCIgaGVpZ2h0PSI1MHB4IiB2aWV3Qm94PSIwIDAgNTAgNTAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDUwIDUwIiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxyZWN0IGZpbGw9IiNGRkZGRkYiIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCIvPg0KPGc+DQoJPHBhdGggZmlsbD0iI0UwRTBFMCIgZD0iTTQ1LjQ1LDQxLjM0NWMtMC4yMDktMS4xNjYtMC40NzMtMi4yNDYtMC43OTEtMy4yNDJjLTAuMzE5LTAuOTk2LTAuNzQ3LTEuOTY3LTEuMjg2LTIuOTE0DQoJCWMtMC41MzgtMC45NDYtMS4xNTUtMS43NTMtMS44NTItMi40MmMtMC42OTktMC42NjctMS41NS0xLjItMi41NTYtMS41OThzLTIuMTE3LTAuNTk4LTMuMzMyLTAuNTk4DQoJCWMtMC4xNzksMC0wLjU5NywwLjIxNC0xLjI1NSwwLjY0MmMtMC42NTcsMC40MjktMS4zOTksMC45MDctMi4yMjYsMS40MzRjLTAuODI3LDAuNTI4LTEuOTAzLDEuMDA2LTMuMjI3LDEuNDM0DQoJCWMtMS4zMjUsMC40MjktMi42NTUsMC42NDMtMy45ODksMC42NDNjLTEuMzM0LDAtMi42NjQtMC4yMTQtMy45ODktMC42NDNjLTEuMzI1LTAuNDI4LTIuNDAxLTAuOTA2LTMuMjI3LTEuNDM0DQoJCWMtMC44MjgtMC41MjctMS41NjktMS4wMDUtMi4yMjYtMS40MzRjLTAuNjU4LTAuNDI4LTEuMDc2LTAuNjQyLTEuMjU1LTAuNjQyYy0xLjIxNiwwLTIuMzI2LDAuMTk5LTMuMzMyLDAuNTk4DQoJCWMtMS4wMDYsMC4zOTgtMS44NTgsMC45MzEtMi41NTQsMS41OThjLTAuNjk5LDAuNjY3LTEuMzE1LDEuNDc0LTEuODUzLDIuNDJjLTAuNTM4LDAuOTQ3LTAuOTY3LDEuOTE3LTEuMjg1LDIuOTE0DQoJCXMtMC41ODMsMi4wNzYtMC43OTIsMy4yNDJjLTAuMjA5LDEuMTY1LTAuMzQ5LDIuMjUxLTAuNDE4LDMuMjU2Yy0wLjA3LDEuMDA2LTAuMTA0LDIuMS0wLjEwNCwzLjE1NUMzLjkwMSw0OC41NCwzLjk4Nyw0OSw0LjE0Myw1MA0KCQloNDEuNTg5YzAuMTU2LTEsMC4yNDItMS40NiwwLjI0Mi0yLjI0M2MwLTEuMDU1LTAuMDM1LTIuMTE4LTAuMTA1LTMuMTI0QzQ1Ljc5OSw0My42MjcsNDUuNjYsNDIuNTEsNDUuNDUsNDEuMzQ1eiIvPg0KCTxwYXRoIGZpbGw9IiNFMEUwRTAiIGQ9Ik0yNC45MzgsMzIuNDg1YzMuMTY3LDAsNS44NzEtMS4xMjEsOC4xMTMtMy4zNjFjMi4yNDEtMi4yNDIsMy4zNjEtNC45NDUsMy4zNjEtOC4xMTMNCgkJcy0xLjEyMS01Ljg3Mi0zLjM2MS04LjExMmMtMi4yNDItMi4yNDEtNC45NDYtMy4zNjItOC4xMTMtMy4zNjJzLTUuODcyLDEuMTIxLTguMTEyLDMuMzYyYy0yLjI0MiwyLjI0MS0zLjM2Miw0Ljk0NS0zLjM2Miw4LjExMg0KCQlzMS4xMiw1Ljg3MSwzLjM2Miw4LjExM0MxOS4wNjUsMzEuMzY1LDIxLjc3MSwzMi40ODUsMjQuOTM4LDMyLjQ4NXoiLz4NCjwvZz4NCjwvc3ZnPg0K';
+      $variables['picture'] = '<img class="uk-comment-avatar" width="50" height="50" src="' . $default . '">';
+    }
+  }
+  $variables['content']['links']['#attributes']['class'][] = 'uk-float-right';
 }
 
 /**
@@ -715,14 +678,8 @@ function uikit_preprocess_field(&$variables) {
   // Add utility classes based on field type.
   switch ($type) {
     case 'image':
-      $classes[] = 'uk-float-left';
-      $classes[] = 'uk-margin-right';
-      $classes[] = 'uk-margin-bottom';
-      break;
-
-    case 'text':
-    case 'text_with_summary':
-      $classes[] = 'uk-clearfix';
+      $classes[] = 'uk-display-inline-block';
+      $classes[] = 'uk-margin';
       break;
   }
 
@@ -733,6 +690,7 @@ function uikit_preprocess_field(&$variables) {
  * Implements hook_preprocess_HOOK() for theme_fieldset().
  */
 function uikit_preprocess_fieldset(&$variables) {
+  global $theme_key;
   $collapsible = $variables['element']['#collapsible'];
   $group_fieldset = isset($variables['element']['#group_fieldset']) && $variables['element']['#group_fieldset'];
   $format_fieldset = isset($variables['element']['format']);
@@ -756,6 +714,36 @@ function uikit_preprocess_fieldset(&$variables) {
         $variables['element']['#attributes']['data-uk-accordion'] .= '{showfirst: false}';
       }
     }
+
+    // Retrieve the accordian component CDN assets.
+    $uikit_style = theme_get_setting('base_style', $theme_key);
+    $accordian_css = 'accordion.min.css';
+
+    switch ($uikit_style) {
+      case 'almost-flat':
+        $accordian_css = 'accordion.almost-flat.min.css';
+        break;
+
+      case 'gradient':
+        $accordian_css = 'accordion.gradient.min.css';
+        break;
+    }
+
+    drupal_add_css("//cdnjs.cloudflare.com/ajax/libs/uikit/2.26.4/css/components/$accordian_css", array(
+      'type' => 'external',
+      'group' => CSS_THEME,
+      'every_page' => TRUE,
+      'weight' => -10,
+      'version' => '2.26.4',
+    ));
+
+    drupal_add_js('//cdnjs.cloudflare.com/ajax/libs/uikit/2.26.4/js/components/accordion.min.js', array(
+      'type' => 'external',
+      'group' => JS_THEME,
+      'every_page' => TRUE,
+      'weight' => -10,
+      'version' => '2.26.4',
+    ));
   }
   elseif ($format_fieldset) {
     $variables['theme_hook_suggestions'][] = 'fieldset__format';
@@ -764,23 +752,13 @@ function uikit_preprocess_fieldset(&$variables) {
     $variables['theme_hook_suggestions'][] = 'fieldset';
     $variables['element']['#attributes']['class'][] = 'uk-form-row';
   }
-
-  if (_uikit_library_load()) {
-    // Load accordion component stylesheet and script.
-    $library_path = _uikit_get_library_path();
-    drupal_add_css($library_path . '/css/components/accordion.gradient.min.css', array(
-      'group' => CSS_THEME,
-    ));
-    drupal_add_js($library_path . '/js/components/accordion.min.js', array(
-      'group' => JS_THEME,
-    ));
-  }
 }
 
 /**
  * Implements hook_preprocess_HOOK() for theme_form().
  */
 function uikit_preprocess_form(&$variables) {
+  global $theme_key;
   $element = $variables['element'];
   $children = $element['#children'];
 
@@ -791,16 +769,6 @@ function uikit_preprocess_form(&$variables) {
   // Add the uk-form class to all forms.
   $variables['element']['#attributes']['class'] = array('uk-form');
   $variables['element']['#attributes']['class'][] = 'uk-form-stacked';
-
-  if (_uikit_library_load()) {
-    // Load advanced form component stylesheets.
-    $library_path = _uikit_get_library_path();
-    drupal_add_css($library_path . '/css/components/form-advanced.min.css', array(
-      'group' => CSS_THEME,
-      'weight' => -10,
-      'every_page' => TRUE,
-    ));
-  }
 
   if ($form_build_id) {
     $children = str_replace($form_build_id, '', $children);
@@ -814,6 +782,28 @@ function uikit_preprocess_form(&$variables) {
 
   $children .= $form_build_id . $form_token . $form_id;
   $variables['element']['#children'] = $children;
+
+  // Retrieve the advanced form component CDN assets.
+  $uikit_style = theme_get_setting('base_style', $theme_key);
+  $form_advanced_css = 'form-advanced.min.css';
+
+  switch ($uikit_style) {
+    case 'almost-flat':
+      $form_advanced_css = 'form-advanced.almost-flat.min.css';
+      break;
+
+    case 'gradient':
+      $form_advanced_css = 'form-advanced.gradient.min.css';
+      break;
+  }
+
+  drupal_add_css("//cdnjs.cloudflare.com/ajax/libs/uikit/2.26.4/css/components/$form_advanced_css", array(
+    'type' => 'external',
+    'group' => CSS_THEME,
+    'every_page' => TRUE,
+    'weight' => -10,
+    'version' => '2.26.4',
+  ));
 }
 
 /**
@@ -841,7 +831,7 @@ function uikit_preprocess_links(&$variables) {
 
   // Add uk-nav class to contextual links.
   if ($theme_hook_original == 'links__contextual') {
-    $variables['attributes']['class'] = array('uk-nav');
+    $variables['attributes']['class'] = array('uk-nav', 'uk-nav-dropdown');
   }
 }
 
@@ -871,9 +861,10 @@ function uikit_preprocess_menu_link(&$variables) {
  * Implements hook_preprocess_HOOK() for theme_menu_local_tasks().
  */
 function uikit_preprocess_menu_local_tasks(&$variables) {
+  global $theme_key;
   // Get the local task styles.
-  $primary_style = theme_get_setting('primary_tasks_style');
-  $secondary_style = theme_get_setting('secondary_tasks_style');
+  $primary_style = theme_get_setting('primary_tasks_style', $theme_key);
+  $secondary_style = theme_get_setting('secondary_tasks_style', $theme_key);
 
   // Set the default attributes.
   $variables['primary_attributes_array'] = array(
@@ -900,6 +891,13 @@ function uikit_preprocess_menu_local_tasks(&$variables) {
 function uikit_process_menu_local_tasks(&$variables) {
   $variables['primary_attributes'] = drupal_attributes($variables['primary_attributes_array']);
   $variables['secondary_attributes'] = drupal_attributes($variables['secondary_attributes_array']);
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for theme_password().
+ */
+function uikit_preprocess_password(&$variables) {
+  $variables['element']['#attributes']['size'] = 25;
 }
 
 /**
@@ -935,16 +933,11 @@ function uikit_preprocess_username(&$variables) {
  */
 function uikit_css_alter(&$css) {
   $theme = drupal_get_path('theme', 'uikit');
-  $style = theme_get_setting('base_style') ? '.' . theme_get_setting('base_style') : '';
-  $library_path = _uikit_get_library_path();
 
   // Stop Drupal core stylesheets from being loaded.
   unset($css[drupal_get_path('module', 'system') . '/system.messages.css']);
   unset($css[drupal_get_path('module', 'system') . '/system.theme.css']);
   unset($css[drupal_get_path('module', 'system') . '/system.menus.css']);
-
-  // Use the UIkit theme style selected in the theme settings.
-  $css[$library_path . '/css/uikit.css']['data'] = $library_path . '/css/uikit' . $style . '.css';
 
   // Replace the book module's book.css with a custom version.
   $book_css = drupal_get_path('module', 'book') . '/book.css';
@@ -980,9 +973,10 @@ function uikit_element_info_alter(&$type) {
  * Implements hook_html_head_alter().
  */
 function uikit_html_head_alter(&$head_elements) {
+  global $theme_key;
   if (isset($head_elements['system_meta_content_type'])) {
     $head_elements['system_meta_content_type']['#attributes'] = array(
-      'charset' => theme_get_setting('meta_charset'),
+      'charset' => theme_get_setting('meta_charset', $theme_key),
     );
     $head_elements['system_meta_content_type']['#weight'] = -9999;
   }

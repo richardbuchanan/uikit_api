@@ -1,5 +1,24 @@
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('../fonts/proximanova-light-webfont.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('../fonts/proximanova-reg-webfont.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
 html {
+  font: normal 16px / 20px "Proxima Nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
   overflow-y: scroll;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+body {
+  background: #fdfdfd;
 }
 
 /**
@@ -162,7 +181,7 @@ td.views-field-title {
 
 #footer {
   background: #04a1dd;
-  padding: 50px 0;
+  padding: 50px 25px;
 }
 #footer,
 #footer a {

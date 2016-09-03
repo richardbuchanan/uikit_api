@@ -39,3 +39,4 @@ settings[secondary_menu_dropdown_support] = 1
 settings[primary_tasks_style] = 'uk-subnav-pill'
 settings[secondary_tasks_style] = 'uk-subnav-line'
 settings[display_breadcrumbs] = 1
+settings[breakcrumbs_home_link] = 1

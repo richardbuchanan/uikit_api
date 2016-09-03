@@ -71,7 +71,7 @@ if (count($links) > 0) {
   }
 
   if ($contextual_links) {
-    $output .= '<div class="uk-dropdown uk-dropdown-small">';
+    $output .= '<div class="uk-dropdown">';
   }
   $output .= '<ul' . drupal_attributes($attributes) . '>';
 

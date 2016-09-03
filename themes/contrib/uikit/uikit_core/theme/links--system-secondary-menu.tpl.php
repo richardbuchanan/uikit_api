@@ -46,7 +46,6 @@
 $menu_name = variable_get('menu_secondary_links_source', 'user-menu');
 $menu_tree = menu_tree($menu_name);
 $menu_tree['#theme_wrappers'] = array('menu_tree__system_secondary');
-$library_path = _uikit_get_library_path();
 
 // Create custom theme wrapper to theme the offcanvas menu.
 if (in_array('uk-nav-offcanvas', $variables['attributes']['class'])) {
@@ -54,13 +53,6 @@ if (in_array('uk-nav-offcanvas', $variables['attributes']['class'])) {
 }
 
 $dropdown_support = theme_get_setting('secondary_menu_dropdown_support');
-
-if ($dropdown_support) {
-  drupal_add_js($library_path . '/js/core/dropdown.js', array(
-    'type' => 'file',
-    'group' => JS_THEME,
-  ));
-}
 
 foreach ($menu_tree as $key => $value) {
   if (isset($value['#below']) && !empty($value['#below']) && $dropdown_support) {
