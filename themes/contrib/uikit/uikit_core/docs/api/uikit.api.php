@@ -40,9 +40,11 @@
  *
  * @subtitle via git.drupal.org
  * Use the following Git command to download the latest release from the 7.x-2.x
- * branch.
+ * branch. This will ensure you get the latest commited branch. All other
+ * methods below will only give you the most recent release, which may not
+ * contain changes made in the Git repository.
  *
- * @inlinecodeextra git clone --branch 7.x-2.x https://git.drupal.org/project/uikit.git @endinlinecodeextra
+ * @inlineblockcode git clone --branch 7.x-2.x https://git.drupal.org/project/uikit.git @endinlineblockcode
  *
  * The development branch is currently the only supported branch. Extensive
  * work still needs done before a release candidate can be released.
@@ -51,7 +53,7 @@
  * Drush is a command line and shell scripting interface for Drupal. Use the
  * following command to download UIkit for Drupal with Drush.
  *
- * @inlinecodeextra drush dl uikit @endinlinecodeextra
+ * @inlineblockcode drush dl uikit @endinlineblockcode
  *
  * Information on installing and using Drush can be found
  * @link http://www.drush.org/en/master/ here @endlink.

@@ -1777,16 +1777,27 @@ function api_format_documentation($documentation, $auto_p = TRUE, &$references) 
   $documentation = preg_replace('/' . API_RE_TAG_START . 'inlinecode (.*?) ' . API_RE_TAG_START . 'endinlinecode/', '<code>$1</code>', $documentation);
 
   /**
-   * Process stand alone code.
+   * Process inline-block code.
    *
-   * Formats a code element without a pre wrapper with additional padding. Use
-   * this for inline code NOT in paragraphs, tables, etc.
+   * Formats a code element without a pre wrapper with the
+   * uk-display-inline-block class to force the code element to behave like an
+   * inline-block element.
+   *
+   * This forces the code element to respect the height of the text contained
+   * inside the code block. By default, UIkit code blocks have a height of
+   * "auto", which defaults to 16px. Whereas the inline-block code will have a
+   * height equal to the font size, top, and bottom padding, 20px by default.
+   *
+   * Since this breaks the flow of text in paragraphs, table cells, etc., it is
+   * recommended to only use this style of code block by itself. Otherwise the
+   * line of text this is contained in will not match all other lines of text in
+   * height.
    *
    * @code
-   *   @inlinecodeextra drupal_goto('<front>'); @endinlinecodeextra
+   *   @inlineblockcode drupal_goto('<front>'); @endinlineblockcode
    * @endcode
    */
-  $documentation = preg_replace('/' . API_RE_TAG_START . 'inlinecodeextra (.*?) ' . API_RE_TAG_START . 'endinlinecodeextra/', '<code class="padded-code">$1</code>', $documentation);
+  $documentation = preg_replace('/' . API_RE_TAG_START . 'inlineblockcode (.*?) ' . API_RE_TAG_START . 'endinlineblockcode/', '<code class="uk-display-inline-block">$1</code>', $documentation);
 
   /**
    * Process overflow containers.

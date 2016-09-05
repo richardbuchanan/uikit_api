@@ -246,7 +246,3 @@ del.uk-text-danger,
 del.uk-text-danger a {
   color: #d85030;
 }
-.padded-code {
-  display: inline-block;
-  padding: 4px;
-}
