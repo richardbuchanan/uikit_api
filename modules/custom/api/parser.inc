@@ -1406,11 +1406,23 @@ function api_format_documentation($documentation, $auto_p = TRUE, &$references) 
   /**
    * @button full URLS.
    *
+   * There are four button sizes:
+   * - mini
+   * - small
+   * - default
+   * - large
+   *
    * @code
+   *   @button_mini http://www.example.com Button text @endbutton_mini
+   *   @button_small http://www.example.com Button text @endbutton_small
    *   @button http://www.example.com Button text @endbutton
+   *   @button_large http://www.example.com Button text @endbutton_large
    * @endcode
    */
+  $documentation = preg_replace('/' . API_RE_TAG_START . 'button_mini ((http:\/\/|https:\/\/|ftp:\/\/|mailto:|smb:\/\/|afp:\/\/|file:\/\/|gopher:\/\/|news:\/\/|ssl:\/\/|sslv2:\/\/|sslv3:\/\/|tls:\/\/|tcp:\/\/|udp:\/\/)([a-zA-Z0-9@:%_+*!~#?&=.,\/;-]*[a-zA-Z0-9@:%_+*!~#&=\/;-])) (.*?) ' . API_RE_TAG_START . 'endbutton_mini/', '<a href="$1" class="uk-button uk-button-mini uk-button-primary">$4</a>', $documentation);
+  $documentation = preg_replace('/' . API_RE_TAG_START . 'button_small ((http:\/\/|https:\/\/|ftp:\/\/|mailto:|smb:\/\/|afp:\/\/|file:\/\/|gopher:\/\/|news:\/\/|ssl:\/\/|sslv2:\/\/|sslv3:\/\/|tls:\/\/|tcp:\/\/|udp:\/\/)([a-zA-Z0-9@:%_+*!~#?&=.,\/;-]*[a-zA-Z0-9@:%_+*!~#&=\/;-])) (.*?) ' . API_RE_TAG_START . 'endbutton_small/', '<a href="$1" class="uk-button uk-button-small uk-button-primary">$4</a>', $documentation);
   $documentation = preg_replace('/' . API_RE_TAG_START . 'button ((http:\/\/|https:\/\/|ftp:\/\/|mailto:|smb:\/\/|afp:\/\/|file:\/\/|gopher:\/\/|news:\/\/|ssl:\/\/|sslv2:\/\/|sslv3:\/\/|tls:\/\/|tcp:\/\/|udp:\/\/)([a-zA-Z0-9@:%_+*!~#?&=.,\/;-]*[a-zA-Z0-9@:%_+*!~#&=\/;-])) (.*?) ' . API_RE_TAG_START . 'endbutton/', '<a href="$1" class="uk-button uk-button-primary">$4</a>', $documentation);
+  $documentation = preg_replace('/' . API_RE_TAG_START . 'button_large ((http:\/\/|https:\/\/|ftp:\/\/|mailto:|smb:\/\/|afp:\/\/|file:\/\/|gopher:\/\/|news:\/\/|ssl:\/\/|sslv2:\/\/|sslv3:\/\/|tls:\/\/|tcp:\/\/|udp:\/\/)([a-zA-Z0-9@:%_+*!~#?&=.,\/;-]*[a-zA-Z0-9@:%_+*!~#&=\/;-])) (.*?) ' . API_RE_TAG_START . 'endbutton_large/', '<a href="$1" class="uk-button uk-button-large uk-button-primary">$4</a>', $documentation);
 
   /**
    * Process bold text.
@@ -1420,6 +1432,15 @@ function api_format_documentation($documentation, $auto_p = TRUE, &$references) 
    * @endcode
    */
   $documentation = preg_replace('/' . API_RE_TAG_START . 'bold (.*?) ' . API_RE_TAG_START . 'endbold/', '<strong>$1</strong>', $documentation);
+
+  /**
+   * Process deleted text.
+   *
+   * @code
+   *   @del Bold text @enddel
+   * @endcode
+   */
+  $documentation = preg_replace('/' . API_RE_TAG_START . 'del (.*?) ' . API_RE_TAG_START . 'enddel/', '<del class="uk-text-danger">$1</del>', $documentation);
 
   /**
    * Process text-level elements.
@@ -1715,7 +1736,7 @@ function api_format_documentation($documentation, $auto_p = TRUE, &$references) 
   $documentation = preg_replace('/' . API_RE_TAG_START . 'blocksmall (.*) ' . API_RE_TAG_START . 'endblocksmall/', '<small>$1</small>', $documentation);
 
   /**
-   * Process pre > code.
+   * Process highlighted pre > code.
    *
    * Formats a <code> element wrapped in a <pre> element. This bypasses
    * the normal formatting of pre > code by the API module, which is styled as
@@ -1754,6 +1775,18 @@ function api_format_documentation($documentation, $auto_p = TRUE, &$references) 
    * @endcode
    */
   $documentation = preg_replace('/' . API_RE_TAG_START . 'inlinecode (.*?) ' . API_RE_TAG_START . 'endinlinecode/', '<code>$1</code>', $documentation);
+
+  /**
+   * Process stand alone code.
+   *
+   * Formats a code element without a pre wrapper with additional padding. Use
+   * this for inline code NOT in paragraphs, tables, etc.
+   *
+   * @code
+   *   @inlinecodeextra drupal_goto('<front>'); @endinlinecodeextra
+   * @endcode
+   */
+  $documentation = preg_replace('/' . API_RE_TAG_START . 'inlinecodeextra (.*?) ' . API_RE_TAG_START . 'endinlinecodeextra/', '<code class="padded-code">$1</code>', $documentation);
 
   /**
    * Process overflow containers.

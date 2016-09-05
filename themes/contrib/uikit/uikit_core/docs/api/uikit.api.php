@@ -8,7 +8,9 @@
  * because, in general,
  * @link https://www.drupal.org/node/422996 3rd party libraries and content are forbidden @endlink
  * from being committed to a reporsitory for projects hosted on
- * @link drupal.org drupal.org @endlink.
+ * @link drupal.org drupal.org @endlink. We instead use
+ * @link https://cdnjs.com cdnjs.com @endlink to retrieve the
+ * @link https://cdnjs.com/libraries/uikit UIkit library @endlink.
  *
  * This also makes the footprint of our repository smaller. Simply follow the
  * instructions below to get started with using UIkit for Drupal.
@@ -16,131 +18,56 @@
  * @divider
  *
  * @section download_uikit Download UIkit
- * First of all you need to download UIkit. You can find the whole project and
- * all source files on GitHub. We currently support the latest version, 2.26.4.
+ * First of all you need to download UIkit for Drupal. There are three ways to
+ * do this:
+ * - direct download from drupal.org project page
+ * - cloning repository from git.drupal.org
+ * - downloading via Drush
  *
- * @button https://github.com/uikit/uikit/releases/tag/v2.26.4 Download UIkit v2.26.4 @endbutton
+ * Please read the
+ * @link https://www.drupal.org/docs/7/extending-drupal/installing-themes Installing themes @endlink
+ * article before installing UIkit for Drupal. We only provide the download
+ * methods below, not how to install themes.
  *
- * @divider
+ * @subtitle via drupal.org
+ * You can either visit
+ * @link https://drupal.org/project/uikit drupal.org @endlink or use one of the
+ * links below to download the project directly from drupal.org. There are two
+ * releases (@del 7.x-1.x-dev @enddel and 7.x-2.x-dev), but work is no longer
+ * being done on the 7.x-1.x branch. So be sure to download the 7.x-2.x branch.
  *
- * @section file_structure File Structure
- * In the ZIP file you will find all CSS, JavaScript and font files ready to use
- * for your project. The core framework of UIkit has almost no styling in order
- * to keep it slim. Therefore we provide two addidional distributions with a
- * gradient and an almost flat style.
+ * @button_large https://ftp.drupal.org/files/projects/uikit-7.x-2.x-dev.tar.gz UIkit 7.x-2.x-dev.tar.gz @endbutton_large @button_large https://ftp.drupal.org/files/projects/uikit-7.x-2.x-dev.zip UIkit 7.x-2.x-dev.zip @endbutton_large
  *
- * @table
- * @thead
- * @tr
- * @th Folder
- * @th Description
- * @endtr
- * @endthead
- * @tbody
- * @tr
- * @td
- * @inlinecode /css @endinlinecode
- * @endtd
- * @td
- * Contains all UIkit CSS files and minified versions.
- * @endtd
- * @endtr
- * @tr
- * @td
- * @inlinecode /fonts @endinlinecode
- * @endtd
- * @td
- * Contains fonts used in UIkit.
- * @endtd
- * @endtr
- * @tr
- * @td
- * @inlinecode /js @endinlinecode
- * @endtd
- * @td
- * Contains all UIkit JavaScript files and minified versions.
- * @endtd
- * @endtr
- * @endtbody
- * @endtable
+ * @subtitle via git.drupal.org
+ * Use the following Git command to download the latest release from the 7.x-2.x
+ * branch.
  *
- * @precode
- * /css
- *     <!-- UIkit with the basic style -->
- *     uikit.css
- *     uikit.min.css
+ * @inlinecodeextra git clone --branch 7.x-2.x https://git.drupal.org/project/uikit.git @endinlinecodeextra
  *
- *     <!-- UIkit with Gradient style -->
- *     uikit.gradient.css
- *     uikit.gradient.min.css
+ * The development branch is currently the only supported branch. Extensive
+ * work still needs done before a release candidate can be released.
  *
- *     <!-- UIkit with Almost flat style -->
- *     uikit.almost-flat.css
- *     uikit.almost-flat.min.css
+ * @subtitle via Drush
+ * Drush is a command line and shell scripting interface for Drupal. Use the
+ * following command to download UIkit for Drupal with Drush.
  *
- *     <!-- Advanced components -->
- *     /components
+ * @inlinecodeextra drush dl uikit @endinlinecodeextra
  *
- * /fonts
- *     <!-- FontAwesome webfont -->
- *     fontawesome-webfont.ttf
- *     fontawesome-webfont.woff
- *     fontawesome-webfont.woff2
- *     FontAwesome.otf
- *
- * /js
- *     <!-- JavaScript and minified version -->
- *     uikit.js
- *     uikit.min.js
- *
- *     <!-- Advanced components -->
- *     /components
- *
- *     <!-- Core components -->
- *     /core
- * @endprecode
- * @bold Note @endbold: The complete folder structure should be placed in the
- * correct libraries directory as detailed in the installation section below.
- * The theme settings will allow you to choose which style and components your
- * site will use and will load the required files for you.
+ * Information on installing and using Drush can be found
+ * @link http://www.drush.org/en/master/ here @endlink.
  *
  * @divider
  *
  * @section requirements Requirements
- * There are two addition requirements in order for UIkit for Drupal to work
- * properly.
- *
- * - @link https://www.drupal.org/project/jquery_update jQuery Update 2.7+ running jQuery 1.10+ @endlink
- * - @link https://www.drupal.org/project/libraries Libraries API @endlink
+ * There were originall two requirements in order for UIkit for Drupal to work
+ * properly,
+ * @del @link https://www.drupal.org/project/jquery_update jQuery Update 2.7+ running jQuery 1.10+ @endlink @enddel
+ * and
+ * @del @link https://www.drupal.org/project/libraries Libraries API @endlink @enddel.
+ * We have removed these requirements since we are now retrieving the UIkit
+ * library from cdnjs.com.
  *
  * @divider
- *
- * @section installation Installation
- * @subtitle Step one
- * UIkit for Drupal requires the UIkit framework to be installed in a
- * @link https://www.drupal.org/node/1440066 valid libraries directory @endlink.
- * You have three options in Drupal 7:
- * - sites/all/libraries~ directory or
- * - profiles/[yourprofilename]/libraries~ or
- * - sites/example.com/libraries~ if you have a multi-site installation
- *
- * @subtitle Step two
- * Now create a new directory named @inlinecode uikit @endinlinecode in the
- * libraries folder you used from above. Then extract everything from the zip
- * file you downloaded from GitHub into the new @inlinecode uikit @endinlinecode
- * directory.
- *
- * @subtitle Step three
- * Finally, install the
- * @link https://www.drupal.org/project/uikit UIkit theme project @endlink from
- * Drupal on your site. Detailed instructions can be found
- * @link https://www.drupal.org/getting-started/install-contrib/themes here @endlink.
- *
- * @subtitle Step four
- * Now you can enable the UIkit for Drupal theme by visiting
- * @inlinecode admin/appearance @endinlinecode. If creating a sub-theme, just
- * remember to add @inlinecode base theme = uikit @endinlinecode in your
- * [yourthemename].info file.
  *
  * Once you have finished implementing UIkit into your Drupal site, take a look
  * at the @link theme_settings UIkit theme settings @endlink to configure UIkit.

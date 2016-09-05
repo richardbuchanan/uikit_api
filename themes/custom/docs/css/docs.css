@@ -220,3 +220,10 @@ td.views-field-title {
 #api-alternatives > li > .active {
   color: #444;
 }
+del.uk-text-danger,
+del.uk-text-danger a {
+  color: #d85030;
+}
+.padded-code {
+  padding: 10px;
+}
