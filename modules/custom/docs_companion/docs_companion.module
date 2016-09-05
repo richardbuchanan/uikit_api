@@ -39,6 +39,8 @@ function docs_companion_block_view($delta = '') {
  */
 function docs_companion_menu_alter(&$items) {
   $items['node']['page callback'] = '_docs_redirect_node_page';
+  $items['user/login']['type'] = MENU_NORMAL_ITEM;
+  $items['user/login']['menu_name'] = 'user-menu';
 }
 
 /**
