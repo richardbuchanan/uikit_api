@@ -39,9 +39,9 @@
    * Object to store state.
    *
    * This object will remember the state of collapsible containers. The first
-   * time a state is requested, it will check the cookie and set up the variable.
-   * If a state has been changed, when the window is unloaded the state will be
-   * saved.
+   * time a state is requested, it will check the cookie and set up the
+   * variable. If a state has been changed, when the window is unloaded the
+   * state will be saved.
    */
   Drupal.CTools.Collapsible = {
     state: {},
@@ -87,6 +87,7 @@
      */
     loadCookie: function () {
       // If there is a previous instance of this cookie
+      var offset;
       if (document.cookie.length > 0) {
         // Get the number of characters that have the list of values
         // from our string index.
@@ -101,7 +102,7 @@
           }
 
           // Get a list of all values that are saved on our string
-          var cookie = unescape(document.cookie.substring(offset, end));
+          var cookie = decodeURIComponent(document.cookie.substring(offset, end));
 
           if (cookie != '') {
             var cookieList = cookie.split(',');
@@ -123,7 +124,7 @@
       var cookie = '';
 
       // Get a list of IDs, saparated by comma
-      for (i in this.state) {
+      for (var i in this.state) {
         if (cookie != '') {
           cookie += ',';
         }
@@ -131,7 +132,7 @@
       }
 
       // Save this values on the cookie
-      document.cookie = this.cookieString + escape(cookie) + ';path=/';
+      document.cookie = this.cookieString + decodeURIComponent(cookie) + ';path=/';
     },
 
     /**
@@ -151,18 +152,20 @@
    */
   Drupal.CTools.bindCollapsible = function () {
     var $container = $(this);
+    var handle;
+    var content;
 
     // Allow the specification of the 'no container' class, which means the
     // handle and the container can be completely independent.
     if ($container.hasClass('ctools-no-container') && $container.attr('id')) {
       // In this case, the container *is* the handle and the content is found
       // by adding '-content' to the id. Obviously, an id is required.
-      var handle = $container;
-      var content = $('#' + $container.attr('id') + '-content');
+      handle = $container;
+      content = $('#' + $container.attr('id') + '-content');
     }
     else {
-      var handle = $container.children('.ctools-collapsible-handle');
-      var content = $container.children('div.ctools-collapsible-content');
+      handle = $container.children('.ctools-collapsible-handle');
+      content = $container.children('div.ctools-collapsible-content');
     }
 
     if (content.length) {
@@ -190,15 +193,16 @@
 
       var afterToggle = function () {
         if (Drupal.CTools.CollapsibleCallbacksAfterToggle) {
-          for (i in Drupal.CTools.CollapsibleCallbacksAfterToggle) {
+          for (var i in Drupal.CTools.CollapsibleCallbacksAfterToggle) {
             Drupal.CTools.CollapsibleCallbacksAfterToggle[i]($container, handle, content, toggle);
           }
         }
-      }
+        footerPosition();
+      };
 
       var clickMe = function () {
         if (Drupal.CTools.CollapsibleCallbacks) {
-          for (i in Drupal.CTools.CollapsibleCallbacks) {
+          for (var i in Drupal.CTools.CollapsibleCallbacks) {
             Drupal.CTools.CollapsibleCallbacks[i]($container, handle, content, toggle);
           }
         }
@@ -223,7 +227,7 @@
         }
 
         return false;
-      }
+      };
 
       // Let both the toggle and the handle be clickable.
       toggle.click(clickMe);
@@ -237,6 +241,26 @@
   Drupal.behaviors.CToolsCollapsible = {
     attach: function(context) {
       $('.ctools-collapsible-container', context).once('ctools-collapsible', Drupal.CTools.bindCollapsible);
+    }
+  };
+
+  function footerPosition() {
+    var bodyHeight = $('body').outerHeight(true) - 30;
+    var adminMenu = $('#admin-menu');
+    var page = $('#page');
+    var pageHeader = $('#page-header');
+    var footer = $('#footer');
+    var contentHeight = adminMenu.outerHeight() + page.outerHeight() + pageHeader.outerHeight() + footer.outerHeight();
+
+    if (contentHeight < bodyHeight) {
+      footer.css({
+        'position': 'fixed',
+        'bottom': 0,
+        'width': '100%'
+      });
+    }
+    else {
+      footer.css('position', 'static');
     }
   }
 })(jQuery);
