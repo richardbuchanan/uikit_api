@@ -29,15 +29,6 @@
  * article before installing UIkit for Drupal. We only provide the download
  * methods below, not how to install themes.
  *
- * @subtitle via drupal.org
- * You can either visit
- * @link https://drupal.org/project/uikit drupal.org @endlink or use one of the
- * links below to download the project directly from drupal.org. There are two
- * releases (@del 7.x-1.x-dev @enddel and 7.x-2.x-dev), but work is no longer
- * being done on the 7.x-1.x branch. So be sure to download the 7.x-2.x branch.
- *
- * @button_large https://ftp.drupal.org/files/projects/uikit-7.x-2.x-dev.tar.gz UIkit 7.x-2.x-dev.tar.gz @endbutton_large @button_large https://ftp.drupal.org/files/projects/uikit-7.x-2.x-dev.zip UIkit 7.x-2.x-dev.zip @endbutton_large
- *
  * @subtitle via git.drupal.org
  * Use the following Git command to download the latest release from the 7.x-2.x
  * branch. This will ensure you get the latest commited branch. All other
@@ -48,6 +39,15 @@
  *
  * The development branch is currently the only supported branch. Extensive
  * work still needs done before a release candidate can be released.
+ *
+ * @subtitle via drupal.org
+ * You can either visit
+ * @link https://drupal.org/project/uikit drupal.org @endlink or use one of the
+ * links below to download the project directly from drupal.org. There are two
+ * releases (@del 7.x-1.x-dev @enddel and 7.x-2.x-dev), but work is no longer
+ * being done on the 7.x-1.x branch. So be sure to download the 7.x-2.x branch.
+ *
+ * @button_large https://ftp.drupal.org/files/projects/uikit-7.x-2.x-dev.tar.gz UIkit 7.x-2.x-dev.tar.gz @endbutton_large @button_large https://ftp.drupal.org/files/projects/uikit-7.x-2.x-dev.zip UIkit 7.x-2.x-dev.zip @endbutton_large
  *
  * @subtitle via Drush
  * Drush is a command line and shell scripting interface for Drupal. Use the
