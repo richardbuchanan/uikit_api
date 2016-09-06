@@ -661,3 +661,22 @@ function docs_link__api($variables) {
 
   return '<li' . ($active ? ' class="uk-active"' : '') . '><a href="' . check_plain(url($variables['path'], $variables['options'])) . '"' . drupal_attributes($variables['options']['attributes']) . '>' . ($variables['options']['html'] ? $variables['text'] : check_plain($variables['text'])) . '</a></li>';
 }
+
+/**
+ * Implementation of theme_hook().
+ */
+function docs_captcha($element) {
+  $captcha = theme_captcha($element);
+  if (strncmp($element["element"]["#captcha_type"], "hidden_captcha/", 15) == 0) {
+    //generate a random class name
+    $chars = "abcdfghjkmnpqrstvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    $class = "";
+    for ($i = 0; $i < 64; ++$i) $class .= substr($chars, rand(0, strlen($chars)-1), 1);
+    $class .= ' uk-form-row uk-hidden';
+    //hide the random class via css
+    drupal_add_css(".$class{display:none;width:0;height:0;overflow:hidden;}","inline"); // TODO: move the random class to an external file
+    //html for the captcha
+    $captcha = "<div class=\"$class\">" . $captcha . "</div>";
+  }
+  return $captcha;
+}
