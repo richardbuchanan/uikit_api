@@ -11,4 +11,4 @@ if (strncmp($element["element"]["#captcha_type"], "hidden_captcha/", 15) == 0) {
   //html for the captcha
   $captcha = "<div class=\"$class\">" . $captcha . "</div>";
 }
-print '<div class="uk-form-row">' . $captcha . '</div>';
+print $captcha;
