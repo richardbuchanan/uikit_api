@@ -10,7 +10,6 @@
   font-weight: 400;
   font-style: normal;
 }
-
 html {
   font: normal 16px / 20px "Proxima Nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
   overflow-y: scroll;
@@ -19,6 +18,18 @@ html {
 }
 body {
   background: #fdfdfd;
+}
+
+/**
+ * UIkit containers
+ */
+.uk-container {
+  max-width: 1280px;
+}
+@media (min-width: 1220px) {
+  .uk-container {
+    max-width: 1440px;
+  }
 }
 
 /**
