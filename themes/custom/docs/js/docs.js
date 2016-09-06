@@ -104,3 +104,18 @@
     }
   };
 })(jQuery);
+
+(function($) {
+  Drupal.behaviors.stickySidebar = {
+    attach: function () {
+      $('#region-sidebar-second-wrapper').each(function() {
+        var windowHeight = $(window).outerHeight() - $('#page-header').outerHeight();
+        var sidebarHeight = $(this).outerHeight();
+
+        if (sidebarHeight > windowHeight) {
+          $(this).removeAttr('data-uk-sticky');
+        }
+      });
+    }
+  };
+})(jQuery);
