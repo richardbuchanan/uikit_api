@@ -299,6 +299,12 @@ function docs_preprocess_region(&$variables) {
 }
 
 /**
+ * Implements template_preprocess_aggregatpr_feed_source().
+ */
+function docs_preprocess_aggregator_feed_source(&$variables) {
+}
+
+/**
  * Implements hook_preprocess_HOOK().
  */
 function docs_preprocess_textfield(&$variables) {
