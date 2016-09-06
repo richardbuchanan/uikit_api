@@ -9,6 +9,13 @@ stylesheets[all][] = 'vendor/highlight/highlight.css'
 scripts[] = 'js/docs.js'
 scripts[] = 'vendor/highlight/highlight.js'
 
+regions[header] = 'Page heading'
+regions[highlighted] = 'Highlighted'
+regions[help] = 'Help'
+regions[content] = 'Content'
+regions[sidebar_second] = 'Sidebar second'
+regions[footer] = 'Footer'
+
 settings[base_style] = 'almost-flat'
 settings[meta_charset] = 'utf-8'
 settings[x_ua_compatible] = 'edge'

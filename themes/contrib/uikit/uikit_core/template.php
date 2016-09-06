@@ -122,8 +122,8 @@ function uikit_process_html(&$variables) {
 function uikit_preprocess_page(&$variables) {
   global $theme_key;
 
-  $sidebar_first = $variables['page']['sidebar_first'];
-  $sidebar_second = $variables['page']['sidebar_second'];
+  $sidebar_first = isset($variables['page']['sidebar_first']) ? $variables['page']['sidebar_first']: '';
+  $sidebar_second = isset($variables['page']['sidebar_second']) ? $variables['page']['sidebar_second'] : '';
   $standard_layout = theme_get_setting('standard_sidebar_positions', $theme_key);
   $tablet_layout = theme_get_setting('tablet_sidebar_positions', $theme_key);
   $mobile_layout = theme_get_setting('mobile_sidebar_positions', $theme_key);

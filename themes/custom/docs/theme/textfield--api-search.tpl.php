@@ -16,7 +16,7 @@ element_set_attributes($element, array(
 _form_set_class($element, array('form-text'));
 
 $element['#attributes']['type'] = 'text';
-$element['#attributes']['size'] = '25';
+$element['#attributes']['size'] = '60';
 
 $extra = '';
 if ($element['#autocomplete_path'] && !empty($element['#autocomplete_input'])) {
