@@ -9,6 +9,6 @@ if (strncmp($element["element"]["#captcha_type"], "hidden_captcha/", 15) == 0) {
   //hide the random class via css
   drupal_add_css(".$class{width:0;height:0;overflow:hidden;}","inline"); // TODO: move the random class to an external file
   //html for the captcha
-  $captcha = "<div class=\"uk-form-row\"><div class=\"$class\">" . $captcha . "</div></div>";
+  $captcha = "<div class=\"$class\">" . $captcha . "</div>";
 }
-print $captcha;
+print '<div class="uk-form-row">' . $captcha . '</div>';
