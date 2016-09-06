@@ -162,7 +162,7 @@ function _db_api_find_group(array $docblock, $parent_only = FALSE) {
 /**
  * Implements theme_hidden_captcha_captcha().
  */
-function docs_companion_hidden_captcha_captcha(&$variables) {
+function docs_companion_hidden_captcha_captcha($element) {
   $captcha = theme_captcha($element);
   if (strncmp($element["element"]["#captcha_type"], "hidden_captcha/", 15) == 0) {
     //generate a random class name
