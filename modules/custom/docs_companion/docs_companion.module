@@ -14,6 +14,9 @@ function docs_companion_block_info() {
   $blocks['docs-companion-copyright'] = array(
     'info' => t('Docs copyright'),
   );
+  $blocks['uikit-resources'] = array(
+    'info' => t('UIkit Resources'),
+  );
 
   return $blocks;
 }
@@ -28,6 +31,11 @@ function docs_companion_block_view($delta = '') {
     case 'docs-companion-copyright':
       $block['subject'] = '';
       $block['content'] = _docs_companion_copyright_block();
+      break;
+
+    case 'uikit-resources':
+      $block['subject'] = '';
+      $block['content'] = _docs_companion_uikit_resources();
       break;
   }
 
@@ -77,6 +85,23 @@ function docs_companion_preprocess_menu_link(&$variables) {
 function _docs_companion_copyright_block() {
   $module = drupal_get_path('module', 'docs_companion');
   $filename = $module . '/includes/copyright.inc';
+  $handle = fopen($filename, "r");
+  $contents = fread($handle, filesize($filename));
+  fclose($handle);
+
+  $output = check_markup($contents, $format_id = 'full_html');
+  return $output;
+}
+
+/**
+ * Constructs the content for the UIkit resources block.
+ *
+ * @return null|string
+ *   Returns the content for the UIkit resources block.
+ */
+function _docs_companion_uikit_resources() {
+  $module = drupal_get_path('module', 'docs_companion');
+  $filename = $module . '/includes/resources.inc';
   $handle = fopen($filename, "r");
   $contents = fread($handle, filesize($filename));
   fclose($handle);

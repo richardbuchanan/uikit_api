@@ -129,7 +129,14 @@ function docs_preprocess_api_functions(&$variables) {
  * Implements template_preprocess_block().
  */
 function docs_preprocess_block(&$variables) {
-  $bid = $variables['block_html_id'];
+  $block_id = $variables['block_html_id'];
+  $region = $variables['block']->region;
+  $feed = substr($block_id, 0, 21) === 'block-aggregator-feed';
+
+  if ($feed && $region == 'sidebar_second') {
+    $content = str_replace('<ul class="uk-list">', '<ul>', $variables['content']);
+    $variables['content'] = $content;
+  }
 }
 
 /**
@@ -296,12 +303,6 @@ function docs_preprocess_region(&$variables) {
       'version' => '2.26.4',
     ));
   }
-}
-
-/**
- * Implements template_preprocess_aggregatpr_feed_source().
- */
-function docs_preprocess_aggregator_feed_source(&$variables) {
 }
 
 /**

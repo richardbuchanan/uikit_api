@@ -181,17 +181,6 @@ html.js .ctools-collapsible-container .ctools-collapsible-handle {
   background: #fff;
   color: #00a8e6;
 }
-.block-aggregator .uk-list {
-  font-size: 14px;
-  padding-left: 14px;
-}
-.block-aggregator .uk-list > li {
-  list-style: disc;
-}
-.block-aggregator .uk-list > li:after,
-.block-aggregator .uk-list > li:before {
-  display: none;
-}
 
 /**
  * API overrides
