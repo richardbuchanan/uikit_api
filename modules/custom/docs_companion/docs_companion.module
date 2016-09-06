@@ -46,6 +46,19 @@ function docs_companion_menu_alter(&$items) {
 /**
  * Implements hook_preprocess_HOOK().
  */
+function docs_companion_preprocess_block(&$variables) {
+  $block_id = $variables['block_html_id'];
+  $region = $variables['block']->region;
+  $feed = substr($block_id, 0, 21) === 'block-aggregator-feed';
+
+  if ($feed && $region == 'sidebar_second') {
+    $variables['theme_hook_suggestions'][] = 'block__sidebar_second__aggregator';
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
 function docs_companion_preprocess_menu_link(&$variables) {
   $href = $variables['element']['#href'];
 
