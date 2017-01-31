@@ -26,7 +26,6 @@ for customizing with very little requirements.
 REQUIREMENTS
 ------------
 
-Libraries API
 jQuery Update 2.7+ running jQuery 1.10+
 
 
@@ -40,26 +39,10 @@ INSTALLATION
  * Install jQuery Update 7.x-2.7 or higher as you would normally install a
    contributed Drupal module. See:
    https://www.drupal.org/documentation/install/modules-themes/modules-7
-   for futher information.
+   for further information.
 
  * Set the default jQuery version to 1.10 or higher at
    admin/config/development/jquery_update.
-
- * Install Libraries API module as you would normally install a contributed
-   Drupal module.
-
- * Download the UIkit framework from
-   https://github.com/uikit/uikit/releases/tag/v2.26.4. We current support
-   version 2.26.4 and lower. Future updates will include changes from the
-   latest version of the UIkit framework.
-
- * Create a directory named "uikit" in your site's libraries directory.
-   Extract all folders from the UIkit framework zip file into the uikit
-   directory you created. See: https://www.drupal.org/node/1440066
-   Your libraries directory should look like this:
-     libraries/uikit/css/...
-     libraries/uikit/fonts/...
-     libraries/uikit/js/...
 
 
 CONFIGURATION

@@ -136,7 +136,8 @@
     <div<?php print $content_attributes; ?>>
       <?php print render($title_prefix); ?>
       <?php if ($title): ?>
-        <h1 id="page-title" class="uk-article-title"><?php print $title; ?></h1><?php endif; ?>
+        <h1 id="page-title" class="uk-article-title"><?php print $title; ?></h1><?php
+      endif; ?>
       <?php print render($title_suffix); ?>
 
       <?php if ($breadcrumb && $display_breadcrumb): ?>
@@ -191,7 +192,7 @@
 
 <?php if ($offcanvas_main || $offcanvas_secondary): ?>
   <div id="offcanvas" class="uk-offcanvas">
-    <div class="uk-offcanvas-bar">
+    <div class="uk-offcanvas-bar" mode="push">
       <?php print $offcanvas_main; ?>
       <?php print $offcanvas_secondary; ?>
     </div>

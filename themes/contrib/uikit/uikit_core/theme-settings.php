@@ -308,6 +308,11 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
     '#title' => t('Layout'),
     '#description' => t('Apply our fully responsive fluid grid system and panels, common layout parts like blog articles and comments and useful utility classes.'),
     '#group' => 'uikit',
+    '#attributes' => array(
+      'class' => array(
+        'uikit-layout-settings-form',
+      ),
+    ),
   );
   $form['layout']['page_layout'] = array(
     '#type' => 'fieldset',
@@ -520,15 +525,6 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
     '#default_value' => theme_get_setting('main_menu_alignment', $theme_key),
     '#options' => array('Left', 'Right'),
   );
-  $form['navigations']['main_navbar']['default_menus']['main_menu']['main_menu_dropdown_support'] = array(
-    '#type' => 'checkbox',
-    '#title' => 'Main menu dropdown support',
-    '#description' => t('Select whether to add dropdown support to the main menu. NOTE: Dropdown functionality is only supported for 2 levels.<br /><span style="color: red;">NOTE:</span> Setting disabled. See <a href="https://www.drupal.org/node/2746097" target="_blank" style="background-color: #ddf; border-radius: 4px; padding: 2px 4px;">#2746097: Offcanvas menus display dropdown menus incorrectly</a>'),
-    '#default_value' => theme_get_setting('main_menu_dropdown_support', $theme_key),
-    '#attributes' => array(
-      'disabled' => 'disabled',
-    ),
-  );
   $form['navigations']['main_navbar']['default_menus']['secondary_menu'] = array(
     '#type' => 'fieldset',
     '#title' => 'Secondary menu',
@@ -542,15 +538,6 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
     '#description' => t('Select whether to align the secondary menu to the left or right in the navbar.'),
     '#default_value' => theme_get_setting('secondary_menu_alignment', $theme_key),
     '#options' => array('Left', 'Right'),
-  );
-  $form['navigations']['main_navbar']['default_menus']['secondary_menu']['secondary_menu_dropdown_support'] = array(
-    '#type' => 'checkbox',
-    '#title' => 'Secondary menu dropdown support',
-    '#description' => t('Select whether to add dropdown support to the secondary menu. NOTE: Dropdown functionality is only supported for 2 levels.<br /><span style="color: red;">NOTE:</span> Setting disabled. See <a href="https://www.drupal.org/node/2746097" target="_blank" style="background-color: #ddf; border-radius: 4px; padding: 2px 4px;">#2746097: Offcanvas menus display dropdown menus incorrectly</a>'),
-    '#default_value' => theme_get_setting('secondary_menu_dropdown_support', $theme_key),
-    '#attributes' => array(
-      'disabled' => 'disabled',
-    ),
   );
   $form['navigations']['main_navbar']['additional_navbar_menus'] = array(
     '#type' => 'fieldset',
