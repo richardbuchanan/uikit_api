@@ -1,0 +1,5 @@
+# Ignore development files.
+/node_modules
+
+# Ignore API documentation, which is only used on http://uikit-drupal.com/.
+/uikit_core/docs

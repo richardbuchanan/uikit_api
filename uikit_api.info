@@ -1,8 +1,11 @@
 name = UIkit API profile
-description = Install with commonly used features pre-configured, as well as some development contributed modules for UIkit API development.
+distribution_name = UIkit for Drupal API
+description = Install with commonly used features pre-configured for the UIkit for Drupal API.
 version = VERSION
 core = 7.x
+
 exclusive = false
+
 dependencies[] = block
 dependencies[] = comment
 dependencies[] = contextual
@@ -21,15 +24,9 @@ dependencies[] = shortcut
 dependencies[] = field_ui
 dependencies[] = file
 dependencies[] = rdf
-dependencies[] = blog
-dependencies[] = book
-dependencies[] = devel
-dependencies[] = devel_themer
 dependencies[] = adminimal_admin_menu
 dependencies[] = jquery_update
 dependencies[] = api
 dependencies[] = docs_companion
-dependencies[] = views_ui
 dependencies[] = module_filter
 dependencies[] = backup_migrate
-

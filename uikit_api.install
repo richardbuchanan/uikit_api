@@ -1,7 +1,8 @@
 <?php
+
 /**
  * @file
- * Install, update and uninstall functions for the development profile.
+ * Install, update and uninstall functions for the uikit_api profile.
  */
 
 /**
@@ -258,15 +259,6 @@ function uikit_api_install() {
       'modified' => 1,
       'locked' => 0,
     ),
-    array(
-      'type' => 'article',
-      'name' => st('Article'),
-      'base' => 'node_content',
-      'description' => st('Use <em>articles</em> for time-sensitive content like news, press releases or blog posts.'),
-      'custom' => 1,
-      'modified' => 1,
-      'locked' => 0,
-    ),
   );
 
   foreach ($types as $type) {
@@ -282,20 +274,6 @@ function uikit_api_install() {
       'bundle' => 'page',
       'mapping' => array(
         'rdftype' => array('foaf:Document'),
-      ),
-    ),
-    array(
-      'type' => 'node',
-      'bundle' => 'article',
-      'mapping' => array(
-        'field_image' => array(
-          'predicates' => array('og:image', 'rdfs:seeAlso'),
-          'type' => 'rel',
-        ),
-        'field_tags' => array(
-          'predicates' => array('dc:subject'),
-          'type' => 'rel',
-        ),
       ),
     ),
   );
@@ -321,127 +299,6 @@ function uikit_api_install() {
 
   // Allow visitor account creation with administrative approval.
   variable_set('user_register', USER_REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL);
-
-  // Create a default vocabulary named "Tags", enabled for the 'article' content
-  // type.
-  $description = st('Use tags to group articles on similar topics into categories.');
-  $vocabulary = (object) array(
-    'name' => st('Tags'),
-    'description' => $description,
-    'machine_name' => 'tags',
-  );
-
-  taxonomy_vocabulary_save($vocabulary);
-
-  $field = array(
-    'field_name' => 'field_' . $vocabulary->machine_name,
-    'type' => 'taxonomy_term_reference',
-    // Set cardinality to unlimited for tagging.
-    'cardinality' => FIELD_CARDINALITY_UNLIMITED,
-    'settings' => array(
-      'allowed_values' => array(
-        array(
-          'vocabulary' => $vocabulary->machine_name,
-          'parent' => 0,
-        ),
-      ),
-    ),
-  );
-
-  field_create_field($field);
-  $help = st('Enter a comma-separated list of words to describe your content.');
-
-  $instance = array(
-    'field_name' => 'field_' . $vocabulary->machine_name,
-    'entity_type' => 'node',
-    'label' => 'Tags',
-    'bundle' => 'article',
-    'description' => $help,
-    'widget' => array(
-      'type' => 'taxonomy_autocomplete',
-      'weight' => -4,
-    ),
-    'display' => array(
-      'default' => array(
-        'type' => 'taxonomy_term_reference_link',
-        'weight' => 10,
-      ),
-      'teaser' => array(
-        'type' => 'taxonomy_term_reference_link',
-        'weight' => 10,
-      ),
-    ),
-  );
-  field_create_instance($instance);
-
-  // Create an image field named "Image", enabled for the 'article' content
-  // type.
-  // Many of the following values will be defaulted, they're included here as an
-  // illustrative examples.
-  // See http://api.drupal.org/api/function/field_create_field/7
-  $field = array(
-    'field_name' => 'field_image',
-    'type' => 'image',
-    'cardinality' => 1,
-    'locked' => FALSE,
-    'indexes' => array('fid' => array('fid')),
-    'settings' => array(
-      'uri_scheme' => 'public',
-      'default_image' => FALSE,
-    ),
-    'storage' => array(
-      'type' => 'field_sql_storage',
-      'settings' => array(),
-    ),
-  );
-  field_create_field($field);
-
-  // Many of the following values will be defaulted, they're included here as an
-  // illustrative examples.
-  // See http://api.drupal.org/api/function/field_create_instance/7
-  $instance = array(
-    'field_name' => 'field_image',
-    'entity_type' => 'node',
-    'label' => 'Image',
-    'bundle' => 'article',
-    'description' => st('Upload an image to go with this article.'),
-    'required' => FALSE,
-
-    'settings' => array(
-      'file_directory' => 'field/image',
-      'file_extensions' => 'png gif jpg jpeg',
-      'max_filesize' => '',
-      'max_resolution' => '',
-      'min_resolution' => '',
-      'alt_field' => TRUE,
-      'title_field' => '',
-    ),
-
-    'widget' => array(
-      'type' => 'image_image',
-      'settings' => array(
-        'progress_indicator' => 'throbber',
-        'preview_image_style' => 'thumbnail',
-      ),
-      'weight' => -1,
-    ),
-
-    'display' => array(
-      'default' => array(
-        'label' => 'hidden',
-        'type' => 'image',
-        'settings' => array('image_style' => 'large', 'image_link' => ''),
-        'weight' => -1,
-      ),
-      'teaser' => array(
-        'label' => 'hidden',
-        'type' => 'image',
-        'settings' => array('image_style' => 'medium', 'image_link' => 'content'),
-        'weight' => -1,
-      ),
-    ),
-  );
-  field_create_instance($instance);
 
   // Enable default permissions for system roles.
   $filtered_html_permission = filter_permission_name($filtered_html_format);
@@ -479,7 +336,7 @@ function uikit_api_install() {
 
   // Create a Home link in the main menu.
   $item = array(
-    'link_title' => st(variable_get('site_name', 'Home')),
+    'link_title' => st(variable_get('site_name', 'UIkit for Drupal API')),
     'link_path' => 'api',
     'menu_name' => 'main-menu',
   );
@@ -512,10 +369,6 @@ function uikit_api_install() {
  * Implements hook_install_tasks().
  */
 function uikit_api_install_tasks(&$install_state) {
-  // Set a variable to determine if batch processing will be needed during
-  // installation.
-  $process_drupal_core = variable_get('process_drupal_core', FALSE);
-
   // Configure the tasks to run during installation.
   $tasks = array(
     '_uikit_api_project_form' => array(
@@ -538,119 +391,4 @@ function uikit_api_install_tasks(&$install_state) {
   );
 
   return $tasks;
-}
-
-/**
- * Form constructor to configure the UIkit API project.
- */
-function _uikit_api_project_form($form, &$form_state) {
-  drupal_set_title('Configure UIkit API Project');
-  module_load_include('inc', 'api', 'api.admin');
-
-  $form = drupal_get_form('api_project_edit_form');
-  $form['uikit_api'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Create UIkit API project'),
-    '#description' => t('<p>This will create the UIkit theme API project. You are free to change the title of the project, while the other values have been preset for you.</p>'),
-    '#weight' => -100,
-  );
-  $form['project_name']['#value'] = t('uikit');
-  $form['project_name']['#disabled'] = TRUE;
-  $form['project_title']['#value'] = t('UIkit');
-  $form['project_type']['#value'] = t('theme');
-  $form['project_type']['#disabled'] = TRUE;
-  $form['submit']['#value'] = t('Save and continue');
-  return $form;
-}
-
-/**
- * Form constructor to configure the UIkit API branch.
- */
-function _uikit_api_branch_form($form, &$form_state) {
-  drupal_set_title('Configure UIkit API Branch');
-  module_load_include('inc', 'api', 'api.admin');
-
-  $form = drupal_get_form('api_branch_edit_form');
-  $form['uikit_api'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Create UIkit API branch'),
-    '#description' => t('<p>This will create a default branch for both the API site and the UIkit theme project. Preset values have been disabled, but you are free to make changes to the rest.</p>'),
-    '#weight' => -100,
-  );
-  $form['project']['#value'] = t('uikit');
-  $form['project']['#disabled'] = TRUE;
-  $form['core_compatibility']['#value'] = t('7.x');
-  $form['core_compatibility']['#disabled'] = TRUE;
-  $form['preferred']['#value'] = 1;
-  $form['preferred']['#disabled'] = TRUE;
-  $form['branch_name']['#value'] = t('7.x');
-  $form['branch_name']['#disabled'] = TRUE;
-  $form['title']['#value'] = t('UIkit 7.x');
-  $form['data']['directories']['#value'] = drupal_get_path('profile', drupal_get_profile()) . '/themes/contrib/uikit';
-  $form['data']['directories']['#disabled'] = TRUE;
-  $form['update_frequency']['#value'] = 604800;
-  $form['update_frequency']['#disabled'] = TRUE;
-  $form['submit']['#value'] = t('Save and continue');
-  return $form;
-}
-
-/**
- * Batch operations to configure UIkit API.
- */
-function _configure_uikit_api() {
-  // Create the batch to process during installation.
-  $batch = array(
-    'operations' => array(
-      array('uikit_api_processed', array()),
-    ),
-    'title' => t('Configuring UIkit API'),
-    'error_message' => st('The UIkit API configuration has encountered an error.'),
-    'file' => drupal_get_path('profile', 'uikit_api_development') . '/includes/install-tasks.inc',
-    'finished' => 'uikit_api_finished',
-  );
-  return $batch;
-}
-
-/**
- * Form constructor to configure the Drupal API branch.
- */
-function _drupal_api_reference_branch_form($form, &$form_state) {
-  drupal_set_title('Configure Drupal API Reference Branch');
-  module_load_include('inc', 'api', 'api.admin');
-
-  $form = drupal_get_form('api_api_branch_edit_form');
-  $form['drupal_api'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Create Drupal API reference branch'),
-    '#description' => t('<p>This will create a default branch for the Drupal core project. Preset values have been disabled, but you are free to make changes to the rest.</p>'),
-    '#weight' => -100,
-  );
-  $form['title']['#value'] = t('Drupal 7.x');
-  $form['data']['url']['#value'] = 'https://api.drupal.org/api/drupal/full_list/7.x';
-  $form['data']['url']['#disabled'] = TRUE;
-  $form['data']['search_url']['#value'] = 'https://api.drupal.org/api/drupal/7.x/search/';
-  $form['data']['search_url']['#disabled'] = TRUE;
-  $form['data']['core_compatibility']['#value'] = t('7.x');
-  $form['data']['core_compatibility']['#disabled'] = TRUE;
-  $form['data']['project_type']['#value'] = t('core');
-  $form['data']['project_type']['#disabled'] = TRUE;
-  $form['data']['page_limit']['#value'] = 2000;
-  $form['data']['timeout']['#value'] = 30;
-  $form['update_frequency']['#value'] = 604800;
-  $form['update_frequency']['#disabled'] = TRUE;
-  $form['submit']['#value'] = t('Save and continue');
-  return $form;
-}
-
-/**
- * Implements hook_install_tasks_alter().
- */
-function uikit_api_install_tasks_alter(&$tasks, $install_state) {
-  if ($GLOBALS['theme'] != 'docs_admin') {
-    unset($GLOBALS['theme']);
-
-    drupal_static_reset();
-    $GLOBALS['conf']['maintenance_theme'] = 'docs_admin';
-    _drupal_maintenance_theme();
-  }
 }

@@ -25,7 +25,7 @@ function uikit_api_processed() {
 /**
  * Gets the results from the batch operations.
  *
- * @param boolean $success
+ * @param bool $success
  *   Returns true if the batch operations were successfully run, otherwise
  *   returns false.
  * @param array $results
@@ -42,11 +42,14 @@ function uikit_api_finished($success, $results, $operations) {
     drupal_cron_run();
 
     $old_msg = drupal_get_messages();
-    drupal_set_message(t('<p>The UIkit API project and default settings for the API module have been configured for you. You can add additional <a href="/admin/config/development/api">projects/branchs/references.</a></p><p>It is also recommended to <a href="/admin/config/development/api/php_branches/new_api">add a new API reference branch</a> for Drupal if you do not plan to add locally stored Drupal code. This will turn Drupal functions/hooks/etc. into links to api.drupal.org.</p>'));
+    drupal_set_message(t('<p>The UIkit API project and default settings for the API module have been configured for you. You can add additional <a href="/admin/config/development/api">projects/branchs/references.</a></p>'));
   }
   else {
     $error_operation = reset($operations);
-    $message = t('An error occurred while processing %error_operation with arguments: @arguments', array('%error_operation' => $error_operation[0], '@arguments' => print_r($error_operation[1], TRUE)));
+    $message = t('An error occurred while processing %error_operation with arguments: @arguments', array(
+      '%error_operation' => $error_operation[0],
+      '@arguments' => print_r($error_operation[1], TRUE),
+    ));
     drupal_set_message($message, 'error');
   }
 }
