@@ -1,7 +1,7 @@
 name = UIkit API profile
 distribution_name = UIkit for Drupal API
 description = Install with commonly used features pre-configured for the UIkit for Drupal API.
-version = 7.x-1.0
+version = 7.x-1.x
 core = 7.x
 
 exclusive = false
