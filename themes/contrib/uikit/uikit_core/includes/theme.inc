@@ -741,6 +741,7 @@ function uikit_form_element_label($variables) {
   $type = !empty($element['#type']) ? $element['#type'] : FALSE;
   $checkbox = $type && $type === 'checkbox';
   $radio = $type && $type === 'radio';
+  $attributes = array();
 
   if (!$checkbox && !$radio) {
     $attributes['class'][] = 'uk-form-label';
