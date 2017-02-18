@@ -5,13 +5,6 @@
 (function ($) {
   'use strict';
 
-  $(function () {
-    // Do not trigger the default action of links in the demos.
-    $('.uk-admin-demo').on('click', '[href="#"], [href=""]', function (e) {
-      e.preventDefault();
-    });
-  });
-
   Drupal.behaviors.uikitFieldsetSummaries = {
     attach: function (context) {
       // Provide the summary for the base style form.
@@ -29,7 +22,7 @@
         var vals = [];
 
         // IE compatibility mode setting.
-        if ($('.form-item-x-ua-compatible select option:selected').val() !== 0) {
+        if ($('.form-item-x-ua-compatible select option:selected').val() !== '0') {
           var ieMode = $('.form-item-x-ua-compatible select option:selected', context).text();
           vals.push(ieMode);
         }

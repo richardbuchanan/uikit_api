@@ -22,6 +22,13 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
   // Get the active theme name.
   $theme_key = $form_state['build_info']['args'][0] === $theme_key ? $form_state['build_info']['args'][0] : $theme_key;
 
+  // Include theme-settings.php when the form is being rebuilt during file
+  // Customizer CSS uploads.
+  $form_state['build_info']['files']['uikit'] = drupal_get_path('theme', 'uikit') . '/theme-settings.php';
+
+  // Get Customizer CSS theme setting for later use.
+  $customizer_css = theme_get_setting('customizer_css', $theme_key);
+
   // Build the markup for the layout demos.
   $demo_layout = '<div class="uk-layout-wrapper">';
   $demo_layout .= '<div class="uk-layout-container">';
@@ -159,9 +166,29 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
       0 => t('UIkit default'),
       'almost-flat' => t('UIkit almost flat'),
       'gradient' => t('UIkit gradient'),
+      'customizer-css' => t('Customizer CSS'),
     ),
-    '#description' => t('Select which base style to use.<ol><li><strong>UIkit default:</strong> No border radius or gradients</li><li><strong>UIkit almost flat:</strong> Small border and border radius</li><li><strong>UIkit gradient:</strong> Almost flat style with gradient backgrounds.</li></ol>'),
+    '#description' => t('Select which base style to use.<ol><li><strong>UIkit default:</strong> No border radius or gradients</li><li><strong>UIkit almost flat:</strong> Small border and border radius</li><li><strong>UIkit gradient:</strong> Almost flat style with gradient backgrounds.</li><li><strong>Customizer CSS:</strong> Use stylesheet uploaded from <a href="@customizer" target="_blank">Customizer</a>.</li></ol>', array('@customizer' => 'https://getuikit.com/v2/docs/customizer.html')),
     '#default_value' => theme_get_setting('base_style', $theme_key),
+  );
+  $form['theme']['theme_customizer'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('UIkit Customizer'),
+    '#description' => t('UIkit comes with a customizer that enables you to make adjustments to the theme you are using with just a few clicks and no need for any CSS knowledge. You can then download your new CSS and upload it here to override the default styles provided by UIkit. Visit <a href="@customizer" target="_blank">How to customize</a> to learn how to use Customizer.', array('@customizer' => 'https://getuikit.com/v2/docs/documentation_how-to-customize.html')),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="base_style"]' => array('value' => 'customizer-css'),
+      ),
+    ),
+  );
+  $form['theme']['theme_customizer']['customizer_css'] = array(
+    '#title' => t('Customizer CSS'),
+    '#type' => 'managed_file',
+    '#description' => t('Upload the CSS file you downloaded from Customizer. This stylesheet will be added to all pages that use your theme.'),
+    '#default_value' => isset($customizer_css['fid']) ? $customizer_css['fid'] : 0,
+    '#element_validate' => array('_uikit_customizer_css_file_validate'),
+    '#upload_location' => 'public://customizer_css/',
+    "#upload_validators"  => array('file_validate_extensions' => array('css')),
   );
 
   // Mobile settings.
@@ -176,10 +203,23 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
       ),
     ),
   );
+  $form['mobile_settings']['mobile_advanced'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Show advanced mobile settings'),
+    '#description' => t('Advanced mobile settings give you fine-grain control over additional metadata settings.'),
+    '#default_value' => theme_get_setting('mobile_advanced', $theme_key),
+  );
   $form['mobile_settings']['mobile_metadata'] = array(
     '#type' => 'fieldset',
     '#title' => t('Mobile metadata'),
     '#description' => t('HTML5 has attributes that can be defined in meta elements. Here you can control some of these attributes.'),
+  );
+  $form['mobile_settings']['mobile_metadata']['meta_charset'] = array(
+    '#type' => 'select',
+    '#title' => t('<code>charset</code>'),
+    '#options' => $charsets,
+    '#description' => t('Specify the character encoding for the HTML document.'),
+    '#default_option' => theme_get_setting('meta_charset', $theme_key),
   );
   $form['mobile_settings']['mobile_metadata']['x_ua_compatible'] = array(
     '#type' => 'select',
@@ -189,18 +229,21 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
     '#description' => t('In some cases, it might be necessary to restrict a webpage to a document mode supported by an older version of Windows Internet Explorer. Here we look at the x-ua-compatible header, which allows a webpage to be displayed as if it were viewed by an earlier version of the browser. @see !legacy', array(
       '!legacy' => '<a href="https://msdn.microsoft.com/en-us/library/jj676915(v=vs.85).aspx" target="_blank">' . t('Specifying legacy document modes') . '</a>',
     )),
-  );
-  $form['mobile_settings']['mobile_metadata']['meta_charset'] = array(
-    '#type' => 'select',
-    '#title' => t('<code>charset</code>'),
-    '#options' => $charsets,
-    '#description' => t('Specify the character encoding for the HTML document.'),
-    '#default_option' => theme_get_setting('meta_charset', $theme_key),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="mobile_advanced"]' => array('checked' => TRUE),
+      ),
+    ),
   );
   $form['mobile_settings']['mobile_metadata']['meta_viewport'] = array(
     '#type' => 'fieldset',
     '#title' => t('Viewport metadata'),
     '#description' => t('Gives hints about the size of the initial size of the viewport. This pragma is used by several mobile devices only.'),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="mobile_advanced"]' => array('checked' => TRUE),
+      ),
+    ),
   );
   $form['mobile_settings']['mobile_metadata']['meta_viewport']['device_width'] = array(
     '#type' => 'fieldset',
@@ -314,6 +357,11 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
       ),
     ),
   );
+  $form['layout']['layout_advanced'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Show advanced layout settings'),
+    '#default_value' => theme_get_setting('layout_advanced', $theme_key),
+  );
   $form['layout']['page_layout'] = array(
     '#type' => 'fieldset',
     '#title' => t('Page Layout'),
@@ -403,12 +451,22 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
     '#title' => t('Page Container'),
     '#description' => t('Add the .uk-container class to the page container to give it a max-width and wrap the main content of your website. For large screens it applies a different max-width.'),
     '#default_value' => theme_get_setting('page_container', $theme_key),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="layout_advanced"]' => array('checked' => TRUE),
+      ),
+    ),
   );
   $form['layout']['page_layout']['page_centering'] = array(
     '#type' => 'checkbox',
     '#title' => t('Page Centering'),
     '#description' => t('To center the page container, use the .uk-container-center class.'),
     '#default_value' => theme_get_setting('page_centering', $theme_key),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="layout_advanced"]' => array('checked' => TRUE),
+      ),
+    ),
   );
   $form['layout']['page_layout']['page_margin'] = array(
     '#type' => 'select',
@@ -421,11 +479,21 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
       'uk-margin-bottom' => t('Bottom margin'),
       'uk-margin' => t('Top and bottom margin'),
     ),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="layout_advanced"]' => array('checked' => TRUE),
+      ),
+    ),
   );
   $form['layout']['region_layout'] = array(
     '#type' => 'fieldset',
     '#title' => t('Region Layout'),
     '#description' => t('Change region layout settings.<br><br>Use the following links to see an example of each component style.<ul class="links"><li><a href="http://getuikit.com/docs/panel.html" target="_blank">Panel</a></li><li><a href="http://getuikit.com/docs/block.html" target="_blank">Block</a></li></ul>'),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="layout_advanced"]' => array('checked' => TRUE),
+      ),
+    ),
   );
 
   // Load all regions to assign separate settings for each region.
@@ -669,6 +737,57 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
   $form['logo']['#group'] = 'basic_settings';
   $form['logo']['#attributes']['class'] = array();
   $form['favicon']['#group'] = 'basic_settings';
+
+  $form['#validate'][] = 'uikit_theme_settings_validate';
+}
+
+/**
+ * Callback function to validate the Customizer CSS field.
+ */
+function _uikit_customizer_css_file_validate($element, &$form_state) {
+  $theme_key = $form_state['build_info']['args'][0];
+
+  // If referencing an existing file, only allow if there are existing
+  // references. This prevents unmanaged files from being deleted if this
+  // item were to be deleted.
+  $clicked_button = end($form_state['triggering_element']['#parents']);
+
+  if ($clicked_button == 'upload_button') {
+    if ($file = !file_load($element['fid']['#value'])) {
+      form_error($element, t('The file referenced by the !name field does not exist.', array('!name' => $element['#title'])));
+    }
+    else {
+      $fid = $element['fid']['#value'];
+      $file = file_load($fid);
+
+      if (is_object($file)) {
+
+        // Check to make sure that the file is set to be permanent.
+        if ($file->status == 0) {
+          // Update the status.
+          $file->status = FILE_STATUS_PERMANENT;
+
+          // Save the update.
+          file_save($file);
+
+          // Add a reference to prevent warnings.
+          file_usage_add($file, $theme_key, 'theme', 1);
+
+          // Alert the user to save the form to update the theme settings.
+          drupal_set_message(t('@filename successfully uploaded. All changes are stored temporarily. Click Save configuration to make your changes permanent.', array('@filename' => $file->filename)), 'warning');
+        }
+      }
+    }
+  }
+  elseif ($clicked_button == 'remove_button') {
+    // Delete the file and file usage from the database and file system.
+    $file = file_load($element['fid']['#value']);
+    file_usage_delete($file, $theme_key, 'theme', 1);
+    file_delete($file);
+
+    // Alert the user to save the form to update the theme settings.
+    drupal_set_message(t('@filename successfully removed. All changes are stored temporarily. Click Save configuration to make your changes permanent.', array('@filename' => $file->filename)), 'warning');
+  }
 }
 
 /**
@@ -706,5 +825,17 @@ function _uikit_viewport_custom_height_validate($element, &$form_state) {
   }
   elseif ($device_height_ratio && !empty($element['#value']) && !ctype_digit($element['#value'])) {
     form_set_error($element['#name'], t('<b>Custom device height</b> can only contain an integer number, without a decimal point. Please check the value for <b>Custom device height</b> under <b>Mobile settings</b> and save the configuration.'));
+  }
+}
+
+/**
+ * Callback function to validate the system theme settings form.
+ */
+function uikit_theme_settings_validate($form, &$form_state) {
+  $base_style = $form_state['values']['base_style'];
+  $customizer_css = $form_state['values']['customizer_css']['fid'];
+
+  if ($base_style == 'customizer-css' && !$customizer_css) {
+    form_set_error('customizer_css', t('Customizer CSS is selected as your base style but you have not uploaded a stylesheet.'));
   }
 }

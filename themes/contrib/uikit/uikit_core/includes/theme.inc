@@ -16,6 +16,21 @@
 function uikit_theme() {
   // The following theme implementations can be found below this hook.
   return array(
+    'uikit_icon' => array(
+      'function' => 'theme_uikit_icon',
+      'variables' => array(
+        'icon' => NULL,
+        'link' => NULL,
+        'modifier' => array(
+          'size' => NULL,
+          'spin' => FALSE,
+          'hover' => FALSE,
+          'button' => FALSE,
+          'justify' => FALSE,
+        ),
+        'attributes' => array(),
+      ),
+    ),
     'uikit_list' => array(
       'function' => 'theme_uikit_list',
       'variables' => array(
@@ -23,6 +38,18 @@ function uikit_theme() {
         'modifier' => NULL,
         'attributes' => array(
           'class' => array('uk-list'),
+        ),
+      ),
+    ),
+    'uikit_navbar' => array(
+      'function' => 'theme_uikit_navbar',
+      'variables' => array(
+        'items' => array(
+          'left' => array(),
+          'right' => array(),
+        ),
+        'attributes' => array(
+          'class' => array('uk-navbar'),
         ),
       ),
     ),
@@ -48,19 +75,110 @@ function uikit_theme() {
         ),
       ),
     ),
-    'uikit_navbar' => array(
-      'function' => 'theme_uikit_navbar',
-      'variables' => array(
-        'items' => array(
-          'left' => array(),
-          'right' => array(),
-        ),
-        'attributes' => array(
-          'class' => array('uk-navbar'),
-        ),
-      ),
-    ),
   );
+}
+
+/**
+ * Returns HTML for an icon element.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - icon: Icon mapping name to use as the icon. A list of available mapping
+ *     names can be found here:
+ *     https://getuikit.com/v2/docs/icon.html#icon-mapping
+ *   - link: An associative array containing:
+ *     - text: The translated link text for the anchor tag.
+ *     - path: The internal path or external URL being linked to, such as
+ *       "node/34" or "http://example.com/foo". After the url() function is
+ *       called to construct the URL from $path and $options, the resulting URL
+ *       is passed through check_plain() before it is inserted into the HTML
+ *       anchor tag, to ensure well-formed HTML. See url() for more information
+ *       and notes.
+ *     - options: An associative array of additional options. Defaults to an
+ *       empty array. It may contain the following elements.
+ *       - 'attributes': An associative array of HTML attributes to apply to the
+ *         anchor tag. If element 'class' is included, it must be an array;
+ *         'title' must be a string; other elements are more flexible, as they
+ *         just need to work in a call to
+ *         drupal_attributes($options['attributes']).
+ *       - 'html' (default FALSE): Whether $text is HTML or just plain-text. For
+ *         example, to make an image tag into a link, this must be set to TRUE,
+ *         or you will see the escaped HTML image tag. $text is not sanitized if
+ *         'html' is TRUE. The calling function must ensure that $text is
+ *         already safe.
+ *       - 'language': An optional language object. If the path being linked to
+ *         is internal to the site, $options['language'] is used to determine
+ *         whether the link is "active", or pointing to the current page (the
+ *         language as well as the path must match). This element is also used
+ *         by url().
+ *       - Additional $options elements used by the url() function.
+ *   - modifier: Modifiers to add a specific style the icon. UIkit provides five
+ *     icon modifiers:
+ *     - size: Modifies the size of the icon. Size modifiers provided by UIkit:
+ *       - small: Applies the uk-icon-small class.
+ *       - medium: Applies the uk-icon-medium class.
+ *       - large: Applies the uk-icon-large class.
+ *     - spin: Creates an animated spinning icon.
+ *     - hover: Uses an anchor as an icon, applying a hover effect and removing
+ *       the link underline.
+ *     - button: Creates an icon button, which can be used perfectly for social
+ *       icons.
+ *     - justify: Adds a fixed width to the icon and centers it. This is useful
+ *       when using different icons in a list.
+ *   - attributes: The attributes applied to the list element.
+ *
+ * @return string
+ *   Returns formatted HTML for an icon.
+ *
+ * @ingroup uikit_themeable
+ */
+function theme_uikit_icon($variables) {
+  $icon = $variables['icon'];
+  $link = $variables['link'];
+  $modifier = $variables['modifier'];
+  $attributes = $variables['attributes'];
+  $output = '';
+
+  $attributes['class'][] = "uk-icon-$icon";
+
+  if (!empty($modifier['size'])) {
+    $attributes['class'][] = 'uk-icon-' . $modifier['size'];
+  }
+
+  if (!empty($modifier['spin'])) {
+    $attributes['class'][] = 'uk-icon-spin';
+  }
+
+  if (!empty($modifier['hover'])) {
+    $attributes['class'][] = 'uk-icon-hover';
+  }
+
+  if (!empty($modifier['button'])) {
+    $attributes['class'][] = 'uk-icon-button';
+  }
+
+  if (!empty($modifier['justify'])) {
+    $attributes['class'][] = 'uk-icon-justify';
+  }
+
+  if (!empty($link)) {
+    $text = '<i' . drupal_attributes($attributes) . '></i> ' . t('@text', array('@text' => $link['text']));
+    $options = $link['options'];
+    $output .= l($text, $link['path'], $options);
+  }
+  elseif (!empty($modifier['hover']) || !empty($modifier['button'])) {
+    $text = '';
+    $path = '#';
+    $options['attributes'] = $attributes;
+    $options['external'] = TRUE;
+
+    $output .= l(t('@text', array('@text' => $text)), $path, $options);
+  }
+  else {
+    $output .= '<i' . drupal_attributes($attributes) . '></i>';
+  }
+
+  return $output;
 }
 
 /**
@@ -741,6 +859,7 @@ function uikit_form_element_label($variables) {
   $type = !empty($element['#type']) ? $element['#type'] : FALSE;
   $checkbox = $type && $type === 'checkbox';
   $radio = $type && $type === 'radio';
+  $attributes = array();
 
   if (!$checkbox && !$radio) {
     $attributes['class'][] = 'uk-form-label';

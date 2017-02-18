@@ -22,6 +22,13 @@
 .uk-layout-sidebar {
   background: #0080ff;
 }
+.vertical-tabs-pane > .fieldset-wrapper > .fieldset-description {
+  padding: 5px 0 10px;
+}
+
+/**
+ * Layout settings.
+ */
 #edit-standard-layout .uk-layout-wrapper {
   height: 99px;
   width: 176px;
@@ -160,6 +167,7 @@
 #edit-device-height .form-type-textfield input[type=text] {
   max-width: 150px;
 }
+
 /**
  * UIkit subnav styles.
  */

@@ -20,23 +20,36 @@ function uikit_get_cdn_assets($font_awesome_version = '4.7.0', $jquery_version =
   $uikit_style = theme_get_setting('base_style', $theme_key);
   $uikit_css = 'uikit.min.css';
 
-  switch ($uikit_style) {
-    case 'almost-flat':
-      $uikit_css = 'uikit.almost-flat.min.css';
-      break;
+  if ($uikit_style == 'customizer-css') {
+    $customizer_css = theme_get_setting('customizer_css', $theme_key);
+    $file = file_load($customizer_css['fid']);
 
-    case 'gradient':
-      $uikit_css = 'uikit.gradient.min.css';
-      break;
+    drupal_add_css($file->uri, array(
+      'group' => CSS_THEME,
+      'every_page' => TRUE,
+      'weight' => -100,
+      'version' => $uikit_version,
+    ));
   }
+  else {
+    switch ($uikit_style) {
+      case 'almost-flat':
+        $uikit_css = 'uikit.almost-flat.min.css';
+        break;
 
-  drupal_add_css("//cdnjs.cloudflare.com/ajax/libs/uikit/$uikit_version/css/$uikit_css", array(
-    'type' => 'external',
-    'group' => CSS_THEME,
-    'every_page' => TRUE,
-    'weight' => -100,
-    'version' => $uikit_version,
-  ));
+      case 'gradient':
+        $uikit_css = 'uikit.gradient.min.css';
+        break;
+    }
+
+    drupal_add_css("//cdnjs.cloudflare.com/ajax/libs/uikit/$uikit_version/css/$uikit_css", array(
+      'type' => 'external',
+      'group' => CSS_THEME,
+      'every_page' => TRUE,
+      'weight' => -100,
+      'version' => $uikit_version,
+    ));
+  }
 
   drupal_add_css("//cdnjs.cloudflare.com/ajax/libs/font-awesome/$font_awesome_version/css/font-awesome.css", array(
     'type' => 'external',

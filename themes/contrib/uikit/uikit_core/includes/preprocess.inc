@@ -747,29 +747,10 @@ function uikit_preprocess_fieldset(&$variables) {
  */
 function uikit_preprocess_form(&$variables) {
   global $theme_key;
-  $element = $variables['element'];
-  $children = $element['#children'];
-
-  $form_build_id = isset($element['form_build_id']['#children']) ? $element['form_build_id']['#children'] : '';
-  $form_token = isset($element['form_token']['#children']) ? $element['form_token']['#children'] : '';
-  $form_id = isset($element['form_id']['#children']) ? $element['form_id']['#children'] : '';
 
   // Add the uk-form class to all forms.
-  $variables['element']['#attributes']['class'] = array('uk-form');
+  $variables['element']['#attributes']['class'][] = 'uk-form';
   $variables['element']['#attributes']['class'][] = 'uk-form-stacked';
-
-  if ($form_build_id) {
-    $children = str_replace($form_build_id, '', $children);
-  }
-  if ($form_token) {
-    $children = str_replace($form_token, '', $children);
-  }
-  if ($form_id) {
-    $children = str_replace($form_id, '', $children);
-  }
-
-  $children .= $form_build_id . $form_token . $form_id;
-  $variables['element']['#children'] = $children;
 
   // Retrieve the advanced form component CDN assets.
   $uikit_style = theme_get_setting('base_style', $theme_key);
