@@ -749,7 +749,7 @@ function uikit_preprocess_form(&$variables) {
   global $theme_key;
 
   // Add the uk-form class to all forms.
-  $variables['element']['#attributes']['class'][] = 'uk-form';
+  $variables['element']['#attributes']['class'] = array('uk-form');
   $variables['element']['#attributes']['class'][] = 'uk-form-stacked';
 
   // Retrieve the advanced form component CDN assets.
