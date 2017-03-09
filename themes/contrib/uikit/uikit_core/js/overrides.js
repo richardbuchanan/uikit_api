@@ -6,17 +6,12 @@
 (function ($) {
   'use strict';
 
-  $('a').each(function () {
-    var href = $(this).attr('href');
+  $(function() {
+    var navbar = $('.uk-navbar-nav');
 
-    if (href === '# ') {
-      $(this).attr('href', '#');
-
-      if ($(this).parent('[data-uk-dropdown]').length) {
-        $(this).attr('href', '').on('click', function (e) {
-          e.preventDefault();
-        });
-      }
-    }
+    // Prevent navbar parent links from being used as a link when clicked.
+    navbar.on('click', '[href="#"], [href=""]', function (e) {
+      e.preventDefault();
+    }).find('[href="#"]').prop('href', '');
   });
 })(jQuery);

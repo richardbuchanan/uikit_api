@@ -365,128 +365,44 @@ function uikit_preprocess_page(&$variables) {
 
   // Move the main and secondary menus into variables to set the attributes
   // accordingly.
-  $navbar_main = '';
-  $navbar_secondary = '';
-  $navbar_menus = '';
-  $offcanvas_main = '';
-  $offcanvas_secondary = '';
+  $variables['navbar_primary'] = FALSE;
+  $variables['navbar_secondary'] = FALSE;
+  $variables['offcanvas_primary'] = FALSE;
+  $variables['offcanvas_secondary'] = FALSE;
 
+  // Provide menu trees and theme wrappers for the navbar and offcanvas menus.
   if ($variables['main_menu']) {
-    $main_menu_name = variable_get('menu_main_links_source', 'main-menu');
-    $main_menu_tree = menu_tree($main_menu_name);
-    $main_menu_tree['#theme_wrappers'] = array('menu_tree__main_menu');
-    $main_menu_tree__offcanvas = $main_menu_tree;
-    $main_menu_tree__offcanvas['#theme_wrappers'] = array('menu_tree__main_menu__offcanvas');
+    // Primary navbar menu.
+    $variables['navbar_primary'] = menu_tree(variable_get('menu_main_links_source', 'main-menu'));
+    $variables['navbar_primary']['#theme_wrappers'] = array('menu_tree__navbar');
 
-    foreach ($main_menu_tree as $key => $value) {
-      $below = is_array($value) && (isset($value['#below']) && !empty($value['#below'])) ? $value['#below'] : 0;
+    // Primary offcanvas menu.
+    $variables['offcanvas_primary'] = menu_tree(variable_get('menu_main_links_source', 'main-menu'));
+    $variables['offcanvas_primary']['#theme_wrappers'] = array('menu_tree__offcanvas');
 
-      if ($below) {
-        $main_menu_tree[$key]['#below']['#theme_wrappers'] = array('menu_tree__main_menu__dropdown');
+    // Primary offcanvas below menus.
+    foreach ($variables['offcanvas_primary'] as $key => $value) {
+      if (is_array($value) && isset($value['#below']) && !empty($value['#below'])) {
+        $variables['offcanvas_primary'][$key]['#below']['#theme_wrappers'] = array('menu_tree__offcanvas__below');
       }
     }
-
-    foreach ($main_menu_tree__offcanvas as $key => $value) {
-      $theme_menu_link = is_array($value) && isset($value['#theme']) ? $value['#theme'] : 0;
-      $below = is_array($value) && (isset($value['#below']) && !empty($value['#below'])) ? $value['#below'] : 0;
-
-      if ($theme_menu_link) {
-        $main_menu_tree__offcanvas[$key]['#theme'] = 'menu_link__offcanvas';
-      }
-
-      if ($below) {
-        $main_menu_tree__offcanvas[$key]['#below']['#theme_wrappers'] = array('menu_tree__main_menu__offcanvas__dropdown');
-      }
-    }
-
-    if (theme_get_setting('main_menu_alignment', $theme_key)) {
-      $navbar_main .= '<div id="navbar-flip--main-menu" class="uk-navbar-flip">';
-    }
-
-    $navbar_main .= drupal_render($main_menu_tree);
-
-    if (theme_get_setting('main_menu_alignment', $theme_key)) {
-      $navbar_main .= '</div>';
-    }
-
-    $offcanvas_main = drupal_render($main_menu_tree__offcanvas);
   }
-
   if ($variables['secondary_menu']) {
-    $secondary_menu_name = variable_get('menu_secondary_links_source', 'user-menu');
-    $secondary_menu_tree = menu_tree($secondary_menu_name);
-    $secondary_menu_tree['#theme_wrappers'] = array('menu_tree__secondary_menu');
-    $secondary_menu_tree__offcanvas = $secondary_menu_tree;
-    $secondary_menu_tree__offcanvas['#theme_wrappers'] = array('menu_tree__secondary_menu__offcanvas');
+    // Secondary navbar menu.
+    $variables['navbar_secondary'] = menu_tree(variable_get('menu_secondary_links_source', 'user-menu'));
+    $variables['navbar_secondary']['#theme_wrappers'] = array('menu_tree__navbar_flip');
 
-    foreach ($secondary_menu_tree as $key => $value) {
-      $below = is_array($value) && (isset($value['#below']) && !empty($value['#below'])) ? $value['#below'] : 0;
+    // Secondary offcanvas menu.
+    $variables['offcanvas_secondary'] = menu_tree(variable_get('menu_secondary_links_source', 'user-menu'));
+    $variables['offcanvas_secondary']['#theme_wrappers'] = array('menu_tree__offcanvas');
 
-      if ($below) {
-        $secondary_menu_tree[$key]['#below']['#theme_wrappers'] = array('menu_tree__secondary_menu__dropdown');
-      }
-    }
-
-    foreach ($secondary_menu_tree__offcanvas as $key => $value) {
-      $theme_menu_link = is_array($value) && isset($value['#theme']) ? $value['#theme'] : 0;
-      $below = is_array($value) && (isset($value['#below']) && !empty($value['#below'])) ? $value['#below'] : 0;
-
-      if ($theme_menu_link) {
-        $main_menu_tree__offcanvas[$key]['#theme'] = 'menu_link__offcanvas';
-      }
-
-      if ($below) {
-        $main_menu_tree__offcanvas[$key]['#below']['#theme_wrappers'] = array('menu_tree__secondary_menu__offcanvas__dropdown');
-      }
-    }
-
-    if (theme_get_setting('secondary_menu_alignment', $theme_key)) {
-      $navbar_secondary .= '<div id="navbar-flip--secondary-menu" class="uk-navbar-flip">';
-    }
-
-    $navbar_secondary .= drupal_render($secondary_menu_tree);
-
-    if (theme_get_setting('secondary_menu_alignment', $theme_key)) {
-      $navbar_secondary .= '</div>';
-    }
-
-    $offcanvas_secondary = drupal_render($secondary_menu_tree__offcanvas);
-  }
-
-  // Place additional menus in the navbar from the theme settings.
-  $menus = menu_get_menus();
-  foreach ($menus as $menu_name => $menu_title) {
-    $menu_links = str_replace('-', '_', $menu_name);
-
-    if (theme_get_setting($menu_name . '_in_navbar', $theme_key)) {
-      $navbar_menu = menu_navigation_links($menu_name);
-
-      if (theme_get_setting($menu_links . '_additional_alignment', $theme_key)) {
-        $navbar_menus .= "<div id=\"navbar-flip--$menu_name\" class=\"uk-navbar-flip\">";
-      }
-      $navbar_menus .= theme('links__' . $menu_links, array(
-        'links' => $navbar_menu,
-        'attributes' => array(
-          'id' => $menu_name,
-          'class' => array('uk-navbar-nav', 'uk-hidden-small'),
-        ),
-        'heading' => array(
-          'text' => t('@title', array('@title' => $menu_title)),
-          'level' => 'h2',
-          'class' => 'uk-hidden',
-        ),
-      ));
-      if (theme_get_setting($menu_links . '_alignment', $theme_key)) {
-        $navbar_menus .= '</div>';
+    // Primary offcanvas below menus.
+    foreach ($variables['offcanvas_secondary'] as $key => $value) {
+      if (is_array($value) && isset($value['#below']) && !empty($value['#below'])) {
+        $variables['offcanvas_secondary'][$key]['#below']['#theme_wrappers'] = array('menu_tree__offcanvas__below');
       }
     }
   }
-
-  $variables['navbar_main'] = $navbar_main;
-  $variables['navbar_secondary'] = $navbar_secondary;
-  $variables['navbar_menus'] = $navbar_menus;
-  $variables['offcanvas_main'] = $offcanvas_main;
-  $variables['offcanvas_secondary'] = $offcanvas_secondary;
 
   // Create variable for breadcrumb display setting.
   $variables['display_breadcrumb'] = theme_get_setting('display_breadcrumbs', $theme_key);
@@ -749,7 +665,7 @@ function uikit_preprocess_form(&$variables) {
   global $theme_key;
 
   // Add the uk-form class to all forms.
-  $variables['element']['#attributes']['class'] = array('uk-form');
+  $variables['element']['#attributes']['class'][] = 'uk-form';
   $variables['element']['#attributes']['class'][] = 'uk-form-stacked';
 
   // Retrieve the advanced form component CDN assets.
@@ -784,22 +700,6 @@ function uikit_preprocess_item_list(&$variables) {
 }
 
 /**
- * Implements hook_preprocess_HOOK().
- */
-function uikit_preprocess_link(&$variables) {
-  $path = isset($variables['path']) ? $variables['path'] : 0;
-  $path_alias = $path ? drupal_get_path_alias($path) : 0;
-
-  // Remove the path and add some options to <empty> paths for dropdown menu
-  // support.
-  if ($path && $path_alias == '<empty>') {
-    $variables['path'] = '';
-    $variables['options']['fragment'] = ' ';
-    $variables['options']['external'] = TRUE;
-  }
-}
-
-/**
  * Implements hook_preprocess_HOOK() for theme_links().
  */
 function uikit_preprocess_links(&$variables) {
@@ -818,46 +718,15 @@ function uikit_preprocess_links(&$variables) {
  * Implements template_preprocess_HOOK() for theme_menu_link().
  */
 function uikit_preprocess_menu_link(&$variables) {
-  global $user;
+  $attributes = $variables['element']['#attributes'];
 
-  $classes = isset($variables['element']['#attributes']['class']) ? $variables['element']['#attributes']['class'] : array();
-  $expanded = array_keys($classes, 'expanded');
-  $leaf = array_keys($classes, 'leaf');
-  $active_trail = array_keys($classes, 'active-trail');
-  $theme_hook = isset($variables['theme_hook_suggestion']) ? $variables['theme_hook_suggestion'] : 0;
-
-  if ($theme_hook) {
-    unset($variables['theme_hook_suggestion']);
-    $variables['theme_hook_suggestions'] = array(
-      'menu_link',
-      $theme_hook,
-    );
-  }
-
-  // Remove expanded classes.
-  foreach ($expanded as $expanded_key) {
-    unset($variables['element']['#attributes']['class'][$expanded_key]);
-    $variables['element']['#attributes']['class'][] = 'uk-parent';
-
-    if ($theme_hook == 'menu_link__main_menu') {
-      $variables['element']['#attributes']['data-uk-dropdown'] = '';
+  if (isset($attributes['class']) && ($key = array_search('leaf', $attributes['class'])) !== FALSE) {
+    if (count($attributes['class']) == 1) {
+      unset($variables['element']['#attributes']['class']);
     }
-
-    if ($theme_hook == 'menu_link__offcanvas') {
-      $variables['element']['#attributes']['aria-expanded'] = 'false';
+    else {
+      unset($variables['element']['#attributes']['class'][$key]);
     }
-  }
-
-  // Remove leaf classes.
-  foreach ($leaf as $leaf_key) {
-    unset($variables['element']['#attributes']['class'][$leaf_key]);
-  }
-
-  // Add uk-active class to active links.
-  $href = $variables['element']['#href'];
-  $user_profile = $href === 'user' && $_GET['q'] === "user/$user->uid";
-  if ($href == $_GET['q'] || ($href == '<front>' && drupal_is_front_page()) || !empty($active_trail) || $user_profile) {
-    $variables['element']['#attributes']['class'][] = 'uk-active';
   }
 }
 
@@ -886,45 +755,6 @@ function uikit_preprocess_menu_local_tasks(&$variables) {
   }
   if ($secondary_style) {
     $variables['secondary_attributes_array']['class'][] = $secondary_style;
-  }
-}
-
-/**
- * Implements tempalte_preprocess_menu_tree().
- */
-function uikit_preprocess_menu_tree(&$variables) {
-  $theme_hook = isset($variables['theme_hook_suggestion']) ? $variables['theme_hook_suggestion'] : 0;
-  $variables['theme_hook_suggestions'] = array('menu_tree');
-
-  if ($theme_hook) {
-    unset($variables['theme_hook_suggestion']);
-    $variables['theme_hook_suggestions'][] = $theme_hook;
-  }
-}
-
-/**
- * Preprocess function for theme_uikit_navbar().
- */
-function uikit_preprocess_uikit_navbar(&$variables) {
-  $items = $variables['items'];
-
-  foreach ($items as $id => $item) {
-    foreach ($item as $key => $value) {
-      $path = drupal_get_path_alias($variables['items'][$id][$key]['href']);
-      $has_attributes = isset($variables['items'][$id][$key]['attributes']);
-      $attributes = $has_attributes ? $variables['items'][$id][$key]['attributes'] : array();
-
-      // Append active class.
-      if (uikit_get_active_path($path)) {
-        $attributes['class'][] = 'uk-active';
-      }
-
-      if ($path == '<parent>') {
-        $attributes['class'][] = 'uk-parent';
-      }
-
-      $variables['items'][$id][$key]['attributes'] = $attributes;
-    }
   }
 }
 

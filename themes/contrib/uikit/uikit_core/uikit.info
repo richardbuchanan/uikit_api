@@ -34,16 +34,7 @@ settings[navbar_centering] = 1
 settings[navbar_attached] = 0
 settings[navbar_margin_top] = 1
 settings[navbar_margin_bottom] = 0
-settings[main_menu_alignment] = 0
-settings[secondary_menu_alignment] = 1
 settings[primary_tasks_style] = 'uk-subnav-pill'
 settings[secondary_tasks_style] = 'uk-subnav-line'
 settings[display_breadcrumbs] = 1
 settings[breakcrumbs_home_link] = 1
-
-; Information added by Drupal.org packaging script on 2017-02-18
-version = "7.x-2.0-alpha1"
-core = "7.x"
-project = "uikit"
-datestamp = "1487397189"
-

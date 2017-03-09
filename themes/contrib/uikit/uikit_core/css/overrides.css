@@ -356,6 +356,23 @@
 }
 
 /**
+ * Navs
+ *
+ * 1. By default UIkit does not support 3rd level menu items in navbars, and 2nd level headers and dividers in offcanvas
+ *    menus, so we hide them. We keep them in the DOM so themers can override these selectors if they wish to.
+ * 2. Stacked offcanvas menus will show too much border and box-shadow, so we remove them so stacked menus blend well.
+ */
+.uk-dropdown .uk-nav ul,
+.uk-nav-offcanvas .uk-nav-sub .uk-nav-header,
+.uk-nav-offcanvas .uk-nav-sub .uk-nav-divider {
+  display: none; /* 1 */
+}
+.uk-nav-offcanvas+.uk-nav-offcanvas>li:first-of-type>a {
+  border-top: none;
+  box-shadow: none;
+}
+
+/**
  * Table filter tips
  */
 .table-filter-tips td.get {

@@ -41,18 +41,6 @@ function uikit_theme() {
         ),
       ),
     ),
-    'uikit_navbar' => array(
-      'function' => 'theme_uikit_navbar',
-      'variables' => array(
-        'items' => array(
-          'left' => array(),
-          'right' => array(),
-        ),
-        'attributes' => array(
-          'class' => array('uk-navbar'),
-        ),
-      ),
-    ),
     'uikit_panel' => array(
       'function' => 'theme_uikit_panel',
       'variables' => array(
@@ -241,98 +229,6 @@ function theme_uikit_list($variables) {
 
     $output .= '</ul>';
   }
-
-  return $output;
-}
-
-/**
- * Returns HTML for a navbar component.
- *
- * @param array $variables
- *   An associative array containing:
- *   - items: An array containing:
- *     - left: The tree's items to display on the left.
- *     - right: The tree's items to display on the right.
- *   - attributes: The attributes applied to the list element.
- *
- * @return string
- *   Returns formatted HTML for a navbar.
- *
- * @ingroup uikit_themeable
- */
-function theme_uikit_navbar($variables) {
-  $items = $variables['items'];
-  $attributes = $variables['attributes'];
-  $output = '<nav' . drupal_attributes($attributes) . '>';
-
-  foreach ($items as $id => $item) {
-
-    if ($id == 'right') {
-      // Output div to group and align navigations and items to the right.
-      $output .= '<div class="uk-navbar-flip">';
-    }
-
-    // Output the element to create a navigation.
-    $output .= '<ul class="uk-navbar-nav">';
-
-    foreach ($item as $value) {
-      $text = $value['title'];
-      $attributes = $value['attributes'];
-      $options = isset($value['options']) ? $value['options'] : array();
-      $path = drupal_get_path_alias($value['href']);
-      $parent = $path == '<parent>';
-
-      if ($parent) {
-        $attributes['data-uk-dropdown'] = '';
-      }
-
-      // Output the list item.
-      $output .= '<li' . drupal_attributes($attributes) . '>';
-
-      if ($parent && !empty($value['below'])) {
-        $below = $value['below'];
-
-        // Output the parent item's link without an href attribute.
-        $output .= '<a>' . $text . '</a>';
-
-        $output .= '<div class="uk-dropdown uk-dropdown-navbar">';
-        $output .= '<ul class="uk-nav uk-nav-navbar">';
-
-        foreach ($below as $below_item) {
-          if ($below_item['href'] == '<nav-header>') {
-            $output .= '<li class="uk-nav-header">' . $below_item['title'] . '</li>';
-          }
-          elseif ($below_item['href'] == '<nav-divider>') {
-            $output .= '<li class="uk-nav-divider"></li>';
-            $output .= '<li>';
-            $output .= l($below_item['title'], $below_item['href']);
-            $output .= '</li>';
-          }
-          else {
-            $output .= '<li>';
-            $output .= l($below_item['title'], $below_item['href']);
-            $output .= '</li>';
-          }
-        }
-
-        $output .= '</ul>';
-        $output .= '</div>';
-      }
-      else {
-        $output .= l($text, $path, $options);
-      }
-
-      $output .= '</li>';
-    }
-
-    if ($id == 'right') {
-      $output .= '</div>';
-    }
-
-    $output .= '</ul>';
-  }
-
-  $output .= '</nav>';
 
   return $output;
 }
@@ -920,6 +816,30 @@ function uikit_form_element_label($variables) {
 }
 
 /**
+ * Implements theme_link().
+ */
+function uikit_link($variables) {
+  $path = $variables['path'];
+  $options = $variables['options'];
+  $attributes = $variables['options']['attributes'];
+  $text = $variables['options']['html'] ? $variables['text'] : check_plain($variables['text']);
+
+  switch ($path) {
+    case '<uk-nav-header>':
+      return $text;
+
+    case '<uk-parent>':
+      return '<a href="#"' . drupal_attributes($attributes) . '>' . $text . '</a>';
+
+    case '<uk-nav-divider>':
+      return '';
+
+    default:
+      return '<a href="' . check_plain(url($path, $options)) . '"' . drupal_attributes($attributes) . '>' . $text . '</a>';
+  }
+}
+
+/**
  * Implements theme_links().
  */
 function uikit_links($variables) {
@@ -1088,33 +1008,85 @@ function uikit_links__node($variables) {
 }
 
 /**
- * Implements theme_menu_link() for main menu links.
+ * Implements theme_menu_link().
  */
-function uikit_menu_link__main_menu($variables) {
+function uikit_menu_link(array $variables) {
+  global $user;
   $element = $variables['element'];
   $sub_menu = '';
 
-  if ($element['#below']) {
-    $sub_menu = drupal_render($element['#below']);
+  $options = !empty($element['#localized_options']) ? $element['#localized_options'] : array();
+
+  // Check plain title if "html" is not set, otherwise, filter for XSS attacks.
+  $title = empty($options['html']) ? check_plain($element['#title']) : filter_xss_admin($element['#title']);
+
+  // Ensure "html" is now enabled so l() doesn't double encode. This is now
+  // safe to do since both check_plain() and filter_xss_admin() encode HTML
+  // entities. See: https://www.drupal.org/node/2854978
+  $options['html'] = TRUE;
+
+  $href = $element['#href'];
+  $attributes = !empty($element['#attributes']) ? $element['#attributes'] : array();
+
+  $front_page = $href == '<front>' && drupal_is_front_page();
+  $user_profile = $href === 'user' && $_GET['q'] === "user/$user->uid";
+
+  if ($href == $_GET['q'] || $front_page || $user_profile) {
+    $attributes['class'][] = 'uk-active';
   }
 
-  $output = l($element['#title'], $element['#href'], $element['#localized_options']);
-  return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
-}
-
-/**
- * Implements theme_menu_link() for offcanvas menu links.
- */
-function uikit_menu_link__offcanvas($variables) {
-  $element = $variables['element'];
-  $sub_menu = '';
-
-  if ($element['#below']) {
-    $sub_menu = drupal_render($element['#below']);
+  // Remove expanded classes.
+  if (isset($attributes['class']) && ($key = array_search('expanded', $attributes['class'])) !== FALSE) {
+    unset($attributes['class'][$key]);
   }
 
-  $output = l($element['#title'], $element['#href'], $element['#localized_options']);
-  return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+  if ($element['#below']) {
+    $offcanvas = in_array('menu_tree__offcanvas__below', $element['#below']['#theme_wrappers']);
+
+    // Prevent dropdown functions from being added to management menu so it
+    // does not affect the navbar module.
+    if (($element['#original_link']['menu_name'] == 'management') && (module_exists('navbar'))) {
+      $sub_menu = drupal_render($element['#below']);
+    }
+    elseif ($offcanvas) {
+      $sub_menu = drupal_render($element['#below']);
+
+      // Generate as standard dropdown.
+      $attributes['class'][] = 'uk-parent';
+      $attributes['aria-expanded'] = 'false';
+    }
+    elseif ((!empty($element['#original_link']['depth'])) && ($element['#original_link']['depth'] == 1)) {
+      // Use our own theme wrapper.
+      unset($element['#below']['#theme_wrappers']);
+      $sub_menu = '<div class="uk-dropdown uk-dropdown-navbar uk-dropdown-bottom" aria-hidden="true">';
+      $sub_menu .= '<ul class="uk-nav uk-nav-navbar">' . drupal_render($element['#below']) . '</ul>';
+      $sub_menu .= '</div>';
+
+      // Generate as standard dropdown.
+      $attributes['class'][] = 'uk-parent';
+      $attributes['data-uk-dropdown'] = '';
+      $attributes['aria-haspopup'] = 'true';
+      $attributes['aria-expanded'] = 'false';
+    }
+    elseif ((!empty($element['#original_link']['depth'])) && ($element['#original_link']['depth'] == 2)) {
+      // Use our own theme wrapper.
+      unset($element['#below']['#theme_wrappers']);
+      $sub_menu .= '<ul>' . drupal_render($element['#below']) . '</ul>';
+    }
+  }
+
+  switch ($href) {
+    case '<uk-nav-header>':
+      $attributes['class'][] = 'uk-nav-header';
+      return '<li' . drupal_attributes($attributes) . '>' . $title . "</li>\n";
+
+    case '<uk-nav-divider>':
+      $attributes['class'][] = 'uk-nav-divider';
+      return '<li' . drupal_attributes($attributes) . '>' . l($title, $href, $options) . $sub_menu . "</li>\n";
+
+    default:
+      return '<li' . drupal_attributes($attributes) . '>' . l($title, $href, $options) . $sub_menu . "</li>\n";
+  }
 }
 
 /**
@@ -1192,68 +1164,34 @@ function uikit_menu_local_tasks($variables) {
  * Implements theme_menu_tree().
  */
 function uikit_menu_tree($variables) {
-  return '<ul class="uk-nav menu">' . $variables['tree'] . '</ul>';
+  return '<ul class="menu">' . $variables['tree'] . '</ul>';
 }
 
 /**
- * Implements theme_menu_tree() for the main menu.
+ * Implements theme_menu_tree() for the primary menu.
  */
-function uikit_menu_tree__main_menu($variables) {
+function uikit_menu_tree__navbar($variables) {
   return '<ul class="uk-navbar-nav uk-hidden-small">' . $variables['tree'] . '</ul>';
-}
-
-/**
- * Implements theme_menu_tree() for main menu dropdowns.
- */
-function uikit_menu_tree__main_menu__dropdown($variables) {
-  $output = '<div class="uk-dropdown uk-dropdown-navbar uk-dropdown-bottom">';
-  $output .= '<ul class="uk-nav uk-nav-navbar">' . $variables['tree'] . '</ul>';
-  $output .= '</div>';
-  return $output;
-}
-
-/**
- * Implements theme_menu_tree() for the offcanvas main menu.
- */
-function uikit_menu_tree__main_menu__offcanvas($variables) {
-  return '<ul class="uk-nav uk-nav-offcanvas uk-nav-parent-icon" data-uk-nav="{multiple:true}">' . $variables['tree'] . '</ul>';
-}
-
-/**
- * Implements theme_menu_tree() for offcanvas main menu dropdowns.
- */
-function uikit_menu_tree__main_menu__offcanvas__dropdown($variables) {
-  return '<ul class="uk-nav-sub" role="menu">' . $variables['tree'] . '</ul>';
 }
 
 /**
  * Implements theme_menu_tree() for the secondary menu.
  */
-function uikit_menu_tree__secondary_menu($variables) {
-  return '<ul class="uk-navbar-nav uk-hidden-small">' . $variables['tree'] . '</ul>';
+function uikit_menu_tree__navbar_flip($variables) {
+  return '<div class="uk-navbar-flip uk-hidden-small"><ul class="uk-navbar-nav menu">' . $variables['tree'] . '</ul></div>';
 }
 
 /**
- * Implements theme_menu_tree() for secondary menu dropdowns.
+ * Implements theme_menu_tree() for offcanvas menus.
  */
-function uikit_menu_tree__secondary_menu__dropdown($variables) {
-  $output = '<div class="uk-dropdown uk-dropdown-navbar uk-dropdown-bottom">';
-  $output .= '<ul class="uk-nav uk-nav-navbar">' . $variables['tree'] . '</ul>';
-  $output .= '</div>';
-  return $output;
+function uikit_menu_tree__offcanvas($variables) {
+  return '<ul class="uk-nav uk-nav-offcanvas uk-nav-parent-icon" data-uk-nav>' . $variables['tree'] . '</ul>';
 }
 
 /**
- * Implements theme_menu_tree() for the offcanvas secondary menu.
+ * Implements theme_menu_tree() for offcanvas menus.
  */
-function uikit_menu_tree__secondary_menu__offcanvas($variables) {
-  return '<ul class="uk-nav uk-nav-offcanvas uk-nav-parent-icon" data-uk-nav="{multiple:true}">' . $variables['tree'] . '</ul>';
-}
-
-/**
- * Implements theme_menu_tree() for offcanvas secondary menu dropdowns.
- */
-function uikit_menu_tree__secondary_menu__offcanvas__dropdown($variables) {
+function uikit_menu_tree__offcanvas__below($variables) {
   return '<ul class="uk-nav-sub" role="menu">' . $variables['tree'] . '</ul>';
 }
 
