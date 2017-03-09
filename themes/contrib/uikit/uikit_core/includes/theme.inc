@@ -139,34 +139,35 @@ function theme_uikit_icon($variables) {
   $attributes = $variables['attributes'];
   $output = '';
 
+  // Add the uk-icon-* class.
   $attributes['class'][] = "uk-icon-$icon";
 
+  // Add modifier classes.
   if (!empty($modifier['size'])) {
     $attributes['class'][] = 'uk-icon-' . $modifier['size'];
   }
-
   if (!empty($modifier['spin'])) {
     $attributes['class'][] = 'uk-icon-spin';
   }
-
   if (!empty($modifier['hover'])) {
     $attributes['class'][] = 'uk-icon-hover';
   }
-
   if (!empty($modifier['button'])) {
     $attributes['class'][] = 'uk-icon-button';
   }
-
   if (!empty($modifier['justify'])) {
     $attributes['class'][] = 'uk-icon-justify';
   }
 
   if (!empty($link)) {
+    // Render icon as a link using l(). It is up to the user to pass variables
+    // to l().
     $text = '<i' . drupal_attributes($attributes) . '></i> ' . t('@text', array('@text' => $link['text']));
     $options = $link['options'];
     $output .= l($text, $link['path'], $options);
   }
   elseif (!empty($modifier['hover']) || !empty($modifier['button'])) {
+    // Render icon as an empty link using l().
     $text = '';
     $path = '#';
     $options['attributes'] = $attributes;
@@ -175,6 +176,7 @@ function theme_uikit_icon($variables) {
     $output .= l(t('@text', array('@text' => $text)), $path, $options);
   }
   else {
+    // Render the default icon element.
     $output .= '<i' . drupal_attributes($attributes) . '></i>';
   }
 
