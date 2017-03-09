@@ -16,6 +16,13 @@
 function uikit_theme() {
   // The following theme implementations can be found below this hook.
   return array(
+    'uikit_box' => array(
+      'function' => 'theme_uikit_box',
+      'variables' => array(
+        'content' => NULL,
+        'modifier' => NULL,
+      ),
+    ),
     'uikit_icon' => array(
       'function' => 'theme_uikit_icon',
       'variables' => array(
@@ -64,6 +71,36 @@ function uikit_theme() {
       ),
     ),
   );
+}
+
+/**
+ * Returns HTML for a box element.
+ *
+ * Separates content sections by bundling them in blocks with different styles.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - content: The content to add to the panel.
+ *   - modifier: Applies different background colors and paddings. If two
+ *     consecutive blocks have the same background color, the padding will
+ *     automatically be divided. Modifiers provided by UIkit:
+ *     - uk-block-default: (Default) Adds the default background color,
+ *       usually white or similar.
+ *     - uk-block-muted: Adds a light background color.
+ *     - uk-block-primary: Adds a primary background color.
+ *     - uk-block-secondary: Adds a another background color, usually a dark
+ *       one.
+ *
+ * @return string
+ *   Returns formatted HTML for a box component.
+ *
+ * @ingroup uikit_themeable
+ */
+function theme_uikit_box($variables) {
+  $output = '';
+
+  return $output;
+
 }
 
 /**

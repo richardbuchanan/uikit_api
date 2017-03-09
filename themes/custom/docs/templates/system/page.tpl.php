@@ -81,10 +81,9 @@
         <span class="uk-margin-left uk-margin-right"><?php print $site_name; ?></span>
       </a>
 
-      <?php if ($main_menu || $secondary_menu || $navbar_menus): ?>
-        <?php print $navbar_main; ?>
-        <?php print $navbar_secondary; ?>
-        <?php print $navbar_menus; ?>
+      <?php if ($main_menu || $secondary_menu): ?>
+        <?php print render($navbar_primary); ?>
+        <?php print render($navbar_secondary); ?>
       <?php endif; ?>
 
       <a href="#offcanvas" class="uk-navbar-toggle uk-visible-small" data-uk-offcanvas></a>
@@ -163,11 +162,11 @@
   </div>
 <?php endif; ?>
 
-<?php if ($offcanvas_main || $offcanvas_secondary): ?>
+<?php if ($offcanvas_primary || $offcanvas_secondary): ?>
   <div id="offcanvas" class="uk-offcanvas">
-    <div class="uk-offcanvas-bar">
-      <?php print $offcanvas_main; ?>
-      <?php print $offcanvas_secondary; ?>
+    <div class="uk-offcanvas-bar" mode="push">
+      <?php print render($offcanvas_primary); ?>
+      <?php print render($offcanvas_secondary); ?>
     </div>
   </div>
 <?php endif; ?>
