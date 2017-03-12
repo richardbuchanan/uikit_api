@@ -1,9 +1,6 @@
-<div class="uk-panel">
-  <ul class="uk-subnav uk-subnav-line uk-flex-center">
-    <li><a href="https://www.drupal.org/project/uikit" target="_blank">Drupal Project Page</a></li>
-    <li><a href="https://www.drupal.org/project/issues/uikit?categories=All" target="_blank">Issues</a></li>
-    <li><a href="https://www.drupal.org/list-changes/uikit" target="_blank">Changelog</a></li>
-  </ul>
-  <p><i class="uk-icon-copyright"></i> <a href="http://www.yootheme.com" target="_blank">YOOtheme</a>, with love and caffeine, under the <a href="http://opensource.org/licenses/MIT" target="_blank">MIT license</a>.<br>Ported to Drupal by <a href="http://richardbuchanan.com" target="_blank">Richard Buchanan</a>.</p>
-  <a href="http://getuikit.com" target="_blank"><img src="/profiles/uikit_api/themes/custom/docs/images/logo_uikit.svg" width="90" height="30" title="UIkit" alt="UIkit"></a>
-</div>
+<ul class="uk-subnav uk-subnav-line uk-flex-center">
+  <li><a href="https://www.drupal.org/project/uikit" target="_blank">Drupal Project Page</a></li>
+  <li><a href="https://www.drupal.org/project/issues/uikit?categories=All" target="_blank">Issues</a></li>
+  <li><a href="https://www.drupal.org/list-changes/uikit" target="_blank">Changelog</a></li>
+</ul>
+<p><i class="uk-icon-copyright"></i> <a href="http://www.yootheme.com" target="_blank">YOOtheme</a>, with love and caffeine, under the <a href="http://opensource.org/licenses/MIT" target="_blank">MIT license</a>.<br>Ported to Drupal by <a href="http://richardbuchanan.com" target="_blank">Richard Buchanan</a>.</p>

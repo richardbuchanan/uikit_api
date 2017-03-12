@@ -14,6 +14,9 @@ function docs_companion_block_info() {
   $blocks['docs-companion-copyright'] = array(
     'info' => t('Docs copyright'),
   );
+  $blocks['uikit-project-information'] = array(
+    'info' => t('UIkit Project Information'),
+  );
   $blocks['uikit-resources'] = array(
     'info' => t('UIkit Resources'),
   );
@@ -31,6 +34,11 @@ function docs_companion_block_view($delta = '') {
     case 'docs-companion-copyright':
       $block['subject'] = '';
       $block['content'] = _docs_companion_copyright_block();
+      break;
+
+    case 'uikit-project-information':
+      $block['subject'] = '';
+      $block['content'] = _docs_companion_uikit_project_information();
       break;
 
     case 'uikit-resources':
@@ -110,6 +118,34 @@ function _docs_companion_uikit_resources() {
   return $output;
 }
 
+/**
+ * Constructs the content for the UIkit project information block.
+ *
+ * @return null|string
+ *   Returns the content for the UIkit project information block.
+ */
+function _docs_companion_uikit_project_information() {
+  $theme_path = drupal_get_path('theme', 'uikit');
+  $filename = $theme_path . '/uikit.info';
+  $info = drupal_parse_info_file($filename);
+  $version = $info['version'];
+  $date = date('F j, Y', $info['datestamp']);
+
+  $output = '<div class="uk-flex-center uk-margin-small-bottom"><a href="http://getuikit.com" target="_blank"><img src="/profiles/uikit_api/themes/custom/docs/images/logo_uikit.svg" width="90" height="30" title="UIkit" alt="UIkit"></a></div>';
+  $output .= '<ul class="uk-subnav uk-subnav-line uk-flex-center uk-margin-small-bottom">';
+  $output .= "<li>$version</li>";
+  $output .= "<li>$date</li>";
+  $output .= '</ul>';
+
+  return $output;
+}
+
+/**
+ * Page callback to redirect user to front page.
+ *
+ * The most important use of this callback is to redirect users from the default
+ * node uri to the API front page.
+ */
 function _docs_redirect_node_page() {
   drupal_goto('<front>');
 }
@@ -163,7 +199,7 @@ function _db_api_active_item() {
  * @param bool $parent_only
  *   Toggle determining whether or not to just return the parent group.
  *
- * @return string|FALSE
+ * @return string|false
  *   The group or parent group. FALSE on error.
  */
 function _db_api_find_group(array $docblock, $parent_only = FALSE) {
