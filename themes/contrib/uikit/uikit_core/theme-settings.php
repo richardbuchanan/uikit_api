@@ -621,38 +621,6 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
     '#default_value' => theme_get_setting('breakcrumbs_home_link', $theme_key),
   );
 
-  // Basic elements.
-  $form['elements'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Elements'),
-    '#description' => t("Style basic HTML elements, like tables and forms. These components use their own classes. They won't interfere with any default element styling."),
-    '#group' => 'uikit',
-  );
-
-  // Common components.
-  $form['common'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Common'),
-    '#description' => t("Here you'll find components that you often use within your content, like buttons, icons, badges, overlays, animations and much more."),
-    '#group' => 'uikit',
-  );
-
-  // Javascript components.
-  $form['javascript'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Javascript'),
-    '#description' => t('These components rely mostly on JavaScript to fade in hidden content, like dropdowns, modal dialogs, off-canvas bars and tooltips.'),
-    '#group' => 'uikit',
-  );
-
-  // Advanced components.
-  $form['components'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Components'),
-    '#description' => t("UIkit offers some advanced components that are not included in the UIkit core framework. Usually you wouldn't use these components in your everyday website."),
-    '#group' => 'uikit',
-  );
-
   // Create vertical tabs to place Drupal's default theme settings in.
   $form['basic_settings'] = array(
     '#type' => 'vertical_tabs',

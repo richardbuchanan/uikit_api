@@ -66,7 +66,7 @@
  * @divider
  *
  * @section requirements Requirements
- * There were originall two requirements in order for UIkit for Drupal to work
+ * There were originally two requirements in order for UIkit for Drupal to work
  * properly,
  * @del @link https://www.drupal.org/project/jquery_update jQuery Update 2.7+ running jQuery 1.10+ @endlink @enddel
  * and

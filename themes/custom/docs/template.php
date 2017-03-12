@@ -174,8 +174,9 @@ function docs_preprocess_link(&$variables) {
   $path = $variables['path'];
   $components = parse_url($path);
   $external = isset($components['host']) ? TRUE : FALSE;
+  $local = isset($components['host']) && $components['host'] == $_SERVER['HTTP_HOST'];
 
-  if ($external) {
+  if ($external && !$local) {
     $variables['options']['attributes']['target'] = '_blank';
     $variables['options']['html'] = TRUE;
   }

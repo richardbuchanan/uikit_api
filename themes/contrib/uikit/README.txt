@@ -3,6 +3,7 @@ CONTENTS OF THIS FILE
 
  * Introduction
  * Requirements
+ * Recommendations
  * Installation
  * Configuration
  * Maintainers
@@ -26,7 +27,18 @@ for customizing with very little requirements.
 REQUIREMENTS
 ------------
 
-jQuery Update 2.7+ running jQuery 1.10+
+There are no requirements to using UIkit.
+
+
+RECOMMENDATIONS
+------------
+
+The following modules are recommended and fully supported by the UIkit for
+Drupal theme.
+
+ * UIkit Components:
+   Provides additional components and functionality to the UIkit base theme.
+   https://www.drupal.org/project/uikit_components
 
 
 INSTALLATION
@@ -35,14 +47,6 @@ INSTALLATION
  * Install as you would normally install a contributed Drupal theme. See:
    https://www.drupal.org/getting-started/install-contrib/themes
    for further information.
-
- * Install jQuery Update 7.x-2.7 or higher as you would normally install a
-   contributed Drupal module. See:
-   https://www.drupal.org/documentation/install/modules-themes/modules-7
-   for further information.
-
- * Set the default jQuery version to 1.10 or higher at
-   admin/config/development/jquery_update.
 
 
 CONFIGURATION

@@ -1,0 +1,289 @@
+<?php
+/**
+ * @file
+ * Main module file.
+ */
+
+define('PROJECTSTATS_MODULE_URI', 'admin/config/system/projectstats');
+define('PROJECTSTATS_MODULE_URI_ARG_POSITION', 4);
+define('PROJECTSTATS_MODULE_DRUPAL_ORG_PREFIX', 'http://drupal.org/project/');
+define('PROJECTSTATS_PATTERN_INSTALLS', '/Reported installs:(.*?)sites currently report/s');
+define('PROJECTSTATS_PATTERN_DOWNLOADS', '/<li>Downloads:(.*?)</s');
+
+/**
+ * Implements hook_help().
+ */
+function projectstats_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#projectstats':
+      $output = t('<p>TODO:</p>');
+      return $output;
+  }
+}
+
+/**
+ * Implements hook_permission().
+ */
+function projectstats_permission() {
+  return array(
+    'administer projectstats' => array(
+      'title' => t('Administer Project stats module'),
+      'description' => t('Administer Project stats module'),
+    ),
+
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function projectstats_menu() {
+  $items = array();
+
+  $items['admin/config/system/projectstats'] = array(
+    'title' => 'Project stats',
+    'description' => 'Project stats configuration',
+    'page callback' => 'projectstats_list_page',
+    'file' => 'projectstats.admin.inc',
+    'access arguments' => array('administer projectstats'),
+  );
+
+  $items['admin/config/system/projectstats/add'] = array(
+    'title' => 'Add project',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('projectstats_form'),
+    'access arguments' => array('administer example_task entities'),
+    'file' => 'projectstats.admin.inc',
+    'type' => MENU_LOCAL_ACTION,
+    'tab_parent' => 'task',
+    'tab_root' => 'task',
+  );
+
+  $module_uri = PROJECTSTATS_MODULE_URI . '/%';
+  $module_uri_argument_position = PROJECTSTATS_MODULE_URI_ARG_POSITION;
+
+  $items[$module_uri . '/delete'] = array(
+    'title' => 'Delete',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('projectstats_delete_form'),
+    'access arguments' => array('administer projectstats'),
+    'file' => 'projectstats.admin.inc',
+  );
+
+  $items[$module_uri . '/edit'] = array(
+    'title' => 'Edit',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('projectstats_form'),
+    'access arguments' => array('administer projectstats'),
+    'file' => 'projectstats.admin.inc',
+
+  );
+
+  $items[$module_uri . '/update-data'] = array(
+    'title' => 'Edit',
+    'page callback' => 'projectstats_update_data_page',
+    'access arguments' => array('administer projectstats'),
+    'file' => 'projectstats.admin.inc',
+
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_cron().
+ */
+function projectstats_cron() {
+  // Get one project.
+  $query = db_select('projectstats', 'p');
+  $query->fields('p');
+  $query->orderBy('updated', 'ASC');
+  $query->range(0, 1);
+  $result = $query->execute();
+  $data = array();
+  while ($record = $result->fetchObject()) {
+    $project = (object) $record;
+  }
+  $pid = $project->pid;
+
+  // Update project data.
+  projectstats_project_update_data($pid);
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function projectstats_views_api($module = NULL, $api = NULL) {
+  return array("api" => "3.0");
+}
+
+/**
+ * Get one project object.
+ *
+ * @param $pid
+ *   Project ID.
+ *
+ * @return
+ *   Project object.
+ */
+function projectstats_load($pid) {
+  $projectstats_projects = &drupal_static(__FUNCTION__);
+  if (!isset($projectstats_projects[$pid])) {
+    $query = db_select('projectstats', 'p');
+    $query->fields('p');
+    $query->condition('pid', $pid);
+    $result = $query->execute();
+    $projectstats_projects[$pid] = $result->fetchObject();
+  }
+
+  return $projectstats_projects[$pid];
+}
+
+/**
+ * Load all project objects.
+ *
+ * @return
+ *   Array of project objects.
+ */
+function projectstats_load_all() {
+  $query = db_select('projectstats', 'p');
+  $query->fields('p');
+  $result = $query->execute();
+  $data = array();
+  while ($record = $result->fetchObject()) {
+    $data[] = (object) $record;
+  }
+  return $data;
+}
+
+/**
+ * Delete project.
+ *
+ * @param $pid
+ *   Project ID.
+ */
+function projectstats_project_delete($pid) {
+  $num_deleted = db_delete('projectstats')
+    ->condition('pid', $pid)
+    ->execute();
+  return $num_deleted;
+}
+
+/**
+ * Get project name/label.
+ *
+ * @param $pid
+ *   Project ID.
+ *
+ * @return
+ *   String
+ */
+function projectstats_label($pid) {
+  $project = projectstats_load($pid);
+  return $project->full_project_name;
+}
+
+/**
+ * Update project data.
+ * @param $pid
+ *   Project ID.
+ */
+function projectstats_project_update_data($pid) {
+  $project = projectstats_load($pid);
+  $url = PROJECTSTATS_MODULE_DRUPAL_ORG_PREFIX . $project->short_project_name;
+  $data = projectstats_get_web_page($url);
+  $installs = 0;
+  $downloads = 0;
+
+  $pattern_installs = variable_get('projectstats_pattern_installs', PROJECTSTATS_PATTERN_INSTALLS);
+  $pattern_downloads = variable_get('projectstats_pattern_downloads', PROJECTSTATS_PATTERN_DOWNLOADS);
+
+  preg_match_all($pattern_installs, $data['content'], $lines_installs);
+  if (isset($lines_installs[1][0])) {
+    $installs = $lines_installs[1][0];
+    $installs = str_replace("<strong>", "", $installs);
+    $installs = str_replace("</strong>", "", $installs);
+    $installs = (int) str_replace(",", "", $installs);
+  }
+  else {
+    drupal_set_message(t("Can't get information about installations."), 'warning');
+  }
+
+  preg_match_all($pattern_downloads, $data['content'], $lines_downloads);
+  if (isset($lines_downloads[1][0])) {
+    $downloads = $lines_downloads[1][0];
+    $downloads = (int) str_replace(",", "", $downloads);
+  }
+  else {
+    drupal_set_message(t("Can't get information about downloads."), 'warning');
+  }
+
+
+  $row = new stdClass();
+
+  $row->pid = $pid;
+  $row->downloads = $downloads;
+  $row->installs = $installs;
+  $row->updated = REQUEST_TIME;
+
+  drupal_write_record('projectstats', $row, array('pid'));
+
+  drupal_set_message(t("Project data updated"));
+}
+
+/**
+ * Get web page content.
+ *
+ * @param  $url
+ *   Website $url.
+ *
+ * @return
+ *   Website header and content.
+ */
+function projectstats_get_web_page($url) {
+  $user_agent = 'Mozilla/5.0 (Windows NT 6.1; rv:8.0) Gecko/20100101 Firefox/8.0';
+  $options = array(
+    CURLOPT_CUSTOMREQUEST  => "GET",
+    CURLOPT_POST           => FALSE,
+    CURLOPT_USERAGENT      => $user_agent,
+    CURLOPT_COOKIEFILE     => "cookie.txt",
+    CURLOPT_COOKIEJAR      => "cookie.txt",
+    CURLOPT_RETURNTRANSFER => TRUE,
+    CURLOPT_HEADER         => FALSE,
+    CURLOPT_FOLLOWLOCATION => TRUE,
+    CURLOPT_ENCODING       => "",
+    CURLOPT_AUTOREFERER    => TRUE,
+    CURLOPT_CONNECTTIMEOUT => 120,
+    CURLOPT_TIMEOUT        => 120,
+    CURLOPT_MAXREDIRS      => 10,
+  );
+
+  $ch = curl_init($url);
+  curl_setopt_array($ch, $options);
+  $content = curl_exec($ch);
+  $err = curl_errno($ch);
+  $errmsg = curl_error($ch);
+  $header = curl_getinfo($ch);
+  curl_close($ch);
+
+  $header['errno']   = $err;
+  $header['errmsg']  = $errmsg;
+  $header['content'] = $content;
+  return $header;
+}
+
+/**
+ * Check if url exists.
+ *
+ * @param $url
+ *   Website URL.
+ *
+ * @return
+ *   Bool.
+ */
+function projectstats_url_exists($url) {
+  $data = projectstats_get_web_page($url);
+  return $data['http_code'] == 200;
+}
+
+

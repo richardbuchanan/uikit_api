@@ -30,3 +30,5 @@ dependencies[] = api
 dependencies[] = docs_companion
 dependencies[] = module_filter
 dependencies[] = backup_migrate
+dependencies[] = projectstats
+dependencies[] = uikit_components

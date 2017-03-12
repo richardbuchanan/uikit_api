@@ -1,0 +1,7 @@
+name = Project Stats
+description = Allows you to download data about projects from drupal.org.
+core = 7.x
+package = Statistics
+version = 7.x-1.0-beta3
+
+configure = admin/config/system/projectstats

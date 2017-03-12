@@ -5,3 +5,10 @@ base theme = uikit
 
 stylesheets[all][] = css/uikit-subtheme.css
 scripts[] = js/uikit-subtheme.js
+
+; Information added by Drupal.org packaging script on 2017-03-10
+version = "7.x-2.0-alpha2"
+core = "7.x"
+project = "uikit"
+datestamp = "1489149185"
+
