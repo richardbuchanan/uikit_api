@@ -1,5 +1,6 @@
 /**
  * @file
+ * Attaches behaviors to UIkit theme settings forms.
  */
 
 (function ($) {

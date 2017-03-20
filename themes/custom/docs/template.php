@@ -137,6 +137,10 @@ function docs_preprocess_block(&$variables) {
     $content = str_replace('<ul class="uk-list">', '<ul>', $variables['content']);
     $variables['content'] = $content;
   }
+
+  if ($region == 'sidebar_first' || $region == 'sidebar_second') {
+    $variables['classes_array'][] = 'uk-margin-bottom';
+  }
 }
 
 /**

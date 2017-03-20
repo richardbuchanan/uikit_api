@@ -5,6 +5,12 @@
  * Conditional logic and data processing for the UIkit theme.
  */
 
+// Define constants we can reuse throughout the theme.
+define('UIKIT_LIBRARY_VERSION', '2.27.2');
+define('UIKIT_JQUERY_VERSION', '2.1.4');
+define('UIKIT_JQUERY_MIGRATE_VERSION', '1.4.1');
+define('UIKIT_FONT_AWESOME_VERSION', '4.6.3');
+
 /**
  * Loads a UIkit include file.
  *
@@ -71,8 +77,8 @@ function uikit_load_include($type, $theme, $name = NULL, $sub_directory = '') {
 /**
  * Load UIkit's include files for theme processing.
  */
-uikit_load_include('inc', 'uikit', 'theme', 'includes');
 uikit_load_include('inc', 'uikit', 'get', 'includes');
 uikit_load_include('inc', 'uikit', 'preprocess', 'includes');
 uikit_load_include('inc', 'uikit', 'process', 'includes');
+uikit_load_include('inc', 'uikit', 'theme', 'includes');
 uikit_load_include('inc', 'uikit', 'alter', 'includes');

@@ -1,8 +1,10 @@
 /**
+ * @file
  * UIkit theme settings styles.
  *
  * Provides graphical examples of many settings on the theme settings page.
  */
+
 .uk-admin-demo {
   float: right;
 }

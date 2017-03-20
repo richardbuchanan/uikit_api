@@ -10,6 +10,9 @@
  * - $block->module: Module that generated the block.
  * - $block->delta: An ID for the block, unique within each module.
  * - $block->region: The block region embedding the current block.
+ * - $attributes: String of attributes, excluding id and class, to add to the
+ *   block wrapper element. It can be manipulated through the variable
+ *   $attributes_array from preprocess functions.
  * - $classes: String of classes that can be used to style contextually through
  *   CSS. It can be manipulated through the variable $classes_array from
  *   preprocess functions. The default values can be one or more of the
@@ -40,7 +43,6 @@
  * @see template_preprocess()
  * @see template_preprocess_block()
  * @see template_process()
- * @see uikit_preprocess_block()
  *
  * @ingroup uikit_themeable
  */

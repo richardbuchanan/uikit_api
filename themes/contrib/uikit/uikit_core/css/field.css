@@ -1,4 +1,8 @@
-/* Field display */
+/**
+ * @file
+ * Styling for the Field module.
+ */
+
 .field .field-label {
   font-weight: bold;
 }

@@ -1,4 +1,16 @@
 /**
+ * @file
+ * Drupal style overrides and custom styles.
+ *
+ * Some Drupal core modules provide styling to elements which disrupt the
+ * consistent styling of UIkit. This stylesheet makes minor changes to Drupal
+ * core styles to rememdy that.
+ *
+ * It also provides additional custom styles UIkit does not provide by default,
+ * such as source ordering based on device size.
+ */
+
+/**
  * `uk-push-*` and `uk-pull-*`
  *
  * UIkit does not currently support source ordering based on device size. These

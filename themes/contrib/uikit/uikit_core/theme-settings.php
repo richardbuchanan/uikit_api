@@ -42,13 +42,6 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
   $tablet_sidebar_pos = theme_get_setting('tablet_sidebar_positions', $theme_key);
   $mobile_sidebar_pos = theme_get_setting('mobile_sidebar_positions', $theme_key);
 
-  // Get all menus.
-  $menus = menu_get_menus();
-
-  // Get the main and secondary menus.
-  $main_menu = variable_get('menu_main_links_source', 'main-menu');
-  $secondary_menu = variable_get('menu_secondary_links_source', 'user-menu');
-
   // Set the charset options.
   $charsets = array(
     'utf-8' => 'UTF-8: All languages (Recommended)',
@@ -116,6 +109,7 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
     'block' => 'Block',
   );
 
+  // Set the viewport scale options.
   $viewport_scale = array(
     -1 => t('-- Select --'),
     '0' => '0',
@@ -634,11 +628,18 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
   $form['logo']['#attributes']['class'] = array();
   $form['favicon']['#group'] = 'basic_settings';
 
+  // Set validation callback to call when saving theme settings.
   $form['#validate'][] = 'uikit_theme_settings_validate';
 }
 
 /**
  * Callback function to validate the Customizer CSS field.
+ *
+ * When using the Customizer option as a base style, this function validates the
+ * file being uploaded. This provides the user with useful information and
+ * instructions to be sure the file is uploaded and saved as a managed file.
+ * This allows the base theme to load the stylesheet as a managed file from the
+ * database.
  */
 function _uikit_customizer_css_file_validate($element, &$form_state) {
   $theme_key = $form_state['build_info']['args'][0];
@@ -726,6 +727,11 @@ function _uikit_viewport_custom_height_validate($element, &$form_state) {
 
 /**
  * Callback function to validate the system theme settings form.
+ *
+ * When the Customizer option is used as a base style, this function validates
+ * a stylesheet was in fact uploaded. This ensures the base theme will still
+ * load a UIkit-supplied style until the user fixes the error and uploads a
+ * stylesheet.
  */
 function uikit_theme_settings_validate($form, &$form_state) {
   $base_style = $form_state['values']['base_style'];

@@ -33,16 +33,16 @@ function uikit_css_alter(&$css) {
     $css[$book_css]['data'] = $theme . '/css/book.css';
   }
 
-  // Replace the user module's user.css with a custom version.
-  $user_css = drupal_get_path('module', 'user') . '/user.css';
-  if (isset($css[$user_css])) {
-    $css[$user_css]['data'] = $theme . '/css/user.css';
-  }
-
   // Replace the field module's field.css with a custom version.
   $field_css = drupal_get_path('module', 'field') . '/theme/field.css';
   if (isset($css[$field_css])) {
     $css[$field_css]['data'] = $theme . '/css/field.css';
+  }
+
+  // Replace the user module's user.css with a custom version.
+  $user_css = drupal_get_path('module', 'user') . '/user.css';
+  if (isset($css[$user_css])) {
+    $css[$user_css]['data'] = $theme . '/css/user.css';
   }
 }
 
@@ -51,6 +51,8 @@ function uikit_css_alter(&$css) {
  */
 function uikit_html_head_alter(&$head_elements) {
   global $theme_key;
+
+  // Add a charset meta tag to the head elements.
   if (isset($head_elements['system_meta_content_type'])) {
     $head_elements['system_meta_content_type']['#attributes'] = array(
       'charset' => theme_get_setting('meta_charset', $theme_key),
@@ -63,12 +65,6 @@ function uikit_html_head_alter(&$head_elements) {
   if (isset($head_elements['viewport'])) {
     unset($head_elements['viewport']);
   }
-}
-
-/**
- * Implements hook_js_alter().
- */
-function uikit_js_alter(&$javascript) {
 }
 
 /**

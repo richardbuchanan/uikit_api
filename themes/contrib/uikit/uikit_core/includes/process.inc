@@ -35,6 +35,7 @@ function uikit_process_page(&$variables) {
  * Implements hook_process_HOOK() for region.tpl.php.
  */
 function uikit_process_region(&$variables) {
+  // Convert attribute arrays to an attribute string.
   $attributes = $variables['wrapper_attributes_array'];
   $variables['wrapper_attributes'] = drupal_attributes($attributes);
 }
@@ -43,6 +44,7 @@ function uikit_process_region(&$variables) {
  * Implements hook_process_HOOK() for theme_menu_local_tasks().
  */
 function uikit_process_menu_local_tasks(&$variables) {
+  // Convert attribute arrays to an attribute string.
   $variables['primary_attributes'] = drupal_attributes($variables['primary_attributes_array']);
   $variables['secondary_attributes'] = drupal_attributes($variables['secondary_attributes_array']);
 }

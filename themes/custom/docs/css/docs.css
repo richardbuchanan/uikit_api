@@ -228,6 +228,9 @@ html.js .ctools-collapsible-container .ctools-collapsible-handle {
 /**
  * Site styles
  */
+#page-navbar .uk-navbar-nav:first-of-type > .uk-nav-header {
+  display: none !important;
+}
 #logo-large {
   padding: 0;
 }
