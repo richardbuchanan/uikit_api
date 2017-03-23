@@ -375,8 +375,20 @@ function uikit_api_install_tasks(&$install_state) {
       'display_name' => st('Configure UIkit API Project'),
       'type' => 'form',
     ),
-    '_uikit_api_branch_form' => array(
-      'display_name' => st('Configure UIkit API Branch'),
+    '_uikit_7x_2x_api_branch_form' => array(
+      'display_name' => st('Configure UIkit 7.x-2.x API Branch'),
+      'type' => 'form',
+    ),
+    '_uikit_7x_3x_api_branch_form' => array(
+      'display_name' => st('Configure UIkit 7.x-3.x API Branch'),
+      'type' => 'form',
+    ),
+    '_uikit_8x_2x_api_branch_form' => array(
+      'display_name' => st('Configure UIkit 8.x-2.x API Branch'),
+      'type' => 'form',
+    ),
+    '_uikit_project_stats_form' => array(
+      'display_name' => st('Configure UIkit Project Stats'),
       'type' => 'form',
     ),
     '_configure_uikit_api' => array(
@@ -384,8 +396,12 @@ function uikit_api_install_tasks(&$install_state) {
       'display' => FALSE,
       'type' => 'batch',
     ),
-    '_drupal_api_reference_branch_form' => array(
-      'display_name' => st('Configure Drupal API Reference Branch'),
+    '_drupal_7x_api_reference_branch_form' => array(
+      'display_name' => st('Configure Drupal 7.x API Reference Branch'),
+      'type' => 'form',
+    ),
+    '_drupal_8x_api_reference_branch_form' => array(
+      'display_name' => st('Configure Drupal 8.2.x API Reference Branch'),
       'type' => 'form',
     ),
   );

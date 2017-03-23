@@ -51,12 +51,21 @@ function docs_companion_block_view($delta = '') {
 }
 
 /**
+ * Implements hook_views_api().
+ */
+function docs_companion_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'docs_companion') . '/views',
+  );
+}
+
+/**
  * Implements hook_menu_alter().
  */
 function docs_companion_menu_alter(&$items) {
   $items['node']['page callback'] = '_docs_redirect_node_page';
-  $items['user/login']['type'] = MENU_NORMAL_ITEM;
-  $items['user/login']['menu_name'] = 'user-menu';
+  unset($items['user/login']['type']);
 }
 
 /**

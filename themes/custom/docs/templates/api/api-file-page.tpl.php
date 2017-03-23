@@ -96,7 +96,7 @@
   <div id="docs-api-file">
     <a href="#file" class="uk-link-muted docs-link-anchor">
       <h3 id="file"><?php print t('File'); ?> <i class="uk-icon uk-icon-link uk-text-muted"></i></h3>
-    </a><br>
+    </a>
     <span><?php print $defined; ?></span>
 
     <div>

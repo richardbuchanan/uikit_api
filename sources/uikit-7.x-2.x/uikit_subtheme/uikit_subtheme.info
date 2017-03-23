@@ -1,0 +1,14 @@
+name = UIkit sub-theme
+description = A starter theme for using UIkit as a base theme
+core = 7.x
+base theme = uikit
+
+stylesheets[all][] = css/uikit-subtheme.css
+scripts[] = js/uikit-subtheme.js
+
+; Information added by Drupal.org packaging script on 2017-03-15
+version = "7.x-2.0-alpha2+3-dev"
+core = "7.x"
+project = "uikit"
+datestamp = "1489582385"
+

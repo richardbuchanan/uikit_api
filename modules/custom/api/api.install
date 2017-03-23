@@ -179,7 +179,7 @@ function api_schema() {
         'type' => 'int',
         'not null' => TRUE,
         'default' => 0,
-      )
+      ),
     ),
     'primary key' => array('branch_id'),
     'indexes' => array(
@@ -659,7 +659,6 @@ function api_enable() {
   drupal_static_reset('api_get_php_branches');
 
   // Create the PHP branch if it doesn't already exist.
-  $exists = FALSE;
   $result = db_select('api_php_branch', 'b')
     ->fields('b', array('title'))
     ->condition('reference_type', 'php')
@@ -707,7 +706,7 @@ function api_disable() {
 }
 
 /**
- * Implements hook_update_last_removed();
+ * Implements hook_update_last_removed().
  */
 function api_update_last_removed() {
   return 6116;
@@ -782,10 +781,24 @@ function api_update_7101() {
     ->execute()
     ->fetchCol();
   $select = db_select('api_documentation', 'd')
-    ->fields('d', array('did', 'branch_id', 'object_name', 'member_name', 'object_type', 'documentation'))
+    ->fields('d', array(
+      'did',
+      'branch_id',
+      'object_name',
+      'member_name',
+      'object_type',
+      'documentation',
+    ))
     ->condition('d.branch_id', $branches);
   db_insert('api_php_documentation')
-    ->fields(array('did', 'branch_id', 'object_name', 'member_name', 'object_type', 'documentation'))
+    ->fields(array(
+      'did',
+      'branch_id',
+      'object_name',
+      'member_name',
+      'object_type',
+      'documentation',
+    ))
     ->from($select)
     ->execute();
 
@@ -810,15 +823,15 @@ function api_update_7103() {
   // Update the field to the new definition.
   db_drop_index('api_reference_storage', 'object_name');
   db_change_field('api_reference_storage', 'object_name', 'object_name', array(
-      'type' => 'varchar',
-      'mysql_type' => 'varbinary(127)',
-      'length' => '127',
-    ),
+    'type' => 'varchar',
+    'mysql_type' => 'varbinary(127)',
+    'length' => '127',
+  ),
     array('indexes' => array('object_name' => array('object_name'))));
 
   // Also reparse everything, because the old field definition left things
   // in a bad state.
-  $count = api_update_mark_for_reparse();
+  api_update_mark_for_reparse();
 
   return 'Due to database change, everything was marked for reparse.';
 }
@@ -841,32 +854,39 @@ function api_update_7106() {
   db_drop_index('api_documentation', 'file_name');
   db_drop_index('api_documentation', 'object_name');
   db_change_field('api_documentation', 'file_name', 'file_name', array(
-      'description' => 'Full path of file',
-      'type' => 'varchar',
-      'length' => '255',
-      'not null' => TRUE,
-      'default' => '',
-    ),
+    'description' => 'Full path of file',
+    'type' => 'varchar',
+    'length' => '255',
+    'not null' => TRUE,
+    'default' => '',
+  ),
     array('indexes' => array('file_name' => array('file_name'))));
   db_change_field('api_documentation', 'object_name', 'object_name', array(
-      'description' => 'Name of object',
-      'type' => 'varchar',
-      'length' => '255',
-      'not null' => TRUE,
-      'default' => '',
-    ),
-    array('indexes' => array('object_name' => array('object_name', 'branch_id', 'object_type'))));
+    'description' => 'Name of object',
+    'type' => 'varchar',
+    'length' => '255',
+    'not null' => TRUE,
+    'default' => '',
+  ),
+    array(
+      'indexes' => array(
+        'object_name' => array(
+          'object_name',
+          'branch_id',
+          'object_type',
+        ),
+      ),
+    ));
 }
 
 /**
  * Remove outdated information from the database.
  */
-function api_update_7107( &$sandbox) {
+function api_update_7107(&$sandbox) {
   // The information being deleted here should have been deleted when things
   // changed, but in previous versions of the API module, it wasn't. Also, the
   // node removals can take a long time, so they are done in batches. The rest
   // is fast, so it's only done on the first pass.
-
   $sandbox['#finished'] = 0;
 
   // See if this is the first pass, and do the fast updates.
@@ -896,7 +916,6 @@ function api_update_7107( &$sandbox) {
     db_query("DELETE FROM {api_overrides} WHERE NOT EXISTS ( SELECT * FROM {api_documentation} d WHERE d.did = {api_overrides}.did )");
     db_query("DELETE FROM {api_reference_storage} WHERE NOT EXISTS ( SELECT * FROM {api_documentation} d WHERE d.did = {api_reference_storage}.from_did )");
 
-
     // Initiate batch for future calls.
     $sandbox['last'] = 0;
     $sandbox['count'] = 0;
@@ -920,7 +939,6 @@ function api_update_7107( &$sandbox) {
   else {
     // Subsequent invocations: find and delete nodes of type API that don't
     // have corresponding entries in {api_documentation}.
-
     $query = db_select('node', 'n')
       ->fields('n', array('nid'))
       ->condition('n.type', 'api');
@@ -949,7 +967,7 @@ function api_update_7107( &$sandbox) {
 }
 
 /**
- * (Removed.)
+ * Removed.
  */
 function api_update_7108() {
   // This used to create the api_extends table, but since the table is
@@ -1132,14 +1150,27 @@ function api_update_7109() {
     'unsigned' => TRUE,
     'not null' => TRUE,
     'default' => 1,
-    ), array('indexes' => array('core_preferred' => array('core_compatibility', 'preferred'))));
+  ), array(
+    'indexes' => array(
+      'core_preferred' => array(
+        'core_compatibility',
+        'preferred',
+      ),
+    ),
+  ));
 
   db_add_field('api_branch', 'last_updated', array(
     'description' => 'When this branch was last checked for updated files',
     'type' => 'int',
     'not null' => TRUE,
     'default' => 0,
-    ), array('indexes' => array('last_updated' => array('last_updated'))));
+  ), array(
+    'indexes' => array(
+      'last_updated' => array(
+        'last_updated',
+      ),
+    ),
+  ));
   db_add_field('api_branch', 'update_frequency', array(
     'description' => 'Number of seconds to wait before updating again',
     'type' => 'int',
@@ -1160,7 +1191,14 @@ function api_update_7109() {
     'length' => '50',
     'not null' => TRUE,
     'default' => '',
-    ), array('unique_keys' => array('project_name' => array('project', 'branch_name'))));
+  ), array(
+    'unique_keys' => array(
+      'project_name' => array(
+        'project',
+        'branch_name',
+      ),
+    ),
+  ));
 
   // Attempt to set the core compatibility field values and variable.
   variable_set('api_default_core_compatibility', $default_compat = _api_extract_compatibility(isset($default_branch->branch_name) ? $default_branch->branch_name : ''));
@@ -1378,20 +1416,20 @@ function api_update_7119() {
   ));
 
   db_add_field('api_documentation', 'namespace', array(
-        'description' => 'Namespace, if any',
-        'type' => 'varchar',
-        'length' => '255',
-        'not null' => TRUE,
-        'default' => '',
-    ), array('indexes' => array('namespace' => array('namespace'))));
+    'description' => 'Namespace, if any',
+    'type' => 'varchar',
+    'length' => '255',
+    'not null' => TRUE,
+    'default' => '',
+  ), array('indexes' => array('namespace' => array('namespace'))));
 
   db_add_field('api_documentation', 'namespaced_name', array(
-      'description' => 'Fully-qualified namespaced name, starting with backslash',
-      'type' => 'varchar',
-      'length' => '255',
-      'not null' => TRUE,
-      'default' => '',
-    ), array('indexes' => array('namespaced_name' => array('namespaced_name'))));
+    'description' => 'Fully-qualified namespaced name, starting with backslash',
+    'type' => 'varchar',
+    'length' => '255',
+    'not null' => TRUE,
+    'default' => '',
+  ), array('indexes' => array('namespaced_name' => array('namespaced_name'))));
 }
 
 /**
@@ -1412,7 +1450,7 @@ function api_update_7121() {
     'length' => '255',
     'not null' => TRUE,
     'default' => '',
-    ));
+  ));
 }
 
 /**
@@ -1510,11 +1548,11 @@ function api_update_7124() {
  */
 function api_update_7125() {
   db_add_field('api_documentation', 'deprecated', array(
-      'description' => 'Deprecation descriptions',
-      'type' => 'text',
-      'size' => 'medium',
-      'not null' => FALSE,
-    ));
+    'description' => 'Deprecation descriptions',
+    'type' => 'text',
+    'size' => 'medium',
+    'not null' => FALSE,
+  ));
 }
 
 /**
@@ -1555,7 +1593,11 @@ function api_update_7128() {
  * Add an index to the api_documentation table.
  */
 function api_update_7129() {
-  db_add_index('api_documentation', 'branch_object_class', array('branch_id', 'object_type', 'class_did'));
+  db_add_index('api_documentation', 'branch_object_class', array(
+    'branch_id',
+    'object_type',
+    'class_did',
+  ));
 }
 
 /**
@@ -1590,27 +1632,29 @@ function api_update_7131() {
  */
 function api_update_7132() {
   db_add_field('api_documentation', 'is_drupal', array(
-        'description' => 'Whether this is or is not a Drupal object',
-        'type' => 'int',
-        'size' => 'tiny',
-        'unsigned' => TRUE,
-        'not null' => TRUE,
-        'default' => 1,
-    ), array('indexes' => array('is_drupal' => array('is_drupal'))));
+    'description' => 'Whether this is or is not a Drupal object',
+    'type' => 'int',
+    'size' => 'tiny',
+    'unsigned' => TRUE,
+    'not null' => TRUE,
+    'default' => 1,
+  ), array('indexes' => array('is_drupal' => array('is_drupal'))));
 }
 
 /**
+ * Replace field extends_did.
+ *
  * Add field extends_did to the api_reference_storage table, in place of the
  * api_extends table.
  */
 function api_update_7133() {
   // Add the new field to api_reference_storage.
   db_add_field('api_reference_storage', 'extends_did', array(
-        'description' => 'If this is a class or interface inheritance, the computed did value',
-        'type' => 'int',
-        'unsigned' => TRUE,
-        'not null' => FALSE,
-    ), array('indexes' => array('extends_did' => array('extends_did'))));
+    'description' => 'If this is a class or interface inheritance, the computed did value',
+    'type' => 'int',
+    'unsigned' => TRUE,
+    'not null' => FALSE,
+  ), array('indexes' => array('extends_did' => array('extends_did'))));
 
   // Delete the {api_extends} table, if it even exists.
   if (db_table_exists('api_extends')) {
@@ -1651,11 +1695,11 @@ function api_update_7136() {
     $info = pathinfo($file->file_name);
     db_insert('api_file')
       ->fields(array(
-          'did' => $file->did,
-          'basename' => $info['basename'],
-          'modified' => 0,
-          'queued' => 0,
-        ))
+        'did' => $file->did,
+        'basename' => $info['basename'],
+        'modified' => 0,
+        'queued' => 0,
+      ))
       ->execute();
   }
 }
@@ -1665,12 +1709,12 @@ function api_update_7136() {
  */
 function api_update_7137() {
   db_add_field('api_members', 'member_alias', array(
-      'description' => 'Alias of the member, for trait inheritance',
-      'type' => 'varchar',
-      'length' => 127,
-      'not null' => FALSE,
-      'default' => NULL,
-    ));
+    'description' => 'Alias of the member, for trait inheritance',
+    'type' => 'varchar',
+    'length' => 127,
+    'not null' => FALSE,
+    'default' => NULL,
+  ));
 }
 
 /**
@@ -1812,8 +1856,8 @@ function api_update_mark_for_reparse() {
   $time_in_past = 52;
   return db_update('api_file')
     ->fields(array(
-        'modified' => $time_in_past,
-        'queued' => 0,
-      ))
+      'modified' => $time_in_past,
+      'queued' => 0,
+    ))
     ->execute();
 }

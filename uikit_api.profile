@@ -129,7 +129,7 @@ function _uikit_api_project_form($form, &$form_state) {
 }
 
 /**
- * Form constructor to configure the UIkit API branch.
+ * Form constructor to configure the UIkit 7.x-2.x API branch.
  *
  * @param array $form
  *   Nested array of form elements that comprise the form.
@@ -138,15 +138,14 @@ function _uikit_api_project_form($form, &$form_state) {
  *   drupal_get_form() was originally called with are available in the array
  *   $form_state['build_info']['args'].
  */
-function _uikit_api_branch_form($form, &$form_state) {
-  drupal_set_title(st('Configure UIkit API Branch'));
+function _uikit_7x_2x_api_branch_form($form, &$form_state) {
+  drupal_set_title(st('Configure UIkit 7.x-2.x API Branch'));
 
   // Get path to the uikit_api profile.
   $profile_path = drupal_get_path('profile', drupal_get_profile());
 
   // Load api.admin.inc from the api module.
   module_load_include('inc', 'api', 'api.admin');
-
 
   // Construct $form from the api module's api_branch_edit_form().
   $form = drupal_get_form('api_branch_edit_form');
@@ -155,7 +154,7 @@ function _uikit_api_branch_form($form, &$form_state) {
   $form['uikit_api'] = array(
     '#type' => 'fieldset',
     '#title' => st('Create UIkit API branch'),
-    '#description' => st('<p>This will create a default branch for both the API site and the UIkit theme project. Preset values have been disabled, but you are free to make changes to the rest.</p>'),
+    '#description' => st('<p>This will create a 7.x-2.x branch for both the API site and the UIkit theme project. Preset values have been disabled, but you are free to make changes to the rest.</p>'),
     '#weight' => -100,
   );
   $form['project']['#value'] = 'uikit';
@@ -164,15 +163,145 @@ function _uikit_api_branch_form($form, &$form_state) {
   $form['core_compatibility']['#disabled'] = TRUE;
   $form['preferred']['#value'] = 1;
   $form['preferred']['#disabled'] = TRUE;
-  $form['branch_name']['#value'] = '7.x';
+  $form['branch_name']['#value'] = '7.x-2.x';
   $form['branch_name']['#disabled'] = TRUE;
-  $form['title']['#value'] = 'UIkit 7.x';
-  $form['data']['directories']['#value'] = "$profile_path/themes/contrib/uikit";
-  $form['data']['directories']['#value'] .= PHP_EOL . "$profile_path/docs";
+  $form['title']['#value'] = '7.x-2.x';
+  $form['data']['directories']['#value'] = "$profile_path/sources/uikit-7.x-2.x";
+  $form['data']['directories']['#value'] .= PHP_EOL . "$profile_path/documentation/uikit-7.x-2.x";
   $form['data']['directories']['#disabled'] = TRUE;
   $form['update_frequency']['#value'] = 604800;
   $form['update_frequency']['#disabled'] = TRUE;
   $form['submit']['#value'] = st('Save and continue');
+
+  return $form;
+}
+
+/**
+ * Form constructor to configure the UIkit 7.x-3.x API branch.
+ *
+ * @param array $form
+ *   Nested array of form elements that comprise the form.
+ * @param array $form_state
+ *   A keyed array containing the current state of the form. The arguments that
+ *   drupal_get_form() was originally called with are available in the array
+ *   $form_state['build_info']['args'].
+ */
+function _uikit_7x_3x_api_branch_form($form, &$form_state) {
+  drupal_set_title(st('Configure UIkit 7.x-3.x API Branch'));
+
+  // Get path to the uikit_api profile.
+  $profile_path = drupal_get_path('profile', drupal_get_profile());
+
+  // Load api.admin.inc from the api module.
+  module_load_include('inc', 'api', 'api.admin');
+
+  // Construct $form from the api module's api_branch_edit_form().
+  $form = drupal_get_form('api_branch_edit_form');
+
+  // Alter form elements to pre-populate the form values.
+  $form['uikit_api'] = array(
+    '#type' => 'fieldset',
+    '#title' => st('Create UIkit 7.x-3.x API branch'),
+    '#description' => st('<p>This will create a 7.x-3.x branch for both the API site and the UIkit theme project. Preset values have been disabled, but you are free to make changes to the rest.</p>'),
+    '#weight' => -100,
+  );
+  $form['project']['#value'] = 'uikit';
+  $form['project']['#disabled'] = TRUE;
+  $form['core_compatibility']['#value'] = '7.x';
+  $form['core_compatibility']['#disabled'] = TRUE;
+  $form['preferred']['#value'] = 0;
+  $form['preferred']['#disabled'] = TRUE;
+  $form['branch_name']['#value'] = '7.x-3.x';
+  $form['branch_name']['#disabled'] = TRUE;
+  $form['title']['#value'] = '7.x-3.x';
+  $form['data']['directories']['#value'] = "$profile_path/sources/uikit-7.x-3.x";
+  $form['data']['directories']['#value'] .= PHP_EOL . "$profile_path/documentation/uikit-7.x-3.x";
+  $form['data']['directories']['#disabled'] = TRUE;
+  $form['update_frequency']['#value'] = 604800;
+  $form['update_frequency']['#disabled'] = TRUE;
+  $form['submit']['#value'] = st('Save and continue');
+
+  return $form;
+}
+
+/**
+ * Form constructor to configure the UIkit 8.x-2.x API branch.
+ *
+ * @param array $form
+ *   Nested array of form elements that comprise the form.
+ * @param array $form_state
+ *   A keyed array containing the current state of the form. The arguments that
+ *   drupal_get_form() was originally called with are available in the array
+ *   $form_state['build_info']['args'].
+ */
+function _uikit_8x_2x_api_branch_form($form, &$form_state) {
+  drupal_set_title(st('Configure UIkit 8.x-2.x API Branch'));
+
+  // Get path to the uikit_api profile.
+  $profile_path = drupal_get_path('profile', drupal_get_profile());
+
+  // Load api.admin.inc from the api module.
+  module_load_include('inc', 'api', 'api.admin');
+
+  // Construct $form from the api module's api_branch_edit_form().
+  $form = drupal_get_form('api_branch_edit_form');
+
+  // Alter form elements to pre-populate the form values.
+  $form['uikit_api'] = array(
+    '#type' => 'fieldset',
+    '#title' => st('Create UIkit 8.x-2.x API branch'),
+    '#description' => st('<p>This will create a 8.x-2.x branch for both the API site and the UIkit theme project. Preset values have been disabled, but you are free to make changes to the rest.</p>'),
+    '#weight' => -100,
+  );
+  $form['project']['#value'] = 'uikit';
+  $form['project']['#disabled'] = TRUE;
+  $form['core_compatibility']['#value'] = '8.x';
+  $form['core_compatibility']['#disabled'] = TRUE;
+  $form['preferred']['#value'] = 0;
+  $form['preferred']['#disabled'] = TRUE;
+  $form['branch_name']['#value'] = '8.x-2.x';
+  $form['branch_name']['#disabled'] = TRUE;
+  $form['title']['#value'] = '8.x-2.x';
+  $form['data']['directories']['#value'] = "$profile_path/sources/uikit-8.x-2.x";
+  $form['data']['directories']['#value'] .= PHP_EOL . "$profile_path/documentation/uikit-8.x-2.x";
+  $form['data']['directories']['#disabled'] = TRUE;
+  $form['update_frequency']['#value'] = 604800;
+  $form['update_frequency']['#disabled'] = TRUE;
+  $form['submit']['#value'] = st('Save and continue');
+
+  return $form;
+}
+
+/**
+ * Form constructor to configure the UIkit project stats.
+ *
+ * @param array $form
+ *   Nested array of form elements that comprise the form.
+ * @param array $form_state
+ *   A keyed array containing the current state of the form. The arguments that
+ *   drupal_get_form() was originally called with are available in the array
+ *   $form_state['build_info']['args'].
+ */
+function _uikit_project_stats_form($form, &$form_state) {
+  drupal_set_title(st('Configure UIkit Project Stats'));
+
+  // Load api.admin.inc from the api module.
+  module_load_include('inc', 'projectstats', 'projectstats.admin');
+
+  // Construct $form from the projectstats module's projectstats_form().
+  $form = drupal_get_form('projectstats_form');
+
+  // Alter form elements to pre-populate the form values.
+  $form['uikit_api'] = array(
+    '#type' => 'fieldset',
+    '#title' => st('Create UIkit project stats'),
+    '#description' => st('<p>This will create a project stats for the UIkit project. Preset values have been disabled.</p>'),
+    '#weight' => -100,
+  );
+  $form['full_project_name']['#value'] = 'UIkit';
+  $form['full_project_name']['#disabled'] = TRUE;
+  $form['short_project_name']['#value'] = 'uikit';
+  $form['short_project_name']['#disabled'] = TRUE;
 
   return $form;
 }
@@ -188,14 +317,14 @@ function _configure_uikit_api() {
     ),
     'title' => st('Configuring UIkit API'),
     'error_message' => st('The UIkit API configuration has encountered an error.'),
-    'file' => drupal_get_path('profile', 'uikit_api_development') . '/includes/install-tasks.inc',
+    'file' => drupal_get_path('profile', 'uikit_api') . '/includes/install-tasks.inc',
     'finished' => 'uikit_api_finished',
   );
   return $batch;
 }
 
 /**
- * Form constructor to configure the Drupal API branch.
+ * Form constructor to configure the Drupal 7.x API branch.
  *
  * @param array $form
  *   Nested array of form elements that comprise the form.
@@ -204,8 +333,8 @@ function _configure_uikit_api() {
  *   drupal_get_form() was originally called with are available in the array
  *   $form_state['build_info']['args'].
  */
-function _drupal_api_reference_branch_form($form, &$form_state) {
-  drupal_set_title(st('Configure Drupal API Reference Branch'));
+function _drupal_7x_api_reference_branch_form($form, &$form_state) {
+  drupal_set_title(st('Configure Drupal 7.x API Reference Branch'));
 
   // Load api.admin.inc from the api module.
   module_load_include('inc', 'api', 'api.admin');
@@ -217,7 +346,7 @@ function _drupal_api_reference_branch_form($form, &$form_state) {
   $form['drupal_api'] = array(
     '#type' => 'fieldset',
     '#title' => st('Create Drupal API reference branch'),
-    '#description' => st('<p>This will create a default branch for the Drupal core project. Preset values have been disabled, but you are free to make changes to the rest.</p>'),
+    '#description' => st('<p>This will create a 7.x branch for the Drupal core project. Preset values have been disabled, but you are free to make changes to the rest.</p>'),
     '#weight' => -100,
   );
   $form['title']['#value'] = st('Drupal 7.x');
@@ -226,6 +355,50 @@ function _drupal_api_reference_branch_form($form, &$form_state) {
   $form['data']['search_url']['#value'] = 'https://api.drupal.org/api/drupal/7.x/search/';
   $form['data']['search_url']['#disabled'] = TRUE;
   $form['data']['core_compatibility']['#value'] = '7.x';
+  $form['data']['core_compatibility']['#disabled'] = TRUE;
+  $form['data']['project_type']['#value'] = 'core';
+  $form['data']['project_type']['#disabled'] = TRUE;
+  $form['data']['page_limit']['#value'] = 2000;
+  $form['data']['timeout']['#value'] = 30;
+  $form['update_frequency']['#value'] = 604800;
+  $form['update_frequency']['#disabled'] = TRUE;
+  $form['submit']['#value'] = st('Save and continue');
+
+  return $form;
+}
+
+/**
+ * Form constructor to configure the Drupal 8.x API branch.
+ *
+ * @param array $form
+ *   Nested array of form elements that comprise the form.
+ * @param array $form_state
+ *   A keyed array containing the current state of the form. The arguments that
+ *   drupal_get_form() was originally called with are available in the array
+ *   $form_state['build_info']['args'].
+ */
+function _drupal_8x_api_reference_branch_form($form, &$form_state) {
+  drupal_set_title(st('Configure Drupal 8.2.x API Reference Branch'));
+
+  // Load api.admin.inc from the api module.
+  module_load_include('inc', 'api', 'api.admin');
+
+  // Construct $form from the api module's api_api_branch_edit_form().
+  $form = drupal_get_form('api_api_branch_edit_form');
+
+  // Alter form elements to pre-populate the form values.
+  $form['drupal_api'] = array(
+    '#type' => 'fieldset',
+    '#title' => st('Create Drupal 8.2.x API reference branch'),
+    '#description' => st('<p>This will create an 8.2.x branch for the Drupal core project. Preset values have been disabled, but you are free to make changes to the rest.</p>'),
+    '#weight' => -100,
+  );
+  $form['title']['#value'] = st('Drupal 8.2.x');
+  $form['data']['url']['#value'] = 'https://api.drupal.org/api/drupal/full_list/8.2.x';
+  $form['data']['url']['#disabled'] = TRUE;
+  $form['data']['search_url']['#value'] = 'https://api.drupal.org/api/drupal/8.2.x/search/';
+  $form['data']['search_url']['#disabled'] = TRUE;
+  $form['data']['core_compatibility']['#value'] = '8.2.x';
   $form['data']['core_compatibility']['#disabled'] = TRUE;
   $form['data']['project_type']['#value'] = 'core';
   $form['data']['project_type']['#disabled'] = TRUE;

@@ -224,6 +224,17 @@ html.js .ctools-collapsible-container .ctools-collapsible-handle {
 #api-alternatives > li > .active {
   color: #444;
 }
+#api-function-signatures table td {
+  padding: 0;
+}
+#api-function-signatures code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+#api-function-signatures code.uk-text-muted a {
+  color: #999!important;
+}
 
 /**
  * Site styles
@@ -241,6 +252,12 @@ html.js .ctools-collapsible-container .ctools-collapsible-handle {
 #footer,
 #footer a {
   color: #eee !important;
+}
+@media (max-width: 767px) {
+  #sidebar-second .region-wrapper {
+    border: 0;
+    padding: 0;
+  }
 }
 @media (min-width: 768px) {
   #footer {

@@ -1,0 +1,27 @@
+name: UIkit
+type: theme
+description: 'A lightweight frontend framework with a comprehensive collection of HTML, CSS, and JS components.'
+# core: 8.x
+base theme: stable
+package: UIkit
+
+libraries:
+  - uikit/uikit
+  - uikit/font-awesome
+
+regions:
+  branding: Branding
+  primary_menu: 'Primary menu'
+  secondary_menu: 'Secondary menu'
+  highlighted: Highlighted
+  breadcrumb: Breadcrumb
+  content: Content
+  sidebar_first: 'Sidebar first'
+  sidebar_second: 'Sidebar second'
+  footer: 'Footer'
+
+# Information added by Drupal.org packaging script on 2017-03-19
+version: '8.x-2.x-dev'
+core: '8.x'
+project: 'uikit'
+datestamp: 1489937288

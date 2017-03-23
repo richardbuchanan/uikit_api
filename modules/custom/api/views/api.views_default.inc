@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * @file
  * Default views for the API module, for lists of documentation items.
  */
 
@@ -13,7 +14,6 @@ function api_views_default_views() {
   $views = array();
 
   // API Listings view.
-
   $view = new view();
   $view->name = 'api_listings';
   $view->description = 'Blocks for listing API documentation items. Used directly by the API module. Do not delete or disable.';
