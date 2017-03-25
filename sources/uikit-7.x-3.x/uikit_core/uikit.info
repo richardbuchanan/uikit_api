@@ -30,10 +30,3 @@ settings[primary_tasks_style] = 'uk-subnav-pill'
 settings[secondary_tasks_style] = 'uk-subnav-line'
 settings[display_breadcrumbs] = 1
 settings[breakcrumbs_home_link] = 1
-
-; Information added by Drupal.org packaging script on 2017-03-16
-version = "7.x-3.x-dev"
-core = "7.x"
-project = "uikit"
-datestamp = "1489693093"
-
