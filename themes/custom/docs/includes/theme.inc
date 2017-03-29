@@ -15,7 +15,6 @@
  */
 function docs_breadcrumb(&$variables) {
   $breadcrumb = $variables['breadcrumb'];
-  $path = explode('/', current_path());
 
   if (!empty($breadcrumb)) {
     // Provide a navigational heading to give context for breadcrumb links to
@@ -210,7 +209,7 @@ function docs_link__api($variables) {
     $active = TRUE;
   }
 
-  return '<li' . ($active ? ' class="uk-active"' : '') . '><a href="' . check_plain(url($variables['path'], $variables['options'])) . '"' . drupal_attributes($variables['options']['attributes']) . '>' . ($variables['options']['html'] ? $variables['text'] : check_plain($variables['text'])) . '</a></li>';
+  return '<li' . ($active ? ' class="uk-active"' : '') . '><a href="' . check_plain(url($variables['path'], $variables['options'])) . '" ' . drupal_attributes($variables['options']['attributes']) . ' >' . ($variables['options']['html'] ? $variables['text'] : check_plain($variables['text'])) . '</a></li>';
 }
 
 /**

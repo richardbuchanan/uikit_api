@@ -41,6 +41,21 @@ function uikit_process_region(&$variables) {
 }
 
 /**
+ * Implements template_process_HOOK() for theme_html_tag().
+ */
+function uikit_process_html_tag(&$variables) {
+  $element = &$variables['element'];
+
+  // Remove type="..." and CDATA prefix/suffix.
+  unset($element['#attributes']['type'], $element['#value_prefix'], $element['#value_suffix']);
+
+  // Remove media="all" but leave others unaffected.
+  if (isset($element['#attributes']['media']) && $element['#attributes']['media'] === 'all') {
+    unset($element['#attributes']['media']);
+  }
+}
+
+/**
  * Implements hook_process_HOOK() for theme_menu_local_tasks().
  */
 function uikit_process_menu_local_tasks(&$variables) {

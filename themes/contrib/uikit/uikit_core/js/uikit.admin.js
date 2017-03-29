@@ -120,20 +120,40 @@
 
       // Add the initial class to the demo menus.
       $('#edit-primary-tasks', context).once(function () {
-        $(this).find('.uk-subnav').addClass(primaryValue);
+        if (primaryValue === 'uk-tab') {
+          $(this).find('ul').addClass(primaryValue);
+        }
+        else {
+          $(this).find('ul')
+            .addClass('uk-subnav')
+            .addClass(primaryValue);
+        }
       });
 
       $('#edit-secondary-tasks', context).once(function () {
-        $(this).find('.uk-subnav').addClass(secondaryValue);
+        $(this).find('ul')
+          .addClass('uk-subnav')
+          .addClass(secondaryValue);
       });
 
       // Change the demo menu classes when the setting is changed.
       $('select[name=primary_tasks_style]').change(function () {
-        primaryMenu.removeClass('uk-subnav-line')
-          .removeClass('uk-subnav-pill');
+        primaryMenu
+          .removeClass('uk-subnav')
+          .removeClass('uk-subnav-line')
+          .removeClass('uk-subnav-pill')
+          .removeClass('uk-tab');
 
-        if ($(this).val() !== '0') {
+        if ($(this).val() === 'uk-tab') {
           primaryMenu.addClass($(this).val());
+        }
+        else if ($(this).val() === '0') {
+          primaryMenu.addClass('uk-subnav');
+        }
+        else {
+          primaryMenu
+            .addClass('uk-subnav')
+            .addClass($(this).val());
         }
       });
 

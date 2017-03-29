@@ -77,6 +77,24 @@ function uikit_form_user_login_block_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
+ * Implements hook_js_alter().
+ */
+function uikit_js_alter(&$javascript) {
+  $theme = drupal_get_path('theme', 'uikit');
+
+  // Replace the Drupal core's tableheader.js with a custom version.
+  if (isset($javascript['misc/tableheader.js'])) {
+    $javascript['misc/tableheader.js']['data'] = $theme . '/js/tableheader.js';
+  }
+
+  // Replace the Drupal core's progress.js with a custom version.
+  if (isset($javascript['misc/progress.js'])) {
+    $javascript['misc/progress.js']['data'] = $theme . '/js/progress.js';
+    uikit_get_cdn_asset('progress');
+  }
+}
+
+/**
  * Implements hook_menu_local_tasks_alter().
  */
 function uikit_menu_local_tasks_alter(&$data, $router_item, $root_path) {

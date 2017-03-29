@@ -88,15 +88,21 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
   );
 
   // Build the markup for the local task demos.
-  $demo_local_tasks = '<ul class="uk-subnav">';
+  $demo_local_tasks = '<ul>';
   $demo_local_tasks .= '<li class="uk-active"><a href="#">Item</a></li>';
   $demo_local_tasks .= '<li><a href="#">Item</a></li>';
   $demo_local_tasks .= '<li><a href="#">Item</a></li>';
   $demo_local_tasks .= '<li class="uk-disabled"><a href="#">Disabled</a></li>';
   $demo_local_tasks .= '</ul>';
 
-  // Set the subnav options.
-  $subnav_options = array(
+  // Set the subnav options for primary and secondary tasks.
+  $primary_subnav_options = array(
+    0 => 'Basic subnav',
+    'uk-subnav-line' => 'Subnav line',
+    'uk-subnav-pill' => 'Subnav pill',
+    'uk-tab' => 'Tabbed',
+  );
+  $secondary_subnav_options = array(
     0 => 'Basic subnav',
     'uk-subnav-line' => 'Subnav line',
     'uk-subnav-pill' => 'Subnav pill',
@@ -582,7 +588,7 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
     '#title' => t('Primary tasks style'),
     '#description' => t('Select the style to apply to the primary local tasks.'),
     '#default_value' => theme_get_setting('primary_tasks_style', $theme_key),
-    '#options' => $subnav_options,
+    '#options' => $primary_subnav_options,
   );
   $form['navigations']['local_tasks']['secondary_tasks'] = array(
     '#type' => 'container',
@@ -595,7 +601,7 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
     '#title' => t('Secondary tasks style'),
     '#description' => t('Select the style to apply to the secondary local tasks.'),
     '#default_value' => theme_get_setting('secondary_tasks_style', $theme_key),
-    '#options' => $subnav_options,
+    '#options' => $secondary_subnav_options,
   );
   $form['navigations']['breadcrumb'] = array(
     '#type' => 'fieldset',

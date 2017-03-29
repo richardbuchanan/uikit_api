@@ -119,6 +119,18 @@ function uikit_api_install() {
       'visibility' => 1,
     ),
     array(
+      'module' => 'docs_companion',
+      'delta' => 'uikit-resources',
+      'title' => '',
+      'theme' => $default_theme,
+      'status' => 1,
+      'weight' => -1,
+      'region' => 'sidebar_second',
+      'pages' => "api\napi/*",
+      'cache' => -1,
+      'visibility' => 1,
+    ),
+    array(
       'module' => 'system',
       'delta' => 'help',
       'title' => '',
@@ -132,8 +144,32 @@ function uikit_api_install() {
     ),
     array(
       'module' => 'docs_companion',
-      'delta' => 'docs-companion-copyright',
+      'delta' => 'uikit-project-information',
       'title' => '',
+      'theme' => $default_theme,
+      'status' => 1,
+      'weight' => -1,
+      'region' => 'footer',
+      'pages' => '',
+      'cache' => -1,
+      'visibility' => 0,
+    ),
+    array(
+      'module' => 'views',
+      'delta' => 'uikit-statistics-block',
+      'title' => '<none>',
+      'theme' => $default_theme,
+      'status' => 1,
+      'weight' => -1,
+      'region' => 'footer',
+      'pages' => '',
+      'cache' => -1,
+      'visibility' => 0,
+    ),
+    array(
+      'module' => 'docs_companion',
+      'delta' => 'docs-companion-copyright',
+      'title' => '<none>',
       'theme' => $default_theme,
       'status' => 1,
       'weight' => -1,
@@ -372,19 +408,35 @@ function uikit_api_install_tasks(&$install_state) {
   // Configure the tasks to run during installation.
   $tasks = array(
     '_uikit_api_project_form' => array(
-      'display_name' => st('Configure UIkit API Project'),
+      'display_name' => st('Configure UIkit Project'),
+      'type' => 'form',
+    ),
+    '_uikit_admin_api_project_form' => array(
+      'display_name' => st('Configure UIkit Admin Project'),
+      'type' => 'form',
+    ),
+    '_uikit_components_api_project_form' => array(
+      'display_name' => st('Configure UIkit Components Project'),
       'type' => 'form',
     ),
     '_uikit_7x_2x_api_branch_form' => array(
-      'display_name' => st('Configure UIkit 7.x-2.x API Branch'),
+      'display_name' => st('Configure UIkit 7.x-2.x Branch'),
       'type' => 'form',
     ),
     '_uikit_7x_3x_api_branch_form' => array(
-      'display_name' => st('Configure UIkit 7.x-3.x API Branch'),
+      'display_name' => st('Configure UIkit 7.x-3.x Branch'),
       'type' => 'form',
     ),
     '_uikit_8x_2x_api_branch_form' => array(
-      'display_name' => st('Configure UIkit 8.x-2.x API Branch'),
+      'display_name' => st('Configure UIkit 8.x-2.x Branch'),
+      'type' => 'form',
+    ),
+    '_uikit_admin_7x_2x_api_branch_form' => array(
+      'display_name' => st('Configure UIkit Admin 7.x-2.x Branch'),
+      'type' => 'form',
+    ),
+    '_uikit_components_7x_1x_api_branch_form' => array(
+      'display_name' => st('Configure UIkit Components 7.x-1.x Branch'),
       'type' => 'form',
     ),
     '_uikit_project_stats_form' => array(
@@ -392,16 +444,16 @@ function uikit_api_install_tasks(&$install_state) {
       'type' => 'form',
     ),
     '_configure_uikit_api' => array(
-      'display_name' => st('Configure UIkit API'),
+      'display_name' => st('Configure UIkit API Site'),
       'display' => FALSE,
       'type' => 'batch',
     ),
     '_drupal_7x_api_reference_branch_form' => array(
-      'display_name' => st('Configure Drupal 7.x API Reference Branch'),
+      'display_name' => st('Configure Drupal 7.x Reference Branch'),
       'type' => 'form',
     ),
     '_drupal_8x_api_reference_branch_form' => array(
-      'display_name' => st('Configure Drupal 8.2.x API Reference Branch'),
+      'display_name' => st('Configure Drupal 8.2.x Reference Branch'),
       'type' => 'form',
     ),
   );

@@ -11,35 +11,6 @@
  */
 
 /**
- * Implements theme_admin_block_content().
- */
-function uikit_admin_block_content($variables) {
-  $content = $variables['content'];
-  $output = '';
-
-  if (!empty($content)) {
-    $class = 'uk-description-list-line';
-
-    if ($compact = system_admin_compact_mode()) {
-      $class .= ' compact';
-    }
-
-    $output .= '<dl class="' . $class . '">';
-
-    foreach ($content as $item) {
-      $output .= '<dt>' . l($item['title'], $item['href'], $item['localized_options']) . '</dt>';
-
-      if (!$compact && isset($item['description'])) {
-        $output .= '<dd>' . filter_xss_admin($item['description']) . '</dd>';
-      }
-    }
-
-    $output .= '</dl>';
-  }
-  return $output;
-}
-
-/**
  * Implements theme_breadcrumb().
  */
 function uikit_breadcrumb($variables) {
@@ -72,12 +43,20 @@ function uikit_button($variables) {
   element_set_attributes($element, array('id', 'name', 'value'));
   $element['#attributes']['class'][] = 'form-' . $element['#button_type'];
   $value = $element['#attributes']['value'];
+  $id = $element['#attributes']['id'];
 
   if (!empty($element['#attributes']['disabled'])) {
     $element['#attributes']['class'][] = 'form-button-disabled';
   }
 
-  return '<button' . drupal_attributes($element['#attributes']) . '>' . $value . '</button>';
+  // Refresh buttons (for processing ajax calls) need to be output as an input
+  // element.
+  if ($id == 'edit-refresh') {
+    return '<input' . drupal_attributes($element['#attributes']) . ' />';
+  }
+  else {
+    return '<button' . drupal_attributes($element['#attributes']) . '>' . $value . '</button>';
+  }
 }
 
 /**
@@ -693,6 +672,8 @@ function uikit_links__node($variables) {
 function uikit_menu_link(array $variables) {
   global $user;
   $element = $variables['element'];
+  $depth = $element['#original_link']['depth'];
+  $hidden = $element['#hidden'];
   $sub_menu = '';
 
   $options = !empty($element['#localized_options']) ? $element['#localized_options'] : array();
@@ -735,7 +716,7 @@ function uikit_menu_link(array $variables) {
       $attributes['class'][] = 'uk-parent';
       $attributes['aria-expanded'] = 'false';
     }
-    elseif ((!empty($element['#original_link']['depth'])) && ($element['#original_link']['depth'] == 1)) {
+    elseif ((!empty($depth)) && ($depth == 1)) {
       // Use our own theme wrapper.
       unset($element['#below']['#theme_wrappers']);
       $sub_menu = '<div class="uk-dropdown uk-dropdown-navbar uk-dropdown-bottom" aria-hidden="true">';
@@ -748,25 +729,34 @@ function uikit_menu_link(array $variables) {
       $attributes['aria-haspopup'] = 'true';
       $attributes['aria-expanded'] = 'false';
     }
-    elseif ((!empty($element['#original_link']['depth'])) && ($element['#original_link']['depth'] == 2)) {
+    elseif ((!empty($depth)) && ($depth == 2)) {
       // Use our own theme wrapper.
       unset($element['#below']['#theme_wrappers']);
       $sub_menu .= '<ul>' . drupal_render($element['#below']) . '</ul>';
     }
   }
 
+  // Add uk-hidden class if menu link should be hidden from display.
+  if ($hidden) {
+    $attributes['class'][] = 'uk-hidden';
+  }
+
   switch ($href) {
     case '<uk-nav-header>':
       $attributes['class'][] = 'uk-nav-header';
-      return '<li' . drupal_attributes($attributes) . '>' . $title . "</li>\n";
+      $output = '<li' . drupal_attributes($attributes) . '>' . $title . "</li>\n";
+      break;
 
     case '<uk-nav-divider>':
       $attributes['class'][] = 'uk-nav-divider';
-      return '<li' . drupal_attributes($attributes) . '>' . l($title, $href, $options) . $sub_menu . "</li>\n";
+      $output = '<li' . drupal_attributes($attributes) . '>' . l($title, $href, $options) . $sub_menu . "</li>\n";
+      break;
 
     default:
-      return '<li' . drupal_attributes($attributes) . '>' . l($title, $href, $options) . $sub_menu . "</li>\n";
+      $output = '<li' . drupal_attributes($attributes) . '>' . l($title, $href, $options) . $sub_menu . "</li>\n";
   }
+
+  return $output;
 }
 
 /**
@@ -774,7 +764,7 @@ function uikit_menu_link(array $variables) {
  */
 function uikit_menu_local_action($variables) {
   $link = $variables['element']['#link'];
-  $output = '<li class="uk-active">';
+  $output = '<li>';
 
   if (isset($link['href'])) {
     $output .= l($link['title'], $link['href'], isset($link['localized_options']) ? $link['localized_options'] : array());
@@ -786,7 +776,7 @@ function uikit_menu_local_action($variables) {
     $output .= check_plain($link['title']);
   }
 
-  $output .= "</li>\n";
+  $output .= '</li>';
 
   return $output;
 }
@@ -873,28 +863,6 @@ function uikit_menu_tree__offcanvas($variables) {
  */
 function uikit_menu_tree__offcanvas__below($variables) {
   return '<ul class="uk-nav-sub" role="menu">' . $variables['tree'] . '</ul>';
-}
-
-/**
- * Implements theme_node_add_list().
- */
-function uikit_node_add_list($variables) {
-  $content = $variables['content'];
-  $output = '';
-
-  if ($content) {
-    $output = '<dl class="uk-description-list-line">';
-    foreach ($content as $item) {
-      $output .= '<dt>' . l($item['title'], $item['href'], $item['localized_options']) . '</dt>';
-      $output .= '<dd>' . filter_xss_admin($item['description']) . '</dd>';
-    }
-    $output .= '</dl>';
-  }
-  else {
-    $output .= '<p>' . t('You have not created any content types yet. Go to the <a href="@create-content">content type creation page</a> to add a new content type.', array('@create-content' => url('admin/structure/types/add'))) . '</p>';
-  }
-
-  return $output;
 }
 
 /**
@@ -1103,6 +1071,18 @@ function uikit_pager_link($variables) {
 }
 
 /**
+ * Implements theme_progress_bar().
+ */
+function uikit_progress_bar($variables) {
+  $output = '<div id="progress" class="uk-progress uk-progress-striped uk-active">';
+  $output .= '<div class="uk-progress-bar" style="width: ' . $variables['percent'] . '%">' . $variables['percent'] . '%</div>';
+  $output .= '<div class="uk-alert">' . $variables['message'] . '</div>';
+  $output .= '</div>';
+
+  return $output;
+}
+
+/**
  * Implements theme_status_messages().
  */
 function uikit_status_messages($variables) {
@@ -1133,7 +1113,7 @@ function uikit_status_messages($variables) {
 
     }
 
-    $output .= "<div class=\"uk-alert $class\" data-uk-alert>\n";
+    $output .= "<div class='uk-alert $class' data-uk-alert>";
     $output .= '<a class="uk-alert-close uk-close"></a>';
 
     if (!empty($status_heading[$type])) {
@@ -1141,19 +1121,19 @@ function uikit_status_messages($variables) {
     }
 
     if (count($messages) > 1) {
-      $output .= " <ul>\n";
+      $output .= '<ul class="uk-list">';
 
       foreach ($messages as $message) {
-        $output .= '  <li>' . $message . "</li>\n";
+        $output .= '<li>' . $message . '</li>';
       }
 
-      $output .= " </ul>\n";
+      $output .= '</ul>';
     }
     else {
       $output .= reset($messages);
     }
 
-    $output .= "</div>\n";
+    $output .= '</div>';
   }
 
   return $output;
@@ -1179,11 +1159,10 @@ function uikit_table($variables) {
     $attributes['class'][] = 'sticky-enabled';
   }
 
-  $output = '<div class="uk-overflow-container">';
-  $output .= '<table' . drupal_attributes($attributes) . ">\n";
+  $output = '<table' . drupal_attributes($attributes) . '>';
 
   if (isset($caption)) {
-    $output .= '<caption>' . $caption . "</caption>\n";
+    $output .= '<caption>' . $caption . '</caption>';
   }
 
   // Format the table columns:
@@ -1214,10 +1193,10 @@ function uikit_table($variables) {
           $output .= ' <col' . drupal_attributes($col) . ' />';
         }
 
-        $output .= " </colgroup>\n";
+        $output .= '</colgroup>';
       }
       else {
-        $output .= ' <colgroup' . drupal_attributes($attributes) . " />\n";
+        $output .= ' <colgroup' . drupal_attributes($attributes) . ' />';
       }
     }
   }
@@ -1249,7 +1228,7 @@ function uikit_table($variables) {
     $ts = tablesort_init($header);
     // HTML requires that the thead tag has tr tags in it followed by tbody
     // tags. Using ternary operator to check and see if we have any rows.
-    $output .= (count($rows) ? ' <thead><tr class="uk-text-left">' : ' <tr>');
+    $output .= (count($rows) ? '<thead><tr class="uk-text-left">' : '<tr>');
 
     foreach ($header as $cell) {
       $cell = tablesort_header($cell, $header, $ts);
@@ -1258,7 +1237,7 @@ function uikit_table($variables) {
 
     // Using ternary operator to close the tags based on whether or not there
     // are rows.
-    $output .= (count($rows) ? " </tr></thead>\n" : "</tr>\n");
+    $output .= (count($rows) ? '</tr></thead>' : '</tr>');
   }
   else {
     $ts = array();
@@ -1266,7 +1245,7 @@ function uikit_table($variables) {
 
   // Format the table rows:
   if (count($rows)) {
-    $output .= "<tbody>\n";
+    $output .= '<tbody>';
     $flip = array('even' => 'odd', 'odd' => 'even');
     $class = 'even';
 
@@ -1297,21 +1276,20 @@ function uikit_table($variables) {
         $attributes['class'][] = 'uk-text-left';
 
         // Build row.
-        $output .= ' <tr' . drupal_attributes($attributes) . '>';
+        $output .= '<tr' . drupal_attributes($attributes) . '>';
         $i = 0;
 
         foreach ($cells as $cell) {
           $cell = tablesort_cell($cell, $header, $ts, $i++);
           $output .= _theme_table_cell($cell);
         }
-        $output .= " </tr>\n";
+        $output .= '</tr>';
       }
     }
-    $output .= "</tbody>\n";
+    $output .= '</tbody>';
   }
 
-  $output .= "</table>\n";
-  $output .= "</div>\n";
+  $output .= '</table>';
   return $output;
 }
 

@@ -76,8 +76,8 @@
 <header<?php print $header_attributes; ?>>
   <nav<?php print $navbar_attributes; ?>>
     <div class="uk-container uk-container-center">
-      <a href="<?php print $front_page; ?>" id="logo-large" class="uk-navbar-brand uk-hidden-small" title="<?php print t('Home'); ?>" rel="home">
-        <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>"/>
+      <a href="<?php print $front_page; ?>" id="logo-large" class="uk-navbar-brand uk-hidden-small" title="<?php print t('UIkit API'); ?>" rel="home">
+        <img src="<?php print $logo; ?>" alt="<?php print t('UIkit API'); ?>"/>
         <span class="uk-margin-left uk-margin-right"><?php print $site_name; ?></span>
       </a>
 
@@ -89,8 +89,8 @@
       <a href="#offcanvas" class="uk-navbar-toggle uk-visible-small" data-uk-offcanvas></a>
 
       <div id="site-branding" class="uk-navbar-brand uk-navbar-center uk-visible-small">
-        <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home" id="logo-small">
-          <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>"/>
+        <a href="<?php print $front_page; ?>" title="<?php print t('UIkit API'); ?>" rel="home" id="logo-small">
+          <img src="<?php print $logo; ?>" alt="<?php print t('UIkit API'); ?>"/>
         </a>
       </div>
     </div>

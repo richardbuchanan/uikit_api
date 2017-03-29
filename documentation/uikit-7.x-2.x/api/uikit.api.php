@@ -3,9 +3,9 @@
 /**
  * @defgroup getting_started Getting started with UIkit
  * @{
- * @lead get_familiar Get familiar with the basic setup and structure of UIkit 7.x-2.x.
- * UIkit 7.x-2.x does not come with the required UIkit framework files
- * because, in general,
+ * @lead get_familiar Get familiar with the basic setup and structure of UIkit 7.
+ * UIkit 7 does not come with the required UIkit framework files because, in
+ * general,
  * @link https://www.drupal.org/node/422996 3rd party libraries and content are forbidden @endlink
  * from being committed to a reporsitory for projects hosted on
  * @link drupal.org drupal.org @endlink. We instead use
@@ -13,21 +13,20 @@
  * @link https://cdnjs.com/libraries/uikit UIkit library @endlink.
  *
  * This also makes the footprint of our repository smaller. Simply follow the
- * instructions below to get started with using UIkit 7.x-2.x.
+ * instructions below to get started with using UIkit 7.
  *
  * @divider
  *
  * @section download_uikit Download UIkit
- * First of all you need to download UIkit 7.x-2.x. There are three ways to
- * do this:
+ * First of all you need to download UIkit 7. There are three ways to do this:
  * - direct download from drupal.org project page (recommended)
  * - downloading via Drush (also recommended)
  * - cloning repository from git.drupal.org (for theme developers)
  *
  * Please read the
  * @link https://www.drupal.org/docs/7/extending-drupal/installing-themes Installing themes @endlink
- * article before installing UIkit 7.x-2.x. We only provide the download
- * methods below, not how to install themes.
+ * article before installing UIkit 7. We only provide the download methods
+ * below, not how to install themes.
  *
  * @subtitle via drupal.org (recommended for site administrators)
  * You can either visit
@@ -38,7 +37,7 @@
  *
  * @subtitle via Drush (recommended for site administrators comfortable with Drush)
  * Drush is a command line and shell scripting interface for Drupal. Use the
- * following command to download UIkit 7.x-2.0-beta1 with Drush.
+ * following command to download UIkit 7 with Drush.
  *
  * @inlineblockcode drush dl uikit @endinlineblockcode
  *
@@ -61,29 +60,33 @@
  * @divider
  *
  * @section requirements Requirements
- * There are no requirements to use UIkit 7.x-2.x. The required UIkit v2.x.x,
- * jQuery v2.1.4 and jQuery Migrate v1.4.1 libraries are retrieved
- * automatically. jQuery Migrate allows us to use old code from jQuery 1.9+.
+ * There are no requirements to use UIkit 7. The required UIkit, jQuery v2.1.4
+ * and jQuery Migrate v1.4.1 libraries are retrieved automatically. jQuery
+ * Migrate allows us to use old code from jQuery 1.9+.
  *
  * @divider
  *
  * @section recommendations Recommendations
- * The following modules are recommended and fully supported by UIkit 7.x-2.x.
+ * The following modules are recommended and fully supported by UIkit 7.
+ *
+ * @link https://www.drupal.org/project/uikit_admin UIkit Admin @endlink:
+ * An administration theme using UIkit 7 as a base theme.
  *
  * @link https://www.drupal.org/project/uikit_components UIkit Components @endlink:
  * Provides additional components and functionality to the UIkit base theme.
  *
  * @divider
  *
- * Once you have finished implementing UIkit into your Drupal site, take a look
- * at the @link theme_settings UIkit theme settings @endlink to configure UIkit.
+ * Once you have finished implementing UIkit 7 into your Drupal site, take a
+ * look at the @link theme_settings UIkit theme settings @endlink to configure
+ * UIkit 7.
  * @}
  */
 
 /**
  * @defgroup theme_settings UIkit theme settings
  * @{
- * @lead settings Customizing UIkit 7.x-2.x from the Drupal administration back-end.
+ * @lead settings Customizing UIkit 7 from the Drupal administration back-end.
  * UIkit comes with an extensive variety of theme settings to configure almost
  * all themeable aspects of your Drupal site. This topic provides a brief
  * overview of these theme settings to customize the look of your website.
@@ -205,7 +208,7 @@
 /**
  * @defgroup sub_theme Creating a UIkit sub-theme
  * @{
- * @lead subtheme Create a custom theme by inheriting the UIkit 7.x-2.x base theme.
+ * @lead subtheme Create a custom theme by inheriting the UIkit 7 base theme.
  * Creating a custom theme utilizing UIkit is just like creating any other
  * theme. The only difference with creating a UIkit sub-theme is your custom
  * theme will automatically inherit all UIkit offers without having to reinvent
@@ -216,7 +219,7 @@
 /**
  * @defgroup uikit_themeable UIkit theme implementations
  * @{
- * @lead implementations Functions and templates for the user interface to be implemented by UIkit 7.x-2x.
+ * @lead implementations Functions and templates for the user interface to be implemented by UIkit 7.
  * Drupal's default template renderer is a simple PHP parsing engine that
  * includes the template and stores the output. Drupal's theme engines
  * can provide alternate template engines, such as XTemplate, Smarty and

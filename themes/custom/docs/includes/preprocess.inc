@@ -230,6 +230,30 @@ function docs_preprocess_link(&$variables) {
 }
 
 /**
+ * Implements hook_preprocess_HOOK().
+ */
+function docs_preprocess_menu_link(&$variables) {
+  $href = $variables['element']['#href'];
+  $theme = $variables['element']['#theme'];
+
+  if ($theme == 'menu_link__navbar') {
+    switch ($href) {
+      case 'api/uikit':
+        $variables['element']['#localized_options']['attributes']['title'] = t('UIkit 7.x-2.x');
+        break;
+
+      case 'api/uikit_admin':
+        $variables['element']['#localized_options']['attributes']['title'] = t('UIkit Admin 7.x-2.x');
+        break;
+
+      case 'api/uikit_components':
+        $variables['element']['#localized_options']['attributes']['title'] = t('UIkit Components 7.x-1.x');
+        break;
+    }
+  }
+}
+
+/**
  * Implements template_preprocess_node().
  */
 function docs_preprocess_node(&$variables) {
@@ -303,6 +327,19 @@ function docs_preprocess_region(&$variables) {
       'weight' => -10,
       'version' => '2.26.4',
     ));
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function docs_preprocess_table(&$variables) {
+  $classes = $variables['attributes']['class'];
+
+  foreach ($classes as $key => $class) {
+    if ($class == 'uk-text-nowrap') {
+      unset($variables['attributes']['class'][$key]);
+    }
   }
 }
 

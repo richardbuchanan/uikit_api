@@ -4,3 +4,13 @@ pre .ini .value {
 .php .php-function-or-constant a {
   font-weight: bold;
 }
+ol.code-lines,
+pre .comment,
+pre .template_comment,
+pre .diff .header,
+pre .javadoc {
+  color: #777 !important;
+}
+ol.code-lines span.comment + li {
+  display: none;
+}
