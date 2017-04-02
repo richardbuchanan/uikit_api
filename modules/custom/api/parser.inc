@@ -1765,6 +1765,50 @@ function api_format_documentation($documentation, $auto_p = TRUE, &$references) 
   }
 
   /**
+   * Process HTML highlighted pre > code.
+   *
+   * Formats a <code> element wrapped in a <pre> element. This bypasses
+   * the normal formatting of pre > code by the API module, which is styled as
+   * PHP. Use this for styling HTML, which will be handled by the Syntax
+   * Highlighter library.
+   *
+   * Note: Drupal hooks, functions, etc. will NOT be linked to in @precode.
+   *
+   * @code
+   *   @codehtml<html>
+   *     <body></body>
+   *   </html>
+   *   @endcodehtml
+   * @endcode
+   */
+  $regexp = '/^' . API_RE_TAG_START . 'codehtml/m';
+  preg_match_all($regexp, $documentation, $codehtml_matches, PREG_SET_ORDER);
+  if (!empty($codehtml_matches)) {
+    $documentation = preg_replace($regexp, '<pre class="html"><code>', $documentation);
+  }
+  $regexp = '/^' . API_RE_TAG_START . 'endcodehtml/m';
+  preg_match_all($regexp, $documentation, $endcodehtml_matches, PREG_SET_ORDER);
+  if (!empty($endcodehtml_matches)) {
+    $documentation = preg_replace($regexp, '</code></pre>', $documentation);
+  }
+
+  /**
+   * Process non-highlighted pre > code.
+   *
+   * Formats a <code> element wrapped in a <pre> element. This bypasses
+   * the normal formatting of pre > code by the API module, which is styled as
+   * PHP. Use this for not highlighting pre > code using the Syntax Highlighter
+   * library as well.
+   *
+   * Note: Drupal hooks, functions, etc. will NOT be linked to in @precode.
+   *
+   * @code
+   *   @codenophp drupal_goto('<front>'); @endcodenophp
+   * @endcode
+   */
+  $documentation = preg_replace('/' . API_RE_TAG_START . 'codenophp (.*?) ' . API_RE_TAG_START . 'endcodenophp/', '<pre class="no-highlight"><code>$1</code></pre>', $documentation);
+
+  /**
    * Process inline code.
    *
    * Formats a code element without a pre wrapper. Use this for inline code
@@ -1821,6 +1865,28 @@ function api_format_documentation($documentation, $auto_p = TRUE, &$references) 
   $regexp = '/^' . API_RE_TAG_START . 'endoverflow_container/m';
   preg_match_all($regexp, $documentation, $endoverflow_matches, PREG_SET_ORDER);
   if (!empty($endoverflow_matches)) {
+    $documentation = preg_replace($regexp, '</div>', $documentation);
+  }
+
+  /**
+   * Process alerts.
+   *
+   * Creates an alert message.
+   *
+   * @code
+   *   @alert (uk-alert) OR (uk-alert uk-alert-success)... etc.
+   *   Alert content, such as warnings and errors.
+   *   @endalert
+   * @endcode
+   */
+  $regexp = '/^' . API_RE_TAG_START . 'alert ([^\n]+)/m';
+  preg_match_all($regexp, $documentation, $alert_matches, PREG_SET_ORDER);
+  if (!empty($alert_matches)) {
+    $documentation = preg_replace($regexp, '<div class="$1">', $documentation);
+  }
+  $regexp = '/^' . API_RE_TAG_START . 'endalert/m';
+  preg_match_all($regexp, $documentation, $endalert_matches, PREG_SET_ORDER);
+  if (!empty($endalert_matches)) {
     $documentation = preg_replace($regexp, '</div>', $documentation);
   }
   /**

@@ -19,6 +19,9 @@ html {
 body {
   background: #fdfdfd;
 }
+h3:not(.docs-article-subtitle) {
+  font-weight: bold;
+}
 
 /**
  * UIkit containers
@@ -78,8 +81,9 @@ body {
 .uk-alert ul > li {
   list-style: none;
 }
-.uk-alert > :not(.uk-alert-close):not(.uk-hidden) {
-  margin-right: 30px;
+.uk-alert a {
+  color: inherit;
+  font-weight: bold;
 }
 
 /**
@@ -192,8 +196,8 @@ html.js .ctools-collapsible-container .ctools-collapsible-handle {
   -o-transition: color 300ms ease-in-out, opacity 300ms ease-in-out;
   transition: color 300ms ease-in-out, opacity 300ms ease-in-out;
 }
-.docs-link-anchor:focus [class*='uk-icon-'],
-.docs-link-anchor:hover [class*='uk-icon-'] {
+.docs-link-anchor a:focus [class*='uk-icon-'],
+.docs-link-anchor a:hover [class*='uk-icon-'] {
   opacity: 0.5;
 }
 .docs-article-subtitle {

@@ -31,4 +31,5 @@
  * - @link theme_settings UIkit theme settings @endlink
  * - @link sub_theme Creating a UIkit sub-theme @endlink
  * - @link uikit_themeable UIkit theme implementations @endlink
+ * - @link maintainers Project Maintainers @endlink
  */
