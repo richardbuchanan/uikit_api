@@ -1,8 +1,7 @@
 {
-  "name": "uikit",
-  "version": "7.1.0-dev",
+  "name": "uikit-drupal",
+  "version": "7.2.0-dev",
   "description": "A lightweight frontend framework with a comprehensive collection of HTML, CSS, and JS components.",
-  "dependencies": {},
   "devDependencies": {
     "eslint": "^3.14.1"
   },
@@ -11,9 +10,13 @@
     "url" : "https://www.drupal.org/project/issues/uikit"
   },
   "license": "GPL-2.0+",
-  "author": "Richard Buchanan <richard_buchanan@buchanandesigngroup.com> (https://www.drupal.org/u/richard-buchanan)",
-  "repository" : {
-    "type" : "git",
-    "url" : "git.drupal.org:project/uikit.git"
-  }
+  "author": "Richard Buchanan <richardbuchanan@richardbuchanan.com> (https://www.drupal.org/u/richard-buchanan)",
+  "repository": {
+    "type": "git",
+    "url": "git.drupal.org:project/uikit.git"
+  },
+  "keywords": [
+    "drupal",
+    "uikit"
+  ]
 }

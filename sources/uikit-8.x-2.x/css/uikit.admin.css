@@ -1,0 +1,317 @@
+/**
+ * @file
+ * UIkit theme settings styles.
+ *
+ * Provides graphical examples of many settings on the theme settings page.
+ */
+
+.uk-admin-demo {
+  float: right;
+}
+.uk-layout-container {
+  background: #fff;
+  height: 100%;
+  width: 100%;
+}
+.uk-layout-content,
+.uk-layout-sidebar {
+  position: relative;
+  float: left;
+}
+.uk-layout-content {
+  background: #ff9400;
+}
+.uk-layout-sidebar {
+  background: #0080ff;
+}
+.vertical-tabs-pane > .fieldset-wrapper > .fieldset-description {
+  padding: 5px 0 10px;
+}
+
+/**
+ * Layout settings.
+ */
+#edit-standard-layout .uk-layout-wrapper {
+  height: 99px;
+  width: 176px;
+}
+#edit-tablet-layout .uk-layout-wrapper {
+  height: 132px;
+  width: 124px;
+}
+#edit-mobile-layout .uk-layout-wrapper {
+  height: 96px;
+  width: 54px;
+}
+#edit-standard-layout .form-type-radios,
+#edit-tablet-layout .form-type-radios,
+#edit-mobile-layout .form-type-radios {
+  float: left;
+  margin-top: 0;
+}
+#edit-standard-layout .uk-layout-content {
+  height: 100%;
+  width: 88px;
+}
+#edit-standard-layout .uk-layout-sidebar-left,
+#edit-standard-layout .uk-layout-sidebar-right {
+  height: 100%;
+  width: 40px;
+}
+#edit-standard-layout .uk-layout-holy-grail .uk-layout-content {
+  left: 44px;
+}
+#edit-standard-layout .uk-layout-holy-grail .uk-layout-sidebar-left,
+#edit-standard-layout .uk-layout-sidebars-left .uk-layout-sidebar-left {
+  left: -88px;
+}
+#edit-standard-layout .uk-layout-holy-grail .uk-layout-sidebar-right,
+#edit-tablet-layout .uk-layout-holy-grail .uk-layout-sidebar-right {
+  right: -8px;
+}
+#edit-standard-layout .uk-layout-sidebars-left .uk-layout-content {
+  left: 88px;
+}
+#edit-standard-layout .uk-layout-sidebars-left .uk-layout-sidebar-right {
+  left: -84px;
+}
+#edit-standard-layout .uk-layout-sidebars-right .uk-layout-sidebar-left,
+#edit-tablet-layout .uk-layout-sidebars-right .uk-layout-sidebar-left {
+  left: 4px;
+}
+#edit-standard-layout .uk-layout-sidebars-right .uk-layout-sidebar-right,
+#edit-tablet-layout .uk-layout-sidebars-right .uk-layout-sidebar-right {
+  left: 8px;
+}
+#edit-tablet-layout .uk-layout-content {
+  height: 100%;
+  width: 62px;
+}
+#edit-tablet-layout .uk-layout-holy-grail .uk-layout-content,
+#edit-tablet-layout .uk-layout-sidebar-left-stacked .uk-layout-content {
+  left: 31px;
+}
+#edit-tablet-layout .uk-layout-holy-grail .uk-layout-sidebar-left,
+#edit-tablet-layout .uk-layout-holy-grail .uk-layout-sidebar-right,
+#edit-tablet-layout .uk-layout-sidebars-left .uk-layout-sidebar-left,
+#edit-tablet-layout .uk-layout-sidebars-left .uk-layout-sidebar-right,
+#edit-tablet-layout .uk-layout-sidebars-right .uk-layout-sidebar-left,
+#edit-tablet-layout .uk-layout-sidebars-right .uk-layout-sidebar-right,
+#edit-tablet-layout .uk-layout-sidebar-left-stacked .uk-layout-sidebar-left {
+  height: 100%;
+  width: 27px;
+}
+#edit-tablet-layout .uk-layout-holy-grail .uk-layout-sidebar-left,
+#edit-tablet-layout .uk-layout-sidebars-left .uk-layout-sidebar-left {
+  left: -62px;
+}
+#edit-tablet-layout .uk-layout-sidebars-left .uk-layout-content {
+  left: 62px;
+}
+#edit-tablet-layout .uk-layout-sidebars-left .uk-layout-sidebar-right {
+  left: -58px;
+}
+#edit-tablet-layout .uk-layout-sidebar-left-stacked .uk-layout-sidebar-right {
+  width: 100%;
+}
+#edit-tablet-layout .uk-layout-sidebar-left-stacked .uk-layout-content,
+#edit-tablet-layout .uk-layout-sidebar-left-stacked .uk-layout-sidebar-left,
+#edit-tablet-layout .uk-layout-sidebar-right-stacked .uk-layout-content {
+  height: 101px;
+}
+#edit-tablet-layout .uk-layout-sidebar-left-stacked .uk-layout-content,
+#edit-tablet-layout .uk-layout-sidebar-right-stacked .uk-layout-content {
+  width: 92px;
+}
+#edit-tablet-layout .uk-layout-sidebar-left-stacked .uk-layout-sidebar-left {
+  left: -92px;
+}
+#edit-tablet-layout .uk-layout-sidebar-left-stacked .uk-layout-sidebar-right {
+  bottom: -4px;
+  height: 27px;
+}
+#edit-tablet-layout .uk-layout-sidebar-right-stacked .uk-layout-sidebar-left {
+  left: 4px;
+  height: 101px;
+  width: 27px;
+}
+#edit-tablet-layout .uk-layout-sidebar-right-stacked .uk-layout-sidebar-right {
+  bottom: -4px;
+  height: 27px;
+  width: 100%;
+}
+#edit-mobile-layout .uk-layout-sidebars-stacked .uk-layout-content,
+#edit-mobile-layout .uk-layout-sidebars-vertical .uk-layout-content {
+  height: 68px;
+  width: 100%;
+}
+#edit-mobile-layout .uk-layout-sidebars-stacked .uk-layout-sidebar-left,
+#edit-mobile-layout .uk-layout-sidebars-stacked .uk-layout-sidebar-right {
+  height: 12px;
+  width: 100%;
+}
+#edit-mobile-layout .uk-layout-sidebars-stacked .uk-layout-sidebar-left {
+  bottom: -2px;
+}
+#edit-mobile-layout .uk-layout-sidebars-stacked .uk-layout-sidebar-right {
+  bottom: -4px;
+}
+#edit-mobile-layout .uk-layout-sidebars-vertical .uk-layout-sidebar-left,
+#edit-mobile-layout .uk-layout-sidebars-vertical .uk-layout-sidebar-right {
+  top: 2px;
+  height: 26px;
+  width: 26px;
+}
+#edit-mobile-layout .uk-layout-sidebars-vertical .uk-layout-sidebar-right {
+  left: 2px;
+}
+#edit-device-width .form-type-textfield input[type=text],
+#edit-device-height .form-type-textfield input[type=text] {
+  max-width: 150px;
+}
+
+/**
+ * UIkit subnav styles.
+ */
+.block .uk-subnav {
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-left: -10px;
+  margin-top: -10px;
+  padding: 0;
+  list-style: none;
+}
+.uk-subnav > * {
+  -ms-flex: none;
+  -webkit-flex: none;
+  flex: none;
+  list-style: none;
+  padding-left: 10px;
+  margin-top: 10px;
+  position: relative;
+}
+.uk-subnav:before,
+.uk-subnav:after {
+  content: "";
+  display: block;
+  overflow: hidden;
+}
+.uk-subnav:after {
+  clear: both;
+}
+.uk-subnav > * {
+  float: left;
+}
+.uk-subnav > * > * {
+  display: inline-block;
+  color: #444444;
+}
+.uk-subnav > * > :hover,
+.uk-subnav > * > :focus {
+  color: #0077dd;
+  text-decoration: none;
+}
+.uk-subnav > .uk-active > * {
+  color: #0077dd;
+}
+.uk-subnav-line > :before {
+  content: "";
+  display: inline-block;
+  height: 10px;
+  vertical-align: middle;
+}
+.uk-subnav-line > :nth-child(n+2):before {
+  margin-right: 10px;
+  border-left: 1px solid #dddddd;
+}
+.uk-subnav-pill > * > * {
+  padding: 3px 9px;
+}
+.uk-subnav-pill > * > :hover,
+.uk-subnav-pill > * > :focus {
+  background: #eeeeee;
+  color: #444444;
+  text-decoration: none;
+  outline: none;
+}
+.uk-subnav-pill > .uk-active > * {
+  background: #00a8e6;
+  color: #ffffff;
+}
+.uk-subnav > .uk-disabled > * {
+  background: none;
+  color: #999999;
+  text-decoration: none;
+  cursor: text;
+}
+
+/**
+ * UIkit tab styles.
+ */
+.uk-tab {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid #ddd
+}
+
+.uk-tab:after,.uk-tab:before {
+  content: "";
+  display: table
+}
+
+.uk-tab:after {
+  clear: both
+}
+
+.uk-tab>li {
+  margin-bottom: -1px;
+  float: left;
+  position: relative
+}
+
+.uk-tab>li>a {
+  display: block;
+  padding: 8px 12px 8px 12px;
+  border: 1px solid transparent;
+  border-bottom-width: 0;
+  color: #07D;
+  text-decoration: none
+}
+
+.uk-tab>li:nth-child(n+2)>a {
+  margin-left: 5px
+}
+
+.uk-tab>li.uk-open>a,.uk-tab>li>a:focus,.uk-tab>li>a:hover {
+  border-color: #f5f5f5;
+  background: #f5f5f5;
+  color: #059;
+  outline: 0
+}
+
+.uk-tab>li.uk-open:not(.uk-active)>a,.uk-tab>li:not(.uk-active)>a:focus,.uk-tab>li:not(.uk-active)>a:hover {
+  margin-bottom: 1px;
+  padding-bottom: 7px
+}
+
+.uk-tab>li.uk-active>a {
+  border-color: #ddd;
+  border-bottom-color: transparent;
+  background: #fff;
+  color: #444
+}
+
+.uk-tab>li.uk-disabled>a {
+  color: #999;
+  cursor: text
+}
+
+.uk-tab>li.uk-disabled.uk-active>a,.uk-tab>li.uk-disabled>a:focus,.uk-tab>li.uk-disabled>a:hover {
+  background: 0 0;
+  border-color: transparent
+}

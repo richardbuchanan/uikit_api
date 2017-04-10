@@ -150,7 +150,7 @@
       <?php endif; ?>
 
       <?php if ($messages): ?>
-        <div id="messages" class="uk-width-1-1">
+        <div id="messages" class="uk-width-1-1 uk-margin">
           <?php print $messages; ?>
         </div>
       <?php endif; ?>

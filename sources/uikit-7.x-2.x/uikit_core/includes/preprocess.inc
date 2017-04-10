@@ -495,6 +495,17 @@ function uikit_preprocess_region(&$variables) {
 }
 
 /**
+ * Implements template_preprocess_block().
+ */
+function uikit_preprocess_block(&$variables) {
+  $region = $variables['block']->region;
+
+  if ($region == 'sidebar_first' || $region == 'sidebar_second') {
+    $variables['classes_array'][] = 'uk-margin';
+  }
+}
+
+/**
  * Implements template_preprocess_HOOK().
  */
 function uikit_preprocess_breadcrumb(&$variables) {

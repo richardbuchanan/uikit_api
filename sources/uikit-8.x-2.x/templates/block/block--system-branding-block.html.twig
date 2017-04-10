@@ -1,4 +1,3 @@
-{% extends "block.html.twig" %}
 {#
 /**
  * @file
@@ -11,20 +10,14 @@
  * - site_logo: Logo for site as defined in Appearance or theme settings.
  * - site_name: Name for site as defined in Site information settings.
  * - site_slogan: Slogan for site as defined in Site information settings.
- *
- * @ingroup uikit_themeable
  */
 #}
-{% block content %}
-  {% if site_logo or site_name %}
-    <a href="{{ path('<front>') }}" title="{{ 'Home'|t }}" class="uk-navbar-brand uk-hidden-small" rel="home">
-      {% if site_logo %}
-        <img src="{{ site_logo }}" alt="{{ 'Home'|t }}" />
-      {% endif %}
-      {% if site_name %}
-        <span>{{ site_name }}</span>
-      {% endif %}
-    </a>
-  {% endif %}
-  {{ site_slogan }}
-{% endblock %}
+{% if site_logo or site_name %}
+  <a href="{{ path('<front>') }}" title="{{ 'Home'|t }}" rel="home" class="uk-navbar-brand">
+    <img src="{{ site_logo }}" alt="{{ 'Home'|t }}" />{% if site_name %} {{ site_name }}{% endif %}
+  </a>
+{% endif %}
+
+{% if site_slogan %}
+  <span>{{ site_slogan }}</span>
+{% endif %}

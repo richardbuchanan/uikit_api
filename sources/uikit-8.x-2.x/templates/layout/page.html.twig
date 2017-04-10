@@ -41,49 +41,53 @@
  *
  * @see template_preprocess_page()
  * @see html.html.twig
- *
- * @ingroup uikit_themeable
  */
 #}
-<div class="uk-container uk-container-center uk-margin-top">
+<header{{ header_attributes }}>
+  {% if page.navbar %}
+    <nav{{ navbar_attributes }}>
+      {% if page.offcanvas %}
+        <a href="#offcanvas" class="uk-navbar-toggle uk-visible-small" data-uk-offcanvas=""></a>
+      {% endif %}
 
-  <nav class="uk-navbar">
-    {{ page.branding }}
-    {{ page.primary_menu }}
-    {{ page.secondary_menu }}
-  </nav>
+      {{ page.navbar }}
+    </nav>
+  {% endif %}
+</header>
 
-  {{ page.breadcrumb }}
-
-  {{ page.highlighted }}
-
-  {{ page.help }}
-
-  <main role="main">
-    <a id="main-content" tabindex="-1"></a>
-
-    <div class="layout-content">
+<div{{ page_attributes }}>
+  <div id="page--wrapper" class="uk-grid" data-uk-grid-margin>
+    <main{{ content_attributes }}>
+      <a id="main-content" tabindex="-1"></a>
       {{ page.content }}
-    </div>
+    </main>
 
     {% if page.sidebar_first %}
-      <aside class="layout-sidebar-first" role="complementary">
+      <aside{{ sidebar_first_attributes }}>
         {{ page.sidebar_first }}
       </aside>
     {% endif %}
 
     {% if page.sidebar_second %}
-      <aside class="layout-sidebar-second" role="complementary">
+      <aside{{ sidebar_second_attributes }}>
         {{ page.sidebar_second }}
       </aside>
     {% endif %}
-
-  </main>
-
-  {% if page.footer %}
-    <footer role="contentinfo">
-      {{ page.footer }}
-    </footer>
-  {% endif %}
-
+  </div>
 </div>
+
+{% if page.footer %}
+  <footer role="contentinfo">
+    <div class="uk-container uk-container-center uk-margin-top">
+      {{ page.footer }}
+    </div>
+  </footer>
+{% endif %}
+
+{% if page.offcanvas %}
+  <div id="offcanvas" class="uk-offcanvas">
+    <div class="uk-offcanvas-bar">
+      {{ page.offcanvas }}
+    </div>
+  </div>
+{% endif %}

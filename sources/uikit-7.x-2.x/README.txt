@@ -33,12 +33,16 @@ There are no requirements to using UIkit.
 RECOMMENDATIONS
 ------------
 
-The following modules are recommended and fully supported by the UIkit for
-Drupal theme.
+The following modules and themes are recommended and fully supported by the
+UIkit for Drupal theme.
 
  * UIkit Components:
    Provides additional components and functionality to the UIkit base theme.
    https://www.drupal.org/project/uikit_components
+
+ * UIkit Components:
+   An administration theme using UIkit as a base theme.
+   https://www.drupal.org/project/uikit_admin
 
 
 INSTALLATION

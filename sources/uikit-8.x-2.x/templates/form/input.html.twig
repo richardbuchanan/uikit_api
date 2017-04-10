@@ -1,0 +1,20 @@
+{#
+/**
+ * @file
+ * Theme override for an 'input' #type form element.
+ *
+ * Available variables:
+ * - attributes: A list of HTML attributes for the input element.
+ * - children: Optional additional rendered elements.
+ *
+ * @see template_preprocess_input()
+ */
+#}
+{%
+  set classes = [
+    attributes.type == 'submit' ? 'uk-button',
+    attributes.type == 'email' or attributes.type == 'password' or attributes.type == 'search' or attributes.type == 'text' ? 'uk-form-width-large',
+    attributes.type == 'hidden' ? 'uk-form-row',
+  ]
+%}
+<input{{ attributes.addClass(classes) }} />{{ children }}

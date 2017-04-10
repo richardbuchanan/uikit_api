@@ -25,7 +25,6 @@ dependencies[] = field_ui
 dependencies[] = file
 dependencies[] = rdf
 dependencies[] = adminimal_admin_menu
-dependencies[] = jquery_update
 dependencies[] = api
 dependencies[] = docs_companion
 dependencies[] = module_filter
