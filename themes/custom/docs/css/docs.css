@@ -44,6 +44,7 @@ h3:not(.docs-article-subtitle) {
 .uk-navbar #logo-large img,
 .uk-navbar #logo-small img {
   height: 28px;
+  width: 24px;
 }
 .uk-navbar .uk-navbar-toggle {
   color: #fff;
