@@ -38,10 +38,3 @@ settings[primary_tasks_style] = 'uk-tab'
 settings[secondary_tasks_style] = 'uk-subnav-line'
 settings[display_breadcrumbs] = 1
 settings[breakcrumbs_home_link] = 1
-
-; Information added by Drupal.org packaging script on 2017-04-05
-version = "7.x-2.0+0-dev"
-core = "7.x"
-project = "uikit"
-datestamp = "1491427988"
-
