@@ -6,9 +6,9 @@ dependencies[] = menu
 
 configure = admin/config/user-interface/uikit-components
 
-; Information added by Drupal.org packaging script on 2017-02-26
+; Information added by Drupal.org packaging script on 2017-04-02
 version = "7.x-1.x-dev"
 core = "7.x"
 project = "uikit_components"
-datestamp = "1488069486"
+datestamp = "1491158885"
 
