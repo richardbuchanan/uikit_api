@@ -293,9 +293,7 @@ function docs_preprocess_node(&$variables) {
 function docs_preprocess_page(&$variables) {
   $docs = drupal_get_path('theme', 'docs');
   $svg_logo = '/' . $docs . '/logo_large.svg';
-  $png_logo = '/' . $docs . '/logo.png';
   $variables['logo'] = $svg_logo;
-  $variables['fallback_logo'] = $png_logo;
 
   $variables['header_attributes_array']['class'] = array();
 }
