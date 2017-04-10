@@ -1,4 +1,7 @@
-(function($){
+(function($) {
+
+  'use strict';
+
   $(document).ready(function() {
     footerPosition();
   });
@@ -59,7 +62,7 @@
 
     var els = Array.prototype.slice.call(document.querySelectorAll(selector), 0);
 
-    els.forEach(function(el, idx, arr){
+    els.forEach(function(el){
       var txt = el.textContent
         .replace(/^[\r\n]+/, "")	// strip leading newline
         .replace(/\s+$/g, "");		// strip trailing whitespace
@@ -80,7 +83,7 @@
         }
       }
 
-      if (min == 1e3) return;
+      if (min === 1e3) return;
 
       el.textContent = txt.replace(new RegExp("^" + str, 'gm'), "");
     });
@@ -89,10 +92,13 @@
 })(jQuery);
 
 (function($) {
+
+  'use strict';
+
   Drupal.behaviors.externalLinks = {
     attach: function () {
       $('a').each(function() {
-        if (this.hostname != location.host) {
+        if (this.hostname !== location.host) {
           // Make sure all external links open in a new tab.
           $(this).prop('target', '_blank');
 
@@ -106,6 +112,9 @@
 })(jQuery);
 
 (function($) {
+
+  'use strict';
+
   Drupal.behaviors.stickySidebar = {
     attach: function () {
       $('#region-sidebar-second-wrapper').each(function() {
