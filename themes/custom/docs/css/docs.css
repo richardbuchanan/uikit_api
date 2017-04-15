@@ -22,6 +22,12 @@ body {
 h3:not(.docs-article-subtitle) {
   font-weight: bold;
 }
+ol>li>ol,
+ol>li>ul,
+ul>li>ol,
+ul>li>ul {
+  margin: 10px 0 15px;
+}
 
 /**
  * UIkit containers

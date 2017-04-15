@@ -1709,8 +1709,8 @@ function api_format_documentation($documentation, $auto_p = TRUE, &$references) 
    * Formats content in a blockquote.
    *
    *   @blockquote
-   *   @blockquote_p Blockquote paragraph
-   *   @blockquote_s Blockquote citation
+   *   @blockparagraph Blockquote paragraph @endblockparagraph
+   *   @blocksmall Blockquote citation @endblocksmall
    *   @endblockquote
    */
   $regexp = '/^' . API_RE_TAG_START . 'blockquote/m';
@@ -1842,6 +1842,31 @@ function api_format_documentation($documentation, $auto_p = TRUE, &$references) 
    * @endcode
    */
   $documentation = preg_replace('/' . API_RE_TAG_START . 'inlineblockcode (.*?) ' . API_RE_TAG_START . 'endinlineblockcode/', '<code class="uk-display-inline-block">$1</code>', $documentation);
+
+  /**
+   * Process non-highlighted auto-selected pre > code.
+   *
+   * Formats a <code> element wrapped in a <pre> element. This bypasses
+   * the normal formatting of pre > code by the API module, which is styled as
+   * PHP. Use this for styling other languages, which will be handled by the
+   * Syntax Highlighter library.
+   *
+   * Note: Drupal hooks, functions, etc. will NOT be linked to in @precode.
+   *
+   * @code
+   *   @selectcode Enter auto-selected text/code here. @endselectcode
+   * @endcode
+   */
+  $documentation = preg_replace('/' . API_RE_TAG_START . 'selectcode (.*?) ' . API_RE_TAG_START . 'endselectcode/', '<pre class="highlight code-select"><code class="xml">$1</code></pre>', $documentation);
+
+  /**
+   * Process textarea element.
+   *
+   * @code
+   *   @textarea Enter some text here. @endtextarea
+   * @endcode
+   */
+  $documentation = preg_replace('/' . API_RE_TAG_START . 'textarea (.*?) ' . API_RE_TAG_START . 'endtextarea/', '<form class="uk-form"><textarea rows="5" class="uk-width-1-1">$1</textarea></form>', $documentation);
 
   /**
    * Process overflow containers.

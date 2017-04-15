@@ -1,3 +1,6 @@
+pre.code-select {
+  white-space: normal !important;
+}
 pre .ini .value {
   color: #099;
 }

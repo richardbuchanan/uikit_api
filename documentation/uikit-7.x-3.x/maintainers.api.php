@@ -124,7 +124,7 @@
  * {username} with your Drupal.org Git username:
  *
  * @code
- * git clone --branch 7.x-2.x {username}@git.drupal.org:project/uikit.git
+ * git clone --branch 7.x-3.x {username}@git.drupal.org:project/uikit.git
  * cd uikit
  * @endcode
  *
@@ -162,7 +162,7 @@
  *
  * @heading h4 Pushing your code back to the repository on Drupal.org @endheading
  * @code
- * git push -u origin 7.x-2.x
+ * git push -u origin 7.x-3.x
  * @endcode
  *
  * @divider
@@ -174,7 +174,7 @@
  * command:
  *
  * @code
- * git pull origin 7.x-2.x
+ * git pull origin 7.x-3.x
  * @endcode
  *
  * @heading h4 Creating a patch @endheading
@@ -241,28 +241,28 @@
  * Drupal.org:
  *
  * @code
- * git checkout -b 7.x-2.x
- * git push -u origin 7.x-2.x
+ * git checkout -b 7.x-3.x
+ * git push -u origin 7.x-3.x
  * @endcode
  *
  * @heading h4 Tag for an alpha/beta/rc testing release @endheading
  * This creates and checks out a new release tag, then pushes it to Drupal.org.
- * Replace 7.x-2.0-alpha1 with the correct tag naming conventions for the
+ * Replace 7.x-3.0-alpha1 with the correct tag naming conventions for the
  * release tag you are creating.
  *
  * @code
- * git checkout  7.x-2.x
- * git tag 7.x-2.0-alpha1
- * git push origin tag 7.x-2.0-alpha1
+ * git checkout  7.x-3.x
+ * git tag 7.x-3.0-alpha1
+ * git push origin tag 7.x-3.0-alpha1
  * @endcode
  *
  * @heading h4 Tag for a stable release @endheading
  * This does the same, except for a stable release.
  *
  * @code
- * git checkout  7.x-2.x
- * git tag 7.x-2.0
- * git push origin tag 7.x-2.0
+ * git checkout  7.x-3.x
+ * git tag 7.x-3.0
+ * git push origin tag 7.x-3.0
  * @endcode
  *
  * @divider
@@ -301,7 +301,7 @@
  * text to use in the template from a project maintainer with the Git maintainer
  * role. We have an automated task that can build the release notes for us that
  * requires Git access. Once you have the release notes continue to
- * @link http://uikit-drupal.com/api/uikit/documentation%21uikit-7.x-2.x%21api%21maintainers.api.php/group/publish_release/7.x-2.x#release_notes_template Release Notes Template @endlink.
+ * @link http://uikit-drupal.com/api/uikit/documentation%21uikit-7.x-3.x%21api%21maintainers.api.php/group/publish_release/7.x-3.x#release_notes_template Release Notes Template @endlink.
  * @endalert
  *
  * For maintainers with the Git maintainer role, the following will
@@ -333,29 +333,28 @@
  * For example when the branch is not checked out locally you may try something
  * like this:
  *
- * @selectcode drush rn 7.x-2.0-rc1 origin/7.x-2.x --commit-links @endselectcode
+ * @selectcode drush rn 7.x-3.0-alpha1 origin/7.x-3.x --commit-links @endselectcode
  *
  * Or if both tags have already been pushed to the repository you may try
  * something like this:
  *
- * @selectcode drush rn 7.x-2.0-rc1 7.x-2.0-rc2 --commit-links @endselectcode
+ * @selectcode drush rn 7.x-3.0-alpha1 7.x-3.x --commit-links @endselectcode
  *
  * If you only provide the tag, the previous tag before that will be used as
  * the @inlinecode <end> @endinlinecode argument:
  *
- * @selectcode drush rn 7.x-2.0-rc2 --commit-links @endselectcode
+ * @selectcode drush rn 7.x-3.0-alpha1 --commit-links @endselectcode
  *
- * If both tags are omitted, the latest tag will be used as the tag:
+ * If both tags are ommitted, the latest tag will be used as the tag:
  *
  * @selectcode drush rn --commit-links @endselectcode
  *
  * All four of the above examples will output the following to your terminal:
  *
- * @codehtml<p>Changes since 7.x-2.0-rc1:</p>
+ * @codehtml<p>Changes since 7.x-3.0-alpha1:</p>
  * <ul>
- * <li>Update package.json (<a href="http://drupalcode.org/uikit.git/commit/4545293" title="View commit">#</a>)</li>
- * <li>Status messages need top and bottom margin added (<a href="http://drupalcode.org/uikit.git/commit/0ca133f" title="View commit">#</a>)</li>
- * <li>Sidebar blocks need bottom margin added (<a href="http://drupalcode.org/uikit.git/commit/2a3d124" title="View commit">#</a>)</li>
+ * <li>Update framework version to 3.0.0-beta.21 (<a href="http://drupalcode.org/uikit.git/commit/ccbdee9" title="View commit">#</a>)</li>
+ * <li>Updated UIkit library to version 3.0.0-beta-20 (<a href="http://drupalcode.org/uikit.git/commit/a069c21" title="View commit">#</a>)</li>
  * </ul>
  * @endcodehtml
  *
@@ -364,20 +363,20 @@
  * @section release_stage_messages Release Stage Messages
  * Each release stage has a different message to include in the release notes.
  * Use one of the following based on the release stage you are publishing in,
- * replacing @inlinecode <!-- UIkit 7.x-2.0 --> @endinlinecode with the correct
+ * replacing @inlinecode <!-- UIkit 7.x-3.0 --> @endinlinecode with the correct
  * feature series the release is in.
  *
- * @subtitle Alpha Release (i.e. 7.x-2.0-alpha1, 7.x-2.0-alpha2, etc.)
- * @selectcode This is an <strong>alpha release for the next feature release of <!-- UIkit 7.x-2.0 --></strong>. Alphas are good testing targets for developers and site builders who are comfortable reporting (and where possible, fixing) their own bugs. Alpha releases are not recommended for non-technical users, nor for production websites. Thorough testing is still needed in case there are unknown bugs. @endselectcode
+ * @subtitle Alpha Release (i.e. 7.x-3.0-alpha1, 7.x-3.0-alpha2, etc.)
+ * @selectcode This is an <strong>alpha release for the next feature release of <!-- UIkit 7.x-3.0 --></strong>. Alphas are good testing targets for developers and site builders who are comfortable reporting (and where possible, fixing) their own bugs. Alpha releases are not recommended for non-technical users, nor for production websites. Thorough testing is still needed in case there are unknown bugs. @endselectcode
  *
- * @subtitle Beta Release (i.e. 7.x-2.0-beta1, 7.x-2.0-beta2, etc.)
- * @selectcode This is a <strong>beta release for the next feature release of UIkit 7.x-2.0</strong>. Betas are good testing targets for developers and site builders who are comfortable reporting (and where possible, fixing) their own bugs. Beta releases are not recommended for non-technical users, nor for production websites. @endselectcode
+ * @subtitle Beta Release (i.e. 7.x-3.0-beta1, 7.x-3.0-beta2, etc.)
+ * @selectcode This is a <strong>beta release for the next feature release of UIkit 7.x-3.0</strong>. Betas are good testing targets for developers and site builders who are comfortable reporting (and where possible, fixing) their own bugs. Beta releases are not recommended for non-technical users, nor for production websites. @endselectcode
  *
- * @subtitle Release Candidate (i.e. 7.x-2.0-rc1, 7.x-2.0-rc2, etc.)
- * @selectcode This is a <strong>release candidate for the next feature release of UIkit 7.x-2.0</strong>. Release candidates are not supported for production sites, but they are intended for widespread testing in preparation for the upcoming stable release. @endselectcode
+ * @subtitle Release Candidate (i.e. 7.x-3.0-rc1, 7.x-3.0-rc2, etc.)
+ * @selectcode This is a <strong>release candidate for the next feature release of UIkit 7.x-3.0</strong>. Release candidates are not supported for production sites, but they are intended for widespread testing in preparation for the upcoming stable release. @endselectcode
  *
- * @subtitle Feature Release (i.e. 7.x-2.0, 7.x-2.1, etc.)
- * @selectcode This is a <strong>feature release in the UIkit 7.x-2.x series</strong> and is ready for use on production sites. @endselectcode
+ * @subtitle Feature Release (i.e. 7.x-3.0, 7.x-3.1, etc.)
+ * @selectcode This is a <strong>feature release in the UIkit 7.x-3.x series</strong> and is ready for use on production sites. @endselectcode
  *
  * @divider
  *
@@ -386,7 +385,7 @@
  * will use when creating the new release node on drupal.org.
  *
  * @bold Important @endbold: Do NOT include the generated release notes for new
- * feature releases (i.e. 7.x-2.0, 7.x-2.1, etc.). The alpha/beta/rc releases
+ * feature releases (i.e. 7.x-3.0, 7.x-3.1, etc.). The alpha/beta/rc releases
  * will already have all changes documented in their releases.
  *
  * @codehtml<!-- See Release Stage Messages above for message to enter here. -->
@@ -409,8 +408,8 @@
  * Publishing a release will provide a new downloadable package on the
  * drupal.org project page for UIkit. Only two types of releases are able to be
  * published:
- * - Release branch (i.e. 7.x-2.x, 7.x-3.x, etc.)
- * - Release tag (i.e. 7.x-2.0-alpha1, 7.x-2.0-beta2, etc.)
+ * - Release branch (i.e. 7.x-3.x, 7.x-3.x, etc.)
+ * - Release tag (i.e. 7.x-3.0-alpha1, 7.x-3.0-beta2, etc.)
  *
  * Once you have the release notes ready from the steps above, visit the
  * @link https://www.drupal.org/node/add/project-release/2605968 add new release @endlink
@@ -528,7 +527,7 @@
  * on a Drupal site using the UIkit project.
  *
  * This should always be the major version of the UIkit project that supports
- * the latest stable release of the UIkit framework (currently 7.x-2.x and
+ * the latest stable release of the UIkit framework (currently 7.x-3.x and
  * 8.x-2.x).
  *
  * @divider
@@ -540,7 +539,7 @@
  *
  * This should always be the most recent stable major version of the UIkit
  * project that supports the latest stable release of the UIkit framework
- * (currently 7.x-2.x since 8.x-2.x is still under development).
+ * (currently 7.x-3.drx since 8.x-2.x is still under development).
  * @}
  */
 

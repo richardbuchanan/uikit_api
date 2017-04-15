@@ -141,4 +141,33 @@
       }
     }
   };
+
+  Drupal.behaviors.selectCode = {
+    attach: function () {
+      $('pre.code-select').click(function() {
+        $(this).select();
+
+        var text = this,
+          range, selection;
+
+        if (document.body.createTextRange) {
+          range = document.body.createTextRange();
+          range.moveToElementText(text);
+          range.select();
+        } else if (window.getSelection) {
+          selection = window.getSelection();
+          range = document.createRange();
+          range.selectNodeContents(text);
+          selection.removeAllRanges();
+          selection.addRange(range);
+        }
+      });
+    }
+  };
+
+  Drupal.behaviors.emptyParagraphs = {
+    attach: function () {
+      $('p').filter(function () { return $.trim(this.innerHTML) === '' }).remove();
+    }
+  }
 })(jQuery);
