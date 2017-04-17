@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @mainpage UIkit 7
+ * @mainpage UIkit
  * Welcome to the UIkit developer's documentation. Newcomers to Drupal 7 theme
  * development should review the
  * @link https://api.drupal.org/api/drupal/modules%21system%21theme.api.php/group/themeable/7.x Default theme implementations @endlink

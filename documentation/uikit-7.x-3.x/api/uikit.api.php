@@ -175,21 +175,6 @@
  * UIkit offers different types of navigations, like navigation bars and side
  * navigations. Use breadcrumbs or a pagination to steer through articles.
  *
- * @heading h3 Navigation Bar @endheading
- * Configure settings for the navigation bar, where the primary and secondary
- * menus reside. Configurable options:
- * - Navbar container: Configure settings for the navigation bar container with
- *   the following options:
- *   - Container: Add the .uk-container class to the navbar container to give it
- *     a max-width and wrap the navbar of your website. For large screens it
- *     applies a different max-width.
- *   - Centering: To center the navbar container, use the .uk-container-center
- *     class.
- *   - Navbar attached: Adds the .uk-navbar-attached class to optimize the
- *     navbar's styling to be attached to the top of the viewport. For example,
- *     rounded corners will be removed.
- * - Navbar margin: Configure the top and bottom margin to apply to the navbar.
- *
  * @heading h3 Local Tasks @endheading
  * Configure settings for the local tasks menus.
  * - Primary tasks style: Select the style to apply to the primary local tasks.
@@ -201,6 +186,8 @@
  * - Display breadcrumbs: Check this box to display the breadcrumb.
  * - Display home link in breadcrumbs: Check this box to display the home link
  *   in breadcrumb trail.
+ * - Display current page title in breadcrumbs: Check this box to display the
+ *   current page title in breadcrumb trail.
  * @}
  */
 

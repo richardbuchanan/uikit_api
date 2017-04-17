@@ -39,9 +39,9 @@ function uikit_form_system_theme_settings_alter(&$form, \Drupal\Core\Form\FormSt
   $demo_layout .= '</div></div>';
 
   // Get the sidebar positions for each layout.
-  $standard_sidebar_pos = theme_get_setting('standard_sidebar_positions', $theme_key);
-  $tablet_sidebar_pos = theme_get_setting('tablet_sidebar_positions', $theme_key);
-  $mobile_sidebar_pos = theme_get_setting('mobile_sidebar_positions', $theme_key);
+  $standard_sidebar_pos = UIkit::getThemeSetting('standard_sidebar_positions', $theme_key);
+  $tablet_sidebar_pos = UIkit::getThemeSetting('tablet_sidebar_positions', $theme_key);
+  $mobile_sidebar_pos = UIkit::getThemeSetting('mobile_sidebar_positions', $theme_key);
 
   // Set the navbar margin options.
   $navbar_margin_top_options = array(
@@ -142,7 +142,7 @@ function uikit_form_system_theme_settings_alter(&$form, \Drupal\Core\Form\FormSt
       'gradient' => t('UIkit gradient'),
     ),
     '#description' => t('Select which base style to use.<ol><li><strong>UIkit default:</strong> No border radius or gradients</li><li><strong>UIkit almost flat:</strong> Small border and border radius</li><li><strong>UIkit gradient:</strong> Almost flat style with gradient backgrounds.</li></ol>'),
-    '#default_value' => theme_get_setting('base_style', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('base_style', $theme_key),
   );
 
   // Layout settings.
@@ -160,7 +160,7 @@ function uikit_form_system_theme_settings_alter(&$form, \Drupal\Core\Form\FormSt
   $form['layout']['layout_advanced'] = array(
     '#type' => 'checkbox',
     '#title' => t('Show advanced layout settings'),
-    '#default_value' => theme_get_setting('layout_advanced', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('layout_advanced', $theme_key),
   );
   $form['layout']['page_layout'] = array(
     '#type' => 'details',
@@ -189,7 +189,7 @@ function uikit_form_system_theme_settings_alter(&$form, \Drupal\Core\Form\FormSt
     '#type' => 'radios',
     '#title' => t('Sidebar positions'),
     '#description' => t('Position the sidebars in the standard layout.'),
-    '#default_value' => theme_get_setting('standard_sidebar_positions', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('standard_sidebar_positions', $theme_key),
     '#options' => array(
       'holy-grail' => t('Holy grail'),
       'sidebars-left' => t('Both sidebars left'),
@@ -215,7 +215,7 @@ function uikit_form_system_theme_settings_alter(&$form, \Drupal\Core\Form\FormSt
     '#type' => 'radios',
     '#title' => t('Sidebar positions'),
     '#description' => t('Position the sidebars in the tablet layout.'),
-    '#default_value' => theme_get_setting('tablet_sidebar_positions', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('tablet_sidebar_positions', $theme_key),
     '#options' => array(
       'holy-grail' => t('Holy grail'),
       'sidebars-left' => t('Both sidebars left'),
@@ -243,7 +243,7 @@ function uikit_form_system_theme_settings_alter(&$form, \Drupal\Core\Form\FormSt
     '#type' => 'radios',
     '#title' => t('Sidebar positions'),
     '#description' => t('Position the sidebars in the mobile layout.'),
-    '#default_value' => theme_get_setting('mobile_sidebar_positions', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('mobile_sidebar_positions', $theme_key),
     '#options' => array(
       'sidebars-stacked' => t('Sidebars stacked'),
       'sidebars-vertical' => t('Sidebars vertical'),
@@ -253,7 +253,7 @@ function uikit_form_system_theme_settings_alter(&$form, \Drupal\Core\Form\FormSt
     '#type' => 'checkbox',
     '#title' => t('Page Container'),
     '#description' => t('Add the .uk-container class to the page container to give it a max-width and wrap the main content of your website. For large screens it applies a different max-width.'),
-    '#default_value' => theme_get_setting('page_container', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('page_container', $theme_key),
     '#states' => array(
       'visible' => array(
         ':input[name="layout_advanced"]' => array('checked' => TRUE),
@@ -264,7 +264,7 @@ function uikit_form_system_theme_settings_alter(&$form, \Drupal\Core\Form\FormSt
     '#type' => 'checkbox',
     '#title' => t('Page Centering'),
     '#description' => t('To center the page container, use the .uk-container-center class.'),
-    '#default_value' => theme_get_setting('page_centering', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('page_centering', $theme_key),
     '#states' => array(
       'visible' => array(
         ':input[name="layout_advanced"]' => array('checked' => TRUE),
@@ -275,7 +275,7 @@ function uikit_form_system_theme_settings_alter(&$form, \Drupal\Core\Form\FormSt
     '#type' => 'select',
     '#title' => t('Page margin'),
     '#description' => t('Select the margin to add to the top and bottom of the page container. This is useful, for example, when using the gradient style with a centered page container and a navbar.'),
-    '#default_value' => theme_get_setting('page_margin', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('page_margin', $theme_key),
     '#options' => array(
       0 => t('No margin'),
       'uk-margin-top' => t('Top margin'),
@@ -313,7 +313,7 @@ function uikit_form_system_theme_settings_alter(&$form, \Drupal\Core\Form\FormSt
         '#type' => 'select',
         '#title' => t('@title style', array('@title' => $region)),
         '#description' => t('Set the style for the @region region. The theme will automatically style the region accordingly.', array('@region' => $region)),
-        '#default_value' => theme_get_setting($region_key . '_style', $theme_key),
+        '#default_value' => UIkit::getThemeSetting($region_key . '_style', $theme_key),
         '#options' => $region_style_options,
       );
     }
@@ -345,19 +345,19 @@ function uikit_form_system_theme_settings_alter(&$form, \Drupal\Core\Form\FormSt
     '#type' => 'checkbox',
     '#title' => t('Container'),
     '#description' => t('Add the .uk-container class to the navbar container to give it a max-width and wrap the navbar of your website. For large screens it applies a different max-width.'),
-    '#default_value' => theme_get_setting('navbar_container', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('navbar_container', $theme_key),
   );
   $form['navigations']['main_navbar']['navbar_container_settings']['navbar_centering'] = array(
     '#type' => 'checkbox',
     '#title' => t('Centering'),
     '#description' => t('To center the navbar container, use the .uk-container-center class.'),
-    '#default_value' => theme_get_setting('navbar_centering', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('navbar_centering', $theme_key),
   );
   $form['navigations']['main_navbar']['navbar_container_settings']['navbar_attached'] = array(
     '#type' => 'checkbox',
     '#title' => t('Navbar attached'),
     '#description' => t("Adds the <code>.uk-navbar-attached</code> class to optimize the navbar's styling to be attached to the top of the viewport. For example, rounded corners will be removed."),
-    '#default_value' => theme_get_setting('navbar_attached', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('navbar_attached', $theme_key),
   );
   $form['navigations']['main_navbar']['navbar_margin'] = array(
     '#type' => 'details',
@@ -370,14 +370,14 @@ function uikit_form_system_theme_settings_alter(&$form, \Drupal\Core\Form\FormSt
     '#type' => 'select',
     '#title' => t('Navbar top margin'),
     '#description' => t('Select the amount of top margin to apply to the navbar.'),
-    '#default_value' => theme_get_setting('navbar_margin_top', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('navbar_margin_top', $theme_key),
     '#options' => $navbar_margin_top_options,
   );
   $form['navigations']['main_navbar']['navbar_margin']['navbar_margin_bottom'] = array(
     '#type' => 'select',
     '#title' => t('Navbar bottom margin'),
     '#description' => t('Select the amount of bottom margin to apply to the navbar.'),
-    '#default_value' => theme_get_setting('navbar_margin_bottom', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('navbar_margin_bottom', $theme_key),
     '#options' => $navbar_margin_bottom_options,
   );
   $form['navigations']['local_tasks'] = array(
@@ -398,7 +398,7 @@ function uikit_form_system_theme_settings_alter(&$form, \Drupal\Core\Form\FormSt
     '#type' => 'select',
     '#title' => t('Primary tasks style'),
     '#description' => t('Select the style to apply to the primary local tasks.'),
-    '#default_value' => theme_get_setting('primary_tasks_style', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('primary_tasks_style', $theme_key),
     '#options' => $primary_subnav_options,
   );
   $form['navigations']['local_tasks']['secondary_tasks'] = array(
@@ -411,7 +411,7 @@ function uikit_form_system_theme_settings_alter(&$form, \Drupal\Core\Form\FormSt
     '#type' => 'select',
     '#title' => t('Secondary tasks style'),
     '#description' => t('Select the style to apply to the secondary local tasks.'),
-    '#default_value' => theme_get_setting('secondary_tasks_style', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('secondary_tasks_style', $theme_key),
     '#options' => $secondary_subnav_options,
   );
   $form['navigations']['breadcrumb'] = array(
@@ -426,13 +426,13 @@ function uikit_form_system_theme_settings_alter(&$form, \Drupal\Core\Form\FormSt
     '#type' => 'checkbox',
     '#title' => t('Display breadcrumbs'),
     '#description' => t('Check this box to display the breadcrumb.'),
-    '#default_value' => theme_get_setting('display_breadcrumbs', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('display_breadcrumbs', $theme_key),
   );
   $form['navigations']['breadcrumb']['breakcrumbs_home_link'] = array(
     '#type' => 'checkbox',
     '#title' => t('Display home link in breadcrumbs'),
     '#description' => t('Check this box to display the home link in breadcrumb trail.'),
-    '#default_value' => theme_get_setting('breakcrumbs_home_link', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('breakcrumbs_home_link', $theme_key),
     '#states' => array(
       'disabled' => array(
         ':input[name="display_breadcrumbs"]' => array('checked' => FALSE),
@@ -443,7 +443,7 @@ function uikit_form_system_theme_settings_alter(&$form, \Drupal\Core\Form\FormSt
     '#type' => 'checkbox',
     '#title' => t('Display current page title in breadcrumbs'),
     '#description' => t('Check this box to display the current page title in breadcrumb trail.'),
-    '#default_value' => theme_get_setting('breakcrumbs_current_page', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('breakcrumbs_current_page', $theme_key),
     '#states' => array(
       'disabled' => array(
         ':input[name="display_breadcrumbs"]' => array('checked' => FALSE),

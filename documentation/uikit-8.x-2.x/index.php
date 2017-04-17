@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @mainpage UIkit 8
+ * @mainpage UIkit
  * Welcome to the UIkit developer's documentation. Newcomers to Drupal 8 theme
  * development should review the
  * @link https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21theme.api.php/group/themeable/8.2.x Default theme implementations @endlink
@@ -28,6 +28,7 @@
  * @section uikit_api UIkit API Topics
  * Here are some topics to help you get started developing with UIkit 8:
  * - @link getting_started Getting started with UIkit @endlink
+ * - @link theme_settings UIkit theme settings @endlink
  * - @link sub_theme Creating a UIkit sub-theme @endlink
  * - @link uikit_themeable UIkit theme implementations @endlink
  * - @link maintainers Project Maintainers @endlink

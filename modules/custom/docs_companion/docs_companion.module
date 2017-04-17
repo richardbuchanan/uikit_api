@@ -21,30 +21,6 @@ function docs_companion_menu() {
     'module' => 'api',
     'weight' => -50,
   );
-  $items['api/uikit_admin'] = array(
-    'title' => 'UIkit Admin',
-    'page callback' => 'api_page_branch',
-    'page arguments' => array(NULL, 'uikit_admin'),
-    'access arguments' => array('access API reference'),
-    'type' => MENU_NORMAL_ITEM,
-    'menu_name' => 'main-menu',
-    'file' => 'api.pages.inc',
-    'file path' => drupal_get_path('module', 'api'),
-    'module' => 'api',
-    'weight' => -49,
-  );
-  $items['api/uikit_components'] = array(
-    'title' => 'UIkit Components',
-    'page callback' => 'api_page_branch',
-    'page arguments' => array(NULL, 'uikit_components'),
-    'access arguments' => array('access API reference'),
-    'type' => MENU_NORMAL_ITEM,
-    'menu_name' => 'main-menu',
-    'file' => 'api.pages.inc',
-    'file path' => drupal_get_path('module', 'api'),
-    'module' => 'api',
-    'weight' => -48,
-  );
 
   return $items;
 }

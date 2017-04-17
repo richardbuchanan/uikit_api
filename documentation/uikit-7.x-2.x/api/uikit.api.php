@@ -202,6 +202,8 @@
  * - Display breadcrumbs: Check this box to display the breadcrumb.
  * - Display home link in breadcrumbs: Check this box to display the home link
  *   in breadcrumb trail.
+ * - Display current page title in breadcrumbs: Check this box to display the
+ *   current page title in breadcrumb trail.
  * @}
  */
 

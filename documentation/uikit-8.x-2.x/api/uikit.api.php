@@ -70,6 +70,89 @@
  */
 
 /**
+ * @defgroup theme_settings UIkit theme settings
+ * @{
+ * @lead settings Customizing UIkit 8 from the Drupal administration back-end.
+ * UIkit comes with an extensive variety of theme settings to configure almost
+ * all themeable aspects of your Drupal site. This topic provides a brief
+ * overview of these theme settings to customize the look of your website.
+ *
+ * @subtitle Jump to a section
+ * - @ref theme_styles
+ * - @ref layout
+ * - @ref navigations
+ *
+ * @section theme_styles Theme styles
+ * UIkit comes with a basic theme and two neat themes to get you started. Here
+ * you can select which base style to start with.
+ *
+ * @divider
+ *
+ * @section layout Layout
+ * Apply our fully responsive fluid grid system and panels, common layout parts
+ * like blog articles and comments and useful utility classes.
+ *
+ * @heading h3 Page Layout @endheading
+ * Page layout settings are available for standard, tablet and mobile layouts,
+ * allowing you to arrange the main content and sidebar regions in various ways.
+ * Each layout is independent of the others, giving you many ways to present
+ * your content to your users.
+ *
+ * Additional page layout settings:
+ * - Page Container: Add the .uk-container class to the page container to give
+ *   it a max-width and wrap the main content of your website. For large screens
+ *   it applies a different max-width.
+ * - Page Centering: To center the page container, use the .uk-container-center
+ *   class.
+ * - Page Margin: Select the margin to add to the top and bottom of the page
+ *   container. This is useful, for example, when using the gradient style with
+ *   a centered page container and a navbar.
+ *
+ * @heading h3 Region Layout @endheading
+ * Change region layout settings on a per region basis. You can currently apply
+ * the following two components to each region (more will be added in the
+ * future):
+ * - Panel
+ * - Block
+ *
+ * @divider
+ *
+ * @section navigations Navigations
+ * UIkit offers different types of navigations, like navigation bars and side
+ * navigations. Use breadcrumbs or a pagination to steer through articles.
+ *
+ * @heading h3 Navigation Bar @endheading
+ * Configure settings for the navigation bar, where the primary and secondary
+ * menus reside. Configurable options:
+ * - Navbar container: Configure settings for the navigation bar container with
+ *   the following options:
+ *   - Container: Add the .uk-container class to the navbar container to give it
+ *     a max-width and wrap the navbar of your website. For large screens it
+ *     applies a different max-width.
+ *   - Centering: To center the navbar container, use the .uk-container-center
+ *     class.
+ *   - Navbar attached: Adds the .uk-navbar-attached class to optimize the
+ *     navbar's styling to be attached to the top of the viewport. For example,
+ *     rounded corners will be removed.
+ * - Navbar margin: Configure the top and bottom margin to apply to the navbar.
+ *
+ * @heading h3 Local Tasks @endheading
+ * Configure settings for the local tasks menus.
+ * - Primary tasks style: Select the style to apply to the primary local tasks.
+ * - Secondary tasks style: Select the style to apply to the secondary local
+ *   tasks.
+ *
+ * @heading h3 Breadcrumbs @endheading
+ * Configure settings for breadcrumb navigation.
+ * - Display breadcrumbs: Check this box to display the breadcrumb.
+ * - Display home link in breadcrumbs: Check this box to display the home link
+ *   in breadcrumb trail.
+ * - Display current page title in breadcrumbs: Check this box to display the
+ *   current page title in breadcrumb trail.
+ * @}
+ */
+
+/**
  * @defgroup sub_theme Creating a UIkit sub-theme
  * @{
  * @lead subtheme Create a custom theme by inheriting the UIkit 8 base theme.
