@@ -419,7 +419,7 @@ function _drupal_8x_api_reference_branch_form($form, &$form_state) {
   $form['data']['url']['#disabled'] = TRUE;
   $form['data']['search_url']['#value'] = 'https://api.drupal.org/api/drupal/8.2.x/search/';
   $form['data']['search_url']['#disabled'] = TRUE;
-  $form['data']['core_compatibility']['#value'] = '8.2.x';
+  $form['data']['core_compatibility']['#value'] = '8.x';
   $form['data']['core_compatibility']['#disabled'] = TRUE;
   $form['data']['project_type']['#value'] = 'core';
   $form['data']['project_type']['#disabled'] = TRUE;
