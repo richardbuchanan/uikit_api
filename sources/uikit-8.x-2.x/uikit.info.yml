@@ -1,7 +1,7 @@
 name: UIkit
 type: theme
 description: 'A lightweight frontend framework with a comprehensive collection of HTML, CSS, and JS components.'
-# core: 8.x
+core: 8.x
 base theme: stable
 package: UIkit
 
@@ -19,9 +19,3 @@ libraries-extend:
 
 libraries-override:
   core/drupal.tabledrag: uikit/tabledrag
-
-# Information added by Drupal.org packaging script on 2017-04-17
-version: '8.x-2.0-rc1+4-dev'
-core: '8.x'
-project: 'uikit'
-datestamp: 1492423023

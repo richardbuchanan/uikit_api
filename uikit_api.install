@@ -431,14 +431,6 @@ function uikit_api_install_tasks(&$install_state) {
       'display_name' => st('Configure UIkit 8.x-2.x Branch'),
       'type' => 'form',
     ),
-    '_uikit_admin_7x_2x_api_branch_form' => array(
-      'display_name' => st('Configure UIkit Admin 7.x-2.x Branch'),
-      'type' => 'form',
-    ),
-    '_uikit_components_7x_1x_api_branch_form' => array(
-      'display_name' => st('Configure UIkit Components 7.x-1.x Branch'),
-      'type' => 'form',
-    ),
     '_uikit_project_stats_form' => array(
       'display_name' => st('Configure UIkit Project Stats'),
       'type' => 'form',
