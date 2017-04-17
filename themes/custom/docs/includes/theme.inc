@@ -6,8 +6,6 @@
  *
  * The theme system allows for nearly all output of the Drupal system to be
  * customized by UIkit themes.
- *
- * @ingroup uikit_themeable
  */
 
 /**
@@ -74,7 +72,8 @@ function docs_captcha($element) {
  *   - element: An associative array containing the properties of the element.
  *     Properties used: #id, #attributes, #children.
  *
- * @ingroup themeable
+ * @return string
+ *   Returns rendered wrapper element.
  */
 function docs_container__api($variables) {
   $element = $variables['element'];
@@ -102,17 +101,26 @@ function docs_item_list(&$variables) {
   $title = $variables['title'];
   $type = $variables['type'];
   $attributes = $variables['attributes'];
+  $pager = in_array('uk-pagination', $variables['attributes']['class']);
 
   // Only output the list container and title, if there are any list items.
   // Check to see whether the block title exists before adding a header.
   // Empty headers are not semantic and present accessibility challenges.
-  $output = '<div class="item-list">';
+  $output = '';
+  if (!$pager) {
+    $output .= '<div class="item-list">';
+  }
   if (isset($title) && $title !== '') {
     $output .= '<h3>' . $title . '</h3>';
   }
 
+  // Do not add uk-list classes if this is a pager.
+  if (!$pager) {
+    $attributes['class'][] = 'uk-list';
+    $attributes['class'][] = 'uk-list-line';
+  }
+
   if (!empty($items)) {
-    $attributes['class'] = array('uk-list', 'uk-list-line');
     $output .= "<$type" . drupal_attributes($attributes) . '>';
     $num_items = count($items);
     $i = 0;
@@ -162,7 +170,9 @@ function docs_item_list(&$variables) {
     $output .= "</$type>";
   }
 
-  $output .= '</div>';
+  if (!$pager) {
+    $output .= '</div>';
+  }
   return $output;
 }
 
@@ -198,6 +208,9 @@ function docs_item_list(&$variables) {
  *   way that $options['attributes'] and $options['html'] are used in l().
  *   The link itself is built by the url() function, which takes
  *   $variables['path'] and $variables['options'] as arguments.
+ *
+ * @return string
+ *   Returns a rendered list item.
  *
  * @see l()
  * @see url()
