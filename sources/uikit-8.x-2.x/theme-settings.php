@@ -5,6 +5,9 @@
  * Provides theme settings for UIkit themes.
  */
 
+use Drupal\Core\Extension\InfoParser;
+use Drupal\uikit\UIkit;
+
 /**
  * Implements hook_form_system_theme_settings_alter().
  */
@@ -19,6 +22,7 @@ function uikit_form_system_theme_settings_alter(&$form, \Drupal\Core\Form\FormSt
 
   // Attach the uikit.admin library from the base theme.
   $form['#attached']['library'][] = 'uikit/uikit.admin';
+  $form['#attached']['library'][] = 'uikit/font-awesome';
 
   // Get the active theme name.
   $build_info = $form_state->getBuildInfo();
@@ -83,6 +87,32 @@ function uikit_form_system_theme_settings_alter(&$form, \Drupal\Core\Form\FormSt
 
   // Fetch a list of regions for the current theme.
   $all_regions = system_region_list($theme, $show = REGIONS_VISIBLE);
+
+  // Create markup for UIkit theme information.
+  $info_parser = new InfoParser();
+  $uikit_theme_info = $info_parser->parse(drupal_get_path('theme', 'uikit') . '/uikit.info.yml');
+  $uikit_version = isset($uikit_theme_info['version']) ? $uikit_theme_info['version'] : UIkit::UIKIT_PROJECT_BRANCH;
+  $uikit_info = '<div class="uk-container uk-container-center uk-margin-top">';
+  $uikit_info .= '<div class="uk-grid">';
+  $uikit_info .= '<div class="uk-width-1-1">';
+  $uikit_info .= '<div class="uk-text-center"><img src="/' . drupal_get_path('theme', 'uikit') . '/images/uikit-small.png" /></div>';
+  $uikit_info .= '<blockquote class="uk-text-small">';
+  $uikit_info .= '<p><i class="uk-icon-quote-left uk-icon-large uk-align-left"></i> ' . $uikit_theme_info['description'] . '</p>';
+  $uikit_info .= '</blockquote>';
+  $uikit_info .= '</div>';
+  $uikit_info .= '<div class="uk-width-1-1 uk-margin">';
+  $uikit_info .= '<div class="uk-grid">';
+  $uikit_info .= '<ul class="uk-list uk-width-1-1 uk-text-center">';
+  $uikit_info .= '<li class="uk-width-small-1-1 uk-width-medium-1-3 uk-float-left"><a href="' . UIkit::UIKIT_LIBRARY . '" target="_blank">UIkit homepage</a></li>';
+  $uikit_info .= '<li class="uk-width-small-1-1 uk-width-medium-1-3 uk-float-left"><a href="' . UIkit::UIKIT_PROJECT . '" target="_blank">Drupal.org project page</a></li>';
+  $uikit_info .= '<li class="uk-width-small-1-1 uk-width-medium-1-3 uk-float-left"><a href="' . UIkit::UIKIT_PROJECT_API . '" target="_blank">UIkit API site</a></li>';
+  $uikit_info .= '<li class="uk-width-small-1-1 uk-width-medium-1-3 uk-float-left"><strong>UIkit library version</strong>: v' . UIkit::UIKIT_LIBRARY_VERSION . '</li>';
+  $uikit_info .= '<li class="uk-width-small-1-1 uk-width-medium-1-3 uk-float-left"><strong>UIkit Drupal version</strong>: ' . $uikit_version . '</li>';
+  $uikit_info .= '<li class="uk-width-small-1-1 uk-width-medium-1-3 uk-float-left"><strong>Ported to Drupal by</strong>: <a href="http://richardbuchanan.com" target="_blank">Richard Buchanan</a></li>';
+  $uikit_info .= '<li class="uk-width-small-1-1 uk-float-left uk-margin-top">UIkit <i class="uk-icon-copyright"></i> <a href="http://www.yootheme.com/" target="_blank">YOOtheme</a>, with love and caffeine, under the <a href="http://opensource.org/licenses/MIT" target="_blank">MIT license</a>.</li>';
+  $uikit_info .= '<li class="uk-width-small-1-1 uk-float-left">UIkit for Drupal <i class="uk-icon-copyright"></i> <a href="http://richardbuchanan.com" target="_blank">Richard Buchanan</a></li>';
+  $uikit_info .= '</ul>';
+  $uikit_info .= '</div></div></div></div>';
 
   // Create vertical tabs for all UIkit related settings.
   $form['uikit'] = array(
@@ -421,15 +451,51 @@ function uikit_form_system_theme_settings_alter(&$form, \Drupal\Core\Form\FormSt
     ),
   );
 
-  // Create vertical tabs to place Drupal's default theme settings in.
-  $form['basic_settings'] = array(
-    '#type' => 'vertical_tabs',
-    '#prefix' => '<h3>' . t('Basic Settings') . '</h3>',
-    '#weight' => 0,
+  // UIkit theme information.
+  $form['uikit_details'] = array(
+    '#type' => 'details',
+    '#title' => t('About UIkit'),
+    '#group' => 'uikit',
+  );
+  $form['uikit_details']['info'] = array(
+    '#markup' => $uikit_info,
   );
 
-  // Group Drupal's default theme settings in the basic settings.
-  $form['theme_settings']['#group'] = 'basic_settings';
-  $form['logo']['#group'] = 'basic_settings';
-  $form['favicon']['#group'] = 'basic_settings';
+  // Get logo from theme settings to show a preview.
+  $logo = UIkit::getThemeSetting('logo');
+  $render_logo = array(
+    '#theme' => 'image',
+    '#uri' => $logo['url'],
+    '#attributes' => array(
+      'class' => array('uk-thumbnail'),
+      'style' => 'max-width: 80px;',
+    ),
+  );
+  $form['logo']['logo_preview'] = array(
+    '#type' => 'item',
+    '#title' => t('Logo preview'),
+    '#markup' => render($render_logo),
+    '#description' => t('Preview of image to display as the site logo. The preview will be updated when the configuration is saved.'),
+  );
+
+  // Get favicon from theme settings to show a preview.
+  $favicon = UIkit::getThemeSetting('favicon');
+  $render_favicon = array(
+    '#theme' => 'image',
+    '#uri' => $favicon['url'],
+    '#attributes' => array(
+      'class' => array('uk-thumbnail'),
+      'style' => 'max-width: 80px;',
+    ),
+  );
+  $form['favicon']['favicon_preview'] = array(
+    '#type' => 'item',
+    '#title' => t('Favicon preview'),
+    '#markup' => render($render_favicon),
+    '#description' => t('Preview of favicon displayed in the address bar and bookmarks of most browsers. The preview will be updated when the configuration is saved.'),
+  );
+
+  // Close the logo and favicon details elements by default.
+  $form['logo']['#open'] = FALSE;
+  $form['favicon']['#open'] = FALSE;
 }

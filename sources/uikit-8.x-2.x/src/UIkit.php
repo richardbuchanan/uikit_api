@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains \Drupal\uikit\UIkit.
- */
 
 namespace Drupal\uikit;
 
@@ -16,7 +12,7 @@ class UIkit {
    *
    * @var string
    */
-  const UIKIT_LIBRARY = 'https://getuikit.com';
+  const UIKIT_LIBRARY = 'https://getuikit.com/v2/';
 
   /**
    * The UIkit library version supported in the UIkit base theme.
@@ -24,13 +20,6 @@ class UIkit {
    * @var string
    */
   const UIKIT_LIBRARY_VERSION = '2.27.2';
-
-  /**
-   * The UIkit library documentation site.
-   *
-   * @var string
-   */
-  const UIKIT_LIBRARY_DOCUMENTATION = 'https://getuikit.com/v2/index.html';
 
   /**
    * The Drupal project page for the UIkit base theme.
@@ -67,9 +56,9 @@ class UIkit {
    * Retrieves a theme setting.
    *
    * @param null $setting
-   *   The setting to get.
+   *   The machine-name of the theme setting to retrieve.
    * @param $theme
-   *   The theme to get the setting for. Default is active theme.
+   *   The theme to retrieve the setting for. Defaults to the active theme.
    *
    * @return mixed
    *   The theme setting's value.
@@ -79,13 +68,30 @@ class UIkit {
       $theme = UIkit::getActiveTheme();
     }
 
-    return theme_get_setting($setting, $theme);
+    if (!empty($setting)) {
+      return theme_get_setting($setting, $theme);
+    }
+    else {
+      throw new \LogicException('Missing argument $setting');
+    }
   }
 
+  /**
+   * Retrieves the base style for a theme.
+   *
+   * @return mixed
+   *   The base style for the theme.
+   */
   public static function getBaseStyle() {
     return UIkit::getThemeSetting('base_style');
   }
 
+  /**
+   * Retrieves the base-style library of the UIkit base theme.
+   *
+   * @return string
+   *   The base-style's library to retrieve from the UIkit base theme.
+   */
   public static function getUIkitLibrary() {
     switch (UIkit::getBaseStyle()) {
       case 'almost-flat':
@@ -101,19 +107,44 @@ class UIkit {
     }
   }
 
+  /**
+   * Retrieves a component library of the UIkit base theme.
+   *
+   * @param string $component
+   *   The component to retrieve.
+   *
+   * @return string
+   *   The component's library to retrieve from the UIkit base theme.
+   */
   public static function getUIkitComponent($component) {
-    switch (UIkit::getBaseStyle()) {
-      case 'almost-flat':
-        return "uikit/uikit.$component.almost-flat";
+    if (!empty($component)) {
+      switch (UIkit::getBaseStyle()) {
+        case 'almost-flat':
+          return "uikit/uikit.$component.almost-flat";
 
-      case 'gradient':
-        return "uikit/uikit.$component.gradient";
+        case 'gradient':
+          return "uikit/uikit.$component.gradient";
 
-      default:
-        return "uikit/uikit.$component";
+        default:
+          return "uikit/uikit.$component";
+      }
+    }
+    else {
+      throw new \LogicException('Missing argument $component');
     }
   }
 
+  /**
+   * Retrieves the grid classes used in page.html.twig.
+   *
+   * @param bool $sidebar_first
+   *   True if the sidebar_first region has content, false otherwise.
+   * @param bool $sidebar_second
+   *   True if the sidebar_second region has content, false otherwise.
+   *
+   * @return array
+   *   An array of grid classes to use in page.html.twig.
+   */
   public static function getGridClasses($sidebar_first = FALSE, $sidebar_second = FALSE) {
     $standard_layout = UIkit::getThemeSetting('standard_sidebar_positions');
     $tablet_layout = UIkit::getThemeSetting('tablet_sidebar_positions');
@@ -358,6 +389,12 @@ class UIkit {
     return $grid_classes;
   }
 
+  /**
+   * Retrieves the current page title.
+   *
+   * @return string
+   *   The current page title.
+   */
   public static function getPageTitle() {
     $request = \Drupal::request();
     $route_match = \Drupal::routeMatch();

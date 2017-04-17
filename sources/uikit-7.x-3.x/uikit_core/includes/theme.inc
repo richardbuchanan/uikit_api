@@ -300,7 +300,7 @@ function uikit_file($variables) {
   element_set_attributes($element, array('id', 'name', 'size'));
   _form_set_class($element, array('form-file'));
 
-  return '<div class="uk-form-controls"><input' . drupal_attributes($element['#attributes']) . ' /></div>';
+  return '<input' . drupal_attributes($element['#attributes']) . ' />';
 }
 
 /**

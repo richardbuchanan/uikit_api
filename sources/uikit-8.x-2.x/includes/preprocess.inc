@@ -120,6 +120,9 @@ function uikit_preprocess_block(&$variables) {
   if ($system_menu_block) {
     switch ($region) {
       case 'navbar':
+        // Get navbar alignment from block settings.
+        $variables['navbar_flip'] = $navbar_alignment = $block->getThirdPartySetting('uikit_components', 'navbar_alignment') ? 1 : 0;
+
         // Define #theme variable for navbar menus.
         $variables['content']['#theme'] = 'menu__navbar';
         break;
@@ -282,13 +285,89 @@ function uikit_preprocess_menu_local_tasks(&$variables) {
 }
 
 /**
- * Implements template_preprocess_user().
+ * Implements hook_preprocess_HOOK() for menu--navbar.html.twig
  */
-function uikit_preprocess_user(&$variables) {
-  // $variables['content']['member_for'] doesn't style well. Instead of
-  // overriding with CSS, we reformat the markup used.
-  $created = $variables['elements']['#user']->getCreatedTime();
-  $created_diff = \Drupal::service('date.formatter')->formatTimeDiffSince($created);
-  $member_for = '<strong>' . t('Member for') . '</strong> ' . $created_diff;
-  $variables['content']['member_for']['#markup'] = $member_for;
+function uikit_preprocess_menu__navbar(&$variables) {
+  $items = $variables['items'];
+
+  foreach ($items as $key => $item) {
+    $variables['items'][$key]['has_url'] = TRUE;
+    $route = $item['url']->getRouteName();
+
+    if ($route == '<none>') {
+      $variables['items'][$key]['has_url'] = FALSE;
+    }
+
+    if ($item['below']) {
+      foreach ($item['below'] as $below_key => $below_item) {
+        // Set is_divider and is_header variables to FALSE.
+        $variables['items'][$key]['below'][$below_key]['is_divider'] = FALSE;
+        $variables['items'][$key]['below'][$below_key]['is_header'] = FALSE;
+
+        // Get the menu item options and menu_item_type, if set. menu_item_type
+        // is set by the UIkit Components module.
+        $options = $below_item['url']->getOptions();
+        $menu_item_type = isset($options['menu_item_type']) ? $options['menu_item_type'] : 0;
+
+        if ($menu_item_type) {
+          switch ($menu_item_type) {
+            case 'nav_divider':
+              // Add uk-nav-divider class and set is_divider to TRUE for
+              // menu--navbar.html.twig.
+              $variables['items'][$key]['below'][$below_key]['attributes']->addClass('uk-nav-divider');
+              $variables['items'][$key]['below'][$below_key]['is_divider'] = TRUE;
+              break;
+
+            case 'nav_header':
+              // Add uk-nav-header class and set is_header to TRUE for
+              // menu--navbar.html.twig.
+              $variables['items'][$key]['below'][$below_key]['attributes']->addClass('uk-nav-header');
+              $variables['items'][$key]['below'][$below_key]['is_header'] = TRUE;
+              break;
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for menu--offcanvas.html.twig
+ */
+function uikit_preprocess_menu__offcanvas(&$variables) {
+  $items = $variables['items'];
+
+  foreach ($items as $key => $item) {
+    $variables['items'][$key]['display_item'] = TRUE;
+    $variables['items'][$key]['has_url'] = TRUE;
+    $route = $item['url']->getRouteName();
+
+    if ($route == '<none>') {
+      $variables['items'][$key]['has_url'] = FALSE;
+    }
+
+    if ($item['below']) {
+      $variables['items'][$key]['has_url'] = FALSE;
+
+      foreach ($item['below'] as $below_key => $below_item) {
+        // Set is_divider and is_header variables to FALSE.
+        $variables['items'][$key]['below'][$below_key]['display_item'] = TRUE;
+        $variables['items'][$key]['below'][$below_key]['has_url'] = TRUE;
+
+        // Get the menu item options and menu_item_type, if set. menu_item_type
+        // is set by the UIkit Components module.
+        $options = $below_item['url']->getOptions();
+        $menu_item_type = isset($options['menu_item_type']) ? $options['menu_item_type'] : 0;
+
+        if ($menu_item_type) {
+          switch ($menu_item_type) {
+            case 'nav_divider':
+            case 'nav_header':
+            $variables['items'][$key]['below'][$below_key]['display_item'] = FALSE;
+              break;
+          }
+        }
+      }
+    }
+  }
 }

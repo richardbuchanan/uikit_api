@@ -5,54 +5,56 @@
  * Common get functions.
  */
 
+use \Drupal\uikit\UIkit;
+
 /**
  * Retrieves UIkit, jQuery, jQuery Migrate and Font Awesome CDN assets.
  */
 function uikit_get_cdn_assets() {
   // Add the UIkit stylesheet.
-  drupal_add_css('//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . '/css/uikit.min.css', array(
+  drupal_add_css('//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . '/css/uikit.min.css', array(
     'type' => 'external',
     'group' => CSS_THEME,
     'every_page' => TRUE,
     'weight' => -100,
-    'version' => UIKIT_LIBRARY_VERSION,
+    'version' => UIkit::UIKIT_LIBRARY_VERSION,
   ));
 
   // Add the jQuery script.
-  drupal_add_js('//cdnjs.cloudflare.com/ajax/libs/jquery/' . UIKIT_JQUERY_VERSION . '/jquery.min.js', array(
+  drupal_add_js('//cdnjs.cloudflare.com/ajax/libs/jquery/' . UIkit::UIKIT_JQUERY_VERSION . '/jquery.min.js', array(
     'type' => 'external',
     'group' => JS_THEME,
     'every_page' => TRUE,
     'weight' => -20,
-    'version' => UIKIT_JQUERY_VERSION,
+    'version' => UIkit::UIKIT_JQUERY_VERSION,
   ));
 
   // Add the jQuery Migrate script so we can use multiple jQuery versions
   // simultaneously.
-  drupal_add_js('//cdnjs.cloudflare.com/ajax/libs/jquery-migrate/' . UIKIT_JQUERY_MIGRATE_VERSION . '/jquery-migrate.min.js', array(
+  drupal_add_js('//cdnjs.cloudflare.com/ajax/libs/jquery-migrate/' . UIkit::UIKIT_JQUERY_MIGRATE_VERSION . '/jquery-migrate.min.js', array(
     'type' => 'external',
     'group' => JS_THEME,
     'every_page' => TRUE,
     'weight' => -20,
-    'version' => UIKIT_JQUERY_MIGRATE_VERSION,
+    'version' => UIkit::UIKIT_JQUERY_MIGRATE_VERSION,
   ));
 
   // Add the UIkit script.
-  drupal_add_js('//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . '/js/uikit.min.js', array(
+  drupal_add_js('//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . '/js/uikit.min.js', array(
     'type' => 'external',
     'group' => JS_THEME,
     'every_page' => TRUE,
     'weight' => -20,
-    'version' => UIKIT_LIBRARY_VERSION,
+    'version' => UIkit::UIKIT_LIBRARY_VERSION,
   ));
 
   // Add the UIkit icons script.
-  drupal_add_js('//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . '/js/uikit-icons.min.js', array(
+  drupal_add_js('//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . '/js/uikit-icons.min.js', array(
     'type' => 'external',
     'group' => JS_THEME,
     'every_page' => TRUE,
     'weight' => -20,
-    'version' => UIKIT_LIBRARY_VERSION,
+    'version' => UIkit::UIKIT_LIBRARY_VERSION,
   ));
 }
 

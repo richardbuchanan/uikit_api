@@ -41,10 +41,16 @@
     <ul{{ attributes.addClass(classes) }}{% if menu_level == 0 %} data-uk-nav{% endif %}>
     {% for item in items %}
       {% set item_classes = [item.below ? 'uk-parent'] %}
-      <li{{ item.attributes.addClass(item_classes) }}>
-        {{ link(item.title, item.url) }}
-        {% if item.below %}
-          {{ menus.menu_links(item.below, attributes.removeClass(classes), menu_level + 1) }}
+      {% if item.display_item %}
+        <li{{ item.attributes.addClass(item_classes) }}>
+          {% if item.has_url %}
+            {{ link(item.title, item.url) }}
+          {% else %}
+            <a href="#">{{ item.title }}</a>
+          {% endif %}
+          {% if item.below %}
+            {{ menus.menu_links(item.below, attributes.removeClass(classes), menu_level + 1) }}
+          {% endif %}
         {% endif %}
       </li>
     {% endfor %}

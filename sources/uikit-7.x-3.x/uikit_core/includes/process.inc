@@ -28,7 +28,6 @@ function uikit_process_page(&$variables) {
   $variables['sidebar_first_attributes'] = drupal_attributes($variables['sidebar_first_attributes_array']);
   $variables['sidebar_second_attributes'] = drupal_attributes($variables['sidebar_second_attributes_array']);
   $variables['header_attributes'] = drupal_attributes($variables['header_attributes_array']);
-  $variables['navbar_wrapper_attributes'] = drupal_attributes($variables['navbar_wrapper_attributes_array']);
   $variables['navbar_attributes'] = drupal_attributes($variables['navbar_attributes_array']);
 }
 

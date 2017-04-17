@@ -372,10 +372,10 @@
  * @selectcode This is an <strong>alpha release for the next feature release of <!-- UIkit 8.x-2.0 --></strong>. Alphas are good testing targets for developers and site builders who are comfortable reporting (and where possible, fixing) their own bugs. Alpha releases are not recommended for non-technical users, nor for production websites. Thorough testing is still needed in case there are unknown bugs. @endselectcode
  *
  * @subtitle Beta Release (i.e. 8.x-2.0-beta1, 8.x-2.0-beta2, etc.)
- * @selectcode This is a <strong>beta release for the next feature release of UIkit 8.x-2.0</strong>. Betas are good testing targets for developers and site builders who are comfortable reporting (and where possible, fixing) their own bugs. Beta releases are not recommended for non-technical users, nor for production websites. @endselectcode
+ * @selectcode This is a <strong>beta release for the next feature release of <!-- UIkit 8.x-2.0 --></strong>. Betas are good testing targets for developers and site builders who are comfortable reporting (and where possible, fixing) their own bugs. Beta releases are not recommended for non-technical users, nor for production websites. @endselectcode
  *
  * @subtitle Release Candidate (i.e. 8.x-2.0-rc1, 8.x-2.0-rc2, etc.)
- * @selectcode This is a <strong>release candidate for the next feature release of UIkit 8.x-2.0</strong>. Release candidates are not supported for production sites, but they are intended for widespread testing in preparation for the upcoming stable release. @endselectcode
+ * @selectcode This is a <strong>release candidate for the next feature release of <!-- UIkit 8.x-2.0 --></strong>. Release candidates are not supported for production sites, but they are intended for widespread testing in preparation for the upcoming stable release. @endselectcode
  *
  * @subtitle Feature Release (i.e. 8.x-2.0, 8.x-2.1, etc.)
  * @selectcode This is a <strong>feature release in the UIkit 8.x-2.x series</strong> and is ready for use on production sites. @endselectcode

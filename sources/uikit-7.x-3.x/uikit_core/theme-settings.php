@@ -5,6 +5,10 @@
  * Provides theme settings for UIkit themes.
  */
 
+include_once 'src/UIkit.php';
+
+use \Drupal\uikit\UIkit;
+
 /**
  * Implements hook_form_system_theme_settings_alter().
  */
@@ -35,9 +39,9 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
   $demo_layout .= '</div></div>';
 
   // Get the sidebar positions for each layout.
-  $standard_sidebar_pos = theme_get_setting('standard_sidebar_positions', $theme_key);
-  $tablet_sidebar_pos = theme_get_setting('tablet_sidebar_positions', $theme_key);
-  $mobile_sidebar_pos = theme_get_setting('mobile_sidebar_positions', $theme_key);
+  $standard_sidebar_pos = UIkit::getThemeSetting('standard_sidebar_positions', $theme_key);
+  $tablet_sidebar_pos = UIkit::getThemeSetting('tablet_sidebar_positions', $theme_key);
+  $mobile_sidebar_pos = UIkit::getThemeSetting('mobile_sidebar_positions', $theme_key);
 
   // Set the charset options.
   $charsets = array(
@@ -78,8 +82,14 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
   $demo_local_tasks .= '<li class="uk-disabled"><a href="#">Disabled</a></li>';
   $demo_local_tasks .= '</ul>';
 
-  // Set the subnav options.
-  $subnav_options = array(
+  // Set the subnav options for primary and secondary tasks.
+  $primary_subnav_options = array(
+    0 => 'Basic subnav',
+    'uk-subnav-line' => 'Subnav line',
+    'uk-subnav-pill' => 'Subnav pill',
+    'uk-tab' => 'Tabbed',
+  );
+  $secondary_subnav_options = array(
     0 => 'Basic subnav',
     'uk-subnav-line' => 'Subnav line',
     'uk-subnav-pill' => 'Subnav pill',
@@ -111,14 +121,47 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
   // Fetch a list of regions for the current theme.
   $all_regions = system_region_list($theme_key);
 
+  // Create markup for UIkit theme information.
+  $uikit_theme_info = drupal_parse_info_file(drupal_get_path('theme', 'uikit') . '/uikit.info');
+  $uikit_version = isset($uikit_theme_info['version']) ? $uikit_theme_info['version'] : UIkit::UIKIT_PROJECT_BRANCH;
+  $uikit_info = '<div class="uk-container uk-container-center uk-margin-top">';
+  $uikit_info .= '<div class="uk-grid">';
+  $uikit_info .= '<div class="uk-width-1-1">';
+  $uikit_info .= '<div class="uk-text-center"><img src="/' . drupal_get_path('theme', 'uikit') . '/images/uikit-small.png" /></div>';
+  $uikit_info .= '<blockquote class="uk-text-small">';
+  $uikit_info .= '<p><i class="uk-icon-quote-left uk-icon-large uk-align-left"></i> ' . $uikit_theme_info['description'] . '</p>';
+  $uikit_info .= '</blockquote>';
+  $uikit_info .= '</div>';
+  $uikit_info .= '<div class="uk-width-1-1 uk-margin">';
+  $uikit_info .= '<div class="uk-grid">';
+  $uikit_info .= '<ul class="uk-list uk-width-1-1 uk-text-center">';
+  $uikit_info .= '<li class="uk-width-small-1-1 uk-width-medium-1-3 uk-float-left"><a href="' . UIkit::UIKIT_LIBRARY . '" target="_blank">UIkit homepage</a></li>';
+  $uikit_info .= '<li class="uk-width-small-1-1 uk-width-medium-1-3 uk-float-left"><a href="' . UIkit::UIKIT_PROJECT . '" target="_blank">Drupal.org project page</a></li>';
+  $uikit_info .= '<li class="uk-width-small-1-1 uk-width-medium-1-3 uk-float-left"><a href="' . UIkit::UIKIT_PROJECT_API . '" target="_blank">UIkit API site</a></li>';
+  $uikit_info .= '<li class="uk-width-small-1-1 uk-width-medium-1-3 uk-float-left"><strong>UIkit library version</strong>: v' . UIkit::UIKIT_LIBRARY_VERSION . '</li>';
+  $uikit_info .= '<li class="uk-width-small-1-1 uk-width-medium-1-3 uk-float-left"><strong>UIkit Drupal version</strong>: ' . $uikit_version . '</li>';
+  $uikit_info .= '<li class="uk-width-small-1-1 uk-width-medium-1-3 uk-float-left"><strong>Ported to Drupal by</strong>: <a href="http://richardbuchanan.com" target="_blank">Richard Buchanan</a></li>';
+  $uikit_info .= '<li class="uk-width-small-1-1 uk-float-left uk-margin-top">UIkit <i class="uk-icon-copyright"></i> <a href="http://www.yootheme.com/" target="_blank">YOOtheme</a>, with love and caffeine, under the <a href="http://opensource.org/licenses/MIT" target="_blank">MIT license</a>.</li>';
+  $uikit_info .= '<li class="uk-width-small-1-1 uk-float-left">UIkit for Drupal <i class="uk-icon-copyright"></i> <a href="http://richardbuchanan.com" target="_blank">Richard Buchanan</a></li>';
+  $uikit_info .= '</ul>';
+  $uikit_info .= '</div></div></div></div>';
+
   // Create vertical tabs for all UIkit related settings.
   $form['uikit'] = array(
     '#type' => 'vertical_tabs',
     '#attached' => array(
       'css' => array(
-        drupal_get_path('theme', 'uikit') . '/css/uikit.admin.css',
+        drupal_get_path('theme', 'uikit') . '/css/uikit.admin.css' => array(
+          'group' => CSS_THEME,
+          'weight' => 20,
+        ),
       ),
-      'js' => array(drupal_get_path('theme', 'uikit') . '/js/uikit.admin.js'),
+      'js' => array(
+        drupal_get_path('theme', 'uikit') . '/js/uikit.admin.js' => array(
+          'group' => JS_THEME,
+          'weight' => 20,
+        ),
+      ),
     ),
     '#prefix' => '<h3>' . t('UIkit Settings') . '</h3>',
     '#weight' => -10,
@@ -140,7 +183,7 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
     '#type' => 'checkbox',
     '#title' => t('Show advanced mobile settings'),
     '#description' => t('Advanced mobile settings give you fine-grain control over additional metadata settings.'),
-    '#default_value' => theme_get_setting('mobile_advanced', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('mobile_advanced', $theme_key),
   );
   $form['mobile_settings']['mobile_metadata'] = array(
     '#type' => 'fieldset',
@@ -152,13 +195,13 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
     '#title' => t('<code>charset</code>'),
     '#options' => $charsets,
     '#description' => t('Specify the character encoding for the HTML document.'),
-    '#default_option' => theme_get_setting('meta_charset', $theme_key),
+    '#default_option' => UIkit::getThemeSetting('meta_charset', $theme_key),
   );
   $form['mobile_settings']['mobile_metadata']['x_ua_compatible'] = array(
     '#type' => 'select',
     '#title' => t('<code>x_ua_compatible</code> IE Mode'),
     '#options' => $x_ua_compatible_ie_options,
-    '#default_value' => theme_get_setting('x_ua_compatible', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('x_ua_compatible', $theme_key),
     '#description' => t('In some cases, it might be necessary to restrict a webpage to a document mode supported by an older version of Windows Internet Explorer. Here we look at the x-ua-compatible header, which allows a webpage to be displayed as if it were viewed by an earlier version of the browser. @see !legacy', array(
       '!legacy' => '<a href="https://msdn.microsoft.com/en-us/library/jj676915(v=vs.85).aspx" target="_blank">' . t('Specifying legacy document modes') . '</a>',
     )),
@@ -187,7 +230,7 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
     '#type' => 'select',
     '#title' => t('Device width ratio'),
     '#description' => t('Defines the ratio between the device width (device-width in portrait mode or device-height in landscape mode) and the viewport size. Literal device width is defined as <code>device-width</code> and is the recommended value. You can also specify a pixel width by selecting <b>Other</b>, such as <code>300</code>.'),
-    '#default_value' => theme_get_setting('viewport_device_width_ratio', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('viewport_device_width_ratio', $theme_key),
     '#options' => array(
       0 => t('-- Select --'),
       'device-width' => t('Literal device width (Recommended)'),
@@ -198,7 +241,7 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
     '#type' => 'textfield',
     '#title' => t('Custom device width'),
     '#description' => t('Defines the width, in pixels, of the viewport. Do not add <b>px</b>, the value must be a non-decimal integer number.'),
-    '#default_value' => theme_get_setting('viewport_custom_width', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('viewport_custom_width', $theme_key),
     '#attributes' => array(
       'size' => 15,
     ),
@@ -221,7 +264,7 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
     '#type' => 'select',
     '#title' => t('Device height ratio'),
     '#description' => t('Defines the ratio between the device height (device-height in portrait mode or device-width in landscape mode) and the viewport size. Literal device height is defined as <code>device-height</code> and is the recommended value. You can also specify a pixel height by selecting <b>Other</b>, such as <code>300</code>.'),
-    '#default_value' => theme_get_setting('viewport_device_height_ratio', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('viewport_device_height_ratio', $theme_key),
     '#options' => array(
       0 => t('-- Select --'),
       'device-height' => t('Literal device height (Recommended)'),
@@ -232,7 +275,7 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
     '#type' => 'textfield',
     '#title' => t('Custom device height'),
     '#description' => t('Defines the height, in pixels, of the viewport. Do not add <b>px</b>, the value must be a non-decimal integer number.'),
-    '#default_value' => theme_get_setting('viewport_custom_height', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('viewport_custom_height', $theme_key),
     '#attributes' => array(
       'size' => 15,
     ),
@@ -250,28 +293,28 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
     '#type' => 'select',
     '#title' => t('initial-scale'),
     '#description' => t('Defines the ratio between the device width (device-width in portrait mode or device-height in landscape mode) and the viewport size.'),
-    '#default_value' => theme_get_setting('viewport_initial_scale', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('viewport_initial_scale', $theme_key),
     '#options' => $viewport_scale,
   );
   $form['mobile_settings']['mobile_metadata']['meta_viewport']['viewport_maximum_scale'] = array(
     '#type' => 'select',
     '#title' => t('maximum-scale'),
     '#description' => t('Defines the maximum value of the zoom; it must be greater or equal to the minimum-scale or the behavior is indeterminate.'),
-    '#default_value' => theme_get_setting('viewport_maximum_scale', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('viewport_maximum_scale', $theme_key),
     '#options' => $viewport_scale,
   );
   $form['mobile_settings']['mobile_metadata']['meta_viewport']['viewport_minimum_scale'] = array(
     '#type' => 'select',
     '#title' => t('minimum-scale'),
     '#description' => t('Defines the minimum value of the zoom; it must be smaller or equal to the maximum-scale or the behavior is indeterminate.'),
-    '#default_value' => theme_get_setting('viewport_minimum_scale', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('viewport_minimum_scale', $theme_key),
     '#options' => $viewport_scale,
   );
   $form['mobile_settings']['mobile_metadata']['meta_viewport']['viewport_user_scalable'] = array(
     '#type' => 'select',
     '#title' => t('user-scalable'),
     '#description' => t('If set to no, the user is not able to zoom in the webpage. Default value is <b>Yes</b>.'),
-    '#default_value' => theme_get_setting('viewport_user_scalable', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('viewport_user_scalable', $theme_key),
     '#options' => array(
       1 => t('Yes'),
       0 => t('No'),
@@ -293,7 +336,7 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
   $form['layout']['layout_advanced'] = array(
     '#type' => 'checkbox',
     '#title' => t('Show advanced layout settings'),
-    '#default_value' => theme_get_setting('layout_advanced', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('layout_advanced', $theme_key),
   );
   $form['layout']['page_layout'] = array(
     '#type' => 'fieldset',
@@ -319,7 +362,7 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
     '#type' => 'radios',
     '#title' => t('Sidebar positions'),
     '#description' => t('Position the sidebars in the standard layout.'),
-    '#default_value' => theme_get_setting('standard_sidebar_positions', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('standard_sidebar_positions', $theme_key),
     '#options' => array(
       'holy-grail' => t('Holy grail'),
       'sidebars-left' => t('Both sidebars left'),
@@ -345,7 +388,7 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
     '#type' => 'radios',
     '#title' => t('Sidebar positions'),
     '#description' => t('Position the sidebars in the tablet layout.'),
-    '#default_value' => theme_get_setting('tablet_sidebar_positions', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('tablet_sidebar_positions', $theme_key),
     '#options' => array(
       'holy-grail' => t('Holy grail'),
       'sidebars-left' => t('Both sidebars left'),
@@ -373,7 +416,7 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
     '#type' => 'radios',
     '#title' => t('Sidebar positions'),
     '#description' => t('Position the sidebars in the mobile layout.'),
-    '#default_value' => theme_get_setting('mobile_sidebar_positions', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('mobile_sidebar_positions', $theme_key),
     '#options' => array(
       'sidebars-stacked' => t('Sidebars stacked'),
       'sidebars-vertical' => t('Sidebars vertical'),
@@ -383,7 +426,7 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
     '#type' => 'checkbox',
     '#title' => t('Page Container'),
     '#description' => t('Add the .uk-container class to the page container to give it a max-width and wrap the main content of your website. For large screens it applies a different max-width.'),
-    '#default_value' => theme_get_setting('page_container', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('page_container', $theme_key),
     '#states' => array(
       'visible' => array(
         ':input[name="layout_advanced"]' => array('checked' => TRUE),
@@ -394,7 +437,7 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
     '#type' => 'select',
     '#title' => t('Page margin'),
     '#description' => t('Select the margin to add to the top and bottom of the page container.'),
-    '#default_value' => theme_get_setting('page_margin', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('page_margin', $theme_key),
     '#options' => array(
       0 => t('No margin'),
       'uk-margin-top' => t('Top margin'),
@@ -431,7 +474,7 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
       '#type' => 'select',
       '#title' => t('@title style', array('@title' => $region)),
       '#description' => t('Set the style for the @region region. The theme will automatically style the region accordingly.', array('@region' => $region)),
-      '#default_value' => theme_get_setting($region_key . '_style', $theme_key),
+      '#default_value' => UIkit::getThemeSetting($region_key . '_style', $theme_key),
       '#options' => $region_style_options,
     );
   }
@@ -458,8 +501,8 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
     '#type' => 'select',
     '#title' => t('Primary tasks style'),
     '#description' => t('Select the style to apply to the primary local tasks.'),
-    '#default_value' => theme_get_setting('primary_tasks_style', $theme_key),
-    '#options' => $subnav_options,
+    '#default_value' => UIkit::getThemeSetting('primary_tasks_style', $theme_key),
+    '#options' => $primary_subnav_options,
   );
   $form['navigations']['local_tasks']['secondary_tasks'] = array(
     '#type' => 'container',
@@ -471,8 +514,8 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
     '#type' => 'select',
     '#title' => t('Secondary tasks style'),
     '#description' => t('Select the style to apply to the secondary local tasks.'),
-    '#default_value' => theme_get_setting('secondary_tasks_style', $theme_key),
-    '#options' => $subnav_options,
+    '#default_value' => UIkit::getThemeSetting('secondary_tasks_style', $theme_key),
+    '#options' => $secondary_subnav_options,
   );
   $form['navigations']['breadcrumb'] = array(
     '#type' => 'fieldset',
@@ -483,13 +526,34 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
     '#type' => 'checkbox',
     '#title' => t('Display breadcrumbs'),
     '#description' => t('Check this box to display the breadcrumb.'),
-    '#default_value' => theme_get_setting('display_breadcrumbs', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('display_breadcrumbs', $theme_key),
   );
   $form['navigations']['breadcrumb']['breakcrumbs_home_link'] = array(
     '#type' => 'checkbox',
     '#title' => t('Display home link in breadcrumbs'),
     '#description' => t('Check this box to display the home link in breadcrumb trail.'),
-    '#default_value' => theme_get_setting('breakcrumbs_home_link', $theme_key),
+    '#default_value' => UIkit::getThemeSetting('breakcrumbs_home_link', $theme_key),
+  );
+  $form['navigations']['breadcrumb']['breakcrumbs_current_page'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Display current page title in breadcrumbs'),
+    '#description' => t('Check this box to display the current page title in breadcrumb trail.'),
+    '#default_value' => UIkit::getThemeSetting('breakcrumbs_current_page', $theme_key),
+    '#states' => array(
+      'disabled' => array(
+        ':input[name="display_breadcrumbs"]' => array('checked' => FALSE),
+      ),
+    ),
+  );
+
+  // UIkit theme information.
+  $form['uikit_details'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('About UIkit'),
+    '#group' => 'uikit',
+  );
+  $form['uikit_details']['info'] = array(
+    '#markup' => $uikit_info,
   );
 
   // Create vertical tabs to place Drupal's default theme settings in.

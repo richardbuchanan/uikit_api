@@ -76,33 +76,31 @@
  */
 ?>
 <header<?php print $header_attributes; ?>>
-  <div<?php print $navbar_wrapper_attributes; ?>>
-    <nav<?php print $navbar_attributes; ?>>
-      <div class="uk-navbar-left">
-        <?php if ($logo): ?>
-          <a href="<?php print $front_page; ?>" id="site-logo" class="uk-navbar-item uk-logo" title="<?php print t('Home'); ?>" rel="home">
-            <img class="uk-margin-small-right" src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
+  <nav<?php print $navbar_attributes; ?>>
+    <div class="uk-navbar-left">
+      <?php if ($logo): ?>
+        <a href="<?php print $front_page; ?>" id="site-logo" class="uk-navbar-item uk-logo" title="<?php print t('Home'); ?>" rel="home">
+          <img class="uk-margin-small-right" src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
 
-            <?php if ($site_name): ?>
-              <span><?php print $site_name; ?></span>
-            <?php endif; ?>
-          </a>
-        <?php endif; ?>
+          <?php if ($site_name): ?>
+            <span><?php print $site_name; ?></span>
+          <?php endif; ?>
+        </a>
+      <?php endif; ?>
 
-        <?php if ($main_menu): ?>
-          <?php print render($navbar_primary); ?>
-        <?php endif; ?>
-      </div>
+      <?php if ($main_menu): ?>
+        <?php print render($navbar_primary); ?>
+      <?php endif; ?>
+    </div>
 
-      <div class="uk-navbar-right">
-        <?php if ($secondary_menu): ?>
-          <?php print render($navbar_secondary); ?>
-        <?php endif; ?>
+    <div class="uk-navbar-right">
+      <?php if ($secondary_menu): ?>
+        <?php print render($navbar_secondary); ?>
+      <?php endif; ?>
 
-        <a href="#offcanvas" uk-toggle uk-navbar-toggle-icon class="uk-navbar-toggle uk-hidden@m uk-navbar-toggle-icon uk-icon"></a>
-      </div>
-    </nav>
-  </div>
+      <a href="#offcanvas" uk-toggle uk-navbar-toggle-icon class="uk-navbar-toggle uk-hidden@m uk-navbar-toggle-icon uk-icon"></a>
+    </div>
+  </nav>
 </header>
 
 <div<?php print $page_container_attributes; ?>>

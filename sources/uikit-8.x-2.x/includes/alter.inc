@@ -52,16 +52,3 @@ function uikit_theme_suggestions_form_element_alter(array &$suggestions, array $
     $suggestions[] = 'form_element__' . 'advanced';
   }
 }
-
-/**
- * Implements hook_theme_suggestions_HOOK_alter() for menu templates.
- */
-function uikit_theme_suggestions_menu_alter(array &$suggestions, array $variables) {
-  $menu_name = $variables['menu_name'];
-  $navbar = in_array('menu__navbar', $suggestions);
-
-  if ($navbar) {
-    // Add suggestion to navbar menus for themeing separate menus in the navbar.
-    $suggestions[] = 'menu__navbar__' . $menu_name;
-  }
-}
