@@ -5,6 +5,10 @@
  * Provides theme settings for UIkit themes.
  */
 
+include_once 'src/UIkit.php';
+
+use \Drupal\uikit\UIkit;
+
 /**
  * Implements hook_form_system_theme_settings_alter().
  */
@@ -134,14 +138,47 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
   // Fetch a list of regions for the current theme.
   $all_regions = system_region_list($theme_key);
 
+  // Create markup for UIkit theme information.
+  $uikit_theme_info = drupal_parse_info_file(drupal_get_path('theme', 'uikit') . '/uikit.info');
+  $uikit_version = isset($uikit_theme_info['version']) ? $uikit_theme_info['version'] : UIkit::UIKIT_PROJECT_BRANCH;
+  $uikit_info = '<div class="uk-container uk-container-center uk-margin-top">';
+  $uikit_info .= '<div class="uk-grid">';
+  $uikit_info .= '<div class="uk-width-1-1">';
+  $uikit_info .= '<div class="uk-text-center"><img src="/' . drupal_get_path('theme', 'uikit') . '/images/uikit-small.png" /></div>';
+  $uikit_info .= '<blockquote class="uk-text-small">';
+  $uikit_info .= '<p><i class="uk-icon-quote-left uk-icon-large uk-align-left"></i> ' . $uikit_theme_info['description'] . '</p>';
+  $uikit_info .= '</blockquote>';
+  $uikit_info .= '</div>';
+  $uikit_info .= '<div class="uk-width-1-1 uk-margin">';
+  $uikit_info .= '<div class="uk-grid">';
+  $uikit_info .= '<ul class="uk-list uk-width-1-1 uk-text-center">';
+  $uikit_info .= '<li class="uk-width-small-1-1 uk-width-medium-1-3 uk-float-left"><a href="' . UIkit::UIKIT_LIBRARY . '" target="_blank">UIkit homepage</a></li>';
+  $uikit_info .= '<li class="uk-width-small-1-1 uk-width-medium-1-3 uk-float-left"><a href="' . UIkit::UIKIT_PROJECT . '" target="_blank">Drupal.org project page</a></li>';
+  $uikit_info .= '<li class="uk-width-small-1-1 uk-width-medium-1-3 uk-float-left"><a href="' . UIkit::UIKIT_PROJECT_API . '" target="_blank">UIkit API site</a></li>';
+  $uikit_info .= '<li class="uk-width-small-1-1 uk-width-medium-1-3 uk-float-left"><strong>UIkit library version</strong>: v' . UIkit::UIKIT_LIBRARY_VERSION . '</li>';
+  $uikit_info .= '<li class="uk-width-small-1-1 uk-width-medium-1-3 uk-float-left"><strong>UIkit Drupal version</strong>: ' . $uikit_version . '</li>';
+  $uikit_info .= '<li class="uk-width-small-1-1 uk-width-medium-1-3 uk-float-left"><strong>Ported to Drupal by</strong>: <a href="http://richardbuchanan.com" target="_blank">Richard Buchanan</a></li>';
+  $uikit_info .= '<li class="uk-width-small-1-1 uk-float-left uk-margin-top">UIkit <i class="uk-icon-copyright"></i> <a href="http://www.yootheme.com/" target="_blank">YOOtheme</a>, with love and caffeine, under the <a href="http://opensource.org/licenses/MIT" target="_blank">MIT license</a>.</li>';
+  $uikit_info .= '<li class="uk-width-small-1-1 uk-float-left">UIkit for Drupal <i class="uk-icon-copyright"></i> <a href="http://richardbuchanan.com" target="_blank">Richard Buchanan</a></li>';
+  $uikit_info .= '</ul>';
+  $uikit_info .= '</div></div></div></div>';
+
   // Create vertical tabs for all UIkit related settings.
   $form['uikit'] = array(
     '#type' => 'vertical_tabs',
     '#attached' => array(
       'css' => array(
-        drupal_get_path('theme', 'uikit') . '/css/uikit.admin.css',
+        drupal_get_path('theme', 'uikit') . '/css/uikit.admin.css' => array(
+          'group' => CSS_THEME,
+          'weight' => 20,
+        ),
       ),
-      'js' => array(drupal_get_path('theme', 'uikit') . '/js/uikit.admin.js'),
+      'js' => array(
+        drupal_get_path('theme', 'uikit') . '/js/uikit.admin.js' => array(
+          'group' => JS_THEME,
+          'weight' => 20,
+        ),
+      ),
     ),
     '#prefix' => '<h3>' . t('UIkit Settings') . '</h3>',
     '#weight' => -10,
@@ -621,6 +658,16 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
     '#default_value' => theme_get_setting('breakcrumbs_home_link', $theme_key),
   );
 
+  // UIkit theme information.
+  $form['uikit_details'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('About UIkit'),
+    '#group' => 'uikit',
+  );
+  $form['uikit_details']['info'] = array(
+    '#markup' => $uikit_info,
+  );
+
   // Create vertical tabs to place Drupal's default theme settings in.
   $form['basic_settings'] = array(
     '#type' => 'vertical_tabs',
@@ -631,7 +678,7 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
   // Group Drupal's default theme settings in the basic settings.
   $form['theme_settings']['#group'] = 'basic_settings';
   $form['logo']['#group'] = 'basic_settings';
-  $form['logo']['#attributes']['class'] = array();
+  $form['logo']['#attributes']['class'] = array('form-wrapper', 'vertical-tabs-pane');
   $form['favicon']['#group'] = 'basic_settings';
 
   // Set validation callback to call when saving theme settings.

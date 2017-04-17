@@ -5,11 +5,8 @@
  * Conditional logic and data processing for the UIkit theme.
  */
 
-// Define constants we can reuse throughout the theme.
-define('UIKIT_LIBRARY_VERSION', '2.27.2');
-define('UIKIT_JQUERY_VERSION', '2.1.4');
-define('UIKIT_JQUERY_MIGRATE_VERSION', '1.4.1');
-define('UIKIT_FONT_AWESOME_VERSION', '4.6.3');
+// Include the UIkit class definition.
+include_once 'src/UIkit.php';
 
 /**
  * Loads a UIkit include file.

@@ -5,6 +5,8 @@
  * Common get functions.
  */
 
+use \Drupal\uikit\UIkit;
+
 /**
  * Retrieves UIkit, jQuery, jQuery Migrate and Font Awesome CDN assets.
  */
@@ -26,7 +28,7 @@ function uikit_get_cdn_assets() {
       'group' => CSS_THEME,
       'every_page' => TRUE,
       'weight' => -20,
-      'version' => UIKIT_LIBRARY_VERSION,
+      'version' => UIkit::UIKIT_LIBRARY_VERSION,
     ));
   }
   else {
@@ -42,50 +44,50 @@ function uikit_get_cdn_assets() {
     }
 
     // Add the selected UIkit stylesheet.
-    drupal_add_css('//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/css/$uikit_css", array(
+    drupal_add_css('//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/css/$uikit_css", array(
       'type' => 'external',
       'group' => CSS_THEME,
       'every_page' => TRUE,
       'weight' => -20,
-      'version' => UIKIT_LIBRARY_VERSION,
+      'version' => UIkit::UIKIT_LIBRARY_VERSION,
     ));
   }
 
   // Add the Font Awesome stylesheet.
-  drupal_add_css('//cdnjs.cloudflare.com/ajax/libs/font-awesome/' . UIKIT_FONT_AWESOME_VERSION . '/css/font-awesome.css', array(
+  drupal_add_css('//cdnjs.cloudflare.com/ajax/libs/font-awesome/' . UIkit::UIKIT_FONT_AWESOME_VERSION . '/css/font-awesome.css', array(
     'type' => 'external',
     'group' => CSS_THEME,
     'every_page' => TRUE,
     'weight' => -20,
-    'version' => UIKIT_FONT_AWESOME_VERSION,
+    'version' => UIkit::UIKIT_FONT_AWESOME_VERSION,
   ));
 
   // Add the jQuery script.
-  drupal_add_js('//cdnjs.cloudflare.com/ajax/libs/jquery/' . UIKIT_JQUERY_VERSION . '/jquery.min.js', array(
+  drupal_add_js('//cdnjs.cloudflare.com/ajax/libs/jquery/' . UIkit::UIKIT_JQUERY_VERSION . '/jquery.min.js', array(
     'type' => 'external',
     'group' => JS_THEME,
     'every_page' => TRUE,
     'weight' => -20,
-    'version' => UIKIT_JQUERY_VERSION,
+    'version' => UIkit::UIKIT_JQUERY_VERSION,
   ));
 
   // Add the jQuery Migrate script so we can use multiple jQuery versions
   // simultaneously.
-  drupal_add_js('//cdnjs.cloudflare.com/ajax/libs/jquery-migrate/' . UIKIT_JQUERY_MIGRATE_VERSION . '/jquery-migrate.min.js', array(
+  drupal_add_js('//cdnjs.cloudflare.com/ajax/libs/jquery-migrate/' . UIkit::UIKIT_JQUERY_MIGRATE_VERSION . '/jquery-migrate.min.js', array(
     'type' => 'external',
     'group' => JS_THEME,
     'every_page' => TRUE,
     'weight' => -20,
-    'version' => UIKIT_JQUERY_MIGRATE_VERSION,
+    'version' => UIkit::UIKIT_JQUERY_MIGRATE_VERSION,
   ));
 
   // Add the UIkit script.
-  drupal_add_js('//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . '/js/uikit.min.js', array(
+  drupal_add_js('//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . '/js/uikit.min.js', array(
     'type' => 'external',
     'group' => JS_THEME,
     'every_page' => TRUE,
     'weight' => -20,
-    'version' => UIKIT_LIBRARY_VERSION,
+    'version' => UIkit::UIKIT_LIBRARY_VERSION,
   ));
 }
 
@@ -122,120 +124,120 @@ function uikit_get_cdn_asset($component = NULL) {
   // the correct assets.
   $components = array(
     'accordion' => array(
-      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/css/components/$css",
-      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
+      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/css/components/$css",
+      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
     ),
     'autocomplete' => array(
-      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/css/components/$css",
-      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
+      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/css/components/$css",
+      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
     ),
     'datepicker' => array(
-      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/css/components/$css",
-      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
+      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/css/components/$css",
+      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
     ),
     'dotnav' => array(
-      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/css/components/$css",
+      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/css/components/$css",
       'js' => NULL,
     ),
     'form-advanced' => array(
-      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/css/components/$css",
+      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/css/components/$css",
       'js' => NULL,
     ),
     'form-file' => array(
-      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/css/components/$css",
+      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/css/components/$css",
       'js' => NULL,
     ),
     'form-password' => array(
-      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/css/components/$css",
-      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
+      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/css/components/$css",
+      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
     ),
     'form-select' => array(
-      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/css/components/$css",
-      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
+      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/css/components/$css",
+      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
     ),
     'grid-parallax' => array(
       'css' => NULL,
-      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
+      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
     ),
     'grid' => array(
       'css' => NULL,
-      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
+      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
     ),
     'htmleditor' => array(
-      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/css/components/$css",
-      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
+      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/css/components/$css",
+      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
     ),
     'lightbox' => array(
       'css' => NULL,
-      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
+      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
     ),
     'nestable' => array(
-      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/css/components/$css",
-      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
+      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/css/components/$css",
+      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
     ),
     'notify' => array(
-      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/css/components/$css",
-      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
+      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/css/components/$css",
+      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
     ),
     'pagination' => array(
       'css' => NULL,
-      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
+      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
     ),
     'parallax' => array(
       'css' => NULL,
-      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
+      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
     ),
     'placeholder' => array(
-      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/css/components/$css",
+      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/css/components/$css",
       'js' => NULL,
     ),
     'progress' => array(
-      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/css/components/$css",
+      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/css/components/$css",
       'js' => NULL,
     ),
     'search' => array(
-      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/css/components/$css",
-      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
+      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/css/components/$css",
+      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
     ),
     'slidenav' => array(
-      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/css/components/$css",
+      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/css/components/$css",
       'js' => NULL,
     ),
     'slider' => array(
-      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/css/components/$css",
-      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
+      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/css/components/$css",
+      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
     ),
     'slideset' => array(
       'css' => NULL,
-      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
+      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
     ),
     'slideshow-fx' => array(
       'css' => NULL,
-      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
+      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
     ),
     'slideshow' => array(
-      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/css/components/$css",
-      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
+      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/css/components/$css",
+      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
     ),
     'sortable' => array(
-      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/css/components/$css",
-      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
+      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/css/components/$css",
+      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
     ),
     'sticky' => array(
-      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/css/components/$css",
-      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
+      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/css/components/$css",
+      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
     ),
     'timepicker' => array(
       'css' => NULL,
-      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
+      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
     ),
     'tooltip' => array(
-      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/css/components/$css",
-      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
+      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/css/components/$css",
+      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
     ),
     'upload' => array(
-      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/css/components/$css",
-      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
+      'css' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/css/components/$css",
+      'js' => '//cdnjs.cloudflare.com/ajax/libs/uikit/' . UIkit::UIKIT_LIBRARY_VERSION . "/js/components/$component.min.js",
     ),
   );
 
@@ -251,7 +253,7 @@ function uikit_get_cdn_asset($component = NULL) {
         'group' => CSS_THEME,
         'every_page' => TRUE,
         'weight' => -10,
-        'version' => UIKIT_LIBRARY_VERSION,
+        'version' => UIkit::UIKIT_LIBRARY_VERSION,
       ));
     }
 
@@ -262,7 +264,7 @@ function uikit_get_cdn_asset($component = NULL) {
         'group' => JS_THEME,
         'every_page' => TRUE,
         'weight' => -10,
-        'version' => UIKIT_LIBRARY_VERSION,
+        'version' => UIkit::UIKIT_LIBRARY_VERSION,
       ));
     }
   }
