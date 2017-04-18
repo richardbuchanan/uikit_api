@@ -126,7 +126,7 @@ function uikit_api_install() {
       'status' => 1,
       'weight' => -1,
       'region' => 'sidebar_second',
-      'pages' => "api\napi/*",
+      'pages' => "api\napi/*\nuikit/release-cycle-overview",
       'cache' => -1,
       'visibility' => 1,
     ),

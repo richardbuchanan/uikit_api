@@ -116,6 +116,13 @@ td.views-field-title {
 }
 
 /**
+ * Tables.
+ */
+.uk-table-striped tbody tr:nth-of-type(odd) {
+  background: #f4f4f4;
+}
+
+/**
  * Resizable textarea
  */
 .resizable-textarea textarea {

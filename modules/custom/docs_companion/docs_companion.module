@@ -21,6 +21,14 @@ function docs_companion_menu() {
     'module' => 'api',
     'weight' => -50,
   );
+  $items['uikit/release-cycle-overview'] = array(
+    'title' => t('UIkit release cycle: major, minor, and patch releases'),
+    'page callback' => 'docs_companion_release_cycle_overview',
+    'access arguments' => array('view published content'),
+    'file' => 'docs_companion.module',
+    'file path' => drupal_get_path('module', 'docs_companion'),
+    'module' => 'docs_companion',
+  );
 
   return $items;
 }
@@ -186,6 +194,20 @@ function _docs_companion_uikit_project_information() {
  */
 function _docs_redirect_node_page() {
   drupal_goto('<front>');
+}
+
+/**
+ * Page callback for the release cycle overview page.
+ */
+function docs_companion_release_cycle_overview() {
+  $module = drupal_get_path('module', 'docs_companion');
+  $filename = $module . '/includes/release_cycle_overview.inc';
+  $handle = fopen($filename, "r");
+  $contents = fread($handle, filesize($filename));
+  fclose($handle);
+
+  $output = check_markup($contents, $format_id = 'full_html');
+  return $output;
 }
 
 /**
