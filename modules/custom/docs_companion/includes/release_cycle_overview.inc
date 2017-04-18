@@ -59,7 +59,7 @@
     <tbody>
     <tr>
       <td class="uk-width-3-10">Week of April 24, 2017</td>
-      <td class="uk-width-7-10"><em>UIkit 8.x-2.0</em> and <em>UIkit 7.x-2.3-beta1</em></td>
+      <td class="uk-width-7-10"><em>UIkit 8.x-2.0</em> and <em>UIkit 7.x-2.3-beta1</em> released</td>
     </tr>
     <tr>
       <td class="uk-width-3-10">Week of May 8, 2017</td>
