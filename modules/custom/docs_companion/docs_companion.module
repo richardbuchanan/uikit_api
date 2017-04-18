@@ -24,7 +24,7 @@ function docs_companion_menu() {
   $items['uikit/release-cycle-overview'] = array(
     'title' => t('UIkit release cycle: major, minor, and patch releases'),
     'page callback' => 'docs_companion_release_cycle_overview',
-    'access arguments' => array('view published content'),
+    'access arguments' => array('access API reference'),
     'file' => 'docs_companion.module',
     'file path' => drupal_get_path('module', 'docs_companion'),
     'module' => 'docs_companion',
