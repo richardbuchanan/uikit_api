@@ -25,6 +25,11 @@
  * phones and tablets to desktops, without the need to worry about device sizes
  * and breakpoints.
  *
+ * This site uses the 7.x-2.x branch of UIkit as a base theme. The footer
+ * contains the current version and release date of the UIkit theme being used.
+ * You can try out a demonstration of any release of UIkit by visiting
+ * @link https://simplytest.me/project/uikit simplytest.me @endlink.
+ *
  * @section uikit_api UIkit API Topics
  * Here are some topics to help you get started developing with UIkit 8:
  * - @link getting_started Getting started with UIkit @endlink
