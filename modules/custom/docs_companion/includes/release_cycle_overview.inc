@@ -11,11 +11,11 @@
     <tbody>
     <tr>
       <td class="uk-width-3-10">First Wednesday of every month</td>
-      <td class="uk-width-7-10">Bugfix release window for <em>UIkit 7.x-2.x</em>, <em>7.x-3.x</em> and <em>8.x-2.x</em></td>
+      <td class="uk-width-7-10">Bugfix release window for <em>UIkit 7.x-2.x</em>, <em>7.x-3.x</em>, <em>8.x-2.x</em> and <em>8.x-3.x</em></td>
     </tr>
     <tr>
       <td class="uk-width-3-10">Third Wednesday of every month</td>
-      <td class="uk-width-7-10">Security release window for <em>UIkit 7.x-2.x</em>, <em>7.x-3.x</em> and <em>8.x-2.x</em></td>
+      <td class="uk-width-7-10">Security release window for <em>UIkit 7.x-2.x</em>, <em>7.x-3.x</em>, <em>8.x-2.x</em> and <em>8.x-3.x</em></td>
     </tr>
     </tbody>
   </table>
@@ -25,18 +25,6 @@
 <div class="uk-overflow-container">
   <table class="uk-table uk-table-hover uk-table-striped uk-table-condensed">
     <tbody>
-    <tr>
-      <td class="uk-width-3-10">August 26, 2016</td>
-      <td class="uk-width-7-10"><em>UIkit 7.x-2.x</em> enters development stage</td>
-    </tr>
-    <tr>
-      <td class="uk-width-3-10">March 15, 2017</td>
-      <td class="uk-width-7-10"><em>UIkit 7.x-3.x</em> enters development stage</td>
-    </tr>
-    <tr>
-      <td class="uk-width-3-10">March 19, 2017</td>
-      <td class="uk-width-7-10"><em>UIkit 8.x-2.x</em> enters development stage</td>
-    </tr>
     <tr>
       <td class="uk-width-3-10">April 5, 2017</td>
       <td class="uk-width-7-10"><em>UIkit 7.x-2.0</em> released</td>
@@ -63,7 +51,7 @@
     </tr>
     <tr>
       <td class="uk-width-3-10">Week of May 8, 2017</td>
-      <td class="uk-width-7-10"><em>UIkit 7.x-3.0-beta2</em> released (stays in beta until UIkit framework v3.0.0 leaves beta)<em> and UIkit 8.x-3.x-dev</em> opened</td>
+      <td class="uk-width-7-10"><em>UIkit 7.x-3.0-beta2</em> released and <em>UIkit 8.x-3.x-dev</em> opened (stays in beta until UIkit framework v3.0.0 leaves beta)</td>
     </tr>
     <tr>
       <td class="uk-width-3-10">Week of May 22, 2017</td>
@@ -79,7 +67,7 @@
     </tr>
     <tr>
       <td class="uk-width-3-10">Week of July 3, 2017</td>
-      <td class="uk-width-7-10"><em>UIkit 7.x-3.0-beta4</em> and <em>UIkit 8.x-3.0-rc1</em> released</td>
+      <td class="uk-width-7-10"><em>UIkit 7.x-3.0-beta4</em> and <em>UIkit 8.x-3.0-beta2</em> released</td>
     </tr>
     <tr>
       <td class="uk-width-3-10">Week of July 17, 2017</td>
