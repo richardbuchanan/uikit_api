@@ -115,7 +115,7 @@
       </div>
     <?php endif; ?>
 
-    <div id="page-content" class="uk-width-small-1-1 uk-width-medium-6-10 uk-width-large-7-10 uk-push-pull-large uk-push-pull-medium">
+    <div<?php print $content_attributes; ?>>
       <?php if ($breadcrumb && $display_breadcrumb): ?>
         <div id="breadcrumbs">
           <?php print $breadcrumb; ?>
@@ -148,7 +148,7 @@
     </div>
 
     <?php if ($page['sidebar_second']): ?>
-      <div id="sidebar-second" class="uk-width-small-1-1 uk-width-medium-4-10 uk-width-large-3-10 uk-push-pull-large uk-push-pull-medium">
+      <div<?php print $sidebar_second_attributes; ?>>
         <?php print render($page['sidebar_second']); ?>
       </div>
     <?php endif; ?>

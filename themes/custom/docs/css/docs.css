@@ -116,6 +116,27 @@ td.views-field-title {
 }
 
 /**
+ * Modal
+ */
+.uk-modal-caption {
+  bottom: -30px;
+  padding: 10px 0;
+  background: rgba(0,0,0,.5);
+}
+
+/**
+ * Slidenav
+ */
+body.page-uikit-screenshots [data-lightbox-next],
+body.page-uikit-screenshots [data-lightbox-previous] {
+  color: rgba(50,50,50,.4);
+}
+body.page-uikit-screenshots [data-lightbox-next]:focus,
+body.page-uikit-screenshots [data-lightbox-previous]:hover {
+  color: rgba(50,50,50,.7);
+}
+
+/**
  * Tables.
  */
 .uk-table-striped tbody tr:nth-of-type(odd) {
