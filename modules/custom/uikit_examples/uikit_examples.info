@@ -1,0 +1,4 @@
+name = 'UIkit Examples'
+description = 'Examples of the UIkit for Drupal theme project.'
+core = 7.x
+package = UIkit
