@@ -20,7 +20,7 @@
 
     </article>
 
-    <h3 class="uk-h2">Comments (4)</h3>
+    <h3 id="comments" class="uk-h2">Comments (4)</h3>
 
     <ul class="uk-comment-list">
       <li>

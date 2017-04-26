@@ -169,5 +169,17 @@
     attach: function () {
       $('p').filter(function () { return $.trim(this.innerHTML) === '' }).remove();
     }
+  };
+
+  Drupal.behaviors.docsNavBar = {
+    attach: function () {
+      $('[docs-nolink]')
+        .on('click', function (e) {
+          e.preventDefault();
+        })
+        .removeAttr('href');
+
+      $('[docs-nav-divider]').siblings('ul').find('li:first-child').before('<li class="uk-nav-divider" docs-nav-divider-list-item></li>');
+    }
   }
 })(jQuery);

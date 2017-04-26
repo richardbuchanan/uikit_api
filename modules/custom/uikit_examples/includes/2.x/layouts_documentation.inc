@@ -74,7 +74,7 @@
 &lt;/div&gt;</code></pre>
 
     <p><span class="uk-badge">NOTE</span> Lorem ipsum
-      <a href="#">dolor sit amet</a>, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+      <a href="#" docs-nolink>dolor sit amet</a>, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
     </p>
 
     <hr class="uk-grid-divider">
@@ -145,7 +145,7 @@
 &lt;/div&gt;</code></pre>
 
     <p><span class="uk-badge">NOTE</span> Lorem ipsum
-      <a href="#">dolor sit amet</a>, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+      <a href="#" docs-nolink>dolor sit amet</a>, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
     </p>
 
     <hr class="uk-grid-divider">
@@ -216,7 +216,7 @@
 &lt;/div&gt;</code></pre>
 
     <p><span class="uk-badge">NOTE</span> Lorem ipsum
-      <a href="#">dolor sit amet</a>, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+      <a href="#" docs-nolink>dolor sit amet</a>, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
     </p>
 
     <hr class="uk-grid-divider">
@@ -287,7 +287,7 @@
 &lt;/div&gt;</code></pre>
 
     <p><span class="uk-badge">NOTE</span> Lorem ipsum
-      <a href="#">dolor sit amet</a>, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+      <a href="#" docs-nolink>dolor sit amet</a>, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
     </p>
 
     <hr class="uk-grid-divider">
@@ -358,7 +358,7 @@
 &lt;/div&gt;</code></pre>
 
     <p><span class="uk-badge">NOTE</span> Lorem ipsum
-      <a href="#">dolor sit amet</a>, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+      <a href="#" docs-nolink>dolor sit amet</a>, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
     </p>
 
     <hr class="uk-grid-divider">
@@ -429,7 +429,7 @@
 &lt;/div&gt;</code></pre>
 
     <p><span class="uk-badge">NOTE</span> Lorem ipsum
-      <a href="#">dolor sit amet</a>, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+      <a href="#" docs-nolink>dolor sit amet</a>, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
     </p>
 
   </div>

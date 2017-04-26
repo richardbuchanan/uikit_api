@@ -10,7 +10,7 @@
  */
 function docs_companion_menu() {
   $items['api/uikit'] = array(
-    'title' => 'UIkit',
+    'title' => 'UIkit for Drupal API',
     'page callback' => 'api_page_branch',
     'page arguments' => array(NULL, 'uikit'),
     'access arguments' => array('access API reference'),
@@ -100,12 +100,6 @@ function docs_companion_views_api() {
  * Implements hook_menu_alter().
  */
 function docs_companion_menu_alter(&$items) {
-  // Other projects.
-  $items['api/projects']['menu_name'] = 'main-menu';
-  $items['api/projects']['title'] = t('Other projects');
-  $items['api/projects']['type'] = MENU_NORMAL_ITEM;
-  $items['api/projects']['weight'] = -47;
-
   // Redirect default node to the frontpage.
   $items['node']['page callback'] = '_docs_redirect_node_page';
 

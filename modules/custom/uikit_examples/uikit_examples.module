@@ -4,9 +4,113 @@
  * Implements hook_menu().
  */
 function uikit_examples_menu() {
-  $items['layouts/frontpage/2.x.x'] = array(
+  $items['layouts'] = array(
+    'title' => t('Layout examples'),
+    'page callback' => 'uikit_layouts',
+    'access arguments' => array('access content'),
+    'file' => 'uikit_examples.module',
+    'file path' => drupal_get_path('module', 'uikit_examples'),
+    'module' => 'uikit_examples',
+    'type' => MENU_NORMAL_ITEM,
+    'menu_name' => 'main-menu',
+    'weight' => -49,
+    'expanded' => TRUE,
+    'options' => array(
+      'attributes' => array(
+        'docs-nolink' => '',
+      ),
+    ),
+  );
+  $items['layouts/7.x-2.x'] = array(
+    'title' => t('7.x-2.x'),
+    'page callback' => 'uikit_layouts_7x_2x',
+    'access arguments' => array('access content'),
+    'file' => 'uikit_examples.module',
+    'file path' => drupal_get_path('module', 'uikit_examples'),
+    'module' => 'uikit_examples',
+    'type' => MENU_NORMAL_ITEM,
+    'menu_name' => 'main-menu',
+    'weight' => -50,
+    'expanded' => TRUE,
+    'options' => array(
+      'attributes' => array(
+        'docs-nolink' => '',
+        'docs-nav-divider' => '',
+        'class' => array('uk-nav-header'),
+      ),
+    ),
+  );
+  $items['layouts/7.x-3.x'] = array(
+    'title' => t('7.x-3.x'),
+    'page callback' => 'uikit_layouts_7x_3x',
+    'access arguments' => array('access content'),
+    'file' => 'uikit_examples.module',
+    'file path' => drupal_get_path('module', 'uikit_examples'),
+    'module' => 'uikit_examples',
+    'type' => MENU_NORMAL_ITEM,
+    'menu_name' => 'main-menu',
+    'weight' => -49,
+    'expanded' => TRUE,
+    'options' => array(
+      'attributes' => array(
+        'docs-nolink' => '',
+        'docs-nav-divider' => '',
+        'class' => array('uk-nav-header'),
+      ),
+    ),
+  );
+  $items['layouts/8.x-2.x'] = array(
+    'title' => t('8.x-2.x'),
+    'page callback' => 'uikit_layouts_8x_2x',
+    'access arguments' => array('access content'),
+    'file' => 'uikit_examples.module',
+    'file path' => drupal_get_path('module', 'uikit_examples'),
+    'module' => 'uikit_examples',
+    'type' => MENU_NORMAL_ITEM,
+    'menu_name' => 'main-menu',
+    'weight' => -48,
+    'expanded' => TRUE,
+    'options' => array(
+      'attributes' => array(
+        'docs-nolink' => '',
+        'docs-nav-divider' => '',
+        'class' => array('uk-nav-header'),
+      ),
+    ),
+  );
+  $items['layouts/8.x-3.x'] = array(
+    'title' => t('8.x-3.x'),
+    'page callback' => 'uikit_layouts_8x_3x',
+    'access arguments' => array('access content'),
+    'file' => 'uikit_examples.module',
+    'file path' => drupal_get_path('module', 'uikit_examples'),
+    'module' => 'uikit_examples',
+    'type' => MENU_NORMAL_ITEM,
+    'menu_name' => 'main-menu',
+    'weight' => -47,
+    'expanded' => TRUE,
+    'options' => array(
+      'attributes' => array(
+        'docs-nolink' => '',
+        'docs-nav-divider' => '',
+        'class' => array('uk-nav-header'),
+      ),
+    ),
+  );
+  $items['layouts/7.x-2.x/frontpage'] = array(
     'title' => t('Frontpage'),
-    'page callback' => 'uikit_examples_frontpage_2xx',
+    'page callback' => 'uikit_layouts_7x_2x_frontpage',
+    'access arguments' => array('access content'),
+    'file' => 'uikit_examples.module',
+    'file path' => drupal_get_path('module', 'uikit_examples'),
+    'module' => 'uikit_examples',
+    'type' => MENU_NORMAL_ITEM,
+    'menu_name' => 'main-menu',
+    'weight' => -50,
+  );
+  $items['layouts/7.x-2.x/portfolio'] = array(
+    'title' => t('Portfolio'),
+    'page callback' => 'uikit_layouts_7x_2x_portfolio',
     'access arguments' => array('access content'),
     'file' => 'uikit_examples.module',
     'file path' => drupal_get_path('module', 'uikit_examples'),
@@ -15,9 +119,9 @@ function uikit_examples_menu() {
     'menu_name' => 'main-menu',
     'weight' => -49,
   );
-  $items['layouts/portfolio/2.x.x'] = array(
-    'title' => t('Portfolio'),
-    'page callback' => 'uikit_examples_portfolio_2xx',
+  $items['layouts/7.x-2.x/blog'] = array(
+    'title' => t('Blog'),
+    'page callback' => 'uikit_layouts_7x_2x_blog',
     'access arguments' => array('access content'),
     'file' => 'uikit_examples.module',
     'file path' => drupal_get_path('module', 'uikit_examples'),
@@ -26,9 +130,9 @@ function uikit_examples_menu() {
     'menu_name' => 'main-menu',
     'weight' => -48,
   );
-  $items['layouts/blog/2.x.x'] = array(
-    'title' => t('Blog'),
-    'page callback' => 'uikit_examples_blog_2xx',
+  $items['layouts/7.x-2.x/post'] = array(
+    'title' => t('Blog post'),
+    'page callback' => 'uikit_layouts_7x_2x_post',
     'access arguments' => array('access content'),
     'file' => 'uikit_examples.module',
     'file path' => drupal_get_path('module', 'uikit_examples'),
@@ -37,9 +141,9 @@ function uikit_examples_menu() {
     'menu_name' => 'main-menu',
     'weight' => -47,
   );
-  $items['layouts/documentation/2.x.x'] = array(
+  $items['layouts/7.x-2.x/documentation'] = array(
     'title' => t('Documentation'),
-    'page callback' => 'uikit_examples_documentation_2xx',
+    'page callback' => 'uikit_layouts_7x_2x_documentation',
     'access arguments' => array('access content'),
     'file' => 'uikit_examples.module',
     'file path' => drupal_get_path('module', 'uikit_examples'),
@@ -48,9 +152,9 @@ function uikit_examples_menu() {
     'menu_name' => 'main-menu',
     'weight' => -46,
   );
-  $items['layouts/contact/2.x.x'] = array(
+  $items['layouts/7.x-2.x/contact'] = array(
     'title' => t('Contact'),
-    'page callback' => 'uikit_examples_contact_2xx',
+    'page callback' => 'uikit_layouts_7x_2x_contact',
     'access arguments' => array('access content'),
     'file' => 'uikit_examples.module',
     'file path' => drupal_get_path('module', 'uikit_examples'),
@@ -59,15 +163,56 @@ function uikit_examples_menu() {
     'menu_name' => 'main-menu',
     'weight' => -45,
   );
-  $items['layouts/post/2.x.x'] = array(
-    'title' => t('Post'),
-    'page callback' => 'uikit_examples_post_2xx',
+  $items['layouts/7.x-3.x/coming-soon'] = array(
+    'title' => t('Coming soon!'),
+    'page callback' => 'uikit_layouts_7x_3x_frontpage',
     'access arguments' => array('access content'),
     'file' => 'uikit_examples.module',
     'file path' => drupal_get_path('module', 'uikit_examples'),
     'module' => 'uikit_examples',
     'type' => MENU_NORMAL_ITEM,
-    'menu_name' => 'navigation',
+    'menu_name' => 'main-menu',
+    'weight' => -50,
+    'options' => array(
+      'attributes' => array(
+        'docs-nolink' => '',
+        'docs-reset-link' => '',
+      ),
+    ),
+  );
+  $items['layouts/8.x-2.x/coming-soon'] = array(
+    'title' => t('Coming soon!'),
+    'page callback' => 'uikit_layouts_8x_2x_frontpage',
+    'access arguments' => array('access content'),
+    'file' => 'uikit_examples.module',
+    'file path' => drupal_get_path('module', 'uikit_examples'),
+    'module' => 'uikit_examples',
+    'type' => MENU_NORMAL_ITEM,
+    'menu_name' => 'main-menu',
+    'weight' => -50,
+    'options' => array(
+      'attributes' => array(
+        'docs-nolink' => '',
+        'docs-reset-link' => '',
+      ),
+    ),
+  );
+  $items['layouts/8.x-3.x/coming-soon'] = array(
+    'title' => t('Coming soon!'),
+    'page callback' => 'uikit_layouts_8x_3x_frontpage',
+    'access arguments' => array('access content'),
+    'file' => 'uikit_examples.module',
+    'file path' => drupal_get_path('module', 'uikit_examples'),
+    'module' => 'uikit_examples',
+    'type' => MENU_NORMAL_ITEM,
+    'menu_name' => 'main-menu',
+    'weight' => -50,
+    'options' => array(
+      'attributes' => array(
+        'docs-nolink' => '',
+        'docs-reset-link' => '',
+      ),
+    ),
   );
 
   return $items;
@@ -76,9 +221,9 @@ function uikit_examples_menu() {
 /**
  * Page callback for the screenshots page.
  */
-function uikit_examples_frontpage_2xx() {
+function uikit_layouts_7x_2x_frontpage() {
   $module = drupal_get_path('module', 'uikit_examples');
-  $filename = $module . '/includes/2.x.x/layouts_frontpage.inc';
+  $filename = $module . '/includes/2.x/layouts_frontpage.inc';
   $handle = fopen($filename, "r");
   $contents = fread($handle, filesize($filename));
   fclose($handle);
@@ -90,9 +235,9 @@ function uikit_examples_frontpage_2xx() {
 /**
  * Page callback for the screenshots page.
  */
-function uikit_examples_portfolio_2xx() {
+function uikit_layouts_7x_2x_portfolio() {
   $module = drupal_get_path('module', 'uikit_examples');
-  $filename = $module . '/includes/2.x.x/layouts_portfolio.inc';
+  $filename = $module . '/includes/2.x/layouts_portfolio.inc';
   $handle = fopen($filename, "r");
   $contents = fread($handle, filesize($filename));
   fclose($handle);
@@ -104,9 +249,9 @@ function uikit_examples_portfolio_2xx() {
 /**
  * Page callback for the screenshots page.
  */
-function uikit_examples_blog_2xx() {
+function uikit_layouts_7x_2x_blog() {
   $module = drupal_get_path('module', 'uikit_examples');
-  $filename = $module . '/includes/2.x.x/layouts_blog.inc';
+  $filename = $module . '/includes/2.x/layouts_blog.inc';
   $handle = fopen($filename, "r");
   $contents = fread($handle, filesize($filename));
   fclose($handle);
@@ -118,10 +263,24 @@ function uikit_examples_blog_2xx() {
 /**
  * Page callback for the screenshots page.
  */
-function uikit_examples_documentation_2xx() {
+function uikit_layouts_7x_2x_post() {
+  $module = drupal_get_path('module', 'uikit_examples');
+  $filename = $module . '/includes/2.x/layouts_post.inc';
+  $handle = fopen($filename, "r");
+  $contents = fread($handle, filesize($filename));
+  fclose($handle);
+
+  $output = check_markup($contents, $format_id = 'demo_html');
+  return $output;
+}
+
+/**
+ * Page callback for the screenshots page.
+ */
+function uikit_layouts_7x_2x_documentation() {
   uikit_get_cdn_asset('sticky');
   $module = drupal_get_path('module', 'uikit_examples');
-  $filename = $module . '/includes/2.x.x/layouts_documentation.inc';
+  $filename = $module . '/includes/2.x/layouts_documentation.inc';
   $handle = fopen($filename, "r");
   $contents = fread($handle, filesize($filename));
   fclose($handle);
@@ -133,23 +292,9 @@ function uikit_examples_documentation_2xx() {
 /**
  * Page callback for the screenshots page.
  */
-function uikit_examples_post_2xx() {
+function uikit_layouts_7x_2x_contact() {
   $module = drupal_get_path('module', 'uikit_examples');
-  $filename = $module . '/includes/2.x.x/layouts_post.inc';
-  $handle = fopen($filename, "r");
-  $contents = fread($handle, filesize($filename));
-  fclose($handle);
-
-  $output = check_markup($contents, $format_id = 'demo_html');
-  return $output;
-}
-
-/**
- * Page callback for the screenshots page.
- */
-function uikit_examples_contact_2xx() {
-  $module = drupal_get_path('module', 'uikit_examples');
-  $filename = $module . '/includes/2.x.x/layouts_contact.inc';
+  $filename = $module . '/includes/2.x/layouts_contact.inc';
   $handle = fopen($filename, "r");
   $contents = fread($handle, filesize($filename));
   fclose($handle);

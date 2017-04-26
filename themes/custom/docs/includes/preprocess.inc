@@ -296,8 +296,10 @@ function docs_preprocess_page(&$variables) {
   $variables['logo'] = $svg_logo;
 
   $variables['header_attributes_array']['class'] = array();
+
   $current_page = explode('/', current_path());
   if ($current_page[0] == 'layouts') {
+    $variables['display_breadcrumb'] = FALSE;
     $variables['title'] = '';
   }
 }
