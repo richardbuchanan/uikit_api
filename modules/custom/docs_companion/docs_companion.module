@@ -30,12 +30,15 @@ function docs_companion_menu() {
     'module' => 'docs_companion',
   );
   $items['uikit/screenshots'] = array(
-    'title' => t('UIkit screenshots'),
+    'title' => t('Screenshots'),
     'page callback' => 'docs_companion_screenshots',
     'access arguments' => array('access API reference'),
     'file' => 'docs_companion.module',
     'file path' => drupal_get_path('module', 'docs_companion'),
     'module' => 'docs_companion',
+    'type' => MENU_NORMAL_ITEM,
+    'menu_name' => 'main-menu',
+    'weight' => -48,
   );
 
   return $items;

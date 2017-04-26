@@ -41,13 +41,6 @@
       </div>
 
       <div class="uk-width-medium-1-3">
-        <a href="/profiles/uikit_api/modules/custom/docs_companion/includes/images/7.x-2.x/documentation.png" data-uk-lightbox="{group:'group1'}" title="Documentation">
-          <img src="/profiles/uikit_api/modules/custom/docs_companion/includes/images/7.x-2.x/documentation-thumbnail.png" class="uk-thumbnail" alt="Documentation">
-          <div class="uk-thumbnail-caption">Documentation</div>
-        </a>
-      </div>
-
-      <div class="uk-width-medium-1-3">
         <a href="/profiles/uikit_api/modules/custom/docs_companion/includes/images/7.x-2.x/contact.png" data-uk-lightbox="{group:'group1'}" title="Contact">
           <img src="/profiles/uikit_api/modules/custom/docs_companion/includes/images/7.x-2.x/contact-thumbnail.png" class="uk-thumbnail" alt="Contact">
           <div class="uk-thumbnail-caption">Contact</div>
