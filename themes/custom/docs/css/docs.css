@@ -31,6 +31,19 @@ ul>li>ol,
 ul>li>ul {
   margin: 10px 0 15px;
 }
+a,
+.uk-link,
+.uk-nav-navbar ul a {
+  color: #2ba3d4;
+}
+a:focus,
+a:hover,
+.uk-link:focus,
+.uk-link:hover,
+.uk-nav-navbar ul a:focus,
+.uk-nav-navbar ul a:hover {
+  color: #046995;
+}
 
 /**
  * UIkit containers
@@ -48,7 +61,9 @@ ul>li>ul {
  * Navbar
  */
 .uk-navbar {
-  background: #3dc0f1;
+  background: #2ba3d4;
+  padding: 20px 0;
+  border: 0;
 }
 .uk-navbar #logo-large img,
 .uk-navbar #logo-small img {
@@ -58,31 +73,19 @@ ul>li>ul {
 .uk-navbar .uk-navbar-toggle {
   color: #fff;
 }
-.uk-navbar-nav > li > a {
-  color: #fff;
-  text-shadow: none;
-}
-.uk-navbar-nav > li.active-trail > a {
-  border-left-color: rgba(0,0,0,.1);
-  border-right-color: rgba(0,0,0,.1);
-  border-top-color: rgba(0,0,0,.1);
-}
-.uk-navbar-nav > li.uk-active > a,
-.uk-navbar-nav > li.active-trail > a {
-  background-color: #15afea;
-  color: #fff;
-}
+.uk-navbar-nav > li > a,
 .uk-navbar-nav > li > a:focus,
 .uk-navbar-nav > li > a:hover,
-.uk-navbar-nav > li.uk-active > a:focus,
-.uk-navbar-nav > li.uk-active > a:hover,
 .uk-navbar-nav > li.uk-open > a,
+.uk-navbar-nav > li:focus > a,
 .uk-navbar-nav > li:hover > a,
-.uk-navbar-nav > li > a:focus,
-#autocomplete ul > li:focus,
-#autocomplete ul > li:hover {
-  background-color: #04a1dd;
+.uk-navbar-nav > li.uk-active > a,
+.uk-navbar-nav > li.uk-active:focus > a,
+.uk-navbar-nav > li.uk-active:hover > a {
+  background: #2ba3d4;
+  border: 0;
   color: #fff;
+  text-shadow: none;
 }
 .uk-navbar-brand,
 .uk-navbar-brand:focus,
@@ -360,22 +363,8 @@ del.uk-text-danger a {
 /**
  * Frontpage
  */
-body.front #page-navbar {
-  background: #2ba3d4;
-  padding: 20px 0;
-  border: 0;
-}
 body.front #footer {
   background: #2ba3d4;
-}
-body.front .uk-navbar-nav > li > a:focus,
-body.front .uk-navbar-nav > li > a:hover,
-body.front .uk-navbar-nav > li.uk-open > a,
-body.front .uk-navbar-nav > li:hover > a,
-body.front .uk-navbar-nav > li > a:focus {
-  background: #2ba3d4;
-  color: #fff;
-  border-color: transparent;
 }
 .docs-margin-large-bottom {
   margin-bottom: 80px;
