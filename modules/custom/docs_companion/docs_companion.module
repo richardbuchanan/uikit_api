@@ -21,24 +21,32 @@ function docs_companion_menu() {
     'module' => 'api',
     'weight' => -50,
   );
-  $items['uikit/release-cycle-overview'] = array(
-    'title' => t('UIkit release cycle: major, minor, and patch releases'),
-    'page callback' => 'docs_companion_release_cycle_overview',
-    'access arguments' => array('access API reference'),
-    'file' => 'docs_companion.module',
-    'file path' => drupal_get_path('module', 'docs_companion'),
-    'module' => 'docs_companion',
-  );
   $items['uikit/screenshots'] = array(
     'title' => t('Screenshots'),
     'page callback' => 'docs_companion_screenshots',
-    'access arguments' => array('access API reference'),
+    'access arguments' => array('access content'),
     'file' => 'docs_companion.module',
     'file path' => drupal_get_path('module', 'docs_companion'),
     'module' => 'docs_companion',
     'type' => MENU_NORMAL_ITEM,
     'menu_name' => 'main-menu',
     'weight' => -48,
+  );
+  $items['uikit/release-cycle-overview'] = array(
+    'title' => t('UIkit release cycle: major, minor, and patch releases'),
+    'page callback' => 'docs_companion_release_cycle_overview',
+    'access arguments' => array('access content'),
+    'file' => 'docs_companion.module',
+    'file path' => drupal_get_path('module', 'docs_companion'),
+    'module' => 'docs_companion',
+  );
+  $items['frontpage'] = array(
+    'title' => t(''),
+    'page callback' => 'docs_companion_frontpage',
+    'access arguments' => array('access content'),
+    'file' => 'docs_companion.module',
+    'file path' => drupal_get_path('module', 'docs_companion'),
+    'module' => 'docs_companion',
   );
 
   return $items;
@@ -223,6 +231,17 @@ function docs_companion_screenshots() {
   uikit_get_cdn_asset('slidenav');
   $module = drupal_get_path('module', 'docs_companion');
   $filename = $module . '/includes/screenshots.inc';
+  $handle = fopen($filename, "r");
+  $contents = fread($handle, filesize($filename));
+  fclose($handle);
+
+  $output = check_markup($contents, $format_id = 'full_html');
+  return $output;
+}
+
+function docs_companion_frontpage() {
+  $module = drupal_get_path('module', 'docs_companion');
+  $filename = $module . '/includes/frontpage.inc';
   $handle = fopen($filename, "r");
   $contents = fread($handle, filesize($filename));
   fclose($handle);

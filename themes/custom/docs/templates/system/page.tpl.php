@@ -76,10 +76,12 @@
 <header<?php print $header_attributes; ?>>
   <nav<?php print $navbar_attributes; ?>>
     <div class="uk-container uk-container-center">
-      <a href="<?php print $front_page; ?>" id="logo-large" class="uk-navbar-brand uk-hidden-small" title="<?php print t('UIkit API'); ?>" rel="home">
-        <img src="<?php print $logo; ?>" alt="<?php print t('UIkit API'); ?>" />
-        <span class="uk-margin-left uk-margin-right"><?php print $site_name; ?></span>
-      </a>
+      <?php if (!drupal_is_front_page()): ?>
+        <a href="<?php print $front_page; ?>" id="logo-large" class="uk-navbar-brand uk-hidden-small" title="<?php print t('UIkit API'); ?>" rel="home">
+          <img src="<?php print $logo; ?>" alt="<?php print t('UIkit API'); ?>" />
+          <span class="uk-margin-left uk-margin-right"><?php print $site_name; ?></span>
+        </a>
+      <?php endif; ?>
 
       <?php if ($main_menu || $secondary_menu): ?>
         <?php print render($navbar_primary); ?>
@@ -157,7 +159,7 @@
 </div>
 
 <?php if ($page['footer']): ?>
-  <div id="footer" class="uk-margin-top uk-text-center">
+  <div id="footer" class="<?php if (!drupal_is_front_page()): ?>uk-margin-top <?php endif; ?>uk-text-center">
     <?php print render($page['footer']); ?>
   </div>
 <?php endif; ?>

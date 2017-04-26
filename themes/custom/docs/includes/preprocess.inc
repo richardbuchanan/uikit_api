@@ -302,6 +302,17 @@ function docs_preprocess_page(&$variables) {
     $variables['display_breadcrumb'] = FALSE;
     $variables['title'] = '';
   }
+
+  if (drupal_is_front_page()) {
+    $variables['title'] = '';
+    $variables['page_container_attributes_array'] = array(
+      'id' => 'page',
+    );
+    $variables['navbar_attributes_array'] = array(
+      'id' => 'page-navbar',
+      'class' => array('uk-navbar', 'uk-navbar-attached'),
+    );
+  }
 }
 
 /**
