@@ -33,8 +33,8 @@
  * @section uikit_api UIkit API Topics
  * Here are some topics to help you get started developing with UIkit 7:
  * - @link getting_started Getting started with UIkit @endlink
- * - @link theme_settings UIkit theme settings @endlink
  * - @link sub_theme Creating a UIkit sub-theme @endlink
+ * - @link theme_settings UIkit theme settings @endlink
  * - @link uikit_themeable UIkit theme implementations @endlink
  * - @link maintainers Project Maintainers @endlink
  */

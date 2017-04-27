@@ -78,8 +78,19 @@
  * @divider
  *
  * Once you have finished implementing UIkit 7 into your Drupal site, take a
- * look at the @link theme_settings UIkit theme settings @endlink to configure
- * UIkit 7.
+ * look at the @link sub_theme Creating a UIkit sub-theme @endlink to create a
+ * UIkit sub-theme.
+ * @}
+ */
+
+/**
+ * @defgroup sub_theme Creating a UIkit sub-theme
+ * @{
+ * @lead subtheme Create a custom theme by inheriting the UIkit 7 base theme.
+ * Creating a custom theme utilizing UIkit is just like creating any other
+ * theme. The only difference with creating a UIkit sub-theme is your custom
+ * theme will automatically inherit all UIkit offers without having to reinvent
+ * the wheel.
  * @}
  */
 
@@ -204,17 +215,6 @@
  *   in breadcrumb trail.
  * - Display current page title in breadcrumbs: Check this box to display the
  *   current page title in breadcrumb trail.
- * @}
- */
-
-/**
- * @defgroup sub_theme Creating a UIkit sub-theme
- * @{
- * @lead subtheme Create a custom theme by inheriting the UIkit 7 base theme.
- * Creating a custom theme utilizing UIkit is just like creating any other
- * theme. The only difference with creating a UIkit sub-theme is your custom
- * theme will automatically inherit all UIkit offers without having to reinvent
- * the wheel.
  * @}
  */
 

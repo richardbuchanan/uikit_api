@@ -66,6 +66,89 @@
  *
  * @section requirements Requirements
  * There are no requirements to use UIkit 8.
+ *
+ * @divider
+ *
+ * Once you have finished implementing UIkit into your Drupal site, take a look
+ * look at the @link sub_theme Creating a UIkit sub-theme @endlink to create a
+ * UIkit sub-theme.
+ * @}
+ */
+
+/**
+ * @defgroup sub_theme Creating a UIkit sub-theme
+ * @{
+ * @lead subtheme Create a custom theme by inheriting the UIkit 8 base theme.
+ * Creating a custom theme utilizing UIkit is just like creating any other
+ * theme. The only difference with creating a UIkit sub-theme is your custom
+ * theme will automatically inherit all UIkit offers without having to reinvent
+ * the wheel.
+ *
+ * @subtitle Jump to a section
+ * - @ref manually
+ * - @ref drush
+ *
+ * @section manually Creating a sub-theme manually
+ * UIkit for Drupal ships with a @inlinecode STARTERKIT @endinlinecode to get
+ * you going quickly when creating a UIkit sub-theme. If you're comfortable
+ * using the command line, we recommend @ref drush instead.
+ *
+ * To get started you can copy the @inlinecode STARTERKIT @endinlinecode folder
+ * in the root directory of UIkit and paste it where you place your themes in
+ * your Drupal installation. See
+ * @link https://www.drupal.org/docs/8/theming-drupal-8/drupal-8-theme-folder-structure Drupal 8 Theme folder structure @endlink
+ * to learn where to place your themes in Drupal 8.
+ *
+ * The folder structure of the @inlinecode STARTERKIT @endinlinecode looks like:
+ * @code
+ * |-css
+ * |  |-STARTERKIT.base.css
+ * |  |-STARTERKIT.component.css
+ * |  |-STARTERKIT.layout.css
+ * |  |-STARTERKIT.theme.css
+ * |
+ * |-includes
+ * |  |-alter.inc
+ * |  |-preprocess.inc
+ * |  |-process.inc
+ * |  |-theme.inc
+ * |
+ * |-js
+ * |  |-STARTERKIT.theme.js
+ * |
+ * |-favicon.ico
+ * |-logo.png
+ * |-logo.svg
+ * |-README.txt
+ * |-screenshot.png
+ * |-STARTERKIT.info
+ * |-STARTERKIT.libraries.yml
+ * |-STARTERKIT.theme
+ * |-theme-settings.php
+ * @endcode
+ *
+ * Next you will need to replace all instances of
+ * @inlinecode STARTERKIT @endinlinecode in the file names and contents with
+ * your theme name. Remember to use the machine name for file names and
+ * functions, i.e. @inlinecode theme_name @endinlinecode and a human-readable
+ * name elsewhere, i.e. @inlinecode Theme name @endinlinecode.
+ *
+ * Finally, one last change is needed in order for Drupal to recognize your new
+ * sub-theme. Add the .yml extension to the theme info file, i.e.
+ * @inlinecode theme_name.info.yml @endinlinecode. We excluded the .yml
+ * extension in @inlinecode STARTERKIT @endinlinecode so Drupal would not
+ * display @inlinecode STARTERKIT @endinlinecode on the Appearance page.
+ *
+ * That's it! You are now ready to start making changes to your new sub-theme.
+ * More information on customizing UIkit themes can be found in the
+ * @link theme_settings UIkit theme settings @endlink topic.
+ *
+ * @section drush Creating a sub-theme using Drush
+ * UIkit for Drupal comes equipped with an easy-to-use
+ * @link http://www.drush.org/en/master/ Drush @endlink command to create a
+ * sub-theme from the command line. This provides rapid development of your
+ * UIkit sub-theme, creating the files necessary for you with one simple
+ * command.
  * @}
  */
 
@@ -149,83 +232,6 @@
  *   in breadcrumb trail.
  * - Display current page title in breadcrumbs: Check this box to display the
  *   current page title in breadcrumb trail.
- * @}
- */
-
-/**
- * @defgroup sub_theme Creating a UIkit sub-theme
- * @{
- * @lead subtheme Create a custom theme by inheriting the UIkit 8 base theme.
- * Creating a custom theme utilizing UIkit is just like creating any other
- * theme. The only difference with creating a UIkit sub-theme is your custom
- * theme will automatically inherit all UIkit offers without having to reinvent
- * the wheel.
- *
- * @subtitle Jump to a section
- * - @ref manually
- * - @ref drush
- *
- * @section manually Creating a sub-theme manually
- * UIkit for Drupal ships with a @inlinecode STARTERKIT @endinlinecode to get
- * you going quickly when creating a UIkit sub-theme. If you're comfortable
- * using the command line, we recommend @ref drush instead.
- *
- * To get started you can copy the @inlinecode STARTERKIT @endinlinecode folder
- * in the root directory of UIkit and paste it where you place your themes in
- * your Drupal installation. See
- * @link https://www.drupal.org/docs/8/theming-drupal-8/drupal-8-theme-folder-structure Drupal 8 Theme folder structure @endlink
- * to learn where to place your themes in Drupal 8.
- *
- * The folder structure of the @inlinecode STARTERKIT @endinlinecode looks like:
- * @code
- * |-css
- * |  |-STARTERKIT.base.css
- * |  |-STARTERKIT.component.css
- * |  |-STARTERKIT.layout.css
- * |  |-STARTERKIT.theme.css
- * |
- * |-includes
- * |  |-alter.inc
- * |  |-preprocess.inc
- * |  |-process.inc
- * |  |-theme.inc
- * |
- * |-js
- * |  |-STARTERKIT.theme.js
- * |
- * |-favicon.ico
- * |-logo.png
- * |-logo.svg
- * |-README.txt
- * |-screenshot.png
- * |-STARTERKIT.info
- * |-STARTERKIT.libraries.yml
- * |-STARTERKIT.theme
- * |-theme-settings.php
- * @endcode
- *
- * Next you will need to replace all instances of
- * @inlinecode STARTERKIT @endinlinecode in the file names and contents with
- * your theme name. Remember to use the machine name for file names and
- * functions, i.e. @inlinecode theme_name @endinlinecode and a human-readable
- * name elsewhere, i.e. @inlinecode Theme name @endinlinecode.
- *
- * Finally, one last change is needed in order for Drupal to recognize your new
- * sub-theme. Add the .yml extension to the theme info file, i.e.
- * @inlinecode theme_name.info.yml @endinlinecode. We excluded the .yml
- * extension in @inlinecode STARTERKIT @endinlinecode so Drupal would not
- * display @inlinecode STARTERKIT @endinlinecode on the Appearance page.
- *
- * That's it! You are now ready to start making changes to your new sub-theme.
- * More information on customizing UIkit themes can be found in the
- * @link theme_settings UIkit theme settings @endlink topic.
- *
- * @section drush Creating a sub-theme using Drush
- * UIkit for Drupal comes equipped with an easy-to-use
- * @link http://www.drush.org/en/master/ Drush @endlink command to create a
- * sub-theme from the command line. This provides rapid development of your
- * UIkit sub-theme, creating the files necessary for you with one simple
- * command.
  * @}
  */
 
