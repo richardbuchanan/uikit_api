@@ -119,19 +119,6 @@
     }
   };
 
-  Drupal.behaviors.stickySidebar = {
-    attach: function () {
-      $('#region-sidebar-second-wrapper').each(function() {
-        var windowHeight = $(window).outerHeight() - $('#page-header').outerHeight();
-        var sidebarHeight = $(this).outerHeight();
-
-        if (sidebarHeight > windowHeight) {
-          $(this).removeAttr('data-uk-sticky');
-        }
-      });
-    }
-  };
-
   Drupal.behaviors.docsSVGFallback = {
     attach: function () {
       if (!Modernizr.svg) {
@@ -181,6 +168,14 @@
         .removeAttr('href');
 
       $('[docs-nav-divider]').siblings('ul').find('li:first-child').before('<li class="uk-nav-divider" docs-nav-divider-list-item></li>');
+    }
+  };
+
+  Drupal.behaviors.navbarTitle = {
+    attach: function () {
+      $('.uk-navbar').find('a').each( function () {
+        $(this).prop('title', '');
+      })
     }
   }
 })(jQuery);
