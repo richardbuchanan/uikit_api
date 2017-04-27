@@ -11,6 +11,7 @@ uikit:
   js:
     //cdnjs.cloudflare.com/ajax/libs/uikit/2.27.2/js/uikit.min.js: { type: external, minified: true, weight: -20 }
   dependencies:
+    - core/drupal
     - core/jquery
 
 uikit.almost-flat:
@@ -26,6 +27,7 @@ uikit.almost-flat:
   js:
     //cdnjs.cloudflare.com/ajax/libs/uikit/2.27.2/js/uikit.min.js: { type: external, minified: true, weight: -20 }
   dependencies:
+    - core/drupal
     - core/jquery
 
 uikit.gradient:
@@ -41,6 +43,7 @@ uikit.gradient:
   js:
     //cdnjs.cloudflare.com/ajax/libs/uikit/2.27.2/js/uikit.min.js: { type: external, minified: true, weight: -20 }
   dependencies:
+    - core/drupal
     - core/jquery
 
 uikit.accordion:

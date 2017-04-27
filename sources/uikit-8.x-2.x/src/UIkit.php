@@ -150,16 +150,16 @@ class UIkit {
     $tablet_layout = UIkit::getThemeSetting('tablet_sidebar_positions');
     $mobile_layout = UIkit::getThemeSetting('mobile_sidebar_positions');
 
-    $grid_classes = array(
-      'content' => array(),
-      'sidebar' => array(),
-    );
+    $grid_classes = [
+      'content' => [],
+      'sidebar' => [],
+    ];
 
     if ($sidebar_first) {
-      $grid_classes['sidebar']['first'] = array();
+      $grid_classes['sidebar']['first'] = [];
     }
     if ($sidebar_second) {
-      $grid_classes['sidebar']['second'] = array();
+      $grid_classes['sidebar']['second'] = [];
     }
 
     if ($sidebar_first && $sidebar_second) {

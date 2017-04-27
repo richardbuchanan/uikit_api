@@ -31,3 +31,4 @@ dependencies[] = module_filter
 dependencies[] = backup_migrate
 dependencies[] = projectstats
 dependencies[] = uikit_components
+dependencies[] = uikit_examples

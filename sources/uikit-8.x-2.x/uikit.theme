@@ -38,7 +38,7 @@
  *   The name of the included file, if successful; FALSE otherwise.
  */
 function uikit_load_include($type, $theme, $name = NULL, $sub_directory = '') {
-  static $files = array();
+  static $files = [];
 
   if (isset($sub_directory)) {
     $sub_directory = '/' . $sub_directory;

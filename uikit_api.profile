@@ -285,6 +285,57 @@ function _uikit_8x_2x_api_branch_form($form, &$form_state) {
 }
 
 /**
+ * Form constructor to configure the UIkit 8.x-3.x branch.
+ *
+ * @param array $form
+ *   Nested array of form elements that comprise the form.
+ * @param array $form_state
+ *   A keyed array containing the current state of the form. The arguments that
+ *   drupal_get_form() was originally called with are available in the array
+ *   $form_state['build_info']['args'].
+ *
+ * @return array
+ *   Returns nested array of form elements.
+ */
+function _uikit_8x_3x_api_branch_form($form, &$form_state) {
+  drupal_set_title(st('Configure UIkit 8.x-3.x Branch'));
+
+  // Get path to the uikit_api profile.
+  $profile_path = drupal_get_path('profile', drupal_get_profile());
+
+  // Load api.admin.inc from the api module.
+  module_load_include('inc', 'api', 'api.admin');
+
+  // Construct $form from the api module's api_branch_edit_form().
+  $form = drupal_get_form('api_branch_edit_form');
+
+  // Alter form elements to pre-populate the form values.
+  $form['uikit_api'] = array(
+    '#type' => 'fieldset',
+    '#title' => st('Create UIkit 8.x-3.x branch'),
+    '#description' => st('<p>This will create a 8.x-2.x branch for UIkit project. Preset values have been disabled, but you are free to make changes to the rest.</p>'),
+    '#weight' => -100,
+  );
+  $form['project']['#value'] = 'uikit';
+  $form['project']['#disabled'] = TRUE;
+  $form['core_compatibility']['#value'] = '8.x';
+  $form['core_compatibility']['#disabled'] = TRUE;
+  $form['preferred']['#value'] = 0;
+  $form['preferred']['#disabled'] = TRUE;
+  $form['branch_name']['#value'] = '8.x-3.x';
+  $form['branch_name']['#disabled'] = TRUE;
+  $form['title']['#value'] = 'UIkit 8.x-3.x';
+  $form['data']['directories']['#value'] = "$profile_path/sources/uikit-8.x-3.x";
+  $form['data']['directories']['#value'] .= PHP_EOL . "$profile_path/documentation/uikit-8.x-3.x";
+  $form['data']['directories']['#disabled'] = TRUE;
+  $form['update_frequency']['#value'] = 604800;
+  $form['update_frequency']['#disabled'] = TRUE;
+  $form['submit']['#value'] = st('Save and continue');
+
+  return $form;
+}
+
+/**
  * Form constructor to configure the UIkit project stats.
  *
  * @param array $form

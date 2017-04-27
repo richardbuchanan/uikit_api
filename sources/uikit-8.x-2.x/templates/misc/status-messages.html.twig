@@ -35,8 +35,8 @@
     {% if status_headings[type] %}
       <h2 class="visually-hidden">{{ status_headings[type] }}</h2>
     {% endif %}
-    <div class="uk-alert{% if type != 'status' %} {{ status_classes[type] }}{% endif %}" role="alert" data-uk-alert>
-      <a href="" class="uk-alert-close uk-close"></a>
+    <div class="uk-alert {{ status_classes[type] }}" role="alert" data-uk-alert>
+      <a class="uk-alert-close uk-close"></a>
       {% if messages|length > 1 %}
         {% for message in messages %}
           <p>{{ message }}</p>

@@ -17,6 +17,7 @@
     attributes.type == 'submit' ? 'uk-button',
     attributes.type == 'email' or attributes.type == 'password' or attributes.type == 'search' or attributes.type == 'text' ? 'uk-form-width-large',
     attributes.type == 'hidden' ? 'uk-form-row',
+    errors ? 'uk-form-danger',
   ]
 %}
 <input{{ attributes.addClass(classes) }} />{{ children }}

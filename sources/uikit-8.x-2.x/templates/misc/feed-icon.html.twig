@@ -14,4 +14,6 @@
  */
 #}
 {% set link_title = 'Subscribe to @title'|t({'@title': site_name}) %}
-<a href="{{ url }}" title="{{ link_title }}"{{ attributes.addClass('feed-icon') }}><i class="uk-icon-rss"></i> {{ link_title }}</a>
+<div class="uk-display-block uk-margin-top">
+  <a href="{{ url }}" title="{{ link_title }}"{{ attributes.addClass('feed-icon') }}><i class="uk-icon-rss"></i> {{ link_title }}</a>
+</div>

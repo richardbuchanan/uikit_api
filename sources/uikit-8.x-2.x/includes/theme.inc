@@ -14,18 +14,18 @@
  * Implements hook_theme().
  */
 function uikit_theme($existing, $type, $theme, $path) {
-  $items['menu__navbar'] = array(
+  $items['menu__navbar'] = [
     'base hook' => 'menu',
-    'variables' => array('items' => array(), 'attributes' => array()),
+    'variables' => ['items' => [], 'attributes' => []],
     'path' => drupal_get_path('theme', 'uikit') . '/templates/navigation',
     'template' => 'menu--navbar',
-  );
-  $items['menu__offcanvas'] = array(
+  ];
+  $items['menu__offcanvas'] = [
     'base hook' => 'menu',
-    'variables' => array('items' => array(), 'attributes' => array()),
+    'variables' => ['items' => [], 'attributes' => []],
     'path' => drupal_get_path('theme', 'uikit') . '/templates/navigation',
     'template' => 'menu--offcanvas',
-  );
+  ];
 
   return $items;
 }

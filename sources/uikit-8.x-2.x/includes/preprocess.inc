@@ -28,7 +28,7 @@ function uikit_preprocess_page(&$variables) {
   // Assign new header attributes.
   $variables['header_attributes'] = new Attribute();
   $variables['header_attributes']['id'] = 'page--header';
-  $variables['header_attributes']['class'] = array();
+  $variables['header_attributes']['class'] = [];
 
   // Add classes to header attributes based on theme settings.
   $navbar_container = UIkit::getThemeSetting('navbar_container');
@@ -43,7 +43,7 @@ function uikit_preprocess_page(&$variables) {
   // Assign new navbar attributes.
   $variables['navbar_attributes'] = new Attribute();
   $variables['navbar_attributes']['id'] = 'page--navbar';
-  $variables['navbar_attributes']['class'] = array('uk-navbar');
+  $variables['navbar_attributes']['class'] = ['uk-navbar'];
 
   // Add classes to navbar attribtues based on theme settings.
   $navbar_attached = UIkit::getThemeSetting('navbar_attached');
@@ -62,7 +62,7 @@ function uikit_preprocess_page(&$variables) {
   // Assign new page attributes.
   $variables['page_attributes'] = new Attribute();
   $variables['page_attributes']['id'] = 'page';
-  $variables['page_attributes']['class'] = array();
+  $variables['page_attributes']['class'] = [];
 
   // Add classes to page attribtues based on theme settings.
   $page_container = UIkit::getThemeSetting('page_container');
@@ -93,7 +93,7 @@ function uikit_preprocess_page(&$variables) {
     // Add left sidebar grid classes.
     $variables['sidebar_first_attributes'] = new Attribute();
     $variables['sidebar_first_attributes']['id'] = 'page--sidebar-first';
-    $variables['sidebar_first_attributes']['class'] = array();
+    $variables['sidebar_first_attributes']['class'] = [];
     foreach ($grid_classes['sidebar']['first'] as $sidebar_first_class) {
       $variables['sidebar_first_attributes']['class'][] = $sidebar_first_class;
     }
@@ -102,7 +102,7 @@ function uikit_preprocess_page(&$variables) {
     // Add right sidebar grid classes.
     $variables['sidebar_second_attributes'] = new Attribute();
     $variables['sidebar_second_attributes']['id'] = 'page--sidebar-second';
-    $variables['sidebar_second_attributes']['class'] = array();
+    $variables['sidebar_second_attributes']['class'] = [];
     foreach ($grid_classes['sidebar']['second'] as $sidebar_second_class) {
       $variables['sidebar_second_attributes']['class'][] = $sidebar_second_class;
     }
@@ -157,10 +157,10 @@ function uikit_preprocess_breadcrumb(&$variables) {
     // Display the current page title if enabled in the theme settings and set
     // it as being active.
     $page_title = UIkit::getPageTitle();
-    $variables['breadcrumb'][] = array(
+    $variables['breadcrumb'][] = [
       'text' => $page_title,
       'active' => TRUE,
-    );
+    ];
   }
 }
 
@@ -207,6 +207,20 @@ function uikit_preprocess_form_element__advanced(&$variables) {
 }
 
 /**
+ * Implements template_preprocess_HOOK() for input.html.twig.
+ */
+function uikit_preprocess_input(&$variables) {
+  $element = $variables['element'];
+  $errors = FALSE;
+
+  if (isset($element['#parents']) && isset($element['#errors']) && !empty($element['#validated'])) {
+    $errors = TRUE;
+  }
+
+  $variables['errors'] = $errors;
+}
+
+/**
  * Implements template_preprocess_links() for links--dropbutton.html.twig.
  */
 function uikit_preprocess_links__dropbutton(&$variables) {
@@ -220,7 +234,7 @@ function uikit_preprocess_links__dropbutton(&$variables) {
 
     if (isset($dropbutton['link'])) {
       // Add the uk-button class to the dropbutton link.
-      $dropbutton['link']['#options']['attributes']['class'] = array('uk-button');
+      $dropbutton['link']['#options']['attributes']['class'] = ['uk-button'];
     }
 
     $variables['dropbutton'] = $dropbutton;
@@ -246,10 +260,10 @@ function uikit_preprocess_menu_local_action(&$variables) {
   $link = $variables['element']['#link'];
 
   // Set the link variable for menu-local-action.html.twig.
-  $variables['link'] = array(
+  $variables['link'] = [
     'title' => $link['title'],
     'url' => $link['url'],
-  );
+  ];
 }
 
 /**
@@ -261,7 +275,7 @@ function uikit_preprocess_menu_local_tasks(&$variables) {
 
   // Create new primary tasks attributes.
   $variables['primary_attributes'] = new Attribute();
-  $variables['primary_attributes']['class'] = array();
+  $variables['primary_attributes']['class'] = [];
   if ($primary_tasks_style == 'uk-tab') {
     // Add uk-tab class to primary tasks.
     $variables['primary_attributes']['class'][] = 'uk-tab';
@@ -277,7 +291,7 @@ function uikit_preprocess_menu_local_tasks(&$variables) {
 
   // Create new secondary tasks attributes.
   $variables['secondary_attributes'] = new Attribute();
-  $variables['secondary_attributes']['class'] = array('uk-subnav');
+  $variables['secondary_attributes']['class'] = ['uk-subnav'];
   if ($secondary_tasks_style) {
     // Add uk-subnav-* class to secondary tasks.
     $variables['secondary_attributes']['class'][] = $secondary_tasks_style;

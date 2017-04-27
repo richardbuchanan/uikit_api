@@ -44,7 +44,7 @@ function docs_companion_menu() {
     'weight' => -47,
   );
   $items['frontpage'] = array(
-    'title' => t(''),
+    'title' => t('UIkit for Drupal'),
     'page callback' => 'docs_companion_frontpage',
     'access arguments' => array('access content'),
     'file' => 'docs_companion.module',
