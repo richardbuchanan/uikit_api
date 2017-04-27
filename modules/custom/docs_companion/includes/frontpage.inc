@@ -9,12 +9,12 @@
 
     <ul class="docs-subnav uk-subnav uk-subnav-line uk-flex-center">
       <li><a href="https://www.drupal.org/project/uikit">UIkit on Drupal</a><sup class="docs-sup">[1]</sup></li>
-      <li><a href="/api/uikit">Get Started</a></li>
+      <li><a href="/api/uikit">Developer API</a></li>
       <li>Latest Versions: 7.x-2.2/8.x-2.0</li>
     </ul>
-    <ul class="docs-subnav uk-subnav uk-flex-center uk-margin-large-top">
+    <ul class="docs-subnav docs-subnav-blockquote uk-subnav uk-flex-center uk-margin-large-top">
       <li>
-        <blockquote>
+        <blockquote class="docs-blockquote">
           <h2><i class="uk-icon-quote-left uk-icon-large uk-align-left"></i><span class="docs-blockquote-top">Come for the code, stay for the community</span></h2>
         </blockquote>
       </li>

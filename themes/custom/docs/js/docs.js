@@ -173,6 +173,7 @@
 
   Drupal.behaviors.docsNavBar = {
     attach: function () {
+      $('#offcanvas').find('[docs-nolink]').removeAttr('docs-nolink').attr('href', '#');
       $('[docs-nolink]')
         .on('click', function (e) {
           e.preventDefault();

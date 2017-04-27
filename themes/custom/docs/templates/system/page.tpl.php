@@ -90,11 +90,13 @@
 
       <a href="#offcanvas" class="uk-navbar-toggle uk-visible-small" data-uk-offcanvas></a>
 
-      <div id="site-branding" class="uk-navbar-brand uk-navbar-center uk-visible-small">
-        <a href="<?php print $front_page; ?>" title="<?php print t('UIkit API'); ?>" rel="home" id="logo-small">
-          <img src="<?php print $logo; ?>" alt="<?php print t('UIkit API'); ?>" />
-        </a>
-      </div>
+      <?php if (!drupal_is_front_page()): ?>
+        <div id="site-branding" class="uk-navbar-brand uk-navbar-center uk-visible-small">
+          <a href="<?php print $front_page; ?>" title="<?php print t('UIkit API'); ?>" rel="home" id="logo-small">
+            <img src="<?php print $logo; ?>" alt="<?php print t('UIkit API'); ?>" />
+          </a>
+        </div>
+      <?php endif; ?>
     </div>
   </nav>
 </header>

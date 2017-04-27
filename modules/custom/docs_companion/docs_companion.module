@@ -33,12 +33,15 @@ function docs_companion_menu() {
     'weight' => -48,
   );
   $items['uikit/release-cycle-overview'] = array(
-    'title' => t('UIkit release cycle: major, minor, and patch releases'),
+    'title' => t('Release cycle'),
     'page callback' => 'docs_companion_release_cycle_overview',
     'access arguments' => array('access content'),
     'file' => 'docs_companion.module',
     'file path' => drupal_get_path('module', 'docs_companion'),
     'module' => 'docs_companion',
+    'type' => MENU_NORMAL_ITEM,
+    'menu_name' => 'main-menu',
+    'weight' => -47,
   );
   $items['frontpage'] = array(
     'title' => t(''),
