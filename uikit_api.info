@@ -30,5 +30,6 @@ dependencies[] = docs_companion
 dependencies[] = module_filter
 dependencies[] = backup_migrate
 dependencies[] = projectstats
+dependencies[] = modernizr
 dependencies[] = uikit_components
 dependencies[] = uikit_examples
