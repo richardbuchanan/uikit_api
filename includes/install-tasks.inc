@@ -10,7 +10,7 @@
  */
 function uikit_api_processed() {
   // Set the API module default settings.
-  variable_set('api_default_core_compatibility', '7.x');
+  variable_set('api_default_core_compatibility', '8.x');
   variable_set('api_default_project', 'uikit');
   variable_set('api_opensearch_name', 'UIkit API');
   variable_set('api_opensearch_description', 'UIkit API documentation');
@@ -19,7 +19,7 @@ function uikit_api_processed() {
   api_reset_branches();
 
   // Set the admin theme back to Seven and the front page to the UIkit API.
-  variable_set('site_frontpage', 'api/uikit');
+  variable_set('site_frontpage', 'frontpage');
 }
 
 /**

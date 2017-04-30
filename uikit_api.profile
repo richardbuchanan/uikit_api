@@ -269,7 +269,7 @@ function _uikit_8x_2x_api_branch_form($form, &$form_state) {
   $form['project']['#disabled'] = TRUE;
   $form['core_compatibility']['#value'] = '8.x';
   $form['core_compatibility']['#disabled'] = TRUE;
-  $form['preferred']['#value'] = 0;
+  $form['preferred']['#value'] = 1;
   $form['preferred']['#disabled'] = TRUE;
   $form['branch_name']['#value'] = '8.x-2.x';
   $form['branch_name']['#disabled'] = TRUE;
