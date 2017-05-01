@@ -44,6 +44,7 @@
     <div id="docs-api-alternatives">
       <?php print $alternatives; ?>
     </div>
+    <hr>
   <?php endif; ?>
   
   <?php if (!empty($documentation)): ?>
@@ -56,7 +57,7 @@
   <?php if ($namespace) : ?>
     <div id="docs-api-namespace">
       <a href="#namespace" class="uk-link-muted docs-link-anchor">
-        <h3 id="namespace"><?php print t('Namespace'); ?> <i class="uk-icon uk-icon-link uk-text-muted"></i></h3>
+        <h3 id="namespace"><?php print t('Namespace'); ?><i class="uk-icon uk-icon-link uk-text-muted"></i></h3>
       </a>
       <?php print $namespace; ?>
     </div>
@@ -66,7 +67,7 @@
   <?php if (!empty($deprecated)): ?>
     <div id="docs-api-deprecated" class="uk-alert uk-alert-warning">
       <a href="#deprecated" class="uk-link-muted docs-link-anchor">
-        <h3 id="deprecated"><?php print t('Deprecated') ?> <i class="uk-icon uk-icon-link uk-text-muted"></i></h3>
+        <h3 id="deprecated"><?php print t('Deprecated') ?><i class="uk-icon uk-icon-link uk-text-muted"></i></h3>
       </a>
       <?php print $deprecated ?>
     </div>
@@ -76,7 +77,7 @@
   <?php if (!empty($see)): ?>
     <div id="docs-api-see-also">
       <a href="#see-also" class="uk-link-muted docs-link-anchor">
-        <h3 id="see-also" class="uk-panel-title"><?php print t('See also') ?> <i class="uk-icon uk-icon-link uk-text-muted"></i></h3>
+        <h3 id="see-also" class="uk-panel-title"><?php print t('See also') ?><i class="uk-icon uk-icon-link uk-text-muted"></i></h3>
       </a>
       <ul class="uk-list">
         <?php print $see ?>
@@ -91,28 +92,27 @@
         <?php print $link; ?>
       <?php endforeach; ?>
     </div>
+    <hr>
   <?php endif; ?>
-  
+
   <div id="docs-api-file">
     <a href="#file" class="uk-link-muted docs-link-anchor">
-      <h3 id="file"><?php print t('File'); ?> <i class="uk-icon uk-icon-link uk-text-muted"></i></h3>
+      <h3 id="file"><?php print t('File'); ?><i class="uk-icon uk-icon-link uk-text-muted"></i></h3>
     </a>
     <span><?php print $defined; ?></span>
 
-    <div>
-      <?php print theme('ctools_collapsible', array(
-        'handle' => t('View source'),
-        'content' => $code,
-        'collapsed' => TRUE,
-      )); ?>
-    </div>
+    <?php print theme('ctools_collapsible', array(
+      'handle' => t('View source'),
+      'content' => $code,
+      'collapsed' => TRUE,
+    )); ?>
   </div>
   <hr>
   
   <?php if (!empty($related_topics)): ?>
     <div id="docs-api-related-topics">
       <a href="#related-topics" class="uk-link-muted docs-link-anchor">
-        <h3 id="related-topics"><?php print t('Related topics') ?> <i class="uk-icon uk-icon-link uk-text-muted"></i></h3>
+        <h3 id="related-topics"><?php print t('Related topics') ?><i class="uk-icon uk-icon-link uk-text-muted"></i></h3>
       </a>
       <?php print $related_topics ?>
     </div>

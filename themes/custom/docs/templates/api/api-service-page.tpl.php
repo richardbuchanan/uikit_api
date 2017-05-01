@@ -38,12 +38,13 @@
     <div id="docs-api-alternatives">
       <?php print $alternatives; ?>
     </div>
+    <hr>
   <?php endif; ?>
 
   <?php if ($class): ?>
     <div id="docs-api-class">
       <a href="#class" class="uk-link-muted docs-link-anchor">
-        <h3 id="class"><?php print t('Class'); ?> <i class="uk-icon uk-icon-link uk-text-muted"></i></h3>
+        <h3 id="class"><?php print t('Class'); ?><i class="uk-icon uk-icon-link uk-text-muted"></i></h3>
       </a>
       <?php print $class; ?>
     </div>
@@ -53,7 +54,7 @@
   <?php if ($tags): ?>
     <div id="docs-api-tags">
       <a href="#class" class="uk-link-muted docs-link-anchor">
-        <h3 id="tags"><?php print t('Tags'); ?> <i class="uk-icon uk-icon-link uk-text-muted"></i></h3>
+        <h3 id="tags"><?php print t('Tags'); ?><i class="uk-icon uk-icon-link uk-text-muted"></i></h3>
       </a>
       <?php print $tags; ?>
     </div>
@@ -66,11 +67,12 @@
         <?php print $link; ?>
       <?php endforeach; ?>
     </div>
+    <hr>
   <?php endif; ?>
 
   <div id="docs-api-file">
     <a href="#file" class="uk-link-muted docs-link-anchor">
-      <h3 id="file"><?php print t('File'); ?> <i class="uk-icon uk-icon-link uk-text-muted"></i></h3>
+      <h3 id="file"><?php print t('File'); ?><i class="uk-icon uk-icon-link uk-text-muted"></i></h3>
     </a><br>
     <span><?php print $defined; ?></span>
 

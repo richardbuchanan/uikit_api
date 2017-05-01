@@ -4,10 +4,8 @@ core = 7.x
 base theme = uikit
 
 stylesheets[all][] = 'css/docs.css'
-stylesheets[all][] = 'css/docs.syntax.css'
-stylesheets[all][] = 'vendor/highlight/highlight.css'
+stylesheets[all][] = 'vendor/prism/prism.css'
 scripts[] = 'js/docs.js'
-scripts[] = 'vendor/highlight/highlight.js'
 
 regions[header] = 'Page heading'
 regions[highlighted] = 'Highlighted'

@@ -4,9 +4,10 @@
  */
 
 /* PHP code */
+/*
 .php {
   overflow: auto;
-  white-space: pre-wrap;
+  white-space: pre;
 }
 .php .php-comment {
   color: #666;
@@ -45,6 +46,7 @@ ol.code-lines li {
    padding: 0 0 0 5px;
    margin: 0 0 0 20px;
 }
+*/
 
 /* Function signature */
 #api-function-signature td,
@@ -122,6 +124,15 @@ ol#api-alternatives li {
 ol#api-alternatives {
   font-family: Consolas,monospace,serif;
   margin-bottom: 10px;
+}
+ol#api-alternatives li {
+  margin-bottom: 5px!important;
+}
+ol#api-alternatives li * {
+  color: #999!important;
+}
+#api-alternatives > li > .active {
+  color: #444!important;
 }
 
 .api-deprecated {

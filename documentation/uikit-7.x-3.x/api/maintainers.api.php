@@ -123,10 +123,10 @@
  * easy. If you already have a local repository, skip this step. Replace
  * {username} with your Drupal.org Git username:
  *
- * @code
+ * @gitcode
  * git clone --branch 7.x-3.x {username}@git.drupal.org:project/uikit.git
  * cd uikit
- * @endcode
+ * @endgitcode
  *
  * @divider
  *
@@ -138,32 +138,32 @@
  * To see what you will commit by running git commit and what you could commit
  * by running git add before running git commit:
  *
- * @code
+ * @gitcode
  * git status
- * @endcode
+ * @endgitcode
  *
  * @heading h4 Switching to a different branch @endheading
  * When you clone the repository you have access to all the branches and tags.
  * The first command shows your choices. The second command makes the switch:
  *
- * @code
+ * @gitcode
  * git branch -a
  * git checkout [branchname]
- * @endcode
+ * @endgitcode
  *
  * @heading h4 Committing all changes locally @endheading
  * After making changes, add and commit them. Do not begin commit messages with
  * the # symbol:
  *
- * @code
+ * @gitcode
  * git add -A
  * git commit -m "Issue #[issue number] by [usernames]: [Short summary]."
- * @endcode
+ * @endgitcode
  *
  * @heading h4 Pushing your code back to the repository on Drupal.org @endheading
- * @code
+ * @gitcode
  * git push -u origin 7.x-3.x
- * @endcode
+ * @endgitcode
  *
  * @divider
  *
@@ -173,16 +173,16 @@
  * the branch you wish to patch, then ensure it is up-to-date with the following
  * command:
  *
- * @code
+ * @gitcode
  * git pull origin 7.x-3.x
- * @endcode
+ * @endgitcode
  *
  * @heading h4 Creating a patch @endheading
  * For most improvements, use the following command after making your changes:
  *
- * @code
+ * @gitcode
  * git diff >  [description]-[issue-number]-[comment-number].patch
- * @endcode
+ * @endgitcode
  *
  * For more complex improvements that require adding/removing files, work over
  * the course of multiple days including git commits, or collaboration with
@@ -193,26 +193,26 @@
  * Download the patch to your working directory. Apply the patch with the
  * following command:
  *
- * @code
+ * @gitcode
  * git apply -v [patchname.patch]
- * @endcode
+ * @endgitcode
  *
  * To avoid accidentally including the patch file in future commits, remove it:
  *
- * @code
+ * @gitcode
  * rm [patchname.patch]
- * @endcode
+ * @endgitcode
  *
  * @heading h4 When you're done: Reverting uncommited changes @endheading
  * Revert changes to a specific file:
- * @code
+ * @gitcode
  * git checkout [filename]
- * @endcode
+ * @endgitcode
  *
  * Revert changes to the whole working tree:
- * @code
+ * @gitcode
  * git reset --hard
- * @endcode
+ * @endgitcode
  *
  * @divider
  *
@@ -240,30 +240,30 @@
  * This creates and checks out a new branch in one command, then pushes it to
  * Drupal.org:
  *
- * @code
+ * @gitcode
  * git checkout -b 7.x-3.x
  * git push -u origin 7.x-3.x
- * @endcode
+ * @endgitcode
  *
  * @heading h4 Tag for an alpha/beta/rc testing release @endheading
  * This creates and checks out a new release tag, then pushes it to Drupal.org.
  * Replace 7.x-3.0-alpha1 with the correct tag naming conventions for the
  * release tag you are creating.
  *
- * @code
+ * @gitcode
  * git checkout  7.x-3.x
  * git tag 7.x-3.0-alpha1
  * git push origin tag 7.x-3.0-alpha1
- * @endcode
+ * @endgitcode
  *
  * @heading h4 Tag for a stable release @endheading
  * This does the same, except for a stable release.
  *
- * @code
+ * @gitcode
  * git checkout  7.x-3.x
  * git tag 7.x-3.0
  * git push origin tag 7.x-3.0
- * @endcode
+ * @endgitcode
  *
  * @divider
  *

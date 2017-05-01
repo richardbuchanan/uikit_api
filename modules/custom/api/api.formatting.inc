@@ -171,8 +171,8 @@ function _api_link_documentation($documentation, $branch, $file_did = NULL, $cla
     case 'code function':
       // Find function names in marked-up code.
       $pattern = '!<span class="php-function-or-constant">(' . DRUPAL_PHP_FUNCTION_PATTERN . ')</span>!';
-      $prepend = '<span class="php-function-or-constant">';
-      $append = '</span>';
+      //$prepend = '<span class="php-function-or-constant">';
+      //$append = '</span>';
       $type = 'function_or_constant';
       $use_php = TRUE;
       $continue_matching = TRUE;
@@ -182,8 +182,8 @@ function _api_link_documentation($documentation, $branch, $file_did = NULL, $cla
       // Find function names in marked-up code, but this is a declaration,
       // so skip checking built-in PHP functions.
       $pattern = '!<span class="php-function-or-constant-declared">(' . DRUPAL_PHP_FUNCTION_PATTERN . ')</span>!';
-      $prepend = '<span class="php-function-or-constant">';
-      $append = '</span>';
+      //$prepend = '<span class="php-function-or-constant">';
+      //$append = '</span>';
       $type = 'function_or_constant';
       $use_php = FALSE;
       $continue_matching = TRUE;
@@ -192,16 +192,16 @@ function _api_link_documentation($documentation, $branch, $file_did = NULL, $cla
     case 'code class':
       // Find class names in marked-up code, as constructors.
       $pattern = '!<span class="(?:php-function-or-constant|php-function-or-constant-declared)">(' . API_RE_CLASS_NAME_TEXT . ')</span>!';
-      $prepend = '<span class="php-function-or-constant">';
-      $append = '</span>';
+      //$prepend = '<span class="php-function-or-constant">';
+      //$append = '</span>';
       $type = 'class';
       break;
 
     case 'annotation class':
       // Find annotation class names in marked-up code.
       $pattern = '!<span class="class-annotation">(' . API_RE_CLASS_NAME_TEXT . ')</span>!';
-      $prepend = '<span class="php-function-or-constant">';
-      $append = '</span>';
+      //$prepend = '<span class="php-function-or-constant">';
+      //$append = '</span>';
       $type = 'annotation';
       $use_php = FALSE;
       break;
@@ -209,8 +209,8 @@ function _api_link_documentation($documentation, $branch, $file_did = NULL, $cla
     case 'code global':
       // Find global variable names in marked-up code.
       $pattern = '!<span class="php-keyword">global</span> <span class="php-variable">\$(' . DRUPAL_PHP_FUNCTION_PATTERN . ')</span>!';
-      $prepend = '<span class="php-keyword">global</span> <span class="php-variable">$';
-      $append = '</span>';
+      //$prepend = '<span class="php-keyword">global</span> <span class="php-variable">$';
+      //$append = '</span>';
       $type = 'global';
       break;
 
@@ -220,8 +220,8 @@ function _api_link_documentation($documentation, $branch, $file_did = NULL, $cla
       // name is put into something like a hook_menu() page callback as a
       // string.
       $pattern = '!<span class="php-string">\'(' . DRUPAL_PHP_FUNCTION_PATTERN . ')\'</span>!';
-      $prepend = '<span class="php-function-or-constant">\'';
-      $append = '\'</span>';
+      //$prepend = '<span class="php-function-or-constant">\'';
+      //$append = '\'</span>';
       $prepend_if_not_found = '<span class="php-string">\'';
       $type = 'function';
       $continue_matching = TRUE;
@@ -232,8 +232,8 @@ function _api_link_documentation($documentation, $branch, $file_did = NULL, $cla
       // Works like 'code string', but looks for theme hook names and links
       // to the theme template or function.
       $pattern = '!<span class="php-string">\'(' . DRUPAL_PHP_FUNCTION_PATTERN . ')\'</span>!';
-      $prepend = '<span class="php-function-or-constant">\'';
-      $append = '\'</span>';
+      //$prepend = '<span class="php-function-or-constant">\'';
+      //$append = '\'</span>';
       $prepend_if_not_found = '<span class="php-string">\'';
       $type = 'theme';
       $continue_matching = TRUE;
@@ -242,8 +242,8 @@ function _api_link_documentation($documentation, $branch, $file_did = NULL, $cla
     case 'yaml string':
       // Find potential YAML key strings in marked-up code.
       $pattern = '!<span class="php-string">\'(' . API_RE_YAML_STRING . ')\'</span>!';
-      $prepend = '<span class="php-function-or-constant">\'';
-      $append = '\'</span>';
+      //$prepend = '<span class="php-function-or-constant">\'';
+      //$append = '\'</span>';
       $prepend_if_not_found = '<span class="php-string">\'';
       $type = 'yaml_string';
       $continue_matching = TRUE;
@@ -252,8 +252,8 @@ function _api_link_documentation($documentation, $branch, $file_did = NULL, $cla
     case 'service':
       // Find potential service names in marked-up code.
       $pattern = '!<span class="php-string">\'(' . API_RE_YAML_STRING . ')\'</span>!';
-      $prepend = '<span class="php-function-or-constant">\'';
-      $append = '\'</span>';
+      //$prepend = '<span class="php-function-or-constant">\'';
+      //$append = '\'</span>';
       $prepend_if_not_found = '<span class="php-string">\'';
       $type = 'service';
       $continue_matching = TRUE;
@@ -262,8 +262,8 @@ function _api_link_documentation($documentation, $branch, $file_did = NULL, $cla
     case 'yaml file':
       // Find potential YAML file name strings in marked-up code.
       $pattern = '!<span class="php-string">\'(' . API_RE_YAML_STRING . ')\'</span>!';
-      $prepend = '<span class="php-function-or-constant">\'';
-      $append = '\'</span>';
+      //$prepend = '<span class="php-function-or-constant">\'';
+      //$append = '\'</span>';
       $prepend_if_not_found = '<span class="php-string">\'';
       $type = 'yaml_file';
       break;
@@ -271,8 +271,8 @@ function _api_link_documentation($documentation, $branch, $file_did = NULL, $cla
     case 'annotation string':
       // Find potential function, method, and class strings in annotations.
       $pattern = '!<span class="php-string">&quot;(' . API_RE_FUNCTION_IN_TEXT . ')&quot;</span>!';
-      $prepend = '<span class="php-function-or-constant">"';
-      $append = '"</span>';
+      //$prepend = '<span class="php-function-or-constant">"';
+      //$append = '"</span>';
       $prepend_if_not_found = '<span class="php-string">"';
       $type = 'function_or_constant';
       $continue_matching = TRUE;
@@ -283,8 +283,8 @@ function _api_link_documentation($documentation, $branch, $file_did = NULL, $cla
       // code. These are all strings that are legal function names, possibly
       // with namespaces and class names, possibly in quotes.
       $pattern = '!<span class="yaml-reference">(' . API_RE_FUNCTION_IN_TEXT . ')</span>!';
-      $prepend = '<span class="php-function-or-constant">';
-      $append = '</span>';
+      //$prepend = '<span class="php-function-or-constant">';
+      //$append = '</span>';
       $type = 'yaml_reference';
       break;
 
@@ -293,8 +293,8 @@ function _api_link_documentation($documentation, $branch, $file_did = NULL, $cla
       // are legal function names, which were found in parsing to be inside
       // module_implements() and related functions.
       $pattern = '!<span class="php-string potential-hook">\'(' . API_RE_FUNCTION_CHARACTERS . ')\'</span>!';
-      $prepend = '<span class="php-function-or-constant">\'';
-      $append = '\'</span>';
+      //$prepend = '<span class="php-function-or-constant">\'';
+      //$append = '\'</span>';
       $prepend_if_not_found = '<span class="php-string">\'';
       $type = 'hook';
       break;
@@ -302,8 +302,8 @@ function _api_link_documentation($documentation, $branch, $file_did = NULL, $cla
     case 'code alter hook name':
       // Works like 'code hook name' above, but for alter hooks.
       $pattern = '!<span class="php-string potential-alter">\'(' . API_RE_FUNCTION_CHARACTERS . ')\'</span>!';
-      $prepend = '<span class="php-function-or-constant">\'';
-      $append = '\'</span>';
+      //$prepend = '<span class="php-function-or-constant">\'';
+      //$append = '\'</span>';
       $prepend_if_not_found = '<span class="php-string">\'';
       $type = 'alter hook';
       break;
@@ -311,8 +311,8 @@ function _api_link_documentation($documentation, $branch, $file_did = NULL, $cla
     case 'code theme hook name':
       // Works like 'code hook name' above, but for theme hooks.
       $pattern = '!<span class="php-string potential-theme">\'(' . DRUPAL_PHP_FUNCTION_PATTERN . ')\'</span>!';
-      $prepend = '<span class="php-function-or-constant">\'';
-      $append = '\'</span>';
+      //$prepend = '<span class="php-function-or-constant">\'';
+      //$append = '\'</span>';
       $prepend_if_not_found = '<span class="php-string">\'';
       $type = 'theme';
       break;
@@ -320,8 +320,8 @@ function _api_link_documentation($documentation, $branch, $file_did = NULL, $cla
     case 'code element name':
       // Works like 'code hook name' above, but for render/form elements.
       $pattern = '!<span class="php-string potential-element">\'(' . DRUPAL_PHP_FUNCTION_PATTERN . ')\'</span>!';
-      $prepend = '<span class="php-function-or-constant">\'';
-      $append = '\'</span>';
+      //$prepend = '<span class="php-function-or-constant">\'';
+      //$append = '\'</span>';
       $prepend_if_not_found = '<span class="php-string">\'';
       $type = 'element';
       break;

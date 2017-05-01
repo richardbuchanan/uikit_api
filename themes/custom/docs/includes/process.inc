@@ -26,6 +26,9 @@ function docs_process_page(&$variables) {
   if ($item = _db_api_active_item()) {
     $type = $item->object_type;
     $title = preg_replace('/^' . $type . '\s?/i', '', $variables['title']);
+    $filename = $item->file_name;
+    $file_extension = pathinfo($filename, PATHINFO_EXTENSION);
+    $prism = '';
 
     switch ($type) {
       case 'group':
@@ -38,9 +41,55 @@ function docs_process_page(&$variables) {
         break;
     }
 
+    switch ($file_extension) {
+      case 'engine':
+      case 'inc':
+      case 'install':
+      case 'module':
+      case 'php':
+      case 'profile':
+      case 'test':
+      case 'theme':
+        $prism = 'prism.php.js';
+        break;
+
+      case 'twig':
+      case 'yml':
+      case 'ymltmp':
+        $prism = 'prism.yml_twig.js';
+        break;
+
+      case 'info':
+      case 'txt':
+        $prism = 'prism.ini.js';
+        break;
+
+      case 'css':
+      case 'js':
+        $prism = 'prism.css_js.js';
+        break;
+
+      case 'sh':
+        $prism = 'prism.bash.js';
+        break;
+
+      case 'htm':
+      case 'html':
+        $prism = 'prism.html.js';
+        break;
+    }
+
     if ($type) {
       $title = '<span class="uk-badge">' . $type . '</span> ' . $title;
       $title .= '<hr>';
+    }
+
+    if ($prism) {
+      $docs = drupal_get_path('theme', 'docs');
+      $prism = $docs . '/vendor/prism/' . $prism;
+      drupal_add_js($prism, array(
+        'group' => JS_THEME,
+      ));
     }
 
     $variables['title'] = $title;

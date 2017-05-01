@@ -314,15 +314,19 @@ html.js .ctools-collapsible-container .ctools-collapsible-handle {
 /**
  * API overrides
  */
+#api-function-signatures {
+  font-family: Consolas,monospace,serif;
+}
 .docs-link-anchor [class*='uk-icon-'] {
   color: #333;
+  margin-left: 5px;
   opacity: 0;
   -webkit-transition: color 300ms ease-in-out, opacity 300ms ease-in-out;
   -o-transition: color 300ms ease-in-out, opacity 300ms ease-in-out;
   transition: color 300ms ease-in-out, opacity 300ms ease-in-out;
 }
-.docs-link-anchor a:focus [class*='uk-icon-'],
-.docs-link-anchor a:hover [class*='uk-icon-'] {
+.docs-link-anchor:hover [class*='uk-icon-'],
+.docs-link-anchor:hover [class*='uk-icon-'] {
   opacity: 0.5;
 }
 .docs-article-subtitle {

@@ -21,6 +21,7 @@
     <div id="docs-api-alternatives">
       <?php print $alternatives; ?>
     </div>
+    <hr>
   <?php endif; ?>
 
   <?php if (!empty($documentation)): ?>
@@ -33,7 +34,7 @@
   <?php if (!empty($see)): ?>
     <div id="docs-api-see-also">
       <a href="#see-also" class="uk-link-muted docs-link-anchor">
-        <h3 id="see-also" class="uk-panel-title"><?php print t('See also') ?> <i class="uk-icon uk-icon-link uk-text-muted"></i></h3>
+        <h3 id="see-also" class="uk-panel-title"><?php print t('See also') ?><i class="uk-icon uk-icon-link uk-text-muted"></i></h3>
       </a>
       <ul class="uk-list">
         <?php print $see ?>
@@ -45,7 +46,7 @@
   <?php if (!empty($related_topics)): ?>
     <div id="docs-api-related-topics">
       <a href="#related-topics" class="uk-link-muted docs-link-anchor">
-        <h3 id="related-topics"><?php print t('Related topics') ?> <i class="uk-icon uk-icon-link uk-text-muted"></i></h3>
+        <h3 id="related-topics"><?php print t('Related topics') ?><i class="uk-icon uk-icon-link uk-text-muted"></i></h3>
       </a>
       <?php print $related_topics ?>
     </div>
@@ -55,7 +56,7 @@
   <?php if (isset($defined)): ?>
     <div id="docs-api-file">
       <a href="#file" class="uk-link-muted docs-link-anchor">
-        <h3 id="file"><?php print t('File'); ?> <i class="uk-icon uk-icon-link uk-text-muted"></i></h3>
+        <h3 id="file"><?php print t('File'); ?><i class="uk-icon uk-icon-link uk-text-muted"></i></h3>
       </a>
       <?php print $defined; ?>
     </div>
@@ -66,5 +67,6 @@
     <div class="docs-api-objects">
       <?php print $objects; ?>
     </div>
+    <hr>
   <?php endif; ?>
 </div>

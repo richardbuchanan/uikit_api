@@ -17,3 +17,15 @@ pre .javadoc {
 ol.code-lines span.comment + li {
   display: none;
 }
+pre .comment,
+pre .template_comment,
+pre .diff .header,
+pre .javadoc {
+  font-style: normal !important;
+}
+pre .comment > li,
+pre .template_comment > li,
+pre .diff .header > li,
+pre .javadoc > li {
+  font-style: italic;
+}

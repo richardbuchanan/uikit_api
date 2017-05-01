@@ -68,7 +68,7 @@ function api_parse_file($callback, $file_path, $branch, $file_name) {
  */
 function api_parse_twig_file($docblock) {
   // Use the text file function, but escape HTML characters.
-  api_parse_text_file($docblock, TRUE);
+  api_parse_text_file($docblock, TRUE, 'twig');
 }
 
 /**
@@ -83,7 +83,7 @@ function api_parse_twig_file($docblock) {
  *   If TRUE, escpae HTML characters in the source code listing (for Twig
  *   files).
  */
-function api_parse_text_file($docblock, $escape_html = FALSE) {
+function api_parse_text_file($docblock, $escape_html = FALSE, $language = NULL) {
   // See if the file contains an @file block, and use that for the
   // documentation if so; otherwise, just use the file as a whole. This is
   // probably only present for Twig files.
@@ -103,7 +103,7 @@ function api_parse_text_file($docblock, $escape_html = FALSE) {
   }
   else {
     $tmp = array();
-    $docblock['documentation'] = api_format_documentation($docblock['source'], FALSE, $tmp);
+    $docblock['documentation'] = api_format_documentation($docblock['source'], FALSE, $tmp, $language);
   }
 
   // Escape HTML and number the lines.
@@ -111,8 +111,155 @@ function api_parse_text_file($docblock, $escape_html = FALSE) {
   if ($escape_html) {
     $output = htmlspecialchars($docblock['source']);
   }
-  $output = api_number_lines($output);
-  $output = '<pre class="highlight"><code>' . $output . '</code></pre>';
+  $attributes = array();
+  if ($language) {
+    $attributes['class'] = array('language-' . $language);
+  }
+
+  $output = '<pre class="line-numbers"><code' . drupal_attributes($attributes) . '>' . $output . '</code></pre>';
+  $docblock['code'] = $output;
+
+  api_save_documentation(array($docblock));
+}
+
+/**
+ * Saves contents of a file as a single piece of text documentation.
+ *
+ * Callback for api_parse_file().
+ *
+ * @param array $docblock
+ *   Array from api_parse_file() containing the file contents and information
+ *   about the file, branch, etc.
+ * @param bool $escape_html
+ *   If TRUE, escpae HTML characters in the source code listing (for Twig
+ *   files).
+ */
+function api_parse_css_file($docblock, $escape_html = FALSE) {
+  // See if the file contains an @file block, and use that for the
+  // documentation if so; otherwise, just use the file as a whole. This is
+  // probably only present for Twig files.
+  $matches = array();
+  if (preg_match('|/\*\*[\s\*]+@file.+\*/|Us', $docblock['source'], $matches)) {
+    // Let Grammar parser and api_save_documentation() parse out this
+    // documentation.
+    if (!api_libraries_loaded()) {
+      return;
+    }
+    // Avoid timeouts in Grammar Parser, but do not run forever in case it
+    // has a major problem. 10 minutes should be plenty. Drupal cron normally
+    // has a limit of 4 minutes. This will reset timing counter to 0 also.
+    drupal_set_time_limit(600);
+    $editor = PGPEditor::getInstance();
+    $docblock['content'] = $editor->commentToString(array('value' => $matches[0]));
+  }
+  else {
+    $tmp = array();
+    $docblock['documentation'] = api_format_documentation($docblock['source'], FALSE, $tmp, 'css');
+  }
+
+  // Escape HTML and number the lines.
+  $output = $docblock['source'];
+  if ($escape_html) {
+    $output = htmlspecialchars($docblock['source']);
+  }
+  $attributes = array();
+
+  $output = '<pre class="line-numbers"><code class="language-css">' . $output . '</code></pre>';
+  $docblock['code'] = $output;
+
+  api_save_documentation(array($docblock));
+}
+
+/**
+ * Saves contents of a file as a single piece of text documentation.
+ *
+ * Callback for api_parse_file().
+ *
+ * @param array $docblock
+ *   Array from api_parse_file() containing the file contents and information
+ *   about the file, branch, etc.
+ * @param bool $escape_html
+ *   If TRUE, escpae HTML characters in the source code listing (for Twig
+ *   files).
+ */
+function api_parse_js_file($docblock, $escape_html = FALSE) {
+  // See if the file contains an @file block, and use that for the
+  // documentation if so; otherwise, just use the file as a whole. This is
+  // probably only present for Twig files.
+  $matches = array();
+  if (preg_match('|/\*\*[\s\*]+@file.+\*/|Us', $docblock['source'], $matches)) {
+    // Let Grammar parser and api_save_documentation() parse out this
+    // documentation.
+    if (!api_libraries_loaded()) {
+      return;
+    }
+    // Avoid timeouts in Grammar Parser, but do not run forever in case it
+    // has a major problem. 10 minutes should be plenty. Drupal cron normally
+    // has a limit of 4 minutes. This will reset timing counter to 0 also.
+    drupal_set_time_limit(600);
+    $editor = PGPEditor::getInstance();
+    $docblock['content'] = $editor->commentToString(array('value' => $matches[0]));
+  }
+  else {
+    $tmp = array();
+    $docblock['documentation'] = api_format_documentation($docblock['source'], FALSE, $tmp, 'js');
+  }
+
+  // Escape HTML and number the lines.
+  $output = $docblock['source'];
+  if ($escape_html) {
+    $output = htmlspecialchars($docblock['source']);
+  }
+  $attributes = array();
+
+  $output = '<pre class="line-numbers"><code class="language-javascript">' . $output . '</code></pre>';
+  $docblock['code'] = $output;
+
+  api_save_documentation(array($docblock));
+}
+
+/**
+ * Saves contents of a file as a single piece of text documentation.
+ *
+ * Callback for api_parse_file().
+ *
+ * @param array $docblock
+ *   Array from api_parse_file() containing the file contents and information
+ *   about the file, branch, etc.
+ * @param bool $escape_html
+ *   If TRUE, escpae HTML characters in the source code listing (for Twig
+ *   files).
+ */
+function api_parse_bash_file($docblock, $escape_html = FALSE) {
+  // See if the file contains an @file block, and use that for the
+  // documentation if so; otherwise, just use the file as a whole. This is
+  // probably only present for Twig files.
+  $matches = array();
+  if (preg_match('|/\*\*[\s\*]+@file.+\*/|Us', $docblock['source'], $matches)) {
+    // Let Grammar parser and api_save_documentation() parse out this
+    // documentation.
+    if (!api_libraries_loaded()) {
+      return;
+    }
+    // Avoid timeouts in Grammar Parser, but do not run forever in case it
+    // has a major problem. 10 minutes should be plenty. Drupal cron normally
+    // has a limit of 4 minutes. This will reset timing counter to 0 also.
+    drupal_set_time_limit(600);
+    $editor = PGPEditor::getInstance();
+    $docblock['content'] = $editor->commentToString(array('value' => $matches[0]));
+  }
+  else {
+    $tmp = array();
+    $docblock['documentation'] = api_format_documentation($docblock['source'], FALSE, $tmp, 'bash');
+  }
+
+  // Escape HTML and number the lines.
+  $output = $docblock['source'];
+  if ($escape_html) {
+    $output = htmlspecialchars($docblock['source']);
+  }
+
+  $output = '<pre class="line-numbers"><code class="language-bash">' . $output . '</code></pre>';
   $docblock['code'] = $output;
 
   api_save_documentation(array($docblock));
@@ -182,7 +329,7 @@ function api_parse_php_file($docblock) {
 
     // This is a text file or template file with no declarations of functions,
     // constants, etc. But we do want to track references in it.
-    $docblock['code'] = api_format_php($docblock['source'], $docblock['references'], TRUE, TRUE, $docblock['is_drupal']);
+    $docblock['code'] = api_format_php($docblock['source'], $docblock['references'], FALSE, TRUE, $docblock['is_drupal']);
 
     api_save_documentation(array($docblock));
     // Free up memory.
@@ -197,7 +344,7 @@ function api_parse_php_file($docblock) {
   // Reserve the first array slot for the file documentation block. Note that
   // we will only keep some of the references we parsed out.
   $references = array();
-  $docblock['code'] = api_format_php($docblock['source'], $references, TRUE, TRUE, $docblock['is_drupal']);
+  $docblock['code'] = api_format_php($docblock['source'], $references, FALSE, FALSE, $docblock['is_drupal']);
   $docblocks = array($docblock);
 
   // Set default documentation block array for items other than the file.
@@ -342,8 +489,8 @@ function api_parse_yaml_file($docblock) {
   }
 
   // Number the lines and put into a code block.
-  $code = api_number_lines($code);
-  $code = '<pre class="highlight"><code>' . $code . '</code></pre>';
+  //$code = api_number_lines($code);
+  $code = '<pre class="line-numbers"><code class="language-yaml">' . $code . '</code></pre>';
   $docblock['code'] = $code;
 
   $docblocks = array($docblock);
@@ -1334,7 +1481,7 @@ function api_replace_references($branch, $did, $name, $references, $do_namespace
  * @return string
  *   Formatted documentation.
  */
-function api_format_documentation($documentation, $auto_p = TRUE, &$references) {
+function api_format_documentation($documentation, $auto_p = TRUE, &$references, $lauguage = NULL) {
   // Don't do processing on empty text (so we don't end up with empty paragraphs).
   if (empty($documentation)) {
     return '';
@@ -1736,7 +1883,7 @@ function api_format_documentation($documentation, $auto_p = TRUE, &$references) 
   $documentation = preg_replace('/' . API_RE_TAG_START . 'blocksmall (.*) ' . API_RE_TAG_START . 'endblocksmall/', '<small>$1</small>', $documentation);
 
   /**
-   * Process highlighted pre > code.
+   * Process basic pre > code.
    *
    * Formats a <code> element wrapped in a <pre> element. This bypasses
    * the normal formatting of pre > code by the API module, which is styled as
@@ -1756,11 +1903,40 @@ function api_format_documentation($documentation, $auto_p = TRUE, &$references) 
   $regexp = '/^' . API_RE_TAG_START . 'precode/m';
   preg_match_all($regexp, $documentation, $precode_matches, PREG_SET_ORDER);
   if (!empty($precode_matches)) {
-    $documentation = preg_replace($regexp, '<pre class="highlight"><code>', $documentation);
+    $documentation = preg_replace($regexp, '<pre><code>', $documentation);
   }
   $regexp = '/^' . API_RE_TAG_START . 'endprecode/m';
   preg_match_all($regexp, $documentation, $endprecode_matches, PREG_SET_ORDER);
   if (!empty($endprecode_matches)) {
+    $documentation = preg_replace($regexp, '</code></pre>', $documentation);
+  }
+
+  /**
+   * Process Git pre > code.
+   *
+   * Formats a <code> element wrapped in a <pre> element. This bypasses
+   * the normal formatting of pre > code by the API module, which is styled as
+   * PHP. Use this for styling other languages, which will be handled by the
+   * Syntax Highlighter library.
+   *
+   * Note: Drupal hooks, functions, etc. will NOT be linked to in @precode.
+   *
+   * @code
+   *   @gitcode
+   *   git checkout  7.x-2.x
+   *   git tag 7.x-2.0-alpha1
+   *   git push origin tag 7.x-2.0-alpha1
+   *   @endgitcode
+   * @endcode
+   */
+  $regexp = '/^' . API_RE_TAG_START . 'gitcode/m';
+  preg_match_all($regexp, $documentation, $gitcode_matches, PREG_SET_ORDER);
+  if (!empty($gitcode_matches)) {
+    $documentation = preg_replace($regexp, '<pre><code class="language-git">', $documentation);
+  }
+  $regexp = '/^' . API_RE_TAG_START . 'endgitcode/m';
+  preg_match_all($regexp, $documentation, $endgitcode_matches, PREG_SET_ORDER);
+  if (!empty($endgitcode_matches)) {
     $documentation = preg_replace($regexp, '</code></pre>', $documentation);
   }
 
@@ -1946,7 +2122,11 @@ function api_format_documentation($documentation, $auto_p = TRUE, &$references) 
     $documentation = api_autop($documentation);
   }
   else {
-    $documentation = '<pre class="api-text"><code>' . $documentation . '</code></pre>';
+    $attributes = array();
+    if ($lauguage) {
+      $attributes['class'] = array('language-' . $lauguage);
+    }
+    $documentation = '<pre class="line-numbers"><code' . drupal_attributes($attributes) . '>' . $documentation . '</code></pre>';
   }
 
   return $documentation;
@@ -2257,7 +2437,7 @@ function api_format_php($code, &$references, $number = FALSE, $track_references 
       $in_namespace = FALSE;
       $full_namespaced_name = '';
       if ($token == '"') {
-        $output .= '"</span>';
+        //$output .= '"</span>';
         $in_string = FALSE;
         $previous_key = $double_quote_string;
       }
@@ -2269,8 +2449,8 @@ function api_format_php($code, &$references, $number = FALSE, $track_references 
       continue;
     }
     elseif ($token == '"') {
-      $output .= '<span class="php-string">"';
-      $in_string = TRUE;
+      //$output .= '<span class="php-string">"';
+      //$in_string = TRUE;
       $double_quote_string = '';
       $in_member = FALSE;
       $member_of = '';
@@ -2296,7 +2476,8 @@ function api_format_php($code, &$references, $number = FALSE, $track_references 
           $in_namespace = FALSE;
           $full_namespaced_name = '';
           $previous_key = '';
-          $to_add = '<span class="php-boundry">' . $value . '</span>';
+          //$to_add = '<span class="php-boundry">' . $value . '</span>';
+          $to_add = $value;
           $open_count++;
           if (strlen($output) == 0) {
             // This is at the start of $output, so we tentatively want
@@ -2315,7 +2496,8 @@ function api_format_php($code, &$references, $number = FALSE, $track_references 
           $in_namespace = FALSE;
           $full_namespaced_name = '';
           $previous_key = '';
-          $to_add = '<span class="php-boundry">' . $value . '</span>';
+          //$to_add = '<span class="php-boundry">' . $value . '</span>';
+          $to_add = $value;
           $close_count++;
           // Save the size of the closing tag here. If we didn't encounter
           // any more tokens after this, it will remain (this is reset to zero
@@ -2334,7 +2516,8 @@ function api_format_php($code, &$references, $number = FALSE, $track_references 
           $in_namespace = FALSE;
           $full_namespaced_name = '';
           $previous_key = '';
-          $output .= '<span class="php-comment">' . $value . '</span>';
+          //$output .= '<span class="php-comment">' . $value . '</span>';
+          $output .= $value;
           break;
 
         case T_VARIABLE:
@@ -2366,7 +2549,8 @@ function api_format_php($code, &$references, $number = FALSE, $track_references 
           $in_namespace = FALSE;
           $full_namespaced_name = '';
           $previous_key = '';
-          $output .= '<span class="' . $class . '">' . $value . '</span>';
+          //$output .= '<span class="' . $class . '">' . $value . '</span>';
+          $output .= $value;
           break;
 
         case T_CONSTANT_ENCAPSED_STRING:
@@ -2408,7 +2592,8 @@ function api_format_php($code, &$references, $number = FALSE, $track_references 
             }
           }
 
-          $output .= '<span class="' . $class . '">' . $value . '</span>';
+          //$output .= '<span class="' . $class . '">' . $value . '</span>';
+          $output .= $value;
           $previous_key = $value_no_quotes;
           break;
 
@@ -2420,7 +2605,8 @@ function api_format_php($code, &$references, $number = FALSE, $track_references 
           $in_namespace = FALSE;
           $full_namespaced_name = '';
           $previous_key = '';
-          $output .= '<span class="php-string">' . $value . '</span>';
+          //$output .= '<span class="php-string">' . $value . '</span>';
+          $output .= $value;
           break;
 
         case T_STATIC:
@@ -2501,6 +2687,7 @@ function api_format_php($code, &$references, $number = FALSE, $track_references 
           }
 
           $output .= '<span class="' . $class . '">' . $value . '</span>';
+          //$output .= $value;
 
           // Save references -- for functions and constants, only if they're not
           // being declared.
@@ -2559,7 +2746,8 @@ function api_format_php($code, &$references, $number = FALSE, $track_references 
           $member_of = '';
           $in_namespace = FALSE;
           $full_namespaced_name = '';
-          $output .= '<span class="php-constant">' . $value . '</span>';
+          //$output .= '<span class="php-constant">' . $value . '</span>';
+          $output .= $value;
           break;
 
         case T_CLASS:
@@ -2578,7 +2766,8 @@ function api_format_php($code, &$references, $number = FALSE, $track_references 
           $in_namespace = FALSE;
           $full_namespaced_name = '';
           $previous_key = '';
-          $output .= '<span class="php-keyword">' . $value . '</span>';
+          //$output .= '<span class="php-keyword">' . $value . '</span>';
+          $output .= $value;
           break;
 
         case T_AS:
@@ -2637,7 +2826,8 @@ function api_format_php($code, &$references, $number = FALSE, $track_references 
           $member_of = '';
           $in_namespace = FALSE;
           $full_namespaced_name = '';
-          $output .= '<span class="php-keyword">' . $value . '</span>';
+          //$output .= '<span class="php-keyword">' . $value . '</span>';
+          $output .= $value;
           break;
 
         case T_OBJECT_OPERATOR:
@@ -2707,7 +2897,7 @@ function api_format_php($code, &$references, $number = FALSE, $track_references 
     $output = api_number_lines($output, $number);
   }
 
-  $output = '<pre class="php"><code>' . $output . '</code></pre>';
+  $output = '<pre class="line-numbers"><code class="language-php">' . $output . '</code></pre>';
   return $output;
 }
 
@@ -2730,7 +2920,7 @@ function api_number_lines($code, $number = 1) {
   if ($last) {
     array_push($lines, $last);
   }
-  $output = '<ol class="code-lines" start="' . $number . '"><li>' . implode("\n</li><li>", $lines) . "\n</li></ol>";
+  $output = '<ol class="code-lines" start="' . $number . '"><li>' . implode("</li><li>", $lines) . "</li></ol>";
 
   return $output;
 }
@@ -3768,11 +3958,17 @@ function api_parse_functions() {
     'test' => 'api_parse_php_file',
 
     'yml' => 'api_parse_yaml_file',
+    'ymltmp' => 'api_parse_yaml_file',
 
     'txt' => 'api_parse_text_file',
     'info' => 'api_parse_text_file',
-    'css' => 'api_parse_text_file',
-    'sh' => 'api_parse_text_file',
+
+    'css' => 'api_parse_css_file',
+
+    'js' => 'api_parse_js_file',
+
+    'sh' => 'api_parse_bash_file',
+
     'twig' => 'api_parse_twig_file',
 
     'htm' => 'api_parse_html_file',
