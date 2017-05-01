@@ -56,7 +56,7 @@ function docs_process_page(&$variables) {
       case 'twig':
       case 'yml':
       case 'ymltmp':
-        $prism = 'prism.yml_twig.js';
+        $prism = 'prism.yaml_twig.js';
         break;
 
       case 'info':
