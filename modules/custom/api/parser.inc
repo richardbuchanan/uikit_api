@@ -84,6 +84,15 @@ function api_parse_twig_file($docblock) {
  *   files).
  */
 function api_parse_text_file($docblock, $escape_html = FALSE, $language = NULL) {
+  $attributes = array();
+  if ($language) {
+    $attributes['class'] = array('language-' . $language);
+  }
+  else {
+    $attributes['class'] = array('language-ini');
+    $language = 'ini';
+  }
+
   // See if the file contains an @file block, and use that for the
   // documentation if so; otherwise, just use the file as a whole. This is
   // probably only present for Twig files.
@@ -110,10 +119,6 @@ function api_parse_text_file($docblock, $escape_html = FALSE, $language = NULL) 
   $output = $docblock['source'];
   if ($escape_html) {
     $output = htmlspecialchars($docblock['source']);
-  }
-  $attributes = array();
-  if ($language) {
-    $attributes['class'] = array('language-' . $language);
   }
 
   $output = '<pre class="line-numbers"><code' . drupal_attributes($attributes) . '>' . $output . '</code></pre>';
