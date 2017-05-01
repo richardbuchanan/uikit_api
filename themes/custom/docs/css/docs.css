@@ -44,6 +44,9 @@ a:hover,
 .uk-nav-navbar ul a:hover {
   color: #046995;
 }
+.uk-article-lead {
+  font-weight: 600;
+}
 .uk-badge,
 .uk-button-primary,
 .uk-pagination>.uk-active>span,
@@ -346,6 +349,9 @@ html.js .ctools-collapsible-container .ctools-collapsible-handle {
 .docs-api-title {
   font-size: 26px;
   line-height: 23px;
+}
+#api-alternatives > li > * {
+  color: #D05;
 }
 #api-alternatives > li > .active {
   color: #444;

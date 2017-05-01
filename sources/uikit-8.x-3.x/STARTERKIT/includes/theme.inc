@@ -2,12 +2,10 @@
 
 /**
  * @file
- * The UIkit theme system, which controls the output of the UIkit theme.
+ * STARTERKIT theme system, which controls the output of STARTERKIT.
  *
  * The theme system allows for nearly all output of the Drupal system to be
  * customized by UIkit themes.
- *
- * @ingroup uikit_themeable
  */
 
 /**

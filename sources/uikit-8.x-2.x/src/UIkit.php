@@ -65,7 +65,7 @@ class UIkit {
    */
   public static function getThemeSetting($setting, $theme = NULL) {
     if (empty($theme)) {
-      $theme = UIkit::getActiveTheme();
+      $theme = self::getActiveTheme();
     }
 
     if (!empty($setting)) {
@@ -83,7 +83,7 @@ class UIkit {
    *   The base style for the theme.
    */
   public static function getBaseStyle() {
-    return UIkit::getThemeSetting('base_style');
+    return self::getThemeSetting('base_style');
   }
 
   /**
@@ -93,7 +93,7 @@ class UIkit {
    *   The base-style's library to retrieve from the UIkit base theme.
    */
   public static function getUIkitLibrary() {
-    switch (UIkit::getBaseStyle()) {
+    switch (self::getBaseStyle()) {
       case 'almost-flat':
         return 'uikit/uikit.almost-flat';
         break;
@@ -118,7 +118,7 @@ class UIkit {
    */
   public static function getUIkitComponent($component) {
     if (!empty($component)) {
-      switch (UIkit::getBaseStyle()) {
+      switch (self::getBaseStyle()) {
         case 'almost-flat':
           return "uikit/uikit.$component.almost-flat";
 
@@ -146,9 +146,9 @@ class UIkit {
    *   An array of grid classes to use in page.html.twig.
    */
   public static function getGridClasses($sidebar_first = FALSE, $sidebar_second = FALSE) {
-    $standard_layout = UIkit::getThemeSetting('standard_sidebar_positions');
-    $tablet_layout = UIkit::getThemeSetting('tablet_sidebar_positions');
-    $mobile_layout = UIkit::getThemeSetting('mobile_sidebar_positions');
+    $standard_layout = self::getThemeSetting('standard_sidebar_positions');
+    $tablet_layout = self::getThemeSetting('tablet_sidebar_positions');
+    $mobile_layout = self::getThemeSetting('mobile_sidebar_positions');
 
     $grid_classes = [
       'content' => [],

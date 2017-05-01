@@ -1,7 +1,7 @@
 name: UIkit
 type: theme
 description: 'A lightweight frontend framework with a comprehensive collection of HTML, CSS, and JS components.'
-core: 8.x
+# core: 8.x
 base theme: stable
 package: UIkit
 

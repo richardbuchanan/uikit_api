@@ -7,17 +7,25 @@
 <p>The minor version numbers in this table assume there are no unscheduled minors. If an unscheduled minor is released, the dates will not change, but subsequent minor version numbers will be incremented accordingly. Minor versions will always match the major version of the UIkit framework the branch supports.</p>
 
 <h3>Past milestones</h3>
-<p>These are past milestones for each branch of UIkit for Drupal. The most recent feature release for each branch are listed.</p>
+<p>These are past milestones for each branch of UIkit for Drupal. The most recent feature release for each branch are listed for Drupal 7. The most recent releases for Drupal 8 will be beta releases until the UIkit framework is out of beta.</p>
 <div class="uk-overflow-container">
   <table class="uk-table uk-table-hover uk-table-striped uk-table-condensed">
     <tbody>
     <tr>
-      <td class="uk-width-3-10">April 17, 2017</td>
-      <td class="uk-width-7-10"><em>7.x-2.2</em> released</td>
+      <td class="uk-width-3-10">May 01, 2017</td>
+      <td class="uk-width-7-10"><em>7.x-2.3</em> released</td>
     </tr>
     <tr>
-      <td class="uk-width-3-10">April 24, 2017</td>
-      <td class="uk-width-7-10"><em>8.x-2.0</em> released</td>
+      <td class="uk-width-3-10">May 01, 2017</td>
+      <td class="uk-width-7-10"><em>8.x-2.2</em> released</td>
+    </tr>
+    <tr>
+      <td class="uk-width-3-10">May 01, 2017</td>
+      <td class="uk-width-7-10"><em>7.x-3.0-beta2</em> released</td>
+    </tr>
+    <tr>
+      <td class="uk-width-3-10">May 01, 2017</td>
+      <td class="uk-width-7-10"><em>8.x-3.0-beta2</em> released</td>
     </tr>
     </tbody>
   </table>
@@ -30,27 +38,27 @@
     <tbody>
     <tr>
       <td class="uk-width-3-10">Week of May 8, 2017</td>
-      <td class="uk-width-7-10"><em>7.x-3.0-beta2</em> and <em>8.x-3.x-beta2</em> tagged</td>
+      <td class="uk-width-7-10"><em>7.x-3.0-beta3</em> and <em>8.x-3.x-beta3</em> tagged</td>
     </tr>
     <tr>
       <td class="uk-width-3-10">Week of May 22, 2017</td>
-      <td class="uk-width-7-10"><em>7.x-2.3-rc1</em> and <em>8.x-2.1-beta1</em> tagged</td>
+      <td class="uk-width-7-10"><em>7.x-2.4-beta1</em> and <em>8.x-2.3-beta1</em> tagged</td>
     </tr>
     <tr>
       <td class="uk-width-3-10">Week of June 5, 2017</td>
-      <td class="uk-width-7-10"><em>7.x-3.0-beta3</em> and <em>8.x-3.0-beta3</em> tagged</td>
-    </tr>
-    <tr>
-      <td class="uk-width-3-10">Week of June 19, 2017</td>
-      <td class="uk-width-7-10"><em>7.x-2.3</em> released and <em>8.x-2.1-rc1</em> tagged</td>
-    </tr>
-    <tr>
-      <td class="uk-width-3-10">Week of July 3, 2017</td>
       <td class="uk-width-7-10"><em>7.x-3.0-beta4</em> and <em>8.x-3.0-beta4</em> tagged</td>
     </tr>
     <tr>
+      <td class="uk-width-3-10">Week of June 19, 2017</td>
+      <td class="uk-width-7-10"><em>7.x-2.4-rc1</em> and <em>8.x-2.3-rc1</em> tagged</td>
+    </tr>
+    <tr>
+      <td class="uk-width-3-10">Week of July 3, 2017</td>
+      <td class="uk-width-7-10"><em>7.x-3.0-beta5</em> and <em>8.x-3.0-beta5</em> tagged</td>
+    </tr>
+    <tr>
       <td class="uk-width-3-10">Week of July 17, 2017</td>
-      <td class="uk-width-7-10"><em>7.x-2.4-dev</em> opened and <em>8.x-2.1</em> released</td>
+      <td class="uk-width-7-10"><em>7.x-2.4</em> and <em>8.x-2.3</em> released</td>
     </tr>
     </tbody>
   </table>

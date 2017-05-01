@@ -22,6 +22,7 @@ function uikit_form_system_theme_settings_alter(&$form, \Drupal\Core\Form\FormSt
 
   // Attach the uikit.admin library from the base theme.
   $form['#attached']['library'][] = 'uikit/uikit.admin';
+  $form['#attached']['library'][] = 'uikit/font-awesome';
 
   // Get the active theme name.
   $build_info = $form_state->getBuildInfo();

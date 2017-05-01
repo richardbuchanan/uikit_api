@@ -17,7 +17,7 @@ function uikit_drush_command() {
       'machine_name' => '[optional] A machine-readable name for your theme.',
       'name' => 'A human-readable name for your theme.',
     ],
-    'aliases' => array('uikit-sk'),
+    'aliases' => ['uikit-sk'],
     'options' => [
       'name' => 'A human-readable name for your theme.',
       'machine-name' => '[a-z, 0-9, _] A machine-readable name for your theme.',
@@ -73,14 +73,14 @@ function drush_uikit_starterkit($machine_name = NULL, $name = NULL) {
 
   // Clean up the machine name.
   $machine_name = str_replace(' ', '_', strtolower($machine_name));
-  $search = array(
+  $search = [
     '/[^a-z0-9_]/', // Remove characters not valid in function names.
     '/^[^a-z]+/',   // Functions must begin with an alpha character.
-  );
+  ];
   $machine_name = preg_replace($search, '', $machine_name);
 
   // Determine the path to the new sub-theme.
-  $subtheme_path = 'themes';
+  $subtheme_path = file_exists(DRUPAL_ROOT . '/themes/contrib') ? 'themes/custom' : 'themes';
   if ($path = drush_get_option('path')) {
     $subtheme_path = drush_trim_path($path);
   }
@@ -90,9 +90,9 @@ function drush_uikit_starterkit($machine_name = NULL, $name = NULL) {
   if (!is_dir(dirname($subtheme_path))) {
     if (FALSE) {
       // Allow localize.drupal.org to pick up the string to translate.
-      t('The directory "!directory" was not found.', array('!directory' => dirname($subtheme_path)));
+      t('The directory "!directory" was not found.', ['!directory' => dirname($subtheme_path)]);
     }
-    return drush_set_error('UIKIT_DESTINATION_NOT_FOUND', dt('The directory "!directory" was not found.', array('!directory' => dirname($subtheme_path))));
+    return drush_set_error('UIKIT_DESTINATION_NOT_FOUND', dt('The directory "!directory" was not found.', ['!directory' => dirname($subtheme_path)]));
   }
 
   // Ensure the STARTERKIT directory exists.
@@ -100,9 +100,9 @@ function drush_uikit_starterkit($machine_name = NULL, $name = NULL) {
   if (!is_dir($starterkit_path)) {
     if (FALSE) {
       // Allow localize.drupal.org to pick up the string to translate.
-      t('The STARTERKIT directory was not found in "!directory"', array('!directory' => dirname($starterkit_path)));
+      t('The STARTERKIT directory was not found in "!directory"', ['!directory' => dirname($starterkit_path)]);
     }
-    return drush_set_error('UIKIT_STARTERKIT_NOT_FOUND', dt('The STARTERKIT directory was not found in "!directory"', array('!directory' => dirname($starterkit_path))));
+    return drush_set_error('UIKIT_STARTERKIT_NOT_FOUND', dt('The STARTERKIT directory was not found in "!directory"', ['!directory' => dirname($starterkit_path)]));
   }
 
   // Make a fresh copy of the original starter kit.
@@ -112,49 +112,117 @@ function drush_uikit_starterkit($machine_name = NULL, $name = NULL) {
   $subtheme_info_file = $subtheme_path . '/' . $machine_name . '.info.yml';
   $subtheme_libraries_file = $subtheme_path . '/' . $machine_name . '.libraries.yml';
   $subtheme_theme_file = $subtheme_path . '/' . $machine_name . '.theme';
+
   $subtheme_css_base_file = $subtheme_path . '/css/' . $machine_name . '.base.css';
   $subtheme_css_component_file = $subtheme_path . '/css/' . $machine_name . '.component.css';
   $subtheme_css_layout_file = $subtheme_path . '/css/' . $machine_name . '.layout.css';
   $subtheme_css_theme_file = $subtheme_path . '/css/' . $machine_name . '.theme.css';
+
   $subtheme_js_theme_file = $subtheme_path . '/js/' . $machine_name . '.theme.js';
-  drush_op('rename', drush_normalize_path($subtheme_path . '/STARTERKIT.info'), drush_normalize_path($subtheme_info_file));
+
+  $subtheme_settings_file = $subtheme_path . '/config/install/' . $machine_name . '.settings.yml';
+  $subtheme_block_account_menu_file = $subtheme_path . '/config/optional/block.block.' . $machine_name . '_account_menu.yml';
+  $subtheme_block_account_menu_offcanvas_file = $subtheme_path . '/config/optional/block.block.' . $machine_name . '_account_menu_offcanvas.yml';
+  $subtheme_block_branding_file = $subtheme_path . '/config/optional/block.block.' . $machine_name . '_branding.yml';
+  $subtheme_block_breadcrumbs_file = $subtheme_path . '/config/optional/block.block.' . $machine_name . '_breadcrumbs.yml';
+  $subtheme_block_content_file = $subtheme_path . '/config/optional/block.block.' . $machine_name . '_content.yml';
+  $subtheme_block_footer_file = $subtheme_path . '/config/optional/block.block.' . $machine_name . '_footer.yml';
+  $subtheme_block_help_file = $subtheme_path . '/config/optional/block.block.' . $machine_name . '_help.yml';
+  $subtheme_block_local_actions_file = $subtheme_path . '/config/optional/block.block.' . $machine_name . '_local_actions.yml';
+  $subtheme_block_local_tasks_file = $subtheme_path . '/config/optional/block.block.' . $machine_name . '_local_tasks.yml';
+  $subtheme_block_main_menu_file = $subtheme_path . '/config/optional/block.block.' . $machine_name . '_main_menu.yml';
+  $subtheme_block_main_menu_offcanvas_file = $subtheme_path . '/config/optional/block.block.' . $machine_name . '_main_menu_offcanvas.yml';
+  $subtheme_block_messages_file = $subtheme_path . '/config/optional/block.block.' . $machine_name . '_messages.yml';
+  $subtheme_block_page_title_file = $subtheme_path . '/config/optional/block.block.' . $machine_name . '_page_title.yml';
+  $subtheme_block_powered_file = $subtheme_path . '/config/optional/block.block.' . $machine_name . '_powered.yml';
+  $subtheme_block_search_file = $subtheme_path . '/config/optional/block.block.' . $machine_name . '_search.yml';
+  $subtheme_block_tools_file = $subtheme_path . '/config/optional/block.block.' . $machine_name . '_tools.yml';
+
+  $subtheme_block_schema_file = $subtheme_path . '/config/schema/' . $machine_name . '.schema.yml';
+
+  drush_op('rename', drush_normalize_path($subtheme_path . '/STARTERKIT.info.txt'), drush_normalize_path($subtheme_info_file));
   drush_op('rename', drush_normalize_path($subtheme_path . '/STARTERKIT.libraries.yml'), drush_normalize_path($subtheme_libraries_file));
   drush_op('rename', drush_normalize_path($subtheme_path . '/STARTERKIT.theme'), drush_normalize_path($subtheme_theme_file));
+
   drush_op('rename', drush_normalize_path($subtheme_path . '/css/STARTERKIT.base.css'), drush_normalize_path($subtheme_css_base_file));
   drush_op('rename', drush_normalize_path($subtheme_path . '/css/STARTERKIT.component.css'), drush_normalize_path($subtheme_css_component_file));
   drush_op('rename', drush_normalize_path($subtheme_path . '/css/STARTERKIT.layout.css'), drush_normalize_path($subtheme_css_layout_file));
   drush_op('rename', drush_normalize_path($subtheme_path . '/css/STARTERKIT.theme.css'), drush_normalize_path($subtheme_css_theme_file));
+
   drush_op('rename', drush_normalize_path($subtheme_path . '/js/STARTERKIT.theme.js'), drush_normalize_path($subtheme_js_theme_file));
 
-  // Alter the contents of the .info file based on the command options.
-  $alterations = array(
-    'name: STARTERKIT' => 'name: ' . $name,
+  drush_op('rename', drush_normalize_path($subtheme_path . '/config/install/STARTERKIT.settings.yml'), drush_normalize_path($subtheme_settings_file));
+  drush_op('rename', drush_normalize_path($subtheme_path . '/config/optional/block.block.STARTERKIT_account_menu.yml'), drush_normalize_path($subtheme_block_account_menu_file));
+  drush_op('rename', drush_normalize_path($subtheme_path . '/config/optional/block.block.STARTERKIT_account_menu_offcanvas.yml'), drush_normalize_path($subtheme_block_account_menu_offcanvas_file));
+  drush_op('rename', drush_normalize_path($subtheme_path . '/config/optional/block.block.STARTERKIT_branding.yml'), drush_normalize_path($subtheme_block_branding_file));
+  drush_op('rename', drush_normalize_path($subtheme_path . '/config/optional/block.block.STARTERKIT_breadcrumbs.yml'), drush_normalize_path($subtheme_block_breadcrumbs_file));
+  drush_op('rename', drush_normalize_path($subtheme_path . '/config/optional/block.block.STARTERKIT_content.yml'), drush_normalize_path($subtheme_block_content_file));
+  drush_op('rename', drush_normalize_path($subtheme_path . '/config/optional/block.block.STARTERKIT_footer.yml'), drush_normalize_path($subtheme_block_footer_file));
+  drush_op('rename', drush_normalize_path($subtheme_path . '/config/optional/block.block.STARTERKIT_help.yml'), drush_normalize_path($subtheme_block_help_file));
+  drush_op('rename', drush_normalize_path($subtheme_path . '/config/optional/block.block.STARTERKIT_local_actions.yml'), drush_normalize_path($subtheme_block_local_actions_file));
+  drush_op('rename', drush_normalize_path($subtheme_path . '/config/optional/block.block.STARTERKIT_local_tasks.yml'), drush_normalize_path($subtheme_block_local_tasks_file));
+  drush_op('rename', drush_normalize_path($subtheme_path . '/config/optional/block.block.STARTERKIT_main_menu.yml'), drush_normalize_path($subtheme_block_main_menu_file));
+  drush_op('rename', drush_normalize_path($subtheme_path . '/config/optional/block.block.STARTERKIT_main_menu_offcanvas.yml'), drush_normalize_path($subtheme_block_main_menu_offcanvas_file));
+  drush_op('rename', drush_normalize_path($subtheme_path . '/config/optional/block.block.STARTERKIT_messages.yml'), drush_normalize_path($subtheme_block_messages_file));
+  drush_op('rename', drush_normalize_path($subtheme_path . '/config/optional/block.block.STARTERKIT_page_title.yml'), drush_normalize_path($subtheme_block_page_title_file));
+  drush_op('rename', drush_normalize_path($subtheme_path . '/config/optional/block.block.STARTERKIT_powered.yml'), drush_normalize_path($subtheme_block_powered_file));
+  drush_op('rename', drush_normalize_path($subtheme_path . '/config/optional/block.block.STARTERKIT_search.yml'), drush_normalize_path($subtheme_block_search_file));
+  drush_op('rename', drush_normalize_path($subtheme_path . '/config/optional/block.block.STARTERKIT_tools.yml'), drush_normalize_path($subtheme_block_tools_file));
+
+  drush_op('rename', drush_normalize_path($subtheme_path . '/config/schema/STARTERKIT.schema.yml'), drush_normalize_path($subtheme_block_schema_file));
+
+  // Alter the contents of the .info.yml file based on the command options.
+  $alterations = [
+    'name: STARTERKIT' => "name: '" . $name . "'",
     'STARTERKIT/global-styling' => $machine_name . '/global-styling',
-  );
+  ];
   if ($description = drush_get_option('description')) {
     $alterations['UIkit Sub-theme'] = $description;
   }
   drush_op('uikit_file_str_replace', $subtheme_info_file, array_keys($alterations), $alterations);
 
   // Replace all occurrences of 'STARTERKIT' with the machine name of our sub theme.
+  drush_op('uikit_file_str_replace', $subtheme_path . '/README.txt', 'STARTERKIT', $name);
+  drush_op('uikit_file_str_replace', $subtheme_libraries_file, 'STARTERKIT', $machine_name);
+  drush_op('uikit_file_str_replace', $subtheme_theme_file, 'STARTERKIT', $machine_name);
+  drush_op('uikit_file_str_replace', $subtheme_js_theme_file, 'Drupal.behaviors.STARTERKIT', str_replace(' ', '', 'Drupal.behaviors.' . $name));
+  drush_op('uikit_file_str_replace', $subtheme_js_theme_file, 'STARTERKIT', $machine_name);
+
   drush_op('uikit_file_str_replace', $subtheme_path . '/theme-settings.php', 'STARTERKIT', $machine_name);
-  drush_op('uikit_file_str_replace', $subtheme_path . '/' . $machine_name . '.libraries.yml', 'STARTERKIT', $machine_name);
-  drush_op('uikit_file_str_replace', $subtheme_path . '/' . $machine_name . '.theme', 'STARTERKIT', $machine_name);
   drush_op('uikit_file_str_replace', $subtheme_path . '/includes/alter.inc', 'STARTERKIT', $machine_name);
   drush_op('uikit_file_str_replace', $subtheme_path . '/includes/preprocess.inc', 'STARTERKIT', $machine_name);
   drush_op('uikit_file_str_replace', $subtheme_path . '/includes/theme.inc', 'STARTERKIT', $machine_name);
-  drush_op('uikit_file_str_replace', $subtheme_path . '/js/' . $machine_name . '.theme.js', 'Drupal.behaviors.STARTERKIT', str_replace(' ', '', 'Drupal.behaviors.' . $name));
-  drush_op('uikit_file_str_replace', $subtheme_path . '/js/' . $machine_name . '.theme.js', 'STARTERKIT', $machine_name);
+
+  drush_op('uikit_file_str_replace', $subtheme_block_account_menu_file, 'STARTERKIT', $machine_name);
+  drush_op('uikit_file_str_replace', $subtheme_block_account_menu_offcanvas_file, 'STARTERKIT', $machine_name);
+  drush_op('uikit_file_str_replace', $subtheme_block_branding_file, 'STARTERKIT', $machine_name);
+  drush_op('uikit_file_str_replace', $subtheme_block_breadcrumbs_file, 'STARTERKIT', $machine_name);
+  drush_op('uikit_file_str_replace', $subtheme_block_content_file, 'STARTERKIT', $machine_name);
+  drush_op('uikit_file_str_replace', $subtheme_block_footer_file, 'STARTERKIT', $machine_name);
+  drush_op('uikit_file_str_replace', $subtheme_block_help_file, 'STARTERKIT', $machine_name);
+  drush_op('uikit_file_str_replace', $subtheme_block_local_actions_file, 'STARTERKIT', $machine_name);
+  drush_op('uikit_file_str_replace', $subtheme_block_local_tasks_file, 'STARTERKIT', $machine_name);
+  drush_op('uikit_file_str_replace', $subtheme_block_main_menu_file, 'STARTERKIT', $machine_name);
+  drush_op('uikit_file_str_replace', $subtheme_block_main_menu_offcanvas_file, 'STARTERKIT', $machine_name);
+  drush_op('uikit_file_str_replace', $subtheme_block_messages_file, 'STARTERKIT', $machine_name);
+  drush_op('uikit_file_str_replace', $subtheme_block_page_title_file, 'STARTERKIT', $machine_name);
+  drush_op('uikit_file_str_replace', $subtheme_block_powered_file, 'STARTERKIT', $machine_name);
+  drush_op('uikit_file_str_replace', $subtheme_block_search_file, 'STARTERKIT', $machine_name);
+  drush_op('uikit_file_str_replace', $subtheme_block_tools_file, 'STARTERKIT', $machine_name);
+
+  drush_op('uikit_file_str_replace', $subtheme_block_schema_file, 'STARTERKIT theme', $name . ' theme');
+  drush_op('uikit_file_str_replace', $subtheme_block_schema_file, 'STARTERKIT.settings', $machine_name . '.settings');
+  drush_op('uikit_file_str_replace', $subtheme_block_schema_file, 'STARTERKIT settings', $name . ' settings');
 
   // Notify user of the newly created theme.
   if (FALSE) {
     // Allow localize.drupal.org to pick up the string to translate.
-    t('Starter kit for "!name" created in: !path', array('!name' => $name, '!path' => $subtheme_path));
+    t('Starterkit for "!name" created in: !path', ['!name' => $name, '!path' => $subtheme_path]);
   }
-  drush_print(dt('Starter kit for "!name" created in: !path', array(
-    '!name' => $name,
+  drush_print(dt('Starterkit for "!name" created in: !path', [
     '!path' => $subtheme_path,
-  )));
+    '!name' => $name,
+  ]));
 }
 
 /**

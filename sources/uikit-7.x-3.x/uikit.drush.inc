@@ -9,27 +9,27 @@
  * Implements hook_drush_command().
  */
 function uikit_drush_command() {
-  $commands = [];
+  $commands = array();
 
-  $commands['uikit-starterkit'] = [
+  $commands['uikit-starterkit'] = array(
     'description' => 'Create a UIkit sub-theme.',
-    'arguments' => [
+    'arguments' => array(
       'machine_name' => '[optional] A machine-readable name for your theme.',
       'name' => 'A human-readable name for your theme.',
-    ],
+    ),
     'aliases' => array('uikit-sk'),
-    'options' => [
+    'options' => array(
       'name' => 'A human-readable name for your theme.',
       'machine-name' => '[a-z, 0-9, _] A machine-readable name for your theme.',
       'path' => 'The path where your theme will be created. Defaults to: sites/all/themes',
       'description' => 'A description of your theme.',
-    ],
-    'examples' => [
+    ),
+    'examples' => array(
       'drush uikit-sk "Amazing name"' => 'Create a sub-theme, using the default options.',
       'drush uikit-sk zomg_amazing "Amazing name"' => 'Create a sub-theme with a specific machine name.',
       'drush uikit-sk "Amazing name" --path=sites/default/themes --description="So amazing."' => 'Create a sub-theme in the specified directory with a custom description.',
-    ],
-  ];
+    ),
+  );
 
   return $commands;
 }
@@ -80,7 +80,7 @@ function drush_uikit_starterkit($machine_name = NULL, $name = NULL) {
   $machine_name = preg_replace($search, '', $machine_name);
 
   // Determine the path to the new sub-theme.
-  $subtheme_path = 'sites/all/themes';
+  $subtheme_path = file_exists(DRUPAL_ROOT . '/sites/all/themes/contrib') ? 'sites/all/themes/custom' : 'sites/all/themes';
   if ($path = drush_get_option('path')) {
     $subtheme_path = drush_trim_path($path);
   }

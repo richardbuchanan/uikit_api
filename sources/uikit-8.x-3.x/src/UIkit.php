@@ -19,7 +19,7 @@ class UIkit {
    *
    * @var string
    */
-  const UIKIT_LIBRARY_VERSION = '3.0.0-Beta.21';
+  const UIKIT_LIBRARY_VERSION = '3.0.0-Beta.22';
 
   /**
    * The Drupal project page for the UIkit base theme.
@@ -65,7 +65,7 @@ class UIkit {
    */
   public static function getThemeSetting($setting, $theme = NULL) {
     if (empty($theme)) {
-      $theme = UIkit::getActiveTheme();
+      $theme = self::getActiveTheme();
     }
 
     if (!empty($setting)) {
@@ -88,9 +88,9 @@ class UIkit {
    *   An array of grid classes to use in page.html.twig.
    */
   public static function getGridClasses($sidebar_first = FALSE, $sidebar_second = FALSE) {
-    $standard_layout = UIkit::getThemeSetting('standard_sidebar_positions');
-    $tablet_layout = UIkit::getThemeSetting('tablet_sidebar_positions');
-    $mobile_layout = UIkit::getThemeSetting('mobile_sidebar_positions');
+    $standard_layout = self::getThemeSetting('standard_sidebar_positions');
+    $tablet_layout = self::getThemeSetting('tablet_sidebar_positions');
+    $mobile_layout = self::getThemeSetting('mobile_sidebar_positions');
 
     $grid_classes = [
       'content' => [],
@@ -112,77 +112,77 @@ class UIkit {
       switch ($standard_layout) {
         case 'holy-grail':
           $grid_classes['content'][] = 'uk-push-large-1-4';
-          $grid_classes['sidebar']['first'][] = 'uk-pull-large-1-2';
-          $grid_classes['sidebar']['second'][] = 'uk-push-pull-large';
+          $grid_classes['sidebar']['first'][] = 'uk-pull-1-2@l';
+          $grid_classes['sidebar']['second'][] = 'uk-push-pull-@l';
           break;
 
         case 'sidebars-left':
-          $grid_classes['content'][] = 'uk-push-large-1-2';
-          $grid_classes['sidebar']['first'][] = 'uk-pull-large-1-2';
-          $grid_classes['sidebar']['second'][] = 'uk-pull-large-1-2';
+          $grid_classes['content'][] = 'uk-push-1-2@l';
+          $grid_classes['sidebar']['first'][] = 'uk-pull-1-2@l';
+          $grid_classes['sidebar']['second'][] = 'uk-pull-1-2@l';
           break;
 
         case 'sidebars-right':
-          $grid_classes['content'][] = 'uk-push-pull-large';
-          $grid_classes['sidebar']['first'][] = 'uk-push-pull-large';
-          $grid_classes['sidebar']['second'][] = 'uk-push-pull-large';
+          $grid_classes['content'][] = 'uk-push-pull-@l';
+          $grid_classes['sidebar']['first'][] = 'uk-push-pull-@l';
+          $grid_classes['sidebar']['second'][] = 'uk-push-pull-@l';
           break;
       }
 
       switch ($tablet_layout) {
         case 'holy-grail':
           $grid_classes['content'][] = 'uk-width-1-2@m';
-          $grid_classes['content'][] = 'uk-push-medium-1-4';
+          $grid_classes['content'][] = 'uk-push-1-4@m';
 
           $grid_classes['sidebar']['first'][] = 'uk-width-1-4@m';
-          $grid_classes['sidebar']['first'][] = 'uk-pull-medium-1-2';
+          $grid_classes['sidebar']['first'][] = 'uk-pull-1-2@m';
 
           $grid_classes['sidebar']['second'][] = 'uk-width-1-4@m';
-          $grid_classes['sidebar']['second'][] = 'uk-push-pull-medium';
+          $grid_classes['sidebar']['second'][] = 'uk-push-pull-@m';
           break;
 
         case 'sidebars-left':
           $grid_classes['content'][] = 'uk-width-1-2@m';
-          $grid_classes['content'][] = 'uk-push-medium-1-2';
+          $grid_classes['content'][] = 'uk-push-1-2@m';
 
           $grid_classes['sidebar']['first'][] = 'uk-width-1-4@m';
-          $grid_classes['sidebar']['first'][] = 'uk-pull-medium-1-2';
+          $grid_classes['sidebar']['first'][] = 'uk-pull-1-2@m';
 
           $grid_classes['sidebar']['second'][] = 'uk-width-1-4@m';
-          $grid_classes['sidebar']['second'][] = 'uk-pull-medium-1-2';
+          $grid_classes['sidebar']['second'][] = 'uk-pull-1-2@m';
           break;
 
         case 'sidebars-right':
           $grid_classes['content'][] = 'uk-width-1-2@m';
-          $grid_classes['content'][] = 'uk-push-pull-medium';
+          $grid_classes['content'][] = 'uk-push-pull-@m';
 
           $grid_classes['sidebar']['first'][] = 'uk-width-1-4@m';
-          $grid_classes['sidebar']['first'][] = 'uk-push-pull-medium';
+          $grid_classes['sidebar']['first'][] = 'uk-push-pull-@m';
 
           $grid_classes['sidebar']['second'][] = 'uk-width-1-4@m';
-          $grid_classes['sidebar']['second'][] = 'uk-push-pull-medium';
+          $grid_classes['sidebar']['second'][] = 'uk-push-pull-@m';
           break;
 
         case 'sidebar-left-stacked':
           $grid_classes['content'][] = 'uk-width-3-4@m';
-          $grid_classes['content'][] = 'uk-push-medium-1-4';
+          $grid_classes['content'][] = 'uk-push-1-4@m';
 
           $grid_classes['sidebar']['first'][] = 'uk-width-1-4@m';
-          $grid_classes['sidebar']['first'][] = 'uk-pull-medium-3-4';
+          $grid_classes['sidebar']['first'][] = 'uk-pull-3-4@m';
 
           $grid_classes['sidebar']['second'][] = 'uk-width-1-1@m';
-          $grid_classes['sidebar']['second'][] = 'uk-push-pull-medium';
+          $grid_classes['sidebar']['second'][] = 'uk-push-pull-@m';
           break;
 
         case 'sidebar-right-stacked':
           $grid_classes['content'][] = 'uk-width-3-4@m';
-          $grid_classes['content'][] = 'uk-push-pull-medium';
+          $grid_classes['content'][] = 'uk-push-pull-@m';
 
           $grid_classes['sidebar']['first'][] = 'uk-width-1-4@m';
-          $grid_classes['sidebar']['first'][] = 'uk-push-pull-medium';
+          $grid_classes['sidebar']['first'][] = 'uk-push-pull-@m';
 
           $grid_classes['sidebar']['second'][] = 'uk-width-1-1@m';
-          $grid_classes['sidebar']['second'][] = 'uk-push-pull-medium';
+          $grid_classes['sidebar']['second'][] = 'uk-push-pull-@m';
           break;
       }
 
@@ -190,29 +190,29 @@ class UIkit {
         case 'sidebars-stacked':
           $grid_classes['content'][] = 'uk-width-1-1@s';
           $grid_classes['content'][] = 'uk-width-1-1';
-          $grid_classes['content'][] = 'uk-push-pull-small';
+          $grid_classes['content'][] = 'uk-push-pull-@s';
 
           $grid_classes['sidebar']['first'][] = 'uk-width-1-1@s';
           $grid_classes['sidebar']['first'][] = 'uk-width-1-1';
-          $grid_classes['sidebar']['first'][] = 'uk-push-pull-small';
+          $grid_classes['sidebar']['first'][] = 'uk-push-pull-@s';
 
           $grid_classes['sidebar']['second'][] = 'uk-width-1-1@s';
           $grid_classes['sidebar']['second'][] = 'uk-width-1-1';
-          $grid_classes['sidebar']['second'][] = 'uk-push-pull-small';
+          $grid_classes['sidebar']['second'][] = 'uk-push-pull-@s';
           break;
 
         case 'sidebars-vertical':
           $grid_classes['content'][] = 'uk-width-1-1@s';
           $grid_classes['content'][] = 'uk-width-1-1';
-          $grid_classes['content'][] = 'uk-push-pull-small';
+          $grid_classes['content'][] = 'uk-push-pull-@s';
 
           $grid_classes['sidebar']['first'][] = 'uk-width-1-2@s';
           $grid_classes['sidebar']['first'][] = 'uk-width-1-2';
-          $grid_classes['sidebar']['first'][] = 'uk-push-pull-small';
+          $grid_classes['sidebar']['first'][] = 'uk-push-pull-@s';
 
           $grid_classes['sidebar']['second'][] = 'uk-width-1-2@s';
           $grid_classes['sidebar']['second'][] = 'uk-width-1-2';
-          $grid_classes['sidebar']['second'][] = 'uk-push-pull-small';
+          $grid_classes['sidebar']['second'][] = 'uk-push-pull-@s';
           break;
       }
     }
@@ -224,45 +224,45 @@ class UIkit {
 
       switch ($standard_layout) {
         case 'holy-grail':
-          $grid_classes['content'][] = 'uk-push-large-1-4';
-          $grid_classes['sidebar']['first'][] = 'uk-pull-large-3-4';
+          $grid_classes['content'][] = 'uk-push-1-4@l';
+          $grid_classes['sidebar']['first'][] = 'uk-pull-3-4@l';
           break;
 
         case 'sidebars-left':
-          $grid_classes['content'][] = 'uk-push-large-1-4';
-          $grid_classes['sidebar']['first'][] = 'uk-pull-large-3-4';
+          $grid_classes['content'][] = 'uk-push-1-4@l';
+          $grid_classes['sidebar']['first'][] = 'uk-pull-3-4@l';
           break;
 
         case 'sidebars-right':
-          $grid_classes['content'][] = 'uk-push-pull-large';
-          $grid_classes['sidebar']['first'][] = 'uk-push-pull-large';
+          $grid_classes['content'][] = 'uk-push-pull-@l';
+          $grid_classes['sidebar']['first'][] = 'uk-push-pull-@l';
           break;
       }
 
       switch ($tablet_layout) {
         case 'holy-grail':
-          $grid_classes['content'][] = 'uk-push-medium-1-4';
-          $grid_classes['sidebar']['first'][] = 'uk-pull-medium-3-4';
+          $grid_classes['content'][] = 'uk-push-1-4@m';
+          $grid_classes['sidebar']['first'][] = 'uk-pull-3-4@m';
           break;
 
         case 'sidebars-left':
-          $grid_classes['content'][] = 'uk-push-medium-1-4';
-          $grid_classes['sidebar']['first'][] = 'uk-pull-medium-3-4';
+          $grid_classes['content'][] = 'uk-push-1-4@m';
+          $grid_classes['sidebar']['first'][] = 'uk-pull-3-4@m';
           break;
 
         case 'sidebars-right':
-          $grid_classes['content'][] = 'uk-push-pull-medium';
-          $grid_classes['sidebar']['first'][] = 'uk-push-pull-medium';
+          $grid_classes['content'][] = 'uk-push-pull-@m';
+          $grid_classes['sidebar']['first'][] = 'uk-push-pull-@m';
           break;
 
         case 'sidebar-left-stacked':
-          $grid_classes['content'][] = 'uk-push-medium-1-4';
-          $grid_classes['sidebar']['first'][] = 'uk-pull-medium-3-4';
+          $grid_classes['content'][] = 'uk-push-1-4@m';
+          $grid_classes['sidebar']['first'][] = 'uk-pull-3-4@m';
           break;
 
         case 'sidebar-right-stacked':
-          $grid_classes['content'][] = 'uk-push-pull-medium';
-          $grid_classes['sidebar']['first'][] = 'uk-push-pull-medium';
+          $grid_classes['content'][] = 'uk-push-pull-@m';
+          $grid_classes['sidebar']['first'][] = 'uk-push-pull-@m';
           break;
       }
     }
@@ -272,18 +272,18 @@ class UIkit {
 
       switch ($standard_layout) {
         case 'holy-grail':
-          $grid_classes['content'][] = 'uk-push-pull-large';
-          $grid_classes['sidebar']['second'][] = 'uk-push-pull-large';
+          $grid_classes['content'][] = 'uk-push-pull-@l';
+          $grid_classes['sidebar']['second'][] = 'uk-push-pull-@l';
           break;
 
         case 'sidebars-left':
-          $grid_classes['content'][] = 'uk-push-large-1-4';
-          $grid_classes['sidebar']['second'][] = 'uk-pull-large-3-4';
+          $grid_classes['content'][] = 'uk-push-1-4@l';
+          $grid_classes['sidebar']['second'][] = 'uk-pull-3-4@l';
           break;
 
         case 'sidebars-right':
-          $grid_classes['content'][] = 'uk-push-pull-large';
-          $grid_classes['sidebar']['second'][] = 'uk-push-pull-large';
+          $grid_classes['content'][] = 'uk-push-pull-@l';
+          $grid_classes['sidebar']['second'][] = 'uk-push-pull-@l';
           break;
       }
 
@@ -291,36 +291,36 @@ class UIkit {
         case 'holy-grail':
           $grid_classes['content'][] = 'uk-width-3-4@m';
           $grid_classes['sidebar']['second'][] = 'uk-width-1-4@m';
-          $grid_classes['content'][] = 'uk-push-pull-medium';
-          $grid_classes['sidebar']['first'][] = 'uk-push-pull-medium';
+          $grid_classes['content'][] = 'uk-push-pull-@m';
+          $grid_classes['sidebar']['first'][] = 'uk-push-pull-@m';
           break;
 
         case 'sidebars-left':
           $grid_classes['content'][] = 'uk-width-3-4@m';
           $grid_classes['sidebar']['second'][] = 'uk-width-1-4@m';
-          $grid_classes['content'][] = 'uk-push-medium-1-4';
-          $grid_classes['sidebar']['second'][] = 'uk-pull-medium-3-4';
+          $grid_classes['content'][] = 'uk-push-1-4@m';
+          $grid_classes['sidebar']['second'][] = 'uk-pull-3-4@m';
           break;
 
         case 'sidebars-right':
           $grid_classes['content'][] = 'uk-width-3-4@m';
           $grid_classes['sidebar']['second'][] = 'uk-width-1-4@m';
-          $grid_classes['content'][] = 'uk-push-pull-medium';
-          $grid_classes['sidebar']['first'][] = 'uk-push-pull-medium';
+          $grid_classes['content'][] = 'uk-push-pull-@m';
+          $grid_classes['sidebar']['first'][] = 'uk-push-pull-@m';
           break;
 
         case 'sidebar-left-stacked':
           $grid_classes['content'][] = 'uk-width-1-1@m';
           $grid_classes['sidebar']['second'][] = 'uk-width-1-1@m';
-          $grid_classes['content'][] = 'uk-push-pull-medium';
-          $grid_classes['sidebar']['second'][] = 'uk-push-pull-medium';
+          $grid_classes['content'][] = 'uk-push-pull-@m';
+          $grid_classes['sidebar']['second'][] = 'uk-push-pull-@m';
           break;
 
         case 'sidebar-right-stacked':
           $grid_classes['content'][] = 'uk-width-1-1@m';
           $grid_classes['sidebar']['second'][] = 'uk-width-1-1@m';
-          $grid_classes['content'][] = 'uk-push-pull-medium';
-          $grid_classes['sidebar']['second'][] = 'uk-push-pull-medium';
+          $grid_classes['content'][] = 'uk-push-pull-@m';
+          $grid_classes['sidebar']['second'][] = 'uk-push-pull-@m';
           break;
       }
     }

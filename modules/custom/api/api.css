@@ -117,10 +117,10 @@ ol#api-alternatives li {
   margin: 0;
   padding: 0;
   list-style: none;
-  padding-left: 5px;
 }
 
 ol#api-alternatives {
+  font-family: Consolas,monospace,serif;
   margin-bottom: 10px;
 }
 

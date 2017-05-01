@@ -138,6 +138,27 @@ function uikit_container($variables) {
 }
 
 /**
+ * Implements theme_date_text().
+ */
+function uikit_date_text($variables) {
+  $element = $variables['element'];
+  $attributes = !empty($element['#wrapper_attributes']) ? $element['#wrapper_attributes'] : array('class' => array());
+  $attributes['class'][] = 'container-inline-date';
+  // If there is no description, the floating date elements need some extra
+  // padding below them.
+  $wrapper_attributes = array();
+  if (empty($element['date']['#description'])) {
+    $wrapper_attributes['class'][] = 'clearfix';
+  }
+  // Add an wrapper to mimic the way a single value field works, for ease in
+  // using #states.
+  if (isset($element['#children'])) {
+    $element['#children'] = '<div id="' . $element['#id'] . '" ' . drupal_attributes($wrapper_attributes) . '>' . $element['#children'] . '</div>';
+  }
+  return '<div ' . drupal_attributes($attributes) . '>' . theme('form_element', $element) . '</div>';
+}
+
+/**
  * Implements theme_field() for tag fields.
  */
 function uikit_field__field_tags($variables) {
@@ -204,7 +225,9 @@ function uikit_fieldset__collapsible($variables) {
   $group_fieldset = isset($element['#group_fieldset']) && $element['#group_fieldset'];
 
   $output = '<ul' . drupal_attributes($element['#attributes']) . '>';
-  $output .= '<li>';
+
+  $open = $element['#collapsed'] ? '' : ' class="uk-open"';
+  $output .= '<li' . $open . '>';
 
   if (!empty($element['#title'])) {
     $output .= '<h3 class="uk-accordion-title">' . $element['#title'] . '</h3>';
@@ -1231,12 +1254,6 @@ function uikit_radio($variables) {
 function uikit_select($variables) {
   $element = $variables['element'];
   element_set_attributes($element, array('id', 'name', 'size'));
-  $prefix = '<div uk-form-custom="target: > * > span:first">';
-  $suffix = '<button class="uk-button uk-button-default" type="button" tabindex="-1">';
-  $suffix .= '<span></span>';
-  $suffix .= '<span uk-icon="icon: chevron-down"></span>';
-  $suffix .= '</button>';
-  $suffix .= '</div>';
 
   _form_set_class($element, array(
     'form-select',
@@ -1248,7 +1265,7 @@ function uikit_select($variables) {
     $element['#attributes']['class'][] = 'uk-form-danger';
   }
 
-  return $prefix . '<select' . drupal_attributes($element['#attributes']) . '>' . form_select_options($element) . '</select>' . $suffix;
+  return '<select' . drupal_attributes($element['#attributes']) . '>' . form_select_options($element) . '</select>';
 }
 
 /**
