@@ -124,18 +124,6 @@ function docs_block_view_alter(&$data, $block) {
         'subject' => t('API Navigation'),
         'content' => array(
           'links' => $links,
-          'branches' => array(
-            '#theme' => 'bootstrap_dropdown',
-            '#toggle' => array(
-              '#theme' => 'button',
-              '#button_type' => 'button',
-              '#value' => t('Projects') . ' <span class="caret"></span>',
-              '#attributes' => array(
-                'class' => array('btn-default', 'btn-block'),
-              ),
-            ),
-            '#items' => $items,
-          ),
         ),
       );
     }
