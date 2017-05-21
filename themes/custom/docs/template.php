@@ -56,14 +56,20 @@ function api_listing_counts($branch) {
     ->execute()
     ->fetchField();
 
+  // Except namespaces, which adds the properties and functions to the count.
   $query = db_select('api_documentation', 'ad')
     ->condition('branch_id', $branch->branch_id)
-    ->condition('namespace', '', '<>')
-    ->groupBy('namespace');
-  $query->addExpression('COUNT(*)', 'num');
-  $return['namespaces'] = $query
-    ->execute()
-    ->fetchField();
+    ->condition('namespace', '', '<>');
+  $query->fields('ad', array('namespace'));
+  $result = $query->execute();
+
+  $namespaces = array();
+  while ($record = $result->fetchAssoc()) {
+    if (!isset($namespaces[$record['namespace']])) {
+      $namespaces[$record['namespace']] = $record['namespace'];
+      $return['namespaces']++;
+    }
+  }
 
   $query = db_select('api_documentation', 'ad')
     ->condition('branch_id', $branch->branch_id)

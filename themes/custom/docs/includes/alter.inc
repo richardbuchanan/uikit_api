@@ -23,7 +23,6 @@ function docs_block_view_alter(&$data, $block) {
   $delta = $block->delta;
   $module = $block->module;
   $region = $block->region;
-  $branch = api_get_active_branch();
 
   if ($delta == 'navigation' && $module == 'api' && $region == 'sidebar_second') {
     $branch = api_get_active_branch();
