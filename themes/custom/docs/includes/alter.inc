@@ -144,6 +144,14 @@ function docs_block_view_alter(&$data, $block) {
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function docs_form_commerce_cart_add_to_cart_form_1_alter(&$form, &$form_state, $form_id) {
+  $form['element']['submit']['#attributes']['class'][] = 'uk-margin-top';
+}
+
+
+/**
  * Implements hook_js_alter().
  */
 function docs_js_alter(&$javascript) {
