@@ -144,10 +144,48 @@ function docs_block_view_alter(&$data, $block) {
 }
 
 /**
- * Implements hook_form_FORM_ID_alter().
+ * Implements hook_form_alter().
  */
-function docs_form_commerce_cart_add_to_cart_form_1_alter(&$form, &$form_state, $form_id) {
-  $form['element']['submit']['#attributes']['class'][] = 'uk-margin-top';
+function docs_form_alter(&$form, &$form_state, $form_id) {
+  $add_to_cart_form = substr($form_id, 0, 30) === 'commerce_cart_add_to_cart_form';
+  if ($add_to_cart_form) {
+    $form['submit']['#attributes']['class'][] = 'uk-margin-top';
+
+    $donate_form = isset($form['line_item_fields']) && isset($form['line_item_fields']['commerce_donate_amount']);
+    if ($donate_form) {
+      $args = array();
+      $args['@description'] = 'UIkit for Drupal typically has little administrative overhead, which is why we believe a donation to UIkit for Drupal can be leveraged to make the maximum impact possible. We use the donations to help offset the cost of running our servers and to provide funding to our designers and developers involved in the project through Buchanan Design Group. Any donation, no matter how big or small, goes a long way to continuing the project.';
+      $form['#prefix'] = '<div id="donate" class="uk-margin-large-top">';
+      $form['#prefix'] .= '<hr class="uk-article-divider">';
+      $form['#suffix'] = '</div>';
+      $form['title'] = array(
+        '#markup' => t('<h2>Donate</h2>'),
+      );
+      $form['description'] = array(
+        '#markup' => t('<p>@description</p>', $args),
+      );
+      $form['#submit'][] = 'docs_donate_cart_add_to_cart_form_submit';
+    }
+  }
+}
+
+/**
+ * Form submit handler: add the selected product to the cart.
+ */
+function docs_donate_cart_add_to_cart_form_submit($form, &$form_state) {
+  $product_id = $form_state['values']['product_id'];
+  $product = commerce_product_load($product_id);
+
+  // Create the new product line item of the same type.
+  $line_item = commerce_product_line_item_new($product, $form_state['values']['quantity'], 0, $form_state['line_item']->data, $form_state['line_item']->type);
+
+  // Only attempt an Add to Cart if the line item has a valid unit price.
+  $line_item_wrapper = entity_metadata_wrapper('commerce_line_item', $line_item);
+
+  if (!is_null($line_item_wrapper->commerce_unit_price->value())) {
+    // Redirect the user to the cart.
+    $form_state['redirect'] = 'cart';
+  }
 }
 
 

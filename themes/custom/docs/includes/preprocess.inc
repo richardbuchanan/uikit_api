@@ -301,6 +301,8 @@ function docs_preprocess_node(&$variables) {
       module_load_include('inc', 'contact', 'contact.pages');
       $contact_form = drupal_get_form('contact_site_form');
       $login_form = drupal_get_form('user_login_block');
+      unset($login_form['links']);
+      $login_form['actions']['#attributes']['class'][] = 'uk-margin-top';
       $variables['theme_hook_suggestions'][] = 'node__access_denied';
       $variables['access_message'] = user_is_logged_in() ? 'Please contact your administrator.' : 'Try logging in.';
       $variables['login_form'] = drupal_render($login_form);
@@ -342,6 +344,15 @@ function docs_preprocess_page(&$variables) {
       'class' => array('uk-navbar', 'uk-navbar-attached'),
     );
   }
+  else {
+    $variables['page_container_attributes_array']['class'][] = 'uk-margin-bottom';
+    $donation = isset($variables['node']) && $variables['node']->type == 'donation';
+    $alias = drupal_get_path_alias(current_path());
+
+    if ($donation || $alias == '403' || $alias == '404') {
+      $variables['title'] = FALSE;
+    }
+  }
 }
 
 /**
@@ -374,6 +385,13 @@ function docs_preprocess_region(&$variables) {
       'version' => '2.26.4',
     ));
   }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function docs_preprocess_image_button(&$variables) {
+  $variables['element']['#attributes']['class'][] = 'uk-margin-top';
 }
 
 /**

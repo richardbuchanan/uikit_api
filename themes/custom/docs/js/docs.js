@@ -179,5 +179,20 @@
         $(this).prop('title', '');
       })
     }
+  };
+
+  Drupal.behaviors.donateForm = {
+    attach: function () {
+      var other = $('.form-item-line-item-fields-commerce-donate-amount-und-other').hide();
+
+      $('input[name="line_item_fields[commerce_donate_amount][und][select]"]').change(function() {
+        if (this.value === 'select_or_other') {
+          other.show();
+        }
+        else {
+          other.hide();
+        }
+      });
+    }
   }
 })(jQuery);
