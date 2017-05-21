@@ -13,4 +13,4 @@ regions:
   footer: 'Footer'
 
 libraries:
-  - STARTERKIT/global-styling
+  - STARTERKIT/global-style

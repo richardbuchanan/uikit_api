@@ -8,7 +8,7 @@
 /**
  * Load STARTERKIT's include files for theme processing.
  */
-uikit_load_include('inc', 'STARTERKIT', 'preprocess', 'includes');
-uikit_load_include('inc', 'STARTERKIT', 'process', 'includes');
-uikit_load_include('inc', 'STARTERKIT', 'theme', 'includes');
-uikit_load_include('inc', 'STARTERKIT', 'alter', 'includes');
+include_once 'includes/preprocess.inc';
+include_once 'includes/process.inc';
+include_once 'includes/theme.inc';
+include_once 'includes/alter.inc';

@@ -140,7 +140,7 @@ function drush_uikit_starterkit($machine_name = NULL, $name = NULL) {
 
   $subtheme_block_schema_file = $subtheme_path . '/config/schema/' . $machine_name . '.schema.yml';
 
-  drush_op('rename', drush_normalize_path($subtheme_path . '/STARTERKIT.info.txt'), drush_normalize_path($subtheme_info_file));
+  drush_op('rename', drush_normalize_path($subtheme_path . '/STARTERKIT.info.ymltmp'), drush_normalize_path($subtheme_info_file));
   drush_op('rename', drush_normalize_path($subtheme_path . '/STARTERKIT.libraries.yml'), drush_normalize_path($subtheme_libraries_file));
   drush_op('rename', drush_normalize_path($subtheme_path . '/STARTERKIT.theme'), drush_normalize_path($subtheme_theme_file));
 
@@ -180,6 +180,7 @@ function drush_uikit_starterkit($machine_name = NULL, $name = NULL) {
     $alterations['UIkit Sub-theme'] = $description;
   }
   drush_op('uikit_file_str_replace', $subtheme_info_file, array_keys($alterations), $alterations);
+  drush_op('uikit_file_str_replace', $subtheme_info_file, 'STARTERKIT', $machine_name);
 
   // Replace all occurrences of 'STARTERKIT' with the machine name of our sub theme.
   drush_op('uikit_file_str_replace', $subtheme_path . '/README.txt', 'STARTERKIT', $name);

@@ -124,16 +124,44 @@ uikit.form-advanced.gradient:
   js:
     js/uikit.form-advanced.js: { weight: -10 }
 
-font-awesome:
-  remote: http://fontawesome.io/
-  version: 4.6.3
+uikit.sticky:
+  remote: https://getuikit.com/v2/index.html
+  version: 2.27.2
   license:
     name: MIT
-    url: http://fontawesome.io/license/
+    url: https://github.com/uikit/uikit/blob/develop/LICENSE.md
     gpl-compatible: true
   css:
     base:
-      //cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css: { type: external, minified: true }
+      //cdnjs.cloudflare.com/ajax/libs/uikit/2.27.2/css/components/sticky.min.css: { type: external, minified: true, weight: -10 }
+  js:
+    //cdnjs.cloudflare.com/ajax/libs/uikit/2.27.2/js/components/sticky.min.js: { type: external, minified: true, weight: -10 }
+
+uikit.sticky.almost-flat:
+  remote: https://getuikit.com/v2/index.html
+  version: 2.27.2
+  license:
+    name: MIT
+    url: https://github.com/uikit/uikit/blob/develop/LICENSE.md
+    gpl-compatible: true
+  css:
+    base:
+      //cdnjs.cloudflare.com/ajax/libs/uikit/2.27.2/css/components/sticky.almost-flat.min.css: { type: external, minified: true, weight: -10 }
+  js:
+    //cdnjs.cloudflare.com/ajax/libs/uikit/2.27.2/js/components/sticky.min.js: { type: external, minified: true, weight: -10 }
+
+uikit.sticky.gradient:
+  remote: https://getuikit.com/v2/index.html
+  version: 2.27.2
+  license:
+    name: MIT
+    url: https://github.com/uikit/uikit/blob/develop/LICENSE.md
+    gpl-compatible: true
+  css:
+    base:
+      //cdnjs.cloudflare.com/ajax/libs/uikit/2.27.2/css/components/sticky.gradient.min.css: { type: external, minified: true, weight: -10 }
+  js:
+    //cdnjs.cloudflare.com/ajax/libs/uikit/2.27.2/js/components/sticky.min.js: { type: external, minified: true, weight: -10 }
 
 uikit.admin:
   version: VERSION

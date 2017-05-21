@@ -169,14 +169,12 @@ function uikit_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
     '#attached' => array(
       'css' => array(
         drupal_get_path('theme', 'uikit') . '/css/uikit.admin.css' => array(
-          'group' => CSS_THEME,
-          'weight' => 20,
+          'group' => CSS_DEFAULT,
         ),
       ),
       'js' => array(
         drupal_get_path('theme', 'uikit') . '/js/uikit.admin.js' => array(
-          'group' => JS_THEME,
-          'weight' => 20,
+          'group' => JS_DEFAULT,
         ),
       ),
     ),

@@ -35,6 +35,12 @@ function uikit_theme_suggestions_block_alter(array &$suggestions, array $variabl
   if ($system_menu_block) {
     $suggestions[] = 'block__' . $region . '__menu';
   }
+
+  // Add block__REGION__branding to system branding blocks.
+  $system_branding_block = $base_plugin_id == 'system_branding_block';
+  if ($system_branding_block) {
+    $suggestions[] = 'block__' . $region . '__branding';
+  }
 }
 
 /**

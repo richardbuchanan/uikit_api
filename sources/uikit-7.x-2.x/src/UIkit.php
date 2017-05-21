@@ -57,13 +57,6 @@ class UIkit {
   const UIKIT_JQUERY_MIGRATE_VERSION = '1.4.1';
 
   /**
-   * The Font Awesome library version UIkit supports.
-   *
-   * @var string
-   */
-  const UIKIT_FONT_AWESOME_VERSION = '4.6.3';
-
-  /**
    * Retrieves the active theme.
    *
    * @return
