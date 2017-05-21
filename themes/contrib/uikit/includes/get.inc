@@ -14,14 +14,14 @@ function uikit_get_cdn_assets() {
   global $theme_key;
 
   // Get the UIkit base style theme setting.
-  $uikit_style = theme_get_setting('base_style', $theme_key);
+  $uikit_style = UIkit::getThemeSetting('base_style', $theme_key);
 
   // Default base style.
   $uikit_css = 'uikit.min.css';
 
   if ($uikit_style == 'customizer-css') {
     // If Customizer is used, locate and add the stylehseet.
-    $customizer_css = theme_get_setting('customizer_css', $theme_key);
+    $customizer_css = UIkit::getThemeSetting('customizer_css', $theme_key);
     $file = file_load($customizer_css['fid']);
 
     drupal_add_css($file->uri, array(
@@ -104,7 +104,7 @@ function uikit_get_cdn_asset($component = NULL) {
   global $theme_key;
 
   // Get the base style theme setting.
-  $uikit_style = theme_get_setting('base_style', $theme_key);
+  $uikit_style = UIkit::getThemeSetting('base_style', $theme_key);
 
   switch ($uikit_style) {
     // Get the component style based on the base style.

@@ -16,6 +16,8 @@
  * @see theme()
  */
 
+use \Drupal\uikit\UIkit;
+
 /**
  * Implements hook_css_alter().
  */
@@ -55,7 +57,7 @@ function uikit_html_head_alter(&$head_elements) {
   // Add a charset meta tag to the head elements.
   if (isset($head_elements['system_meta_content_type'])) {
     $head_elements['system_meta_content_type']['#attributes'] = array(
-      'charset' => theme_get_setting('meta_charset', $theme_key),
+      'charset' => UIkit::getThemeSetting('meta_charset', $theme_key),
     );
     $head_elements['system_meta_content_type']['#weight'] = -9999;
   }

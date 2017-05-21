@@ -16,8 +16,8 @@
       <td class="uk-width-7-10"><em>7.x-2.3</em> released</td>
     </tr>
     <tr>
-      <td class="uk-width-3-10">May 01, 2017</td>
-      <td class="uk-width-7-10"><em>8.x-2.2</em> released</td>
+      <td class="uk-width-3-10">May 14, 2017</td>
+      <td class="uk-width-7-10"><em>8.x-2.4</em> released</td>
     </tr>
     <tr>
       <td class="uk-width-3-10">May 01, 2017</td>
@@ -37,28 +37,24 @@
   <table class="uk-table uk-table-hover uk-table-striped uk-table-condensed">
     <tbody>
     <tr>
-      <td class="uk-width-3-10">Week of May 8, 2017</td>
-      <td class="uk-width-7-10"><em>7.x-3.0-beta3</em> and <em>8.x-3.x-beta3</em> tagged</td>
-    </tr>
-    <tr>
       <td class="uk-width-3-10">Week of May 22, 2017</td>
-      <td class="uk-width-7-10"><em>7.x-2.4-beta1</em> and <em>8.x-2.3-beta1</em> tagged</td>
+      <td class="uk-width-7-10"><em>7.x-2.5-beta1</em> and <em>8.x-2.5-beta1</em> tagged</td>
     </tr>
     <tr>
       <td class="uk-width-3-10">Week of June 5, 2017</td>
-      <td class="uk-width-7-10"><em>7.x-3.0-beta4</em> and <em>8.x-3.0-beta4</em> tagged</td>
+      <td class="uk-width-7-10"><em>7.x-3.0-beta3</em> and <em>8.x-3.0-beta3</em> tagged</td>
     </tr>
     <tr>
       <td class="uk-width-3-10">Week of June 19, 2017</td>
-      <td class="uk-width-7-10"><em>7.x-2.4-rc1</em> and <em>8.x-2.3-rc1</em> tagged</td>
+      <td class="uk-width-7-10"><em>7.x-2.5-rc1</em> and <em>8.x-2.5-rc1</em> tagged</td>
     </tr>
     <tr>
       <td class="uk-width-3-10">Week of July 3, 2017</td>
-      <td class="uk-width-7-10"><em>7.x-3.0-beta5</em> and <em>8.x-3.0-beta5</em> tagged</td>
+      <td class="uk-width-7-10"><em>7.x-3.0-beta4</em> and <em>8.x-3.0-beta4</em> tagged</td>
     </tr>
     <tr>
       <td class="uk-width-3-10">Week of July 17, 2017</td>
-      <td class="uk-width-7-10"><em>7.x-2.4</em> and <em>8.x-2.3</em> released</td>
+      <td class="uk-width-7-10"><em>7.x-2.5</em> and <em>8.x-2.5</em> released</td>
     </tr>
     </tbody>
   </table>

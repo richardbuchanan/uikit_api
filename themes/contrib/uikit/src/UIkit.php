@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\uikit\UIkit.
- */
-
 namespace Drupal\uikit;
 
 /**
@@ -67,4 +62,49 @@ class UIkit {
    * @var string
    */
   const UIKIT_FONT_AWESOME_VERSION = '4.6.3';
+
+  /**
+   * Retrieves the active theme.
+   *
+   * @return
+   *   The active theme's machine name.
+   */
+  public static function getActiveTheme() {
+    global $theme;
+    return $theme;
+  }
+
+  /**
+   * Retrieves a theme setting.
+   *
+   * @param null $setting
+   *   The machine-name of the theme setting to retrieve.
+   * @param $theme
+   *   The theme to retrieve the setting for. Defaults to the active theme.
+   *
+   * @return mixed
+   *   The theme setting's value.
+   */
+  public static function getThemeSetting($setting, $theme = NULL) {
+    if (empty($theme)) {
+      $theme = UIkit::getActiveTheme();
+    }
+
+    if (!empty($setting)) {
+      return theme_get_setting($setting, $theme);
+    }
+    else {
+      throw new \LogicException('Missing argument $setting');
+    }
+  }
+
+  /**
+   * Retrieves the current page title.
+   *
+   * @return string
+   *   The current page title.
+   */
+  public static function getPageTitle() {
+    return drupal_get_title();
+  }
 }

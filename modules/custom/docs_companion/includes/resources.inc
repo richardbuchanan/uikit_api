@@ -3,7 +3,7 @@
   <ul class="uk-list uk-list-line">
     <li><a href="https://www.drupal.org/project/uikit" target="_blank">Drupal.org project page</a></li>
     <li><a href="https://www.drupal.org/project/uikit/releases/7.x-2.3" target="_blank">uikit 7.x-2.3 release page</a></li>
-    <li><a href="https://www.drupal.org/project/uikit/releases/8.x-2.2" target="_blank">uikit 8.x-2.2 release page</a></li>
+    <li><a href="https://www.drupal.org/project/uikit/releases/8.x-2.4" target="_blank">uikit 8.x-2.4 release page</a></li>
     <li><a href="https://www.drupal.org/project/uikit/releases/7.x-3.0-beta2" target="_blank">uikit 7.x-3.0-beta2 release page</a></li>
     <li><a href="https://www.drupal.org/project/uikit/releases/8.x-3.0-beta2" target="_blank">uikit 8.x-3.0-beta2 release page</a></li>
     <li><a href="https://simplytest.me/project/uikit" target="_blank">Try out a demonstration</a></li>

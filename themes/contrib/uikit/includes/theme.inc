@@ -324,11 +324,6 @@ function uikit_form_element($variables) {
     $wrapper_attributes['id'] = $element['#id'];
   }
 
-  // Check for errors and set correct error class.
-  if ((isset($element['#parents']) && form_get_error($element))) {
-    $wrapper_attributes['class'][] = 'uk-form-danger';
-  }
-
   // Add necessary classes to wrapper container.
   if ($name) {
     $wrapper_attributes['class'][] = 'form-item-' . drupal_html_class($name);
@@ -472,6 +467,23 @@ function uikit_form_element_label($variables) {
 
   // The leading whitespace helps visually separate fields from inline labels.
   return ' <label' . drupal_attributes($attributes) . '>' . $output . '</label>';
+}
+
+/**
+ * Implements theme_form_required_marker().
+ */
+function uikit_form_required_marker($variables) {
+  // This is also used in the installer, pre-database setup.
+  $t = get_t();
+  $attributes = array(
+    'class' => array(
+      'form-required',
+      'uk-icon-asterisk',
+      'uk-text-danger',
+    ),
+    'title' => $t('This field is required.'),
+  );
+  return '<sup><i' . drupal_attributes($attributes) . '></i></sup>';
 }
 
 /**
@@ -1323,6 +1335,11 @@ function uikit_textfield($variables) {
     $attributes['disabled'] = 'disabled';
     $attributes['class'][] = 'autocomplete';
     $extra = '<input' . drupal_attributes($attributes) . ' />';
+  }
+
+  // Check for errors and set correct error class.
+  if (form_get_error($element)) {
+    $element['#attributes']['class'][] = 'uk-form-danger';
   }
 
   $output = '<input' . drupal_attributes($element['#attributes']) . ' />';
