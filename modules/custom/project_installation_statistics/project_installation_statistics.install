@@ -1,0 +1,91 @@
+<?php
+
+/**
+ * @file
+ * Install tasks for Project Installation Statistics.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function project_installation_statistics_schema() {
+  $schema['project_installation_statistics'] = array(
+    'description' => 'The base table for project installation statistics.',
+    'fields' => array(
+      'pid' => array(
+        'description' => 'The primary identifier for a project.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'project' => array(
+        'description' => 'The machine-name of the project.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'title' => array(
+        'description' => 'The human-readable name of the project.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'status' => array(
+        'description' => 'A flag to indicate whether project statistics have been generated (1) or not (0).',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'downloads' => array(
+        'description' => 'The reported number of downloads of the project.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'installs' => array(
+        'description' => 'The reported number of installations of the project.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('pid'),
+  );
+
+  $schema['project_installation_statistics_project'] = array(
+    'description' => 'The base table for project installation statistics.',
+    'fields' => array(
+      'sid' => array(
+        'description' => 'The primary identifier for a statistic.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'pid' => array(
+        'description' => 'The project primary identifier matching the project the statistics are for.',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'project' => array(
+        'description' => 'The machine-name for a project.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'statistics' => array(
+        'description' => 'A serialized array containing the statistic data per week for the project.',
+        'type' => 'blob',
+        'not null' => TRUE,
+        'size' => 'big',
+      ),
+    ),
+    'primary key' => array('sid'),
+  );
+
+  return $schema;
+}

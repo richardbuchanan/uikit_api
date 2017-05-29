@@ -1,0 +1,15 @@
+#project-installation-statistics-help-block {
+  background: #cde4f2 url(https://www.drupal.org/sites/all/themes/bluecheese/images/icon-help.gif) 10px 14px no-repeat;
+  margin-bottom: 20px;
+  min-height: 1em;
+  padding: 1em 1em 1em 3.5em;
+}
+#project-installation-statistics-help-block p {
+  margin: 0 0 1.385em;
+}
+#project-installation-statistics-help-block p:last-child {
+  margin-bottom: 0;
+}
+#project-installation-statistics-project-information {
+  margin-bottom: 1.385em;
+}

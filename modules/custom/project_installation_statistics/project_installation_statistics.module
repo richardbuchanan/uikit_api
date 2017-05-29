@@ -1,0 +1,562 @@
+<?php
+
+/**
+ * @file
+ * project_installation_statistics.module
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function project_installation_statistics_menu() {
+  $items = array();
+
+  $items['admin/config/system/project-installation-statistics'] = array(
+    'title' => 'Project installation statistics',
+    'description' => 'Configure projects that can be used for retrieving installation statistics from drupal.org.',
+    'page callback' => 'project_installation_statistics_list',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer project installation statistics'),
+    'file' => 'project_installation_statistics.admin.inc',
+  );
+  $items['admin/config/system/project-installation-statistics/list'] = array(
+    'title' => 'Project list',
+    'description' => 'List the current projects on the site.',
+    'page callback' => 'project_installation_statistics_list',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => 1,
+    'access callback' => 'user_access',
+    'access arguments' => array('administer project installation statistics'),
+    'file' => 'project_installation_statistics.admin.inc',
+  );
+  $items['admin/config/system/project-installation-statistics/add'] = array(
+    'title' => 'Add project',
+    'description' => 'Add a new project.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('project_installation_statistics_add_form'),
+    'type' => MENU_LOCAL_ACTION,
+    'weight' => 2,
+    'access callback' => 'user_access',
+    'access arguments' => array('administer project installation statistics'),
+    'file' => 'project_installation_statistics.admin.inc',
+  );
+
+  $items['admin/config/system/project-installation-statistics/%'] = array(
+    'title' => 'Project',
+    'page callback' => 'project_installation_statistics_view_project',
+    'page arguments' => array(4),
+    'access callback' => 'user_access',
+    'access arguments' => array('administer project installation statistics'),
+    'file' => 'project_installation_statistics.pages.inc',
+  );
+  $items['admin/config/system/project-installation-statistics/%/view'] = array(
+    'title' => 'View project',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  );
+  $items['admin/config/system/project-installation-statistics/%/update/project'] = array(
+    'title' => 'Update project',
+    'page callback' => 'project_installation_statistics_update_project',
+    'page arguments' => array(4),
+    'weight' => 0,
+    'type' => MENU_LOCAL_ACTION,
+    'access callback' => 'user_access',
+    'access arguments' => array('administer project installation statistics'),
+  );
+  $items['admin/config/system/project-installation-statistics/%/update/statistics'] = array(
+    'title' => 'Update statistics',
+    'page callback' => 'project_installation_statistics_update_statistics',
+    'page arguments' => array(4),
+    'weight' => 1,
+    'type' => MENU_LOCAL_ACTION,
+    'access callback' => 'user_access',
+    'access arguments' => array('administer project installation statistics'),
+  );
+  $items['admin/config/system/project-installation-statistics/%/delete'] = array(
+    'title' => 'Delete project',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('project_installation_statistics_delete_project_confirm', 4),
+    'weight' => 2,
+    'type' => MENU_LOCAL_TASK,
+    'access callback' => 'user_access',
+    'access arguments' => array('administer project installation statistics'),
+    'file' => 'project_installation_statistics.pages.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function project_installation_statistics_permission() {
+  return array(
+    'administer project installation statistics' => array(
+      'title' => t('Administer Project Installation Statistics'),
+      'description' => t('Create and modify projects for generating installation statistics from drupal.org.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for theme_breadcrumb().
+ */
+function project_installation_statistics_preprocess_breadcrumb(&$variables) {
+  foreach ($variables['breadcrumb'] as $key => $crumb) {
+    $project_statistics = arg(3) == 'project-installation-statistics';
+    $anchor_text = preg_replace('/<a[^>]*?>([\\s\\S]*?)<\/a>/', '\\1', $crumb);
+
+    if ($project_statistics && $anchor_text == 'Project') {
+      // Replace "Project" with the project title.
+      $project = project_installation_statistics_load_project(arg(4));
+      $project_title = $project->title;
+      $variables['breadcrumb'][$key] = str_replace('Project', $project_title, $variables['breadcrumb'][$key]);
+    }
+  }
+}
+
+function project_installation_statistics_save_project($project) {
+  $url = "https://www.drupal.org/project/$project";
+  $url_headers = @get_headers($url);
+  $url_reachable = TRUE;
+
+  if(!$url_headers || $url_headers[0] == 'HTTP/1.1 404 Not Found') {
+    $url_reachable = FALSE;
+  }
+
+  $url_valid = valid_url($url) && $url_reachable;
+
+  if ($url_valid) {
+    $projects = db_select('project_installation_statistics', NULL, array('fetch' => PDO::FETCH_ASSOC))
+      ->fields('project_installation_statistics')
+      ->orderBy('project')
+      ->execute()
+      ->fetchAllAssoc('project', PDO::FETCH_ASSOC);
+
+    foreach ($projects as $record) {
+      if ($record['project'] == $project) {
+        return drupal_set_message(t('The project <em class="placeholder">@name</em> already exists and was not created.', array('@name' => $project)), 'warning');
+      }
+    }
+
+    $title = project_installation_statistics_get_project_title($project);
+    $downloads = project_installation_statistics_get_reported_downloads($project);
+    $installs = project_installation_statistics_get_reported_installs($project);
+
+    $data = array(
+      'project' => $project,
+      'title' => $title,
+      'status' => 0,
+      'downloads' => $downloads,
+      'installs' => $installs,
+    );
+
+    $success = drupal_write_record('project_installation_statistics', $data);
+
+    if ($success) {
+      return drupal_set_message(t('Project <em class="placeholder">@project</em> saved.', array('@project' => $title)));
+    }
+    else {
+      return drupal_set_message(t('There was an error saving the project <em class="placeholder">@project</em>.', array('@project' => $title)), 'error');
+    }
+  }
+  else {
+    drupal_set_message(t('The project <em class="placeholder">@name</em> does not exist on drupal.org.', array('@name' => $project)), 'error');
+    return FALSE;
+  }
+}
+
+function project_installation_statistics_update_project($project) {
+  $project = project_installation_statistics_load_project($project);
+
+  db_update('project_installation_statistics')
+    ->fields(array(
+      'downloads' => $project->downloads,
+      'installs' => $project->installs,
+    ))
+    ->condition('pid', $project->pid, '=')
+    ->execute();
+
+  drupal_set_message(t('Project <em class="placeholder">@name</em> updated.', array('@name' => $project->title)));
+  drupal_goto('admin/config/system/project-installation-statistics/' . $project->project);
+}
+
+function project_installation_statistics_load_project($project) {
+  $project = db_select('project_installation_statistics', NULL, array('fetch' => PDO::FETCH_ASSOC))
+    ->fields('project_installation_statistics')
+    ->condition('project', $project)
+    ->execute()
+    ->fetchObject();
+
+  return $project;
+}
+
+function project_installation_statistics_delete_project($pid) {
+  db_delete('project_installation_statistics')
+    ->condition('pid', $pid)
+    ->execute();
+  db_delete('project_installation_statistics_project')
+    ->condition('pid', $pid)
+    ->execute();
+
+  return TRUE;
+}
+
+function project_installation_statistics_show_project($project, $status) {
+  $project_statistics_info = project_installation_statistics_load_statistics($project->pid);
+
+  // Remove the first index from the stats info array since this is sometimes
+  // reported as '0' for all versions while the stats are being cached on
+  // drupal.org's database.
+  array_shift($project_statistics_info);
+
+  $page = array();
+  $rows = array();
+
+  // Set the table headers based on the core compatibilities for the project.
+  $header = array(
+    t('Week'),
+  );
+  $core_compatibilities = project_installation_statistics_get_project_core_compatibilities($project->project);
+  foreach ($core_compatibilities as $core_compatibility) {
+    $header[] = t('@core', array('@core' => $core_compatibility));
+  }
+  $header[] = t('Total');
+
+  // Build a help message to give the users some information about how these
+  // statistics are generated. This mimicks the help text found on all
+  // drupal.org/project/usage/%project URLs.
+  $message = '<div id="project-installation-statistics-help-block">';
+  $message .= t('<p>This page provides information about the usage of the <em class="placeholder">@name</em> project, including summaries across all versions and details for each release. For each week beginning on the given date the figures show the number of sites that reported they are using a given version of the project.</p>', array('@name' => $project->title));
+  $message .= t('<p>These statistics are incomplete; only Drupal websites using the <a href="@update" target="_blank">Update Status</a> module are included in the data. This module has been included with the download of Drupal since version 6.x so the data does not include older sites. <a href="@readmore" target="_blank">Read more information about how these statistics are calculated</a>.</p>', array('@update' => 'https://www.drupal.org/project/update_status', '@readmore' => 'https://www.drupal.org/node/329620'));
+  $message .= '</div>';
+  $page['project_installation_statistics_' . $project->project . '_help'] = array(
+    '#markup' => $message,
+  );
+
+  // Build item list for project information. Ignore Drupal core since the
+  // Drupal core project page does not include reported downloads and installs.
+  if ($project->project != 'drupal') {
+    $project_info = project_installation_statistics_load_project($project->project);
+    $items = [
+      'downloads' => t('Downloads: <strong>@downloads</strong>', ['@downloads' => $project_info->downloads]),
+      'installs' => t('Reported installs: <strong>@installs</strong> sites currently report using this project.', ['@installs' => $project_info->installs]),
+    ];
+    $page['project_installation_statistics_' . $project->project . '_info'] = array(
+      '#markup' => theme_item_list(array(
+        'items' => $items,
+        'title' => t('Project information'),
+        'type' => 'ul',
+        'attributes' => array(
+          'id' => 'project-installation-statistics-project-information',
+          'class' => array(
+            'project-information-item-list',
+          ),
+        ),
+      )),
+    );
+  }
+
+  // Build a chart with weekly usage using Google Charts Tools module.
+  $chart_colors = array();
+  $chart_stats = array();
+  $chart_version_stats = array();
+  $chart_weeks = array();
+
+  // Use the header array without the "Week" index for the chart columns.
+  $chart_versions = $header;
+  array_shift($chart_versions);
+
+  // Use the project statistics info array in reverse order for the charts so
+  // the weeks are ordered from left to right.
+  $chart_project_info = array_reverse($project_statistics_info);
+
+  // Count the number of versions for later use.
+  $chart_version_count = count($chart_versions);
+
+  foreach ($chart_versions as $chart_version) {
+    // The colors here match the rgb() values drupal.org uses for each version.
+    switch ($chart_version) {
+      case '5.x':
+        $chart_colors[] = '#edaa00';
+        break;
+
+      case '6.x':
+        $chart_colors[] = '#0062a0';
+        break;
+
+      case '7.x':
+        $chart_colors[] = '#a17300';
+        break;
+
+      case '8.x':
+        $chart_colors[] = '#ed8200';
+        break;
+
+      case 'Total':
+        $chart_colors[] = '#38b4ba';
+        break;
+    }
+  }
+
+  foreach ($chart_project_info as $chart_project_statistic) {
+    $chart_statistics = unserialize($chart_project_statistic['statistics']);
+    // Add the week to the chart header array.
+    $chart_weeks[] = $chart_statistics[0];
+
+    // Remove the "Week" index from the chart statistics and add all other
+    // chart statistics to the chart stats array.
+    array_shift($chart_statistics);
+    $chart_stats[] = $chart_statistics;
+
+    $i = 0;
+    while ($i < $chart_version_count) {
+      // Add the chart stats to the the chart rows as an array for each version.
+      $chart_version_stats[$i][] = $chart_statistics[$i];
+      $i++;
+    }
+  }
+
+  // Build the charts as an array in case we want to add additional charts in
+  // the future.
+  $settings['chart']['weekly_project_usage'] = array(
+    'header' => $chart_weeks,
+    'rows' => $chart_version_stats,
+    'columns' => $chart_versions,
+    'chartType' => 'LineChart',
+    'containerId' =>  'project-installation-statistics-project-weekly-stats-chart',
+    'options' => array(
+      'height' => 800,
+      'forceIFrame' => FALSE,
+      'title' => 'Weekly project usage',
+      'colors' => $chart_colors,
+    ),
+  );
+
+  // Add the container needed for the charts to be drawn in.
+  $page['project_installation_statistics_' . $project->project . '_charts'] = array(
+    '#markup' => '<div id="project-installation-statistics-project-weekly-stats-chart"></div>',
+  );
+
+  // Draws the charts using the Google Chart Tools module.
+  draw_chart($settings);
+
+  // Build rows for the statistics table.
+  foreach ($project_statistics_info as $stats_info) {
+    $row = array();
+    $statistics = unserialize($stats_info['statistics']);
+
+    foreach ($statistics as $statistic) {
+      $row[] = $statistic;
+    }
+
+    $rows[] = $row;
+  }
+
+  if (empty($rows)) {
+    $rows[] = array(array(
+      'colspan' => 4,
+      'data' => t('There are currently no statistics for this project.'),
+    ));
+  }
+
+  // Add the table to the page.
+  $page['project_installation_statistics_' . $project->project . '_list'] = array(
+    '#markup' => theme('table', array(
+      'header' => $header,
+      'rows' => $rows,
+      'attributes' => array(
+        'id' => 'project-installation-statistics-project-weekly-stats',
+        'class' => array(
+          'project-weekly-stats-table',
+        ),
+      ),
+    )),
+  );
+
+  return $page;
+}
+
+function project_installation_statistics_generate_statistics($project) {
+  $statistics = project_installation_statistics_get_project_usage($project);
+  $project = project_installation_statistics_load_project($project);
+  $success = FALSE;
+
+  foreach ($statistics as $statistic) {
+    $data = array(
+      'pid' => $project->pid,
+      'project' => $project->project,
+      'statistics' => serialize($statistic),
+    );
+
+    $success = drupal_write_record('project_installation_statistics_project', $data);
+  }
+
+  db_update('project_installation_statistics')
+    ->fields(array('status' => 1))
+    ->condition('pid', $project->pid, '=')
+    ->execute();
+
+
+  if ($success) {
+    drupal_set_message(t('Statistics generated for <em class="placeholder">@project</em>.', array('@project' => $project->title)));
+  }
+  else {
+    drupal_set_message(t('There was an error generating statistics for <em class="placeholder">@project</em>.', array('@project' => $project->title)), 'error');
+  }
+
+  drupal_goto('admin/config/system/project-installation-statistics/' . $project->project);
+}
+
+function project_installation_statistics_update_statistics($project) {
+  $statistics = project_installation_statistics_get_project_usage($project);
+  $project = project_installation_statistics_load_project($project);
+  $load_stats = project_installation_statistics_load_statistics($project->pid);
+  $success = FALSE;
+
+  foreach ($load_stats as $stat) {
+    foreach ($statistics as $statistic) {
+      $week = $statistic[0];
+      $project_stats = unserialize($stat['statistics']);
+      if ($week == $project_stats[0]) {
+        $data = array(
+          'sid' => $stat['sid'],
+          'pid' => $stat['pid'],
+          'project' => $project->project,
+          'statistics' => $stat['statistics'],
+        );
+
+        $success = drupal_write_record('project_installation_statistics_project', $data, array('sid'));
+      }
+    }
+  }
+
+  if ($success) {
+    drupal_set_message(t('Statistics updated for <em class="placeholder">@project</em>.', array('@project' => $project->title)));
+  }
+  else {
+    drupal_set_message(t('There was an error updating statistics for <em class="placeholder">@project</em>.', array('@project' => $project->title)), 'error');
+  }
+
+  drupal_goto('admin/config/system/project-installation-statistics/' . $project->project);
+}
+
+function project_installation_statistics_load_statistics($pid) {
+  $query = db_query('SELECT * FROM {project_installation_statistics_project} pisp WHERE pisp.pid = :pid', array(':pid' => $pid));
+  $statistics = array();
+
+  while ($record = $query->fetchAssoc()) {
+    $statistics[$record['sid']] = $record;
+  }
+
+  return $statistics;
+}
+
+/**
+ * Generates an html dom object representing a projet.
+ *
+ * @param $project
+ *   The project machine-name to generate the dom obect.
+ * @param bool $usage
+ *   A flag indicating whether this is a usage statistic (TRUE) or a project
+ *   page (FALSE).
+ *
+ * @return \simple_html_dom
+ */
+function project_installation_statistics_curl_project($project, $usage = FALSE) {
+  $ch = curl_init();
+
+  if ($usage) {
+    curl_setopt($ch, CURLOPT_URL, "https://www.drupal.org/project/usage/$project");
+  }
+  else {
+    curl_setopt($ch, CURLOPT_URL, "https://www.drupal.org/project/$project");
+  }
+
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  $output = curl_exec($ch);
+  curl_close($ch);
+  return str_get_html($output);
+}
+
+function project_installation_statistics_get_project_title($project) {
+  $html = project_installation_statistics_curl_project($project);
+
+  if ($project != 'drupal') {
+    foreach ($html->find('div[id=page-heading] h1') as $heading) {
+      $title = $heading->plaintext;
+    }
+  }
+  else {
+    // The drupal namespace uses "Download & Extend" as the page title, so we
+    // explicitly set the title here.
+    $title = 'Drupal';
+  }
+
+  return $title;
+}
+
+function project_installation_statistics_get_project_core_compatibilities($project) {
+  $html = project_installation_statistics_curl_project($project, TRUE);
+  $row_data = array();
+
+  foreach ($html->find('table[id=project-usage-project-api]') as $table) {
+    foreach ($table->find('tr') as $row) {
+      foreach ($row->find('th') as $cell) {
+        if ($cell->plaintext != 'Week' && $cell->plaintext != 'Total') {
+          $row_data[] = $cell->plaintext;
+        }
+      }
+    }
+  }
+
+  return $row_data;
+}
+
+function project_installation_statistics_get_project_usage($project) {
+  $html = project_installation_statistics_curl_project($project, TRUE);
+  $row_data = array();
+
+  foreach ($html->find('table[id=project-usage-project-api]') as $table) {
+    foreach ($table->find('tr') as $row) {
+      $flight = array();
+
+      foreach ($row->find('td') as $cell) {
+        $flight[] = $cell->plaintext;
+      }
+      if ($flight) {
+        $row_data[] = $flight;
+      }
+    }
+  }
+
+  return $row_data;
+}
+
+function project_installation_statistics_get_reported_downloads($project) {
+  $html = project_installation_statistics_curl_project($project);
+
+  foreach ($html->find('ul[class=project-info]') as $list) {
+    foreach ($list->find('li') as $list_item) {
+      preg_match_all('/Downloads: ([0-9,]+)/', $list_item->plaintext, $downloads);
+
+      if (isset($downloads[1][0])) {
+        return $downloads[1][0];
+      }
+    }
+  }
+}
+
+function project_installation_statistics_get_reported_installs($project) {
+  $html = project_installation_statistics_curl_project($project);
+
+  foreach ($html->find('ul[class=project-info]') as $list) {
+    foreach ($list->find('li') as $list_item) {
+      preg_match_all('/Reported installs: (.[0-9,]+)/', $list_item->plaintext, $installs);
+
+      if (isset($installs[1][0])) {
+        return $installs[1][0];
+      }
+    }
+  }
+}

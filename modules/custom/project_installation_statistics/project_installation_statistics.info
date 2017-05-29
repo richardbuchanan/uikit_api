@@ -1,0 +1,9 @@
+name = 'Project installation statistics'
+description = 'Generates project installation statistics for projects hosted on drupal.org.'
+core = 7.x
+dependencies[] = google_chart_tools
+dependencies[] = simplehtmldom
+
+configure = admin/config/system/project-installation-statistics
+
+stylesheets[all][] = css/project-installation-statistics.css

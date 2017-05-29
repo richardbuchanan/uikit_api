@@ -5,12 +5,12 @@
 
     <p class="uk-text-large uk-margin-large-top">A lightweight and modular front-end framework<br class="uk-hidden-small"> for developing fast and powerful web interfaces with Drupal.</p>
 
-    <a class="uk-button uk-button-large docs-button-download uk-margin-right" href="https://www.drupal.org/project/uikit/releases/7.x-2.3">Download UIkit 7.x-2.3</a><a class="uk-button uk-button-large docs-button-download" href="https://www.drupal.org/project/uikit/releases/8.x-2.4">Download UIkit 8.x-2.4</a>
+    <a class="uk-button uk-button-large docs-button-download uk-margin-right" href="https://www.drupal.org/project/uikit/releases/UIKIT_7X_2X_CURRENT_VERSION">Download UIkit UIKIT_7X_2X_CURRENT_VERSION</a><a class="uk-button uk-button-large docs-button-download" href="https://www.drupal.org/project/uikit/releases/UIKIT_8X_2X_CURRENT_VERSION">Download UIkit UIKIT_8X_2X_CURRENT_VERSION</a>
 
     <ul class="docs-subnav uk-subnav uk-subnav-line uk-flex-center">
       <li><a href="https://www.drupal.org/project/uikit">UIkit on Drupal</a><sup class="docs-sup">[1]</sup></li>
       <li><a href="/api/uikit">Developer API</a></li>
-      <li>Latest Versions: 7.x-2.3/8.x-2.4</li>
+      <li>Latest Versions: UIKIT_7X_2X_CURRENT_VERSION/UIKIT_8X_2X_CURRENT_VERSION</li>
     </ul>
     <ul class="docs-subnav docs-subnav-blockquote uk-subnav uk-flex-center uk-margin-large-top">
       <li>
