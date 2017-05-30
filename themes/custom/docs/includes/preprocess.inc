@@ -315,6 +315,21 @@ function docs_preprocess_comment_wrapper(&$variables) {
 }
 
 /**
+ * Implements hook_preprocess_HOOK() for theme_fieldset().
+ */
+function docs_preprocess_fieldset(&$variables) {
+  if ($variables['element']['#id'] == 'edit-advanced' && $variables['element']['#title'] == 'Advanced search') {
+    $variables['element']['#collapsed'] = FALSE;
+  }
+  $collapsible = isset($variables['element']['#collapsible']) && $variables['element']['#collapsible'];
+  $collapsed = isset($variables['element']['#collapsed']) ? $variables['element']['#collapsed'] : 0;
+
+  if ($collapsible && !$collapsed) {
+    $variables['element']['#attributes']['data-uk-accordion'] = '{showfirst: true}';
+  }
+}
+
+/**
  * Implements template_preprocess_html().
  */
 function docs_preprocess_html(&$variables) {
