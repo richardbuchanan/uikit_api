@@ -1,3 +1,7 @@
+/**
+ * @file
+ * Progress bar functionality.
+ */
 (function ($) {
 
 /**

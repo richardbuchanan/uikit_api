@@ -1,4 +1,7 @@
-/* Purely visual styling (“look-and-feel”) for a component. */
+/**
+ * @file
+ * Purely visual styling (“look-and-feel”) for a component.
+ */
 .uk-button-link-reset {
   background: #fff;
   border: 0;
