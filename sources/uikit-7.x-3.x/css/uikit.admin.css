@@ -105,7 +105,7 @@ blockquote {
 }
 @font-face {
   font-family: 'FontAwesome';
-  src: url("//cdnjs.cloudflare.com/ajax/libs/uikit/2.27.2/fonts/fontawesome-webfont.woff2") format('woff2'), url("//cdnjs.cloudflare.com/ajax/libs/uikit/2.27.2/fonts/fontawesome-webfont.woff") format("woff"), url("//cdnjs.cloudflare.com/ajax/libs/uikit/2.27.2/fonts/fontawesome-webfont.ttf") format("truetype");
+  src: url("//cdnjs.cloudflare.com/ajax/libs/uikit/2.27.4/fonts/fontawesome-webfont.woff2") format('woff2'), url("//cdnjs.cloudflare.com/ajax/libs/uikit/2.27.2/fonts/fontawesome-webfont.woff") format("woff"), url("//cdnjs.cloudflare.com/ajax/libs/uikit/2.27.2/fonts/fontawesome-webfont.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }

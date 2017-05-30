@@ -11,9 +11,10 @@
  * @see process.inc
  */
 
-use Drupal\uikit\UIkit;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Template\Attribute;
 use Drupal\block\Entity\Block;
+use Drupal\uikit\UIkit;
 
 /**
  * Implements template_preprocess_page().
@@ -162,6 +163,45 @@ function uikit_preprocess_breadcrumb(&$variables) {
       'active' => TRUE,
     ];
   }
+}
+
+/**
+ * Implements template_preprocess_comment().
+ */
+function uikit_preprocess_comment(&$variables) {
+  $indented = $variables['elements']['#comment_indent'];
+  $variables['indented'] = FALSE;
+
+  if ($indented) {
+    $variables['indented'] = TRUE;
+  }
+
+  $link = $variables['permalink']->getGeneratedLink();
+  preg_match_all('/<a[^>]+href=([\'"])(.+?)\1[^>]*>/i', $link, $permalink);
+  $variables['comment_url'] = $permalink[2][0];
+
+
+  $generated_title_link = $variables['title']->getGeneratedLink();
+  preg_match('/<a(.*?)>(.*?)<\/a>/s', $generated_title_link, $matches);
+  $link_text = $matches[2] . ' <i class="uk-icon-link"></i>';
+  $set_title_link = str_replace($matches[2], $link_text, $generated_title_link);
+  $variables['title']->setGeneratedLink($set_title_link);
+}
+
+/**
+ * Implements template_preprocess_field() for field--comment.html.twig.
+ */
+function uikit_preprocess_field__comment(&$variables) {
+  $comments = $variables['comments'];
+  $comment_count = 0;
+
+  foreach ($comments as $comment) {
+    if (isset($comment['#comment'])) {
+      $comment_count++;
+    }
+  }
+
+  $variables['comment_count'] = $comment_count;
 }
 
 /**
@@ -384,4 +424,13 @@ function uikit_preprocess_menu__offcanvas(&$variables) {
       }
     }
   }
+}
+
+/**
+ * Implements template_preprocess_username().
+ */
+function uikit_preprocess_username(&$variables) {
+  $name = $variables['account']->getUsername() ? : \Drupal::config('user.settings')->get('anonymous');
+  $title_attribute = new TranslatableMarkup("View @user's profile.", ['@user' => $name]);
+  $variables['attributes']['title'] = $title_attribute;
 }

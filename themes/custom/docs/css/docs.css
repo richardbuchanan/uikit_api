@@ -31,6 +31,16 @@ ul>li>ol,
 ul>li>ul {
   margin: 10px 0 15px;
 }
+::-moz-selection {
+  background: #2ba3d4;
+  color: #fff;
+  text-shadow: none;
+}
+::selection {
+  background: #2ba3d4;
+  color: #fff;
+  text-shadow: none;
+}
 a,
 .uk-link,
 .uk-nav-navbar ul a {
@@ -94,6 +104,20 @@ a:hover,
 .uk-form textarea:focus {
   background: #fff;
   border-color: #2ba3d4;
+}
+.uk-panel-box>.region>.block>div>.uk-nav-side {
+  margin: 0 -15px;
+}
+.uk-panel-box>.region>.block>div>.uk-nav-side>.uk-nav-header>a {
+  color: #059;
+  padding: 0;
+}
+.uk-panel-box>.region>.block>div>.uk-nav-side>.uk-nav-header>a:focus,
+.uk-panel-box>.region>.block>div>.uk-nav-side>.uk-nav-header>a:hover {
+  background: initial;
+  color: #046995;
+  box-shadow: none;
+  text-shadow: none;
 }
 
 /**

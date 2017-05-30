@@ -234,6 +234,7 @@ function docs_preprocess_block(&$variables) {
   $block_id = $variables['block_html_id'];
   $region = $variables['block']->region;
   $feed = substr($block_id, 0, 21) === 'block-aggregator-feed';
+  $book_navigation = $block_id == 'block-book-navigation';
 
   if ($feed && $region == 'sidebar_second') {
     $content = str_replace('<ul class="uk-list">', '<ul>', $variables['content']);
@@ -242,6 +243,43 @@ function docs_preprocess_block(&$variables) {
 
   if ($region == 'sidebar_first' || $region == 'sidebar_second') {
     $variables['classes_array'][] = 'uk-margin-bottom';
+  }
+
+  if ($book_navigation) {
+    $variables['classes_array'] = array('block', 'block-book');
+    foreach ($variables['elements'] as $element_key => $element) {
+      $book_toc_element = is_array($element) && isset($element['#theme_wrappers']);
+
+      if ($book_toc_element) {
+        foreach ($element as $book_toc_key => $book_toc) {
+          $book_parent = is_array($book_toc) && isset($book_toc['#theme']);
+
+          if ($book_parent) {
+            $title = $book_toc['#title'];
+            $href = $book_toc['#href'];
+            $block_title = l(t('@title', array('@title' => $title)), $href);
+            $variables['block']->subject = $block_title;
+            $variables['book_menu_nav_header'] = $block_title;
+
+            if ($book_toc['#below']) {
+              $nav_header = array(
+                '#theme' => 'menu_link__book_toc',
+                '#title' => $book_toc['#title'],
+                '#href' => $href,
+                '#attributes' => array('class' => 'uk-nav-header'),
+                '#below' => array(),
+                '#original_link' => array('depth' => 0),
+                '#nav_header' => TRUE,
+              );
+              $book_toc['#below']['#theme_wrappers'] = array('menu_tree__book_toc__block');
+              $book_menu = $book_toc['#below'];
+              array_unshift($book_menu, $nav_header);
+              $variables['book_menu'] = $book_menu;
+            }
+          }
+        }
+      }
+    }
   }
 }
 
@@ -296,6 +334,11 @@ function docs_preprocess_menu_link(&$variables) {
   $href = $variables['element']['#href'];
   $theme = $variables['element']['#theme'];
 
+  preg_match('/(menu_link__book_toc)/', $theme, $book_toc);
+  if (isset($book_toc[1])) {
+    $variables['theme_hook_suggestions'][] = 'menu_link__book_toc';
+  }
+
   if ($theme == 'menu_link__navbar') {
     switch ($href) {
       case 'api/uikit':
@@ -311,6 +354,22 @@ function docs_preprocess_menu_link(&$variables) {
         break;
     }
   }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for theme_menu_tree().
+ */
+function docs_preprocess_menu_tree(&$variables) {
+  $theme_wrappers = $variables['#tree']['#theme_wrappers'];
+
+  foreach ($theme_wrappers as $theme_wrapper) {
+    preg_match('/(menu_tree__book_toc_\d+$)/', $theme_wrapper, $book_toc);
+    if (isset($book_toc[1])) {
+      $theme_wrappers = array('menu_tree__book_toc');
+    }
+  }
+
+  $variables['theme_hook_suggestions'] = $theme_wrappers;
 }
 
 /**
@@ -397,9 +456,6 @@ function docs_preprocess_region(&$variables) {
   if ($region == 'sidebar_second') {
     $top = user_is_logged_in() && $is_admin ? '44' : '15';
     $variables['wrapper_attributes_array']['data-uk-sticky'] = '{boundary: true, media: \'(min-width: 768px)\', top: ' . $top . '}';
-    $variables['wrapper_attributes_array']['class'][] = 'uk-panel';
-    $variables['wrapper_attributes_array']['class'][] = 'uk-panel-box';
-    $variables['wrapper_attributes_array']['class'][] = 'uk-panel-box-secondary';
 
     drupal_add_css("//cdnjs.cloudflare.com/ajax/libs/uikit/2.26.4/css/components/sticky.min.css", array(
       'type' => 'external',
@@ -415,6 +471,10 @@ function docs_preprocess_region(&$variables) {
       'weight' => -10,
       'version' => '2.26.4',
     ));
+
+    $variables['wrapper_attributes_array']['class'][] = 'uk-panel';
+    $variables['wrapper_attributes_array']['class'][] = 'uk-panel-box';
+    $variables['wrapper_attributes_array']['class'][] = 'uk-panel-box-secondary';
   }
 }
 

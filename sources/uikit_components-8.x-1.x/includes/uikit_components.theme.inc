@@ -23,12 +23,17 @@ function template_preprocess_uikit_view_grid(array &$variables) {
   $options = $view->style_plugin->options;
   $grid_classes = ['uk-grid'];
 
+  $variables['grid_divider'] = FALSE;
+  if ($options['grid_divider']) {
+    $variables['grid_divider'] = TRUE;
+  }
+
   if ($options['grid_gutter'] != 'default') {
     $grid_classes[] = $options['grid_gutter'];
   }
 
   foreach (['small', 'medium', 'large', 'xlarge'] as $size) {
-    $grid_classes[] = $options["width_" . $size];
+    $grid_classes[] = $options['column_widths']['container']["width_" . $size];
   }
 
   if ($options['row_class']) {

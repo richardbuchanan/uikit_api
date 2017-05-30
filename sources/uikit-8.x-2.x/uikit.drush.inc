@@ -81,6 +81,11 @@ function drush_uikit_starterkit($machine_name = NULL, $name = NULL) {
 
   // Determine the path to the new sub-theme.
   $subtheme_path = file_exists(DRUPAL_ROOT . '/themes/contrib') ? 'themes/custom' : 'themes';
+  $mkdir_subtheme_path = $subtheme_path && !file_exists(DRUPAL_ROOT . '/themes/custom');
+  if ($mkdir_subtheme_path) {
+    // Create the custom themes directory if it does not exist.
+    mkdir(DRUPAL_ROOT . '/themes/custom');
+  }
   if ($path = drush_get_option('path')) {
     $subtheme_path = drush_trim_path($path);
   }

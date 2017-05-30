@@ -226,6 +226,50 @@ function docs_link__api($variables) {
 }
 
 /**
+ * Implements theme_menu_link() for book toc menu links.
+ */
+function docs_menu_link__book_toc(array $variables) {
+  $element = $variables['element'];
+  $sub_menu = '';
+  $class_not_array = isset($element['#attributes']['class']) && !is_array($element['#attributes']['class']);
+
+  if ($class_not_array) {
+    $classes = explode(' ', $element['#attributes']['class']);
+    $element['#attributes']['class'] = $classes;
+  }
+
+  if (in_array('active-trail', $element['#attributes']['class'])) {
+    $element['#attributes']['class'][] = 'uk-active';
+  }
+  if ($element['#below']) {
+    $sub_menu = drupal_render($element['#below']);
+  }
+
+  $nav_header = isset($element['#nav_header']) && $element['#nav_header'];
+  if ($nav_header) {
+    $output = l($element['#title'], $element['#href']);
+  }
+  else {
+    $output = l($element['#title'], $element['#href'], $element['#localized_options']);
+  }
+  return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . '</li>';
+}
+
+/**
+ * Implements theme_menu_tree() for book toc menus.
+ */
+function docs_menu_tree__book_toc($variables) {
+  return '<ul class="uk-list uk-list-striped uk-text-center uk-margin-large-top uk-margin-large-bottom">' . $variables['tree'] . '</ul>';
+}
+
+/**
+ * Implements theme_menu_tree() for book toc block menus.
+ */
+function docs_menu_tree__book_toc__block($variables) {
+  return '<ul class="uk-nav uk-nav-side">' . $variables['tree'] . '</ul>';
+}
+
+/**
  * Implements theme_more_link().
  */
 function docs_more_link(&$variables) {

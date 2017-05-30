@@ -6,6 +6,7 @@ base theme = uikit
 stylesheets[all][] = 'css/docs.css'
 stylesheets[all][] = 'vendor/prism/prism.css'
 scripts[] = 'js/docs.js'
+scripts[] = 'vendor/prism/prism.js'
 
 regions[header] = 'Page heading'
 regions[highlighted] = 'Highlighted'

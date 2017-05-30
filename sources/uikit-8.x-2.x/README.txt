@@ -6,6 +6,7 @@ CONTENTS OF THIS FILE
  * Recommendations
  * Installation
  * Configuration
+ * Creating a sub-theme
  * Maintainers
 
 
@@ -47,6 +48,11 @@ INSTALLATION
  * Install as you would normally install a contributed Drupal theme. See:
    https://www.drupal.org/getting-started/install-contrib/themes
    for further information.
+ * It is recommended to create a sub-theme to use as the default theme on your
+   site instead of using the UIkit base theme as the default theme. Any changes
+   made to the UIkit base theme will be overwritten when you update UIkit.
+   See the Creating a sub-theme section below to learn how to create a UIkit
+   sub-theme.
 
 
 CONFIGURATION
@@ -56,6 +62,36 @@ The theme settings can be found at admin/appearance/settings/uikit. Each UIkit
 component has its own settings, as well as many settings to control the
 behavior of Drupal core components. As the development of this theme continues,
 more settings will be added through updates.
+
+
+CREATING A SUB-THEME
+--------------------
+
+Since any changes made to the UIkit base theme will be overwritten when UIkit is
+updated, it is highly recommended to create a UIkit sub-theme to use as the
+default theme on your Drupal site.
+
+There are three ways to create a UIkit sub-theme:
+ * Following the documentation on drupal.org
+   (https://www.drupal.org/docs/8/theming-drupal-8/creating-a-drupal-8-sub-theme-or-sub-theme-of-sub-theme)
+ * Copying the STARTERKIT folder in the UIkit base theme and changing the
+   filenames and functions/settings from STARTERKIT to your sub-theme name.
+ * Using the automated Drush commands UIkit offers.
+
+The first option is recommended for advanced themers who want complete control
+over how the sub-theme functions and understands sub-theme inheritance.
+
+The second option is pretty straight forward and also recommended for advanced
+themers who understand Drupal 8 theme file structures and knows how to rename
+files and functions.
+
+The third option is by far the easiest and is the preferred method of creating
+a UIkit sub-theme. We've included a Drush command which requires very little
+input from the user to automatically create a UIkit sub-theme with the correct
+file structure, filenames and functions.
+
+Learn how to create a UIkit sub-theme using the Drush option:
+https://www.drupal.org/docs/8/themes/uikit/creating-a-sub-theme
 
 
 MAINTAINERS
