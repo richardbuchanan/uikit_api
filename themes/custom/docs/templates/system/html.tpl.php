@@ -54,9 +54,9 @@
   <div id="skip-link">
     <a href="#page-content" class="uk-hidden"><?php print t('Skip to main content'); ?></a>
   </div>
-  <?php print $scripts; ?>
   <?php print $page_top; ?>
   <?php print $page; ?>
+  <?php print $scripts; ?>
   <?php print $page_bottom; ?>
 </body>
 </html>
