@@ -253,6 +253,9 @@ body.page-uikit-screenshots [data-lightbox-previous]:hover {
 /**
  * Tables.
  */
+.uk-table td {
+  word-break: break-word;
+}
 .uk-table-striped tbody tr:nth-of-type(odd) {
   background: #f4f4f4;
 }

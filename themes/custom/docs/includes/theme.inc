@@ -296,7 +296,8 @@ function docs_table($variables) {
     $attributes['class'][] = 'sticky-enabled';
   }
 
-  $output = '<table' . drupal_attributes($attributes) . '>';
+  $output = '<div class="uk-overflow-container">';
+  $output .= '<table' . drupal_attributes($attributes) . '>';
 
   if (isset($caption)) {
     $output .= '<caption>' . $caption . '</caption>';
@@ -428,6 +429,7 @@ function docs_table($variables) {
   }
 
   $output .= '</table>';
+  $output .= '</div>';
   return $output;
 }
 
