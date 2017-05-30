@@ -457,6 +457,9 @@ function docs_preprocess_page(&$variables) {
     $variables['display_breadcrumb'] = FALSE;
     $variables['title'] = '';
   }
+  elseif ($current_page[0] == 'search') {
+    $variables['display_breadcrumb'] = FALSE;
+  }
 
   if (drupal_is_front_page()) {
     $variables['title'] = '';
