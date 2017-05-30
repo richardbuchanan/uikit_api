@@ -28,15 +28,17 @@
     var footer = $('#footer');
     var contentHeight = adminMenu.outerHeight() + page.outerHeight() + pageHeader.outerHeight() + footer.outerHeight();
 
-    if (contentHeight < bodyHeight) {
-      footer.css({
-        'position': 'fixed',
-        'bottom': 0,
-        'width': '100%'
-      });
-    }
-    else {
-      footer.css('position', 'static');
+    if (location.pathname !== '/user/register') {
+      if (contentHeight < bodyHeight) {
+        footer.css({
+          'position': 'fixed',
+          'bottom': 0,
+          'width': '100%'
+        });
+      }
+      else {
+        footer.css('position', 'static');
+      }
     }
   }
 
