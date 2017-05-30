@@ -212,6 +212,9 @@ td.views-field-title {
 .uk-form-help-block {
   font-size: 14px;
 }
+.form-actions {
+  margin-top: 15px;
+}
 
 /**
  * Modal
