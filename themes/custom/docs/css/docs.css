@@ -412,6 +412,13 @@ html.js .ctools-collapsible-container .ctools-collapsible-handle {
 }
 
 /**
+ * Captcha
+ */
+.captcha {
+  margin-top: 15px;
+}
+
+/**
  * Site styles
  */
 #page-navbar .uk-navbar-nav:first-of-type > .uk-nav-header {
