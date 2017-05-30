@@ -12,6 +12,14 @@
  */
 
 /**
+ * Implements template_process_html().
+ */
+function docs_process_html(&$variables) {
+  $head_title = implode(' | ', $variables['head_title_array']);
+  $variables['head_title'] = $head_title;
+}
+
+/**
  * Implements template_process_page().
  */
 function docs_process_page(&$variables) {

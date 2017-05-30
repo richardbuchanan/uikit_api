@@ -86,7 +86,7 @@
 
   Drupal.behaviors.selectCode = {
     attach: function () {
-      $('pre').click(function() {
+      $('pre>code').click(function() {
         $(this).select();
 
         var text = this,

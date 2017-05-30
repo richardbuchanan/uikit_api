@@ -11,6 +11,8 @@
  * @see process.inc
  */
 
+use Drupal\docs\Docs;
+
 /**
  * Implements hook_preprocess_HOOK().
  */
@@ -310,6 +312,23 @@ function docs_preprocess_button(&$variables) {
 function docs_preprocess_comment_wrapper(&$variables) {
   $variables['classes_array'] = array('comment-wrapper');
   $variables['content']['comment_form']['actions']['#attributes']['class'][] = 'uk-margin-top';
+}
+
+/**
+ * Implements template_preprocess_html().
+ */
+function docs_preprocess_html(&$variables) {
+  $current_path = current_path();
+  $api_projects = Docs::getApiProjects();
+
+  foreach ($api_projects as $project) {
+    if ($project['url'] == $current_path) {
+      $variables['head_title_array']['title'] = $project['title'];
+    }
+    elseif ($project['default_url'] == $current_path) {
+      $variables['head_title_array']['title'] = $project['title'];
+    }
+  }
 }
 
 /**

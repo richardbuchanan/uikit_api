@@ -1,4 +1,4 @@
-/* http://prismjs.com/download.html?themes=prism-coy&languages=markup+css+clike+javascript+git+ini+php+php-extras+twig+yaml */
+/* http://prismjs.com/download.html?themes=prism-coy&languages=markup+css+clike+javascript&plugins=line-numbers+toolbar+copy-to-clipboard */
 /**
  * prism.js Coy theme for JavaScript, CoffeeScript, CSS and HTML
  * Based on https://github.com/tshedor/workshop-wp-theme (Example: http://workshop.kansan.com/category/sessions/basics or http://workshop.timshedor.com/category/sessions/basics);
@@ -41,13 +41,17 @@ pre.language-css {
   box-shadow: -1px 0 0 0 #1572b8, 0 0 0 1px #dfdfdf;
   border-left-color: #1572b8;
 }
+pre.language-git {
+  box-shadow: -1px 0 0 0 #f14e32, 0 0 0 1px #dfdfdf;
+  border-left-color: #f14e32;
+}
 pre.language-html {
   box-shadow: -1px 0 0 0 #e44f25, 0 0 0 1px #dfdfdf;
   border-left-color: #e44f25;
 }
-pre.language-git {
-  box-shadow: -1px 0 0 0 #f14e32, 0 0 0 1px #dfdfdf;
-  border-left-color: #f14e32;
+pre.language-javascript {
+  box-shadow: -1px 0 0 0 #e5bb31, 0 0 0 1px #dfdfdf;
+  border-left-color: #e5bb31;
 }
 pre.language-php {
   box-shadow: -1px 0 0 0 #4f5b93, 0 0 0 1px #dfdfdf;
@@ -65,7 +69,7 @@ pre.language-yaml {
 code[class*="language"] {
   max-height: inherit;
   height: 100%;
-  padding: 1.5em 1em;
+  padding: 0 1em;
   display: block;
   overflow: auto;
 }
@@ -89,8 +93,7 @@ code.pre-wrap {
 .token.prolog,
 .token.doctype,
 .token.cdata {
-  color: #3E6386;
-  font-style: italic;
+  color: #7D8B99;
 }
 
 .token.punctuation {
@@ -204,4 +207,105 @@ pre[data-line] code {
 }
 pre .line-highlight {
   margin-top: 0;
+}
+
+pre.line-numbers {
+  position: relative;
+  padding-left: 3.8em;
+  counter-reset: linenumber;
+}
+
+pre.line-numbers > code {
+  position: relative;
+}
+
+.line-numbers .line-numbers-rows {
+  position: absolute;
+  pointer-events: none;
+  top: 0;
+  font-size: 100%;
+  left: -3.8em;
+  width: 3em; /* works for line-numbers below 1000 lines */
+  letter-spacing: -1px;
+  border-right: 1px solid #999;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+}
+
+.line-numbers-rows > span {
+  pointer-events: none;
+  display: block;
+  counter-increment: linenumber;
+}
+
+.line-numbers-rows > span:before {
+  content: counter(linenumber);
+  color: #999;
+  display: block;
+  padding-right: 0.8em;
+  text-align: right;
+}
+pre.code-toolbar {
+  position: relative;
+}
+
+pre.code-toolbar > .toolbar {
+  position: absolute;
+  top: .3em;
+  right: .2em;
+  transition: opacity 0.3s ease-in-out;
+  opacity: 0;
+}
+
+pre.code-toolbar:hover > .toolbar {
+  opacity: 1;
+}
+
+pre.code-toolbar > .toolbar .toolbar-item {
+  display: inline-block;
+}
+
+pre.code-toolbar > .toolbar a::-moz-selection {
+  background: transparent;
+  color: #fff;
+}
+pre.code-toolbar > .toolbar a::selection {
+  background: transparent;
+  color: #fff;
+}
+
+pre.code-toolbar > .toolbar button {
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  line-height: normal;
+  overflow: visible;
+  padding: 0;
+  -webkit-user-select: none; /* for button */
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+pre.code-toolbar > .toolbar button,
+pre.code-toolbar > .toolbar span {
+  color: #bbb;
+  font-size: .8em;
+  padding: 0 .5em;
+  background: #f5f2f0;
+  background: rgba(224, 224, 224, 0.2);
+  box-shadow: 0 2px 0 0 rgba(0,0,0,0.2);
+  border-radius: .5em;
+}
+
+pre.code-toolbar > .toolbar button:hover,
+pre.code-toolbar > .toolbar button:focus,
+pre.code-toolbar > .toolbar span:hover,
+pre.code-toolbar > .toolbar span:focus {
+  color: inherit;
+  text-decoration: none;
 }

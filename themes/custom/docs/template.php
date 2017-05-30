@@ -5,6 +5,8 @@
  * Process theme data for docs theme.
  */
 
+include_once 'src/Docs.php';
+
 /**
  * Load Docs' include files for theme processing.
  */
