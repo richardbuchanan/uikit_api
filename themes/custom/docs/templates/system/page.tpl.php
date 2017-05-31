@@ -174,3 +174,15 @@
     </div>
   </div>
 <?php endif; ?>
+
+<?php if (user_is_anonymous()): ?>
+  <div id="user-login-modal" class="uk-modal">
+    <div class="uk-modal-dialog">
+      <a class="uk-modal-close uk-close"></a>
+      <h2 class="uk-article-title">Log in</h2>
+      <?php $user_login = drupal_get_form('user_login'); ?>
+      <?php print drupal_render($user_login); ?>
+    </div>
+  </div>
+<?php endif ?>
+

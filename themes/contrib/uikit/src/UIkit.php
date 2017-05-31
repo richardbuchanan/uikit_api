@@ -19,7 +19,7 @@ class UIkit {
    *
    * @var string
    */
-  const UIKIT_LIBRARY_VERSION = '2.27.2';
+  const UIKIT_LIBRARY_VERSION = '2.27.4';
 
   /**
    * The Drupal project page for the UIkit base theme.
@@ -55,13 +55,6 @@ class UIkit {
    * @var string
    */
   const UIKIT_JQUERY_MIGRATE_VERSION = '1.4.1';
-
-  /**
-   * The Font Awesome library version UIkit supports.
-   *
-   * @var string
-   */
-  const UIKIT_FONT_AWESOME_VERSION = '4.6.3';
 
   /**
    * Retrieves the active theme.

@@ -359,6 +359,12 @@ function docs_preprocess_link(&$variables) {
     $variables['options']['attributes']['target'] = '_blank';
     $variables['options']['html'] = TRUE;
   }
+  if ($path == 'user/login') {
+    $variables['options']['attributes']['data-uk-modal'] = '';
+    $variables['path'] = '#user-login-modal';
+    $variables['options']['external'] = TRUE;
+    unset($variables['options']['query']);
+  }
 }
 
 /**

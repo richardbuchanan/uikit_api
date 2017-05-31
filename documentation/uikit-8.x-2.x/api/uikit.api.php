@@ -149,6 +149,77 @@
  * sub-theme from the command line. This provides rapid development of your
  * UIkit sub-theme, creating the files necessary for you with one simple
  * command.
+ *
+ * The Drush command @inlinecode uikit-starterkit @endinlinecode (alias
+ * @inlinecode uikit-sk @endinlinecode) uses the STARTERKIT now included with
+ * the project.
+ *
+ * @heading h4 Use example @endheading
+ * @code
+ * drush uikit-sk machine_name "Theme name" --path=sites/default/themes --description="Awesome theme description."
+ * @endcode
+ *
+ * @inlinecode machine_name @endinlinecode, @inlinecode --path @endinlinecode
+ * and @inlinecode --description @endinlinecode are all optional; only the
+ * theme name (wrapped in double-quotes) is required. Use
+ * @inlinecode drush uikit-sk --help @endinlinecode to view more detailed help
+ * information. If Drush reports it cannot find the command, be sure to run
+ * @inlinecode drush cc drush @endinlinecode to clear Drush's cache.
+ *
+ * Once the sub-theme has been created you can begin customizing the sub-theme.
+ * The file structure for the sub-theme mirrors the file structure
+ * @link https://www.drupal.org/docs/8/theming-drupal-8/drupal-8-theme-folder-structure Drupal recommends @endlink
+ * to make it easy to find the files and functions you want to edit. The only
+ * main difference is where common theme functions are located, which is
+ * discussed in the next section.
+ *
+ * @heading h3 Theme functions @endheading
+ * Common themeing functions have been split up and placed into relative include
+ * files in order to make it easier to locate a function you wish to
+ * edit/create. All theme functions (template_preprocess_HOOK(),
+ * hook_HOOK_alter(), theme_HOOK(), etc.) can be found under the includes
+ * directory of the sub-theme.
+ *
+ * @heading h4 Sub-theme includes directory structure: @endheading
+ * @code
+ * |-includes
+ * |  |-alter.inc
+ * |  |-preprocess.inc
+ * |  |-process.inc
+ * |  |-theme.inc
+ * @endcode
+ *
+ * The filename of each include file makes it easy to understand which themeing
+ * functions are located where. Common functions you will utilize during
+ * development already exist in some of these files, although they are commented
+ * out by default.
+ *
+ * @code
+ * To enable the use of these functions, simply change:
+ * /**
+ *  * Implements hook_theme().
+ *  *
+ * /* -- Delete this line if you want to use this function
+ * function amazing_name_theme($existing, $type, $theme, $path) {
+ * }
+ * //
+ * @endcode
+ *
+ * to:
+ * @code
+ * /**
+ *  *Implements hook_theme().
+ *  /
+ * function amazing_name_theme($existing, $type, $theme, $path) {
+ * }
+ * @endcode
+ *
+ * Be sure to clear the cache in order for the function you uncommented to be
+ * recognized by Drupal.
+ *
+ * To learn more about what you can do with your UIkit sub-theme, read the
+ * @link https://www.drupal.org/docs/8/theming Themeing Drupal 8 @endlink
+ * documentation guide.
  * @}
  */
 

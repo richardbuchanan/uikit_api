@@ -454,6 +454,13 @@ sup > i.form-required {
 }
 
 /**
+ * Forms
+ */
+.uk-form .uk-form-row:nth-child(n+2) {
+  margin-top: 15px;
+}
+
+/**
  * Search form
  */
 #search-form #edit-basic #edit-submit,

@@ -530,8 +530,52 @@ function uikit_preprocess_breadcrumb(&$variables) {
  * Implements hook_preprocess_HOOK() for theme_button().
  */
 function uikit_preprocess_button(&$variables) {
+  $value = $variables['element']['#value'];
+
   // Add the uk-button class to all buttons.
   $variables['element']['#attributes']['class'][] = 'uk-button';
+
+  // Add uk-button-STYLE class based on the button value.
+  switch ($value) {
+    case 'Add':
+    case 'Continue':
+    case 'Create new account':
+    case 'Create new set':
+    case 'Create new style':
+    case 'Download these updates':
+    case 'Install':
+    case 'Revert':
+    case 'Save':
+    case 'Save block':
+    case 'Save blocks':
+    case 'Save configuration':
+    case 'Save content type':
+    case 'Save permissions':
+    case 'Save role':
+    case 'Save settings':
+    case 'Save field settings':
+    case 'Upload':
+    case 'Update effect':
+    case 'Update preview':
+    case 'Update style':
+      $variables['element']['#attributes']['class'][] = 'uk-button-primary';
+      break;
+
+    case 'Override defaults':
+    case 'Preview':
+      $variables['element']['#attributes']['class'][] = 'uk-button-warning';
+      break;
+
+    case 'Cancel':
+    case 'Delete':
+    case 'Delete content type':
+    case 'Delete role':
+    case 'Remove':
+      $variables['element']['#attributes']['class'][] = 'uk-button-danger';
+      break;
+  }
+
+  // Add small right margin so button groups have proper spacing.
   $variables['element']['#attributes']['class'][] = 'uk-margin-small-right';
 }
 

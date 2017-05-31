@@ -5,6 +5,8 @@
  * Helper module for the docs theme.
  */
 
+use Drupal\docs\Docs;
+
 define('UIKIT_7X_2X_CURRENT_VERSION', '7.x-2.4');
 define('UIKIT_7X_3X_CURRENT_VERSION', '7.x-3.0-beta3');
 define('UIKIT_8X_2X_CURRENT_VERSION', '8.x-2.5');
@@ -55,6 +57,9 @@ function docs_companion_menu() {
 function docs_companion_block_info() {
   $blocks = array();
 
+  $blocks['api-projects-list'] = array(
+    'info' => t('API Project List'),
+  );
   $blocks['docs-companion-copyright'] = array(
     'info' => t('Docs copyright'),
   );
@@ -75,6 +80,11 @@ function docs_companion_block_view($delta = '') {
   $block = array();
 
   switch ($delta) {
+    case 'api-projects-list':
+      $block['subject'] = '';
+      $block['content'] = _docs_companion_api_projects_list();
+      break;
+
     case 'docs-companion-copyright':
       $block['subject'] = '';
       $block['content'] = _docs_companion_copyright_block();
@@ -138,6 +148,36 @@ function docs_companion_preprocess_menu_link(&$variables) {
     $current_path = drupal_get_path_alias();
     $variables['element']['#localized_options']['query']['destination'] = $current_path;
   }
+}
+
+/**
+ * Constructs the content for the API projects list block.
+ *
+ * @return null|string
+ *   Returns the content for the API projects list block.
+ */
+function _docs_companion_api_projects_list() {
+  $branches = Docs::getApiProjects();
+  $output = '<div id="api-projects-list">';
+  $output .= '<div class="uk-button-dropdown uk-width-1-1" data-uk-dropdown="{justify:\'#api-projects-list\'}" aria-haspopup="true" aria-expanded="false">';
+  $output .= '<button class="uk-button uk-button-primary uk-button-large uk-width-1-1">Projects</button>';
+  $output .= '<div class="uk-dropdown uk-dropdown-bottom" aria-hidden="true" style="top: 30px; left: -33px;" tabindex="">';
+  $output .= '<ul class="uk-nav uk-nav-side uk-nav-dropdown">';
+
+  foreach ($branches as $branch) {
+    $active = current_path() == $branch['default_url'] || current_path() == $branch['url'] ? ' class="uk-active' : '';
+    $project_link = l($branch['title'], $branch['default_url']);
+
+    if ($active) {
+      $output .= '<li class="uk-active">' . $project_link . '</li>';
+    }
+    else {
+      $output .= "<li>$project_link</li>";
+    }
+  }
+
+  $output .= '</ul></div></div></div>';
+  return $output;
 }
 
 /**

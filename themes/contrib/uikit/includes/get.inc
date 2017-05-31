@@ -8,7 +8,7 @@
 use \Drupal\uikit\UIkit;
 
 /**
- * Retrieves UIkit, jQuery, jQuery Migrate and Font Awesome CDN assets.
+ * Retrieves UIkit, jQuery and jQuery Migrate CDN assets.
  */
 function uikit_get_cdn_assets() {
   global $theme_key;
@@ -52,15 +52,6 @@ function uikit_get_cdn_assets() {
       'version' => UIkit::UIKIT_LIBRARY_VERSION,
     ));
   }
-
-  // Add the Font Awesome stylesheet.
-  drupal_add_css('//cdnjs.cloudflare.com/ajax/libs/font-awesome/' . UIkit::UIKIT_FONT_AWESOME_VERSION . '/css/font-awesome.css', array(
-    'type' => 'external',
-    'group' => CSS_THEME,
-    'every_page' => TRUE,
-    'weight' => -20,
-    'version' => UIkit::UIKIT_FONT_AWESOME_VERSION,
-  ));
 
   // Add the jQuery script.
   drupal_add_js('//cdnjs.cloudflare.com/ajax/libs/jquery/' . UIkit::UIKIT_JQUERY_VERSION . '/jquery.min.js', array(
