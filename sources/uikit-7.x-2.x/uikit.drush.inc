@@ -81,6 +81,11 @@ function drush_uikit_starterkit($machine_name = NULL, $name = NULL) {
 
   // Determine the path to the new sub-theme.
   $subtheme_path = file_exists(DRUPAL_ROOT . '/sites/all/themes/contrib') ? 'sites/all/themes/custom' : 'sites/all/themes';
+  $mkdir_subtheme_path = $subtheme_path && !file_exists(DRUPAL_ROOT . '/sites/all/themes/custom');
+  if ($mkdir_subtheme_path) {
+    // Create the custom themes directory if it does not exist.
+    mkdir(DRUPAL_ROOT . '/sites/all/themes/custom');
+  }
   if ($path = drush_get_option('path')) {
     $subtheme_path = drush_trim_path($path);
   }
@@ -130,6 +135,7 @@ function drush_uikit_starterkit($machine_name = NULL, $name = NULL) {
   // Replace all occurrences of 'STARTERKIT' with the machine name of our sub theme.
   drush_op('uikit_file_str_replace', $subtheme_path . '/theme-settings.php', 'STARTERKIT', $machine_name);
   drush_op('uikit_file_str_replace', $subtheme_path . '/template.php', 'STARTERKIT', $machine_name);
+  drush_op('uikit_file_str_replace', $subtheme_path . '/css/' . $machine_name . '.css', 'STARTERKIT', $machine_name);
   drush_op('uikit_file_str_replace', $subtheme_path . '/js/' . $machine_name . '.js', 'Drupal.behaviors.STARTERKIT', str_replace(' ', '', 'Drupal.behaviors.' . $name));
   drush_op('uikit_file_str_replace', $subtheme_path . '/js/' . $machine_name . '.js', 'STARTERKIT', $machine_name);
 
