@@ -1,14 +1,14 @@
 name = UIkit Components
 description = Companion module to the UIkit base theme to provide additional components and functionality.
 core = 7.x
-package = User interface
+package = UIkit
 dependencies[] = menu
 
 configure = admin/config/user-interface/uikit-components
 
-; Information added by Drupal.org packaging script on 2017-04-02
-version = "7.x-1.x-dev"
+; Information added by Drupal.org packaging script on 2017-06-14
+version = "7.x-2.1"
 core = "7.x"
 project = "uikit_components"
-datestamp = "1491158885"
+datestamp = "1497466752"
 
