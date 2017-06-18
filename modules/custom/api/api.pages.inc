@@ -2045,7 +2045,7 @@ function _api_add_comments($documentation_object) {
     // If the comment form wasn't included, see if authenticated users can post
     // comments, and add a link saying to log in to post.
     if (!isset($additions['comment_form'])) {
-      $roles = user_roles(TRUE, 'post_comments');
+      $roles = user_roles(TRUE, 'post comments');
       if (array_key_exists(DRUPAL_AUTHENTICATED_RID, $roles)) {
         $options = array(
           'query' => drupal_get_destination(),
@@ -2054,15 +2054,13 @@ function _api_add_comments($documentation_object) {
         if (variable_get('user_register', 1)) {
           // Users can register themselves.
           $additions['login_link'] = array(
-            '#type' => 'markup',
-            '#value' => t('<a href="@login">Log in</a> or <a href="@register">register</a> to post comments', array('@login' => url('user/login', $options), '@register' => url('user/register', $options))),
+            '#markup' => t('<a href="@login">Log in</a> or <a href="@register">register</a> to post comments', array('@login' => url('user/login', $options), '@register' => url('user/register', $options))),
           );
         }
         else {
           // Only admins can add new users, no public registration.
           $additions['login_link'] = array(
-            '#type' => 'markup',
-            '#value' => t('<a href="@login">Log in</a> to post comments', array('@login' => url('user/login', $options))),
+            '#markup' => t('<a href="@login">Log in</a> to post comments', array('@login' => url('user/login', $options))),
           );
         }
       }
