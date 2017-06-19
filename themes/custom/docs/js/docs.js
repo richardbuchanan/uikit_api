@@ -1,14 +1,17 @@
 (function($) {
 
   $(document).ready(function() {
+    bodyMinHeight();
     footerPosition();
   });
 
   $(window).resize(function() {
+    bodyMinHeight();
     footerPosition();
   });
 
   $(document).click(function() {
+    bodyMinHeight();
     footerPosition();
   });
 
@@ -19,6 +22,19 @@
     });
 
   });
+
+  function bodyMinHeight() {
+    var adminMenu = typeof Drupal.settings.admin_menu !== 'undefined';
+    var adminMenuHeight = adminMenu ? 29 : 0;
+    var headerHeight = $('#page-header').outerHeight(true);
+    var footerHeight = $('#footer').outerHeight(true);
+    var windowHeight = document.body.clientHeight;
+    var minHeight = adminMenuHeight + headerHeight + footerHeight + 15;
+
+    if ((windowHeight - minHeight) > 0) {
+      $('#page').css('min-height', (windowHeight - minHeight));
+    }
+  }
 
   function footerPosition() {
     var bodyHeight = $('body').outerHeight(true) - 30;
