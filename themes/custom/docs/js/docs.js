@@ -21,6 +21,39 @@
       e.preventDefault();
     });
 
+    var loginForm = $('.docs-login-form');
+    var username = loginForm.find('[name="name"]');
+    var password = loginForm.find('[name="pass"]');
+    var loginButton = loginForm.find('.form-submit');
+
+    loginButton.click(function (e) {
+      var usernameEmpty = username.val() === '';
+      var passwordEmpty = password.val() === '';
+      var message = '';
+      loginForm.prev('.uk-alert').remove();
+      username.removeClass('uk-form-danger');
+      password.removeClass('uk-form-danger');
+
+      if (usernameEmpty && passwordEmpty) {
+        e.preventDefault();
+        username.addClass('uk-form-danger');
+        password.addClass('uk-form-danger');
+        message = '<div class="uk-alert uk-alert-danger">Username and password are required.</div>';
+        loginForm.before(message);
+      }
+      else if (usernameEmpty) {
+        e.preventDefault();
+        username.addClass('uk-form-danger');
+        message = '<div class="uk-alert uk-alert-danger">Username is required.</div>';
+        loginForm.before(message);
+      }
+      else if (passwordEmpty) {
+        e.preventDefault();
+        password.addClass('uk-form-danger');
+        message = '<div class="uk-alert uk-alert-danger">Password is required.</div>';
+        loginForm.before(message);
+      }
+    });
   });
 
   function bodyMinHeight() {
@@ -151,19 +184,4 @@
       })
     }
   };
-
-  Drupal.behaviors.donateForm = {
-    attach: function () {
-      var other = $('.form-item-line-item-fields-commerce-donate-amount-und-other').hide();
-
-      $('input[name="line_item_fields[commerce_donate_amount][und][select]"]').change(function() {
-        if (this.value === 'select_or_other') {
-          other.show();
-        }
-        else {
-          other.hide();
-        }
-      });
-    }
-  }
 })(jQuery);

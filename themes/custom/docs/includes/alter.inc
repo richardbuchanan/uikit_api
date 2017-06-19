@@ -162,6 +162,30 @@ function docs_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter() for user_register_form.
+ */
+function docs_form_user_login_alter(&$form, &$form_state) {
+  $form['#attributes']['class'][] = 'docs-login-form';
+  $links = '<ul class="uk-subnav uk-subnav-line uk-margin-top">';
+  $links .= '<li>' . l(t('Create new account'), 'user/register') . '</li>';
+  $links .= '<li>' . l(t('Request new password'), 'user/password') . '</li>';
+  $links .= '</ul>';
+  $form['links'] = array(
+    '#markup' => $links,
+  );
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for user_register_form.
+ */
+function docs_form_user_register_form_alter(&$form, &$form_state) {
+  unset($form['notifications_forum']);
+  unset($form['notifications_forum']['forums']);
+  unset($form['notifications_forum']['send_method']);
+  unset($form['notifications_forum']['send_interval']);
+}
+
+/**
  * Form submit handler: add the selected product to the cart.
  */
 function docs_donate_cart_add_to_cart_form_submit($form, &$form_state) {
