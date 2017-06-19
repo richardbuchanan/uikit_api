@@ -61,6 +61,10 @@ a:hover,
   box-shadow: inset 0 0 5px rgba(0,0,0,.05);
   text-shadow: 0 -1px 0 rgba(0,0,0,.1);
 }
+#admin-menu,
+#admin-menu .dropdown {
+  z-index: 1021;
+}
 .container-inline div,
 .container-inline label {
   display: inline-block;
