@@ -154,6 +154,11 @@ function docs_form_alter(&$form, &$form_state, $form_id) {
       $form['#submit'][] = 'docs_donate_cart_add_to_cart_form_submit';
     }
   }
+
+  if ($form_id == 'comment_node_forum_form') {
+    $form['subject']['#required'] = TRUE;
+    $form['comment_body']['und'][0]['#title'] = t('Reply');
+  }
 }
 
 /**
@@ -183,6 +188,7 @@ function docs_js_alter(&$javascript) {
   $theme = drupal_get_path('theme', 'docs');
   $ctools = drupal_get_path('module', 'ctools');
   $collapsible_div = $ctools . '/js/collapsible-div.js';
+  $advanced_forum = drupal_get_path('module', 'advanced_forum') . '/js/advanced_forum.js';
 
   if (isset($javascript['misc/autocomplete.js'])) {
     $javascript['misc/autocomplete.js']['data'] = $theme . '/js/autocomplete.js';
@@ -191,7 +197,12 @@ function docs_js_alter(&$javascript) {
   if (isset($javascript['misc/textarea.js'])) {
     $javascript['misc/textarea.js']['data'] = $theme . '/js/textarea.js';
   }
+
   if (isset($javascript[$collapsible_div])) {
     $javascript[$collapsible_div]['data'] = $theme . '/js/collapsible-div.js';
+  }
+
+  if (isset($javascript[$advanced_forum])) {
+    $javascript[$advanced_forum]['data'] = $theme . '/js/advanced_forum.js';
   }
 }

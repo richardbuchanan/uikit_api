@@ -141,6 +141,16 @@ function docs_companion_preprocess_block(&$variables) {
 /**
  * Implements hook_preprocess_HOOK().
  */
+function docs_companion_preprocess_comment(&$variables) {
+  // This is just to make sure the divs property is set.
+  if (!isset($variables['elements']['#comment']->divs)) {
+    $variables['elements']['#comment']->divs = 0;
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
 function docs_companion_preprocess_menu_link(&$variables) {
   $href = $variables['element']['#href'];
 

@@ -9,6 +9,59 @@
  */
 
 /**
+ * Implements theme_advanced_forum_simple_author_pane().
+ */
+function docs_advanced_forum_simple_author_pane(&$variables) {
+  $output = '';
+  $context = $variables['context'];
+  // Sending the context rather than the account makes it work for anon comments.
+  $name = theme('username', array('account' => $context));
+
+  $account = user_load($context->uid);
+  $picture = theme('user_picture', array('account' => $account));
+  if (empty($picture)) {
+    $src = drupal_get_path('theme', 'docs') . '/templates/advanced_forum/placeholder_avatar.svg';
+    $picture = '<img class="uk-comment-avatar" src="/' . $src . '" width="50" height="50" alt="" />';
+  }
+
+  $output .= $picture;
+  //$output .= '<h4 class="uk-comment-title">' . $name . '</h4>';
+
+  return $output;
+}
+
+/**
+ * Implements theme_advanced_forum_node_type_create_list().
+ */
+function docs_advanced_forum_node_type_create_list(&$variables) {
+  $forum_id = $variables['forum_id'];
+
+  // Get the list of node types to display links for.
+  $type_list = advanced_forum_node_type_create_list($forum_id);
+
+  $output = '<ul class="uk-list">';
+  $options = array(
+    'attributes' => array(
+      'class' => array('uk-button', 'uk-button-primary'),
+    ),
+  );
+
+  if (is_array($type_list)) {
+    foreach ($type_list as $type => $item) {
+      $output .= '<li>' . l(t('New @node_type', array('@node_type' => $item['name'])), $item['href'], $options) . '</li>';
+    }
+  }
+  else {
+    // User did not have access to create any node types in this fourm so
+    // we just return the denial text / login prompt.
+    $output = '<li>' . $type_list . '</li>';
+  }
+
+  $output .= '</ul>';
+  return $output;
+}
+
+/**
  * Implements theme_breadcrumb().
  */
 function docs_breadcrumb(&$variables) {
@@ -223,6 +276,102 @@ function docs_link__api($variables) {
   }
 
   return '<li' . ($active ? ' class="uk-active"' : '') . '><a href="' . check_plain(url($variables['path'], $variables['options'])) . '" ' . drupal_attributes($variables['options']['attributes']) . ' >' . ($variables['options']['html'] ? $variables['text'] : check_plain($variables['text'])) . '</a></li>';
+}
+
+/**
+ * Implements theme_links() for comment links.
+ */
+function docs_links__comment($variables) {
+  $links = $variables['links'];
+  $heading = $variables['heading'];
+  $output = '';
+
+  if (count($links) > 0) {
+    // Treat the heading first if it is present to prepend it to the list of
+    // links.
+    if (!empty($heading)) {
+      if (is_string($heading)) {
+        // Prepare the array that will be used when the passed heading is a
+        // string.
+        $heading = array(
+          'text' => $heading,
+          // Set the default level of the heading.
+          'level' => 'h2',
+        );
+      }
+      $output .= '<' . $heading['level'];
+      if (!empty($heading['class'])) {
+        $output .= drupal_attributes(array('class' => $heading['class']));
+      }
+      $output .= '>' . check_plain($heading['text']) . '</' . $heading['level'] . '>';
+    }
+
+    $num_links = count($links);
+    $i = 1;
+
+    foreach ($links as $key => $link) {
+      $link['attributes']['class'] = array(str_replace('_', '-', $key));
+
+      // Add the UIkit button utility classes.
+      $link['attributes']['class'][] = 'uk-button';
+
+      if ($key == 'node-readmore') {
+        $link['attributes']['class'][] = 'uk-button-primary';
+      }
+
+      $link['attributes']['class'][] = 'uk-margin-small-right';
+
+      // Add first and last classes to the list of links to help out themers.
+      if ($i == 1) {
+        $link['attributes']['class'][] = 'first';
+      }
+
+      if ($i == $num_links) {
+        $link['attributes']['class'][] = 'last';
+      }
+
+      if (isset($link['href'])) {
+        // Pass in $link as $options, they share the same keys.
+        $output .= l($link['title'], $link['href'], $link);
+      }
+      elseif (!empty($link['title'])) {
+        // Some links are actually not links, but we wrap these in <span> for
+        // adding title and class attributes.
+        if (empty($link['html'])) {
+          $link['title'] = check_plain($link['title']);
+        }
+
+        $span_attributes = '';
+
+        if (isset($link['attributes'])) {
+          $span_attributes = drupal_attributes($link['attributes']);
+        }
+
+        $output .= '<span' . $span_attributes . '>' . $link['title'] . '</span>';
+      }
+
+      $i++;
+    }
+
+  }
+
+  return $output;
+}
+
+/**
+ * Implements theme_mark().
+ */
+function docs_mark($variables) {
+  $type = $variables['type'];
+  global $user;
+  if ($user->uid) {
+    if ($type == MARK_NEW) {
+      return ' <span class="uk-text-danger">' . t('new') . '</span>';
+    }
+    elseif ($type == MARK_UPDATED) {
+      return ' <span class="uk-text-danger">' . t('updated') . '</span>';
+    }
+  }
 }
 
 /**

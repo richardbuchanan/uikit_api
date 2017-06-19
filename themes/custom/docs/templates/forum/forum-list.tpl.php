@@ -33,7 +33,7 @@
  * @ingroup themeable
  */
 ?>
-<table id="forum-<?php print $forum_id; ?>">
+<table id="forum-<?php print $forum_id; ?>" class="uk-table uk-table-hover uk-table-striped uk-table-condensed">
   <thead>
     <tr>
       <th><?php print t('Forum'); ?></th>

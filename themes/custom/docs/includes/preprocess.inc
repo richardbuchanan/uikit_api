@@ -13,6 +13,166 @@
 
 use Drupal\docs\Docs;
 
+function docs_preprocess_forums(&$variables) {
+  $variables['latest_users'] = 0;
+  $latest_users = advanced_forum_statistics_latest_users();
+  if (empty($variables['parents'])) {
+    $variables['latest_users'] = implode(', ', $latest_users);
+  }
+
+  $variables['forum_legend'] = 0;
+  if (!empty($variables['forums'])) {
+    $variables['forum_legend'] = theme('advanced_forum_forum_legend');
+  }
+
+  $variables['forum_tools'] = 0;
+
+  if (!$variables['tid']) {
+    $mark_as_read = array();
+    advanced_forum_get_mark_read_link($variables['tid'], $mark_as_read);
+    if (isset($mark_as_read['mark-read'])) {
+      $variables['forum_tools'] = l($mark_as_read['mark-read']['title'], $mark_as_read['mark-read']['href']);
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function docs_preprocess_forum_list(&$variables) {
+  foreach ($variables['tables'] as $table_id => $table) {
+    foreach ($table['items'] as $item_id => $item) {
+      if ($item->new_topics || $item->new_posts || $item->child_new_topics || $item->child_new_posts) {
+        $variables['tables'][$table_id]['items'][$item_id]->badge_classes = 'uk-badge uk-badge-success';
+        $variables['tables'][$table_id]['items'][$item_id]->icon_classes = 'uk-icon uk-icon-star uk-icon-medium';
+        $variables['tables'][$table_id]['items'][$item_id]->icon_text = t('New posts');
+      }
+      else {
+        $variables['tables'][$table_id]['items'][$item_id]->badge_classes = 'uk-badge';
+        $variables['tables'][$table_id]['items'][$item_id]->icon_classes = 'uk-icon uk-icon-star uk-icon-medium';
+        $variables['tables'][$table_id]['items'][$item_id]->icon_text = t('No new posts');
+      }
+
+      if (isset($item->subforums) && $item->subforums) {
+        $subforum_list = $item->subforum_list;
+        $subforums = array();
+
+        foreach ($subforum_list as $subforum_id => $subforum) {
+          $new_posts = '<span class="uk-badge uk-badge-success"><i class="uk-icon uk-icon-star uk-icon-medium"></i></span>';
+          $no_new_posts = '<span class="uk-badge"><i class="uk-icon uk-icon-star uk-icon-medium"></i></span>';
+
+          $subforums[$subforum_id] = '<td>';
+          $subforums[$subforum_id] .= '<div class="uk-margin-top uk-margin-large-left">';
+          $subforums[$subforum_id] .= $subforum->new_posts ? $new_posts : $no_new_posts;
+
+          $subforums[$subforum_id] .= '<span class="forum-name uk-margin-left uk-vertical-align-middle">';
+          $subforums[$subforum_id] .= l($subforum->name, $subforum->link);
+          $subforums[$subforum_id] .= '</span>';
+
+          $subforums[$subforum_id] .= '<div class="uk-form-help-block uk-margin-large-left uk-text-muted">' . $subforum->description . '</div>';
+
+          $subforums[$subforum_id] .= '</div>';
+          $subforums[$subforum_id] .= '</td>';
+
+          $subforums[$subforum_id] .= '<td class="uk-text-top">';
+          $subforums[$subforum_id] .= '<span>' . $subforum->total_topics . '</span>';
+          $subforums[$subforum_id] .= '</td>';
+
+          $subforums[$subforum_id] .= '<td class="uk-text-top">';
+          $subforums[$subforum_id] .= '<span>' . $subforum->total_posts . '</span>';
+          $subforums[$subforum_id] .= '</td>';
+
+          $subforums[$subforum_id] .= '<td class="uk-text-top">';
+          $subforums[$subforum_id] .= '<span>' . $subforum->last_post . '</span>';
+          $subforums[$subforum_id] .= '</td>';
+        }
+
+        $item->subforums = $subforums;
+      }
+    }
+  }
+}
+
+function docs_preprocess_forum_submitted(&$variables) {
+  if (isset($variables['topic']->node_title)) {
+    $nid = $variables['topic']->nid;
+    $node = new stdClass();
+    $node->nid = $nid;
+    $node->type = $variables['topic']->type;
+
+    $comment_count = db_query('SELECT COUNT(cid) FROM {comment} WHERE nid = :nid', array(':nid' => $nid))->fetchField();
+    $new_replies = advanced_forum_reply_num_new($nid);
+    $query = advanced_forum_page_first_new($comment_count, $new_replies, $node);
+
+    $title_length = variable_get('advanced_forum_topic_title_length', 15);
+    if ($title_length == 0) {
+      $short_topic_title = $variables['topic']->node_title;
+    }
+    else {
+      $short_topic_title = truncate_utf8($variables['topic']->node_title, $title_length, TRUE, TRUE);
+    }
+
+    $fragment = ($new_replies) ? 'new' : NULL;
+
+    $variables['topic_link'] = l($short_topic_title, "node/$nid", array(
+      'query' => $query,
+      'fragment' => $fragment,
+      'attributes' => array(
+        'title' => t('@title', array('@title' => $variables['topic']->node_title)),
+      ),
+    ));
+  }
+}
+
+function docs_preprocess_forum_icon(&$variables) {
+  $variables['icon'] = 0;
+
+  switch ($variables['icon_class']) {
+    case 'default':
+      $variables['icon'] = '<i class="uk-icon uk-icon-comments uk-icon-medium uk-text-primary"></i>';
+      break;
+
+    case 'new':
+      $variables['icon'] = '<i class="uk-icon uk-icon-comments uk-icon-medium uk-text-primary"></i>';
+      $variables['icon'] .= '<i class="uk-icon uk-icon-plus uk-position-absolute uk-contrast docs-icon-mini"></i>';
+      break;
+
+    case 'hot':
+      $variables['icon'] = '<i class="uk-icon uk-icon-comments uk-icon-medium uk-text-success"></i>';
+      break;
+
+    case 'hot-new':
+      $variables['icon'] = '<i class="uk-icon uk-icon-comments uk-icon-medium uk-text-success"></i>';
+      $variables['icon'] .= '<i class="uk-icon uk-icon-plus uk-position-absolute uk-contrast docs-icon-mini"></i>';
+      break;
+
+    case 'sticky':
+      $variables['icon'] = '<i class="uk-icon uk-icon-comments uk-icon-medium"></i>';
+      $variables['icon'] .= '<i class="uk-icon uk-icon-thumb-tack uk-position-absolute uk-contrast docs-icon-mini"></i>';
+      break;
+
+    case 'closed':
+      $variables['icon'] = '<i class="uk-icon uk-icon-comments uk-icon-medium uk-text-danger"></i>';
+      $variables['icon'] .= '<i class="uk-icon uk-icon-lock uk-position-absolute uk-contrast docs-icon-mini"></i>';
+      break;
+  }
+}
+
+function docs_preprocess_views_view__advanced_forum_topic_list(&$variables) {
+  $variables['forum_tools'] = 0;
+  $tid = $variables['view']->query->where[0]['conditions'][0]['value'];
+  $mark_as_read = array();
+  advanced_forum_get_mark_read_link($tid, $mark_as_read);
+  if (isset($mark_as_read['mark-read'])) {
+    $variables['forum_tools'] = l($mark_as_read['mark-read']['title'], $mark_as_read['mark-read']['href']);
+  }
+
+  $path = explode('/', current_path());
+  $tid = $path[1];
+  $forum = taxonomy_term_load($tid);
+  $variables['parent_forum'] = count($forum->forums);
+}
+
 /**
  * Implements hook_preprocess_HOOK().
  */
@@ -292,7 +452,10 @@ function docs_preprocess_breadcrumb(&$variables) {
   $breadcrumb = $variables['breadcrumb'];
   if (!empty($breadcrumb)) {
     foreach ($breadcrumb as $key => $crumb) {
-      if ($key == 0 || $key == 1) {
+      preg_match_all('/<a[^>]+href=([\'"])(.+?)\1[^>]*>/i', $crumb, $result);
+      $href = $result[2][0];
+
+      if ($key == 0 || ($key == 1 && $href != '/forum')) {
         unset($variables['breadcrumb'][$key]);
       }
     }
@@ -306,12 +469,34 @@ function docs_preprocess_button(&$variables) {
   $variables['element']['#attributes']['class'][] = 'uk-button-primary';
 }
 
+function docs_preprocess_comment(&$variables) {
+  if (isset($variables['theme_hook_suggestion']) && $variables['theme_hook_suggestion'] == 'advanced_forum_post') {
+    $account = $variables['account'];
+
+    $comment = $variables['elements']['#comment'];
+    $id = $variables['id'] + 1;
+    $uri = entity_uri('comment', $comment);
+    $uri['options'] += array('attributes' => array('class' => array('permalink'), 'rel' => 'bookmark'));
+
+    $variables['author_link'] = theme('username', array('account' => $account));
+    $variables['classes_array'][] = 'uk-margin-bottom';
+    $variables['permalink'] = l(t('#@id', array('@id' => $id)), $uri['path'], $uri['options']);
+  }
+}
+
 /**
  * Implements template_preprocess_comment_wrapper().
  */
 function docs_preprocess_comment_wrapper(&$variables) {
   $variables['classes_array'] = array('comment-wrapper');
   $variables['content']['comment_form']['actions']['#attributes']['class'][] = 'uk-margin-top';
+
+  if (isset($variables['content']['comment_form']['#form_id']) && $variables['content']['comment_form']['#form_id'] == 'comment_node_forum_form') {
+    $variables['original_author'] = $variables['content']['#node']->name;
+  }
+  else {
+    $variables['original_author'] = 0;
+  }
 }
 
 /**
@@ -446,6 +631,13 @@ function docs_preprocess_node(&$variables) {
       $variables['uri'] = $uri;
       break;
   }
+
+  if ($variables['type'] == 'forum') {
+    $variables['classes_array'][] = 'uk-comment';
+    $variables['classes_array'][] = 'uk-margin-bottom';
+    $account = $variables['account'];
+    $variables['author_link'] = theme('username', array('account' => $account));
+  }
 }
 
 /**
@@ -485,6 +677,16 @@ function docs_preprocess_page(&$variables) {
     if ($donation || $alias == '403' || $alias == '404') {
       $variables['title'] = FALSE;
     }
+  }
+
+  if (isset($variables['page']['content']['system_main']['comment_form'])) {
+    $name = $variables['page']['content']['system_main']['comment_form']['#node']->name;
+    $node_title = $variables['page']['content']['system_main']['comment_form']['#node']->title;
+    $title = t('Reply to <em class="placeholder">@title</em> by @author', array(
+      '@title' => $node_title,
+      '@author' => $name,
+    ));
+    drupal_set_title($title, PASS_THROUGH);
   }
 }
 
