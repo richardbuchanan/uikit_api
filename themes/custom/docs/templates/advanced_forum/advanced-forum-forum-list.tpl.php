@@ -30,7 +30,7 @@
  * @see theme_forum_list()
  */
 ?>
-
+<?php drupal_add_js('misc/tableheader.js'); ?>
 <?php foreach ($tables as $table_id => $table): ?>
   <?php $table_info = $table['table_info']; ?>
 
@@ -48,7 +48,7 @@
     </div>
 
     <div id="forum-table-<?php print $table_info->tid; ?>">
-      <table class="forum-table forum-table-forums uk-table uk-table-striped uk-table-middle">
+      <table class="forum-table forum-table-forums uk-table uk-table-striped uk-table-middle sticky-enabled">
         <thead class="forum-header">
           <tr>
             <th class="forum-name"><?php print t('Forum'); ?></th>
