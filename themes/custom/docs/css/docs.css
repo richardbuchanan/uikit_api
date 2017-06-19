@@ -54,6 +54,13 @@ a:hover,
 .uk-nav-navbar ul a:hover {
   color: #046995;
 }
+.uk-nav-navbar>li.uk-active>a {
+  background: #00a8e6;
+  color: #fff;
+  outline: 0;
+  box-shadow: inset 0 0 5px rgba(0,0,0,.05);
+  text-shadow: 0 -1px 0 rgba(0,0,0,.1);
+}
 .container-inline div,
 .container-inline label {
   display: inline-block;

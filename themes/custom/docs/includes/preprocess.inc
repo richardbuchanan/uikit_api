@@ -671,10 +671,9 @@ function docs_preprocess_page(&$variables) {
   }
   else {
     $variables['page_container_attributes_array']['class'][] = 'uk-margin-bottom';
-    $donation = isset($variables['node']) && $variables['node']->type == 'donation';
     $alias = drupal_get_path_alias(current_path());
 
-    if ($donation || $alias == '403' || $alias == '404') {
+    if ($alias == '403' || $alias == '404' || $alias == 'getting-involved') {
       $variables['title'] = FALSE;
     }
   }
