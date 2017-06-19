@@ -466,7 +466,24 @@ function docs_preprocess_breadcrumb(&$variables) {
  * Implements hook_preprocess_HOOK().
  */
 function docs_preprocess_button(&$variables) {
-  $variables['element']['#attributes']['class'][] = 'uk-button-primary';
+  $button_classes = array(
+    'uk-button-primary',
+    'uk-button-warning',
+    'uk-button-danger',
+    'uk-button-link',
+  );
+  $classes = $variables['element']['#attributes']['class'];
+  $has_button_class = FALSE;
+
+  foreach ($button_classes as $button_class) {
+    if (in_array($button_class, $classes)) {
+      $has_button_class = TRUE;
+    }
+  }
+
+  if (!$has_button_class) {
+    $variables['element']['#attributes']['class'][] = 'uk-button-primary';
+  }
 }
 
 function docs_preprocess_comment(&$variables) {

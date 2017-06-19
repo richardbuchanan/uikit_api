@@ -47,6 +47,12 @@ function docs_companion_menu() {
     'file path' => drupal_get_path('module', 'docs_companion'),
     'module' => 'docs_companion',
   );
+  $items['user/%/messages/%/delete'] = array(
+    'title' => 'Delete message',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('docs_companion_messaging_simple_delete', 1, 3),
+    'access callback' => TRUE,
+  );
 
   return $items;
 }
@@ -118,7 +124,7 @@ function docs_companion_views_api() {
  * Implements hook_form_FORM_ID_alter() for messaging_simple_view_form.
  */
 function docs_companion_form_messaging_simple_view_form_alter(&$form, &$form_state, $form_id) {
-  $form['#submit'][] = 'docs_companion__messaging_simple_view_form_submit';
+  $form['#submit'] = array('docs_companion__messaging_simple_view_form_submit');
 }
 
 /**
@@ -135,7 +141,44 @@ function docs_companion_form_messaging_simple_view_form_alter(&$form, &$form_sta
 function docs_companion__messaging_simple_view_form_submit($form, &$form_state) {
   global $user;
   $uid = $user->uid;
+  $mgid = $form_state['values']['message']->mgid;
+  $form_state['redirect'] = "user/$uid/messages/$mgid/delete";
+}
+
+/**
+ * Form constructor for the simple message deletion form.
+ *
+ * @param $uid
+ *   The uid of the user, used for redirection.
+ * @param $mgid
+ *   The simple message id.
+ */
+function docs_companion_messaging_simple_delete($form, &$form_state, $uid, $mgid) {
+  $query = db_query('SELECT * FROM {messaging_simple} WHERE mgid = :nid', array(':nid' => $mgid))->fetchAssoc();
+  $form_state['subject'] = $query['subject'];
+  $form_state['mgid'] = $mgid;
+  $form_state['uid'] = $uid;
+  return confirm_form($form,
+    t('Are you sure you want to delete the message %subject?', array(
+      '%subject' => $query['subject'],
+    )),
+    "user/$uid/messages/$mgid",
+    '', t('Delete'), t('Cancel')
+  );
+}
+
+/**
+ * Form submission handler for docs_companion_messaging_simple_delete().
+ */
+function docs_companion_messaging_simple_delete_submit($form, &$form_state) {
+  $uid = $form_state['uid'];
+  db_delete('messaging_simple')
+    ->condition('mgid', $form_state['mgid'])
+    ->execute();
+  drupal_set_message(t('The message %subject has been removed.', array('%subject' => $form_state['subject'])));
+  cache_clear_all();
   $form_state['redirect'] = "user/$uid/messages";
+  return;
 }
 
 /**
