@@ -13,26 +13,327 @@
 
 use Drupal\docs\Docs;
 
-function docs_preprocess_forums(&$variables) {
-  $variables['latest_users'] = 0;
-  $latest_users = advanced_forum_statistics_latest_users();
-  if (empty($variables['parents'])) {
-    $variables['latest_users'] = implode(', ', $latest_users);
-  }
+/**
+ * Implements template_preprocess_html().
+ */
+function docs_preprocess_html(&$variables) {
+  $current_path = current_path();
+  $api_projects = Docs::getApiProjects();
 
-  $variables['forum_legend'] = 0;
-  if (!empty($variables['forums'])) {
-    $variables['forum_legend'] = theme('advanced_forum_forum_legend');
-  }
-
-  $variables['forum_tools'] = 0;
-
-  if (!$variables['tid']) {
-    $mark_as_read = array();
-    advanced_forum_get_mark_read_link($variables['tid'], $mark_as_read);
-    if (isset($mark_as_read['mark-read'])) {
-      $variables['forum_tools'] = l($mark_as_read['mark-read']['title'], $mark_as_read['mark-read']['href']);
+  foreach ($api_projects as $project) {
+    if ($project['url'] == $current_path) {
+      $variables['head_title_array']['title'] = $project['title'];
     }
+    elseif ($project['default_url'] == $current_path) {
+      $variables['head_title_array']['title'] = $project['title'];
+    }
+  }
+}
+
+/**
+ * Implemments template_preprocess_page().
+ */
+function docs_preprocess_page(&$variables) {
+  $docs = drupal_get_path('theme', 'docs');
+  $svg_logo = '/' . $docs . '/logo_large.svg';
+  $variables['logo'] = $svg_logo;
+
+  $variables['header_attributes_array']['class'] = array();
+
+  $current_page = explode('/', current_path());
+  if ($current_page[0] == 'layouts') {
+    $variables['display_breadcrumb'] = FALSE;
+    $variables['title'] = '';
+  }
+  elseif ($current_page[0] == 'search') {
+    $variables['display_breadcrumb'] = FALSE;
+  }
+
+  if (drupal_is_front_page()) {
+    $variables['title'] = '';
+    $variables['page_container_attributes_array'] = array(
+      'id' => 'page',
+    );
+    $variables['navbar_attributes_array'] = array(
+      'id' => 'page-navbar',
+      'class' => array('uk-navbar', 'uk-navbar-attached'),
+    );
+  }
+  else {
+    $variables['page_container_attributes_array']['class'][] = 'uk-margin-bottom';
+    $alias = drupal_get_path_alias(current_path());
+
+    if ($alias == '403' || $alias == '404' || $alias == 'getting-involved') {
+      $variables['title'] = FALSE;
+    }
+  }
+
+  if (isset($variables['page']['content']['system_main']['comment_form'])) {
+    $name = $variables['page']['content']['system_main']['comment_form']['#node']->name;
+    $node_title = $variables['page']['content']['system_main']['comment_form']['#node']->title;
+    $title = t('Reply to <em class="placeholder">@title</em> by @author', array(
+      '@title' => $node_title,
+      '@author' => $name,
+    ));
+    drupal_set_title($title, PASS_THROUGH);
+  }
+}
+
+/**
+ * Implemments hook_preprocess_HOOK().
+ */
+function docs_preprocess_region(&$variables) {
+  global $user;
+  $is_admin = in_array('administrator', $user->roles);
+  $region = $variables['region'];
+
+  if ($region == 'sidebar_second') {
+    $top = user_is_logged_in() && $is_admin ? '44' : '15';
+    $variables['wrapper_attributes_array']['data-uk-sticky'] = '{boundary: true, media: \'(min-width: 768px)\', top: ' . $top . '}';
+
+    drupal_add_css("//cdnjs.cloudflare.com/ajax/libs/uikit/2.26.4/css/components/sticky.min.css", array(
+      'type' => 'external',
+      'group' => CSS_THEME,
+      'every_page' => TRUE,
+      'weight' => -10,
+      'version' => '2.26.4',
+    ));
+    drupal_add_js("//cdnjs.cloudflare.com/ajax/libs/uikit/2.26.4/js/components/sticky.min.js", array(
+      'type' => 'external',
+      'group' => JS_THEME,
+      'every_page' => TRUE,
+      'weight' => -10,
+      'version' => '2.26.4',
+    ));
+
+    $variables['wrapper_attributes_array']['class'][] = 'uk-panel';
+    $variables['wrapper_attributes_array']['class'][] = 'uk-panel-box';
+    $variables['wrapper_attributes_array']['class'][] = 'uk-panel-box-secondary';
+  }
+}
+
+/**
+ * Implements template_preprocess_block().
+ */
+function docs_preprocess_block(&$variables) {
+  $block_id = $variables['block_html_id'];
+  $region = $variables['block']->region;
+  $feed = substr($block_id, 0, 21) === 'block-aggregator-feed';
+  $book_navigation = $block_id == 'block-book-navigation';
+
+  if ($feed && $region == 'sidebar_second') {
+    $content = str_replace('<ul class="uk-list">', '<ul>', $variables['content']);
+    $variables['content'] = $content;
+  }
+
+  if ($region == 'sidebar_first' || $region == 'sidebar_second') {
+    $variables['classes_array'][] = 'uk-margin-bottom';
+  }
+
+  if ($book_navigation) {
+    $variables['classes_array'] = array('block', 'block-book');
+    foreach ($variables['elements'] as $element_key => $element) {
+      $book_toc_element = is_array($element) && isset($element['#theme_wrappers']);
+
+      if ($book_toc_element) {
+        foreach ($element as $book_toc_key => $book_toc) {
+          $book_parent = is_array($book_toc) && isset($book_toc['#theme']);
+
+          if ($book_parent) {
+            $title = $book_toc['#title'];
+            $href = $book_toc['#href'];
+            $block_title = l(t('@title', array('@title' => $title)), $href);
+            $variables['block']->subject = $block_title;
+            $variables['book_menu_nav_header'] = $block_title;
+
+            if ($book_toc['#below']) {
+              $nav_header = array(
+                '#theme' => 'menu_link__book_toc',
+                '#title' => $book_toc['#title'],
+                '#href' => $href,
+                '#attributes' => array('class' => 'uk-nav-header'),
+                '#below' => array(),
+                '#original_link' => array('depth' => 0),
+                '#nav_header' => TRUE,
+              );
+              $book_toc['#below']['#theme_wrappers'] = array('menu_tree__book_toc__block');
+              $book_menu = $book_toc['#below'];
+              array_unshift($book_menu, $nav_header);
+              $variables['book_menu'] = $book_menu;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements template_preprocess_node().
+ */
+function docs_preprocess_node(&$variables) {
+  $node_url = $variables['node_url'];
+  $uri = ltrim($_SERVER['REQUEST_URI'], '/');
+
+  if (empty($uri)) {
+    $uri = 'this site';
+  }
+  else {
+    $uri = '"' . $uri . '"';
+  }
+
+  switch ($node_url) {
+    case '/403':
+      module_load_include('inc', 'contact', 'contact.pages');
+      $contact_form = drupal_get_form('contact_site_form');
+      $login_form = drupal_get_form('user_login_block');
+      unset($login_form['links']);
+      $login_form['actions']['#attributes']['class'][] = 'uk-margin-top';
+      $variables['theme_hook_suggestions'][] = 'node__access_denied';
+      $variables['access_message'] = user_is_logged_in() ? 'Please contact your administrator.' : 'Try logging in.';
+      $variables['login_form'] = drupal_render($login_form);
+      $variables['contact_form'] = render($contact_form);
+      $variables['uri'] = $uri;
+      break;
+
+    case '/404':
+      $variables['theme_hook_suggestions'][] = 'node__page_not_found';
+      $variables['search_block'] = module_invoke('search', 'block_view', 'search');
+      $variables['uri'] = $uri;
+      break;
+  }
+
+  if ($variables['type'] == 'forum') {
+    $variables['classes_array'][] = 'uk-comment';
+    $variables['classes_array'][] = 'uk-margin-bottom';
+    $account = $variables['account'];
+    $variables['author_link'] = theme('username', array('account' => $account));
+  }
+}
+
+/**
+ * Implements template_preprocess_comment().
+ */
+function docs_preprocess_comment(&$variables) {
+  if (isset($variables['theme_hook_suggestion']) && $variables['theme_hook_suggestion'] == 'advanced_forum_post') {
+    $account = $variables['account'];
+
+    $comment = $variables['elements']['#comment'];
+    $id = $variables['id'] + 1;
+    $uri = entity_uri('comment', $comment);
+    $uri['options'] += array('attributes' => array('class' => array('permalink'), 'rel' => 'bookmark'));
+
+    $variables['author_link'] = theme('username', array('account' => $account));
+    $variables['classes_array'][] = 'uk-margin-bottom';
+    $variables['permalink'] = l(t('#@id', array('@id' => $id)), $uri['path'], $uri['options']);
+  }
+}
+
+/**
+ * Implements template_preprocess_comment_wrapper().
+ */
+function docs_preprocess_comment_wrapper(&$variables) {
+  $variables['classes_array'] = array('comment-wrapper');
+  $variables['content']['comment_form']['actions']['#attributes']['class'][] = 'uk-margin-top';
+
+  if (isset($variables['content']['comment_form']['#form_id']) && $variables['content']['comment_form']['#form_id'] == 'comment_node_forum_form') {
+    $variables['original_author'] = $variables['content']['#node']->name;
+  }
+  else {
+    $variables['original_author'] = 0;
+  }
+}
+
+/**
+ * Implements template_preprocess_menu_tree().
+ */
+function docs_preprocess_menu_tree(&$variables) {
+  $theme_wrappers = $variables['#tree']['#theme_wrappers'];
+
+  foreach ($theme_wrappers as $theme_wrapper) {
+    preg_match('/(menu_tree__book_toc_\d+$)/', $theme_wrapper, $book_toc);
+    if (isset($book_toc[1])) {
+      $theme_wrappers = array('menu_tree__book_toc');
+    }
+  }
+
+  $variables['theme_hook_suggestions'] = $theme_wrappers;
+}
+
+/**
+ * Implements template_preprocess_views_view().
+ */
+function docs_preprocess_views_view__advanced_forum_topic_list(&$variables) {
+  $variables['forum_tools'] = 0;
+  $tid = $variables['view']->query->where[0]['conditions'][0]['value'];
+  $mark_as_read = array();
+  advanced_forum_get_mark_read_link($tid, $mark_as_read);
+  if (isset($mark_as_read['mark-read'])) {
+    $variables['forum_tools'] = l($mark_as_read['mark-read']['title'], $mark_as_read['mark-read']['href']);
+  }
+
+  $path = explode('/', current_path());
+  $tid = $path[1];
+  $forum = taxonomy_term_load($tid);
+  $variables['parent_forum'] = count($forum->forums);
+}
+
+/**
+ * Implements template_preprocess_views_view_field().
+ */
+function docs_preprocess_views_view_field(&$variables) {
+  $display = $variables['view']->current_display;
+  $block_files = $display == 'block_files';
+  $block_listing = $display == 'block_listing';
+  $block_items_in_group = 'block_items_in_group';
+
+  if (($block_files || $block_listing || $block_items_in_group) && !empty($variables['output'])) {
+    $output = $variables['output'];
+    $output = str_replace('sources/<wbr />uikit-7.x-2.x/<wbr />', '', $output);
+    $output = str_replace('sources/<wbr />uikit-7.x-3.x/<wbr />', '', $output);
+    $output = str_replace('sources/<wbr />uikit-8.x-2.x/<wbr />', '', $output);
+    $output = str_replace('sources/<wbr />uikit-8.x-3.x/<wbr />', '', $output);
+    $output = str_replace('sources/<wbr />uikit_admin-7.x-2.x/<wbr />', '', $output);
+    $output = str_replace('sources/<wbr />uikit_components-7.x-1.x/<wbr />', '', $output);
+    $output = str_replace('sources/<wbr />uikit_components-8.x-1.x/<wbr />', '', $output);
+    $variables['output'] = $output;
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function docs_preprocess_forum_icon(&$variables) {
+  $variables['icon'] = 0;
+
+  switch ($variables['icon_class']) {
+    case 'default':
+      $variables['icon'] = '<i class="uk-icon uk-icon-comments uk-icon-medium uk-text-primary"></i>';
+      break;
+
+    case 'new':
+      $variables['icon'] = '<i class="uk-icon uk-icon-comments uk-icon-medium uk-text-primary"></i>';
+      $variables['icon'] .= '<i class="uk-icon uk-icon-plus uk-position-absolute uk-contrast docs-icon-mini"></i>';
+      break;
+
+    case 'hot':
+      $variables['icon'] = '<i class="uk-icon uk-icon-comments uk-icon-medium uk-text-success"></i>';
+      break;
+
+    case 'hot-new':
+      $variables['icon'] = '<i class="uk-icon uk-icon-comments uk-icon-medium uk-text-success"></i>';
+      $variables['icon'] .= '<i class="uk-icon uk-icon-plus uk-position-absolute uk-contrast docs-icon-mini"></i>';
+      break;
+
+    case 'sticky':
+      $variables['icon'] = '<i class="uk-icon uk-icon-comments uk-icon-medium"></i>';
+      $variables['icon'] .= '<i class="uk-icon uk-icon-thumb-tack uk-position-absolute uk-contrast docs-icon-mini"></i>';
+      break;
+
+    case 'closed':
+      $variables['icon'] = '<i class="uk-icon uk-icon-comments uk-icon-medium uk-text-danger"></i>';
+      $variables['icon'] .= '<i class="uk-icon uk-icon-lock uk-position-absolute uk-contrast docs-icon-mini"></i>';
+      break;
   }
 }
 
@@ -93,6 +394,9 @@ function docs_preprocess_forum_list(&$variables) {
   }
 }
 
+/**
+ * Implements hook_preprocess_HOOK().
+ */
 function docs_preprocess_forum_submitted(&$variables) {
   if (isset($variables['topic']->node_title)) {
     $nid = $variables['topic']->nid;
@@ -124,60 +428,30 @@ function docs_preprocess_forum_submitted(&$variables) {
   }
 }
 
-function docs_preprocess_forum_icon(&$variables) {
-  $variables['icon'] = 0;
-
-  switch ($variables['icon_class']) {
-    case 'default':
-      $variables['icon'] = '<i class="uk-icon uk-icon-comments uk-icon-medium uk-text-primary"></i>';
-      break;
-
-    case 'new':
-      $variables['icon'] = '<i class="uk-icon uk-icon-comments uk-icon-medium uk-text-primary"></i>';
-      $variables['icon'] .= '<i class="uk-icon uk-icon-plus uk-position-absolute uk-contrast docs-icon-mini"></i>';
-      break;
-
-    case 'hot':
-      $variables['icon'] = '<i class="uk-icon uk-icon-comments uk-icon-medium uk-text-success"></i>';
-      break;
-
-    case 'hot-new':
-      $variables['icon'] = '<i class="uk-icon uk-icon-comments uk-icon-medium uk-text-success"></i>';
-      $variables['icon'] .= '<i class="uk-icon uk-icon-plus uk-position-absolute uk-contrast docs-icon-mini"></i>';
-      break;
-
-    case 'sticky':
-      $variables['icon'] = '<i class="uk-icon uk-icon-comments uk-icon-medium"></i>';
-      $variables['icon'] .= '<i class="uk-icon uk-icon-thumb-tack uk-position-absolute uk-contrast docs-icon-mini"></i>';
-      break;
-
-    case 'closed':
-      $variables['icon'] = '<i class="uk-icon uk-icon-comments uk-icon-medium uk-text-danger"></i>';
-      $variables['icon'] .= '<i class="uk-icon uk-icon-lock uk-position-absolute uk-contrast docs-icon-mini"></i>';
-      break;
-  }
-}
-
-function docs_preprocess_views_view__advanced_forum_topic_list(&$variables) {
-  $variables['forum_tools'] = 0;
-  $tid = $variables['view']->query->where[0]['conditions'][0]['value'];
-  $mark_as_read = array();
-  advanced_forum_get_mark_read_link($tid, $mark_as_read);
-  if (isset($mark_as_read['mark-read'])) {
-    $variables['forum_tools'] = l($mark_as_read['mark-read']['title'], $mark_as_read['mark-read']['href']);
-  }
-
-  $path = explode('/', current_path());
-  $tid = $path[1];
-  $forum = taxonomy_term_load($tid);
-  $variables['parent_forum'] = count($forum->forums);
-}
-
 /**
  * Implements hook_preprocess_HOOK().
  */
-function docs_preprocess_api_defined(&$variables) {
-  $variables['file_link'] = str_replace('./', '', $variables['file_link']);
+function docs_preprocess_forums(&$variables) {
+  $variables['latest_users'] = 0;
+  $latest_users = advanced_forum_statistics_latest_users();
+  if (empty($variables['parents'])) {
+    $variables['latest_users'] = implode(', ', $latest_users);
+  }
+
+  $variables['forum_legend'] = 0;
+  if (!empty($variables['forums'])) {
+    $variables['forum_legend'] = theme('advanced_forum_forum_legend');
+  }
+
+  $variables['forum_tools'] = 0;
+
+  if (!$variables['tid']) {
+    $mark_as_read = array();
+    advanced_forum_get_mark_read_link($variables['tid'], $mark_as_read);
+    if (isset($mark_as_read['mark-read'])) {
+      $variables['forum_tools'] = l($mark_as_read['mark-read']['title'], $mark_as_read['mark-read']['href']);
+    }
+  }
 }
 
 /**
@@ -209,6 +483,13 @@ function docs_preprocess_api_class_page(&$variables) {
     $defined = str_replace('sources/<wbr />uikit_components-8.x-1.x/<wbr />', '', $defined);
     $variables['defined'] = $defined;
   }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function docs_preprocess_api_defined(&$variables) {
+  $variables['file_link'] = str_replace('./', '', $variables['file_link']);
 }
 
 /**
@@ -390,62 +671,6 @@ function docs_preprocess_api_group_page(&$variables) {
 }
 
 /**
- * Implements template_preprocess_block().
- */
-function docs_preprocess_block(&$variables) {
-  $block_id = $variables['block_html_id'];
-  $region = $variables['block']->region;
-  $feed = substr($block_id, 0, 21) === 'block-aggregator-feed';
-  $book_navigation = $block_id == 'block-book-navigation';
-
-  if ($feed && $region == 'sidebar_second') {
-    $content = str_replace('<ul class="uk-list">', '<ul>', $variables['content']);
-    $variables['content'] = $content;
-  }
-
-  if ($region == 'sidebar_first' || $region == 'sidebar_second') {
-    $variables['classes_array'][] = 'uk-margin-bottom';
-  }
-
-  if ($book_navigation) {
-    $variables['classes_array'] = array('block', 'block-book');
-    foreach ($variables['elements'] as $element_key => $element) {
-      $book_toc_element = is_array($element) && isset($element['#theme_wrappers']);
-
-      if ($book_toc_element) {
-        foreach ($element as $book_toc_key => $book_toc) {
-          $book_parent = is_array($book_toc) && isset($book_toc['#theme']);
-
-          if ($book_parent) {
-            $title = $book_toc['#title'];
-            $href = $book_toc['#href'];
-            $block_title = l(t('@title', array('@title' => $title)), $href);
-            $variables['block']->subject = $block_title;
-            $variables['book_menu_nav_header'] = $block_title;
-
-            if ($book_toc['#below']) {
-              $nav_header = array(
-                '#theme' => 'menu_link__book_toc',
-                '#title' => $book_toc['#title'],
-                '#href' => $href,
-                '#attributes' => array('class' => 'uk-nav-header'),
-                '#below' => array(),
-                '#original_link' => array('depth' => 0),
-                '#nav_header' => TRUE,
-              );
-              $book_toc['#below']['#theme_wrappers'] = array('menu_tree__book_toc__block');
-              $book_menu = $book_toc['#below'];
-              array_unshift($book_menu, $nav_header);
-              $variables['book_menu'] = $book_menu;
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-/**
  * Implements hook_preprocess_HOOK().
  */
 function docs_preprocess_breadcrumb(&$variables) {
@@ -486,36 +711,6 @@ function docs_preprocess_button(&$variables) {
   }
 }
 
-function docs_preprocess_comment(&$variables) {
-  if (isset($variables['theme_hook_suggestion']) && $variables['theme_hook_suggestion'] == 'advanced_forum_post') {
-    $account = $variables['account'];
-
-    $comment = $variables['elements']['#comment'];
-    $id = $variables['id'] + 1;
-    $uri = entity_uri('comment', $comment);
-    $uri['options'] += array('attributes' => array('class' => array('permalink'), 'rel' => 'bookmark'));
-
-    $variables['author_link'] = theme('username', array('account' => $account));
-    $variables['classes_array'][] = 'uk-margin-bottom';
-    $variables['permalink'] = l(t('#@id', array('@id' => $id)), $uri['path'], $uri['options']);
-  }
-}
-
-/**
- * Implements template_preprocess_comment_wrapper().
- */
-function docs_preprocess_comment_wrapper(&$variables) {
-  $variables['classes_array'] = array('comment-wrapper');
-  $variables['content']['comment_form']['actions']['#attributes']['class'][] = 'uk-margin-top';
-
-  if (isset($variables['content']['comment_form']['#form_id']) && $variables['content']['comment_form']['#form_id'] == 'comment_node_forum_form') {
-    $variables['original_author'] = $variables['content']['#node']->name;
-  }
-  else {
-    $variables['original_author'] = 0;
-  }
-}
-
 /**
  * Implements hook_preprocess_HOOK() for theme_fieldset().
  */
@@ -532,20 +727,10 @@ function docs_preprocess_fieldset(&$variables) {
 }
 
 /**
- * Implements template_preprocess_html().
+ * Implements hook_preprocess_HOOK().
  */
-function docs_preprocess_html(&$variables) {
-  $current_path = current_path();
-  $api_projects = Docs::getApiProjects();
-
-  foreach ($api_projects as $project) {
-    if ($project['url'] == $current_path) {
-      $variables['head_title_array']['title'] = $project['title'];
-    }
-    elseif ($project['default_url'] == $current_path) {
-      $variables['head_title_array']['title'] = $project['title'];
-    }
-  }
+function docs_preprocess_image_button(&$variables) {
+  $variables['element']['#attributes']['class'][] = 'uk-margin-top';
 }
 
 /**
@@ -599,154 +784,6 @@ function docs_preprocess_menu_link(&$variables) {
 }
 
 /**
- * Implements hook_preprocess_HOOK() for theme_menu_tree().
- */
-function docs_preprocess_menu_tree(&$variables) {
-  $theme_wrappers = $variables['#tree']['#theme_wrappers'];
-
-  foreach ($theme_wrappers as $theme_wrapper) {
-    preg_match('/(menu_tree__book_toc_\d+$)/', $theme_wrapper, $book_toc);
-    if (isset($book_toc[1])) {
-      $theme_wrappers = array('menu_tree__book_toc');
-    }
-  }
-
-  $variables['theme_hook_suggestions'] = $theme_wrappers;
-}
-
-/**
- * Implements template_preprocess_node().
- */
-function docs_preprocess_node(&$variables) {
-  $node_url = $variables['node_url'];
-  $uri = ltrim($_SERVER['REQUEST_URI'], '/');
-
-  if (empty($uri)) {
-    $uri = 'this site';
-  }
-  else {
-    $uri = '"' . $uri . '"';
-  }
-
-  switch ($node_url) {
-    case '/403':
-      module_load_include('inc', 'contact', 'contact.pages');
-      $contact_form = drupal_get_form('contact_site_form');
-      $login_form = drupal_get_form('user_login_block');
-      unset($login_form['links']);
-      $login_form['actions']['#attributes']['class'][] = 'uk-margin-top';
-      $variables['theme_hook_suggestions'][] = 'node__access_denied';
-      $variables['access_message'] = user_is_logged_in() ? 'Please contact your administrator.' : 'Try logging in.';
-      $variables['login_form'] = drupal_render($login_form);
-      $variables['contact_form'] = render($contact_form);
-      $variables['uri'] = $uri;
-      break;
-
-    case '/404':
-      $variables['theme_hook_suggestions'][] = 'node__page_not_found';
-      $variables['search_block'] = module_invoke('search', 'block_view', 'search');
-      $variables['uri'] = $uri;
-      break;
-  }
-
-  if ($variables['type'] == 'forum') {
-    $variables['classes_array'][] = 'uk-comment';
-    $variables['classes_array'][] = 'uk-margin-bottom';
-    $account = $variables['account'];
-    $variables['author_link'] = theme('username', array('account' => $account));
-  }
-}
-
-/**
- * Implemments template_preprocess_page().
- */
-function docs_preprocess_page(&$variables) {
-  $docs = drupal_get_path('theme', 'docs');
-  $svg_logo = '/' . $docs . '/logo_large.svg';
-  $variables['logo'] = $svg_logo;
-
-  $variables['header_attributes_array']['class'] = array();
-
-  $current_page = explode('/', current_path());
-  if ($current_page[0] == 'layouts') {
-    $variables['display_breadcrumb'] = FALSE;
-    $variables['title'] = '';
-  }
-  elseif ($current_page[0] == 'search') {
-    $variables['display_breadcrumb'] = FALSE;
-  }
-
-  if (drupal_is_front_page()) {
-    $variables['title'] = '';
-    $variables['page_container_attributes_array'] = array(
-      'id' => 'page',
-    );
-    $variables['navbar_attributes_array'] = array(
-      'id' => 'page-navbar',
-      'class' => array('uk-navbar', 'uk-navbar-attached'),
-    );
-  }
-  else {
-    $variables['page_container_attributes_array']['class'][] = 'uk-margin-bottom';
-    $alias = drupal_get_path_alias(current_path());
-
-    if ($alias == '403' || $alias == '404' || $alias == 'getting-involved') {
-      $variables['title'] = FALSE;
-    }
-  }
-
-  if (isset($variables['page']['content']['system_main']['comment_form'])) {
-    $name = $variables['page']['content']['system_main']['comment_form']['#node']->name;
-    $node_title = $variables['page']['content']['system_main']['comment_form']['#node']->title;
-    $title = t('Reply to <em class="placeholder">@title</em> by @author', array(
-      '@title' => $node_title,
-      '@author' => $name,
-    ));
-    drupal_set_title($title, PASS_THROUGH);
-  }
-}
-
-/**
- * Implemments hook_preprocess_HOOK().
- */
-function docs_preprocess_region(&$variables) {
-  global $user;
-  $is_admin = in_array('administrator', $user->roles);
-  $region = $variables['region'];
-
-  if ($region == 'sidebar_second') {
-    $top = user_is_logged_in() && $is_admin ? '44' : '15';
-    $variables['wrapper_attributes_array']['data-uk-sticky'] = '{boundary: true, media: \'(min-width: 768px)\', top: ' . $top . '}';
-
-    drupal_add_css("//cdnjs.cloudflare.com/ajax/libs/uikit/2.26.4/css/components/sticky.min.css", array(
-      'type' => 'external',
-      'group' => CSS_THEME,
-      'every_page' => TRUE,
-      'weight' => -10,
-      'version' => '2.26.4',
-    ));
-    drupal_add_js("//cdnjs.cloudflare.com/ajax/libs/uikit/2.26.4/js/components/sticky.min.js", array(
-      'type' => 'external',
-      'group' => JS_THEME,
-      'every_page' => TRUE,
-      'weight' => -10,
-      'version' => '2.26.4',
-    ));
-
-    $variables['wrapper_attributes_array']['class'][] = 'uk-panel';
-    $variables['wrapper_attributes_array']['class'][] = 'uk-panel-box';
-    $variables['wrapper_attributes_array']['class'][] = 'uk-panel-box-secondary';
-  }
-}
-
-/**
- * Implements hook_preprocess_HOOK().
- */
-function docs_preprocess_image_button(&$variables) {
-  $variables['element']['#attributes']['class'][] = 'uk-margin-top';
-}
-
-/**
  * Implements hook_preprocess_HOOK().
  */
 function docs_preprocess_table(&$variables) {
@@ -776,27 +813,5 @@ function docs_preprocess_textfield(&$variables) {
 
   if ($api_search) {
     $variables['theme_hook_suggestions'][] = 'textfield__api_search';
-  }
-}
-
-/**
- * Implements template_preprocess_views_view_field().
- */
-function docs_preprocess_views_view_field(&$variables) {
-  $display = $variables['view']->current_display;
-  $block_files = $display == 'block_files';
-  $block_listing = $display == 'block_listing';
-  $block_items_in_group = 'block_items_in_group';
-
-  if (($block_files || $block_listing || $block_items_in_group) && !empty($variables['output'])) {
-    $output = $variables['output'];
-    $output = str_replace('sources/<wbr />uikit-7.x-2.x/<wbr />', '', $output);
-    $output = str_replace('sources/<wbr />uikit-7.x-3.x/<wbr />', '', $output);
-    $output = str_replace('sources/<wbr />uikit-8.x-2.x/<wbr />', '', $output);
-    $output = str_replace('sources/<wbr />uikit-8.x-3.x/<wbr />', '', $output);
-    $output = str_replace('sources/<wbr />uikit_admin-7.x-2.x/<wbr />', '', $output);
-    $output = str_replace('sources/<wbr />uikit_components-7.x-1.x/<wbr />', '', $output);
-    $output = str_replace('sources/<wbr />uikit_components-8.x-1.x/<wbr />', '', $output);
-    $variables['output'] = $output;
   }
 }
