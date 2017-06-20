@@ -11,9 +11,11 @@
  * @see process.inc
  */
 
-use Drupal\uikit\UIkit;
+use Drupal\Core\Render\Markup;
 use Drupal\Core\Template\Attribute;
+use Drupal\Core\Url;
 use Drupal\block\Entity\Block;
+use Drupal\uikit\UIkit;
 
 /**
  * Implements template_preprocess_page().
@@ -26,8 +28,9 @@ function uikit_preprocess_page(&$variables) {
 
   // Assign new navbar attributes.
   $variables['navbar_attributes'] = new Attribute();
-  $variables['navbar_attributes']['id'] = 'page--navbar';
-  $variables['navbar_attributes']['class'] = ['uk-navbar'];
+  $variables['navbar_attributes']->setAttribute('id', 'page--navbar');
+  $variables['navbar_attributes']->addClass('uk-navbar-container');
+  $variables['navbar_attributes']->setAttribute('uk-navbar', '');
 
   // Assign new page attributes.
   $variables['page_attributes'] = new Attribute();
@@ -76,6 +79,45 @@ function uikit_preprocess_page(&$variables) {
 }
 
 /**
+ * Implements template_preprocess_region().
+ */
+function uikit_preprocess_region(&$variables) {
+  if ($variables['region'] == 'navbar') {
+    $variables['content_left'] = [];
+    $variables['content_center'] = [];
+    $variables['content_right'] = [];
+
+    foreach ($variables['elements'] as $id => $element) {
+      if (is_array($element) && isset($element['#id'])) {
+        $block = Block::load($element['#id']);
+        $block_navbar_alignment = $block->getThirdPartySetting('uikit_components', 'uikit_navbar_alignment');
+        $navbar_alignment = $block_navbar_alignment ? $block_navbar_alignment : 'left';
+
+        switch ($navbar_alignment) {
+          case 'left':
+            $variables['content_left'][$id] = [
+              '#markup' => render($element),
+            ];
+            break;
+
+          case 'center':
+            $variables['content_center'][$id] = [
+              '#markup' => render($element),
+            ];
+            break;
+
+          case 'right':
+            $variables['content_right'][$id] = [
+              '#markup' => render($element),
+            ];
+            break;
+        }
+      }
+    }
+  }
+}
+
+/**
  * Implements template_preprocess_block().
  */
 function uikit_preprocess_block(&$variables) {
@@ -83,21 +125,20 @@ function uikit_preprocess_block(&$variables) {
   $block = Block::load($variables['elements']['#id']);
   $region = $block->getRegion();
 
-  if ($system_menu_block) {
-    switch ($region) {
-      case 'navbar':
-        // Get navbar alignment from block settings.
-        $variables['navbar_flip'] = $navbar_alignment = $block->getThirdPartySetting('uikit_components', 'navbar_alignment') ? 1 : 0;
-
+  switch ($region) {
+    case 'navbar':
+      if ($system_menu_block) {
         // Define #theme variable for navbar menus.
         $variables['content']['#theme'] = 'menu__navbar';
-        break;
+      }
+      break;
 
-      case 'offcanvas':
+    case 'offcanvas':
+      if ($system_menu_block) {
         // Define #theme variable for offcanvas menus.
         $variables['content']['#theme'] = 'menu__offcanvas';
-        break;
-    }
+      }
+      break;
   }
 }
 
@@ -131,6 +172,18 @@ function uikit_preprocess_breadcrumb(&$variables) {
 }
 
 /**
+ * Implements template_preprocess_comment().
+ */
+function uikit_preprocess_comment(&$variables) {
+  $indented = $variables['elements']['#comment_indent'];
+  $variables['indented'] = FALSE;
+
+  if ($indented) {
+    $variables['indented'] = TRUE;
+  }
+}
+
+/**
  * Implements hook_preprocess_HOOK() for feed-icon.html.twig.
  *
  * Feed icon on the front page is missing the site name, as reported in
@@ -141,6 +194,22 @@ function uikit_preprocess_breadcrumb(&$variables) {
 function uikit_preprocess_feed_icon(&$variables) {
   $config = \Drupal::config('system.site');
   $variables['site_name'] = $config->get('name');
+}
+
+/**
+ * Implements template_preprocess_field() for field--comment.html.twig.
+ */
+function uikit_preprocess_field__comment(&$variables) {
+  $comments = $variables['comments'];
+  $comment_count = 0;
+
+  foreach ($comments as $comment) {
+    if (isset($comment['#comment'])) {
+      $comment_count++;
+    }
+  }
+
+  $variables['comment_count'] = $comment_count;
 }
 
 /**
@@ -159,7 +228,7 @@ function uikit_preprocess_form_element(&$variables) {
 }
 
 /**
- * Implements template_preprocess_HOOK() for input.html.twig.
+ * Implements hook_preprocess_HOOK() for input.html.twig.
  */
 function uikit_preprocess_input(&$variables) {
   $element = $variables['element'];
@@ -170,6 +239,24 @@ function uikit_preprocess_input(&$variables) {
   }
 
   $variables['errors'] = $errors;
+}
+
+/**
+ * Implements template_preprocess_links() for links--comment.html.twig.
+ */
+function uikit_preprocess_links__comment(&$variables) {
+  foreach ($variables['links'] as $key => $link) {
+    if (isset($link['link'])) {
+      $url = $link['link']['#url']->toString();
+      $title = $link['text']->getUntranslatedString();
+      $variables['links'][$key]['link'] = [
+        'title' => t('@title', ['@title' => $title]),
+      ];
+      $variables['links'][$key]['link']['attributes'] = new Attribute();
+      $variables['links'][$key]['link']['attributes']->setAttribute('href', $url);
+      $variables['links'][$key]['link']['attributes']->addClass('uk-link-muted');
+    }
+  }
 }
 
 /**
@@ -255,13 +342,29 @@ function uikit_preprocess_menu_local_tasks(&$variables) {
  */
 function uikit_preprocess_menu__navbar(&$variables) {
   $items = $variables['items'];
+  $current_url = Url::fromRoute('<current>');
+  $current_path = $current_url->toString();
 
   foreach ($items as $key => $item) {
     $variables['items'][$key]['has_url'] = TRUE;
     $route = $item['url']->getRouteName();
+    $is_active = FALSE;
 
     if ($route == '<none>') {
+      // <none> routes do not have a URL.
       $variables['items'][$key]['has_url'] = FALSE;
+    }
+
+    if ($item['url']->toString() == '/user') {
+      $uid = \Drupal::currentUser()->id();
+
+      if ($uid && $current_path == "/user/$uid") {
+        $is_active = TRUE;
+      }
+    }
+
+    if ($is_active && !$item['attributes']->hasClass('uk-active')) {
+      $item['attributes']->addClass('uk-active');
     }
 
     if ($item['below']) {

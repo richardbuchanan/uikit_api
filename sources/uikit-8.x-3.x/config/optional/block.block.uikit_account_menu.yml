@@ -5,8 +5,12 @@ dependencies:
     - system.menu.account
   module:
     - system
+    - uikit_components
   theme:
     - uikit
+third_party_settings:
+  uikit_components:
+    uikit_navbar_alignment: right
 id: uikit_account_menu
 theme: uikit
 region: navbar

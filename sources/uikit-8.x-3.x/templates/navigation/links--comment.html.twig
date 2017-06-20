@@ -41,18 +41,11 @@
       <h2{{ heading.attributes }}>{{ heading.text }}</h2>
     {%- endif -%}
   {%- endif -%}
-  {%
-    set classes = [
-      'uk-subnav',
-      'uk-subnav-divider',
-      'uk-margin',
-    ]
-  %}
-  <ul{{ attributes. addClass(classes) }}>
+  <ul class="uk-subnav comment-links">
     {%- for item in links -%}
-      <li{{ item.attributes }}>
+      <li>
         {%- if item.link -%}
-          {{ item.link }}
+          <a{{ item.link.attributes }}>{{ item.link.title }}</a>
         {%- elseif item.text_attributes -%}
           <span{{ item.text_attributes }}>{{ item.text }}</span>
         {%- else -%}

@@ -42,6 +42,13 @@ function uikit_process_region(&$variables) {
   $variables['attributes'] = drupal_attributes($attributes);
 }
 
+function uikit_process_field(&$variables) {
+  if ($variables['element']['#field_name'] == 'field_tags') {
+    $attributes['class'] = $variables['classes_array'];
+    $variables['attributes'] = drupal_attributes($attributes);
+  }
+}
+
 /**
  * Implements hook_process_HOOK() for theme_menu_local_tasks().
  */

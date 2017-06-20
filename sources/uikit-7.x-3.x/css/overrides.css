@@ -408,39 +408,6 @@ sup.form-required {
 }
 
 /**
- * Comments
- */
-.uk-comment-list {
-  padding: 0;
-  list-style: none;
-}
-.uk-comment-header {
-  margin-bottom: 15px;
-  padding: 10px;
-  border: 1px solid #e5e5e5;
-  background: #fafafa;
-}
-.uk-comment-primary .uk-comment-header {
-  border-color: rgba(45, 112, 145, .3);
-  background-color: #ebf7fd;
-  color: #2d7091;
-  text-shadow: 0 1px 0 #fff;
-}
-.uk-comment-body {
-  padding-left: 10px;
-  padding-right: 10px;
-}
-.uk-comment-list > .indented {
-  margin: 25px 0 0 0;
-  list-style: none;
-}
-@media (min-width: 768px) {
-  .uk-comment-list > .indented {
-    padding-left: 100px;
-  }
-}
-
-/**
  * Node links
  */
 .node-links .uk-subnav > * > * {

@@ -5,8 +5,12 @@ dependencies:
     - system.menu.main
   module:
     - system
+    - uikit_components
   theme:
     - uikit
+third_party_settings:
+  uikit_components:
+    uikit_navbar_alignment: left
 id: uikit_main_menu
 theme: uikit
 region: navbar

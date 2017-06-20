@@ -92,7 +92,7 @@
   <?php print render($title_suffix); ?>
 
   <?php if ($display_submitted): ?>
-    <div class="uk-article-meta uk-margin-bottom">
+    <div class="uk-article-meta uk-margin-top uk-margin-bottom">
       <?php print $submitted; ?>
     </div>
   <?php endif; ?>

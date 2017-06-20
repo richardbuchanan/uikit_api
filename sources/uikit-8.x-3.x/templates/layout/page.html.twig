@@ -45,51 +45,51 @@
  * @ingroup uikit_themeable
  */
 #}
-<header{{ header_attributes.addClass('uk-navbar-container') }}>
-  {% if page.navbar %}
-    <nav{{ navbar_attributes }}>
-      {% if page.offcanvas %}
-        <a href="#offcanvas" class="uk-navbar-toggle uk-visible-small" data-uk-offcanvas=""></a>
+<div id="page-wrapper"{% if page.offcanvas %} class="uk-offcanvas-content"{% endif %}>
+  <header{{ header_attributes }}>
+    {% if page.navbar %}
+      <nav{{ navbar_attributes }}>
+        {% if page.offcanvas %}
+          <a href="#offcanvas" class="uk-navbar-toggle uk-hidden@m" uk-toggle uk-navbar-toggle-icon></a>
+        {% endif %}
+
+        {{ page.navbar }}
+      </nav>
+    {% endif %}
+  </header>
+
+  <div{{ page_attributes }}>
+    <div id="page--wrapper" class="uk-grid" uk-grid>
+      <main{{ content_attributes }}>
+        <a id="main-content" tabindex="-1"></a>
+        {{ page.content }}
+      </main>
+
+      {% if page.sidebar_first %}
+        <aside{{ sidebar_first_attributes }}>
+          {{ page.sidebar_first }}
+        </aside>
       {% endif %}
 
-      {{ page.navbar }}
-    </nav>
-  {% endif %}
-</header>
-
-<div{{ page_attributes }}>
-  <div id="page--wrapper" class="uk-grid" uk-grid>
-    <main{{ content_attributes }}>
-      <a id="main-content" tabindex="-1"></a>
-      {{ page.content }}
-    </main>
-
-    {% if page.sidebar_first %}
-      <aside{{ sidebar_first_attributes }}>
-        {{ page.sidebar_first }}
-      </aside>
-    {% endif %}
-
-    {% if page.sidebar_second %}
-      <aside{{ sidebar_second_attributes }}>
-        {{ page.sidebar_second }}
-      </aside>
-    {% endif %}
-  </div>
-</div>
-
-{% if page.footer %}
-  <footer role="contentinfo">
-    <div class="uk-container uk-margin-top">
-      {{ page.footer }}
+      {% if page.sidebar_second %}
+        <aside{{ sidebar_second_attributes }}>
+          {{ page.sidebar_second }}
+        </aside>
+      {% endif %}
     </div>
-  </footer>
-{% endif %}
+  </div>
 
-{% if page.offcanvas %}
-  <div id="offcanvas" class="uk-offcanvas">
-    <div class="uk-offcanvas-bar">
+  {% if page.footer %}
+    <footer role="contentinfo">
+      <div class="uk-container uk-margin-top">
+        {{ page.footer }}
+      </div>
+    </footer>
+  {% endif %}
+
+  {% if page.offcanvas %}
+    <div id="offcanvas" uk-offcanvas>
       {{ page.offcanvas }}
     </div>
-  </div>
-{% endif %}
+  {% endif %}
+</div>

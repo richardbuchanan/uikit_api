@@ -19,7 +19,7 @@ class UIkit {
    *
    * @var string
    */
-  const UIKIT_LIBRARY_VERSION = '2.27.2';
+  const UIKIT_LIBRARY_VERSION = '2.27.4';
 
   /**
    * The Drupal project page for the UIkit base theme.
@@ -400,4 +400,5 @@ class UIkit {
     $route_match = \Drupal::routeMatch();
     return \Drupal::service('title_resolver')->getTitle($request, $route_match->getRouteObject());
   }
+
 }

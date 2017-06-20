@@ -69,44 +69,56 @@
   set classes = [
     'js-comment',
     'uk-comment',
-    not parent ? 'uk-comment-primary',
+    'uk-visible-toggle',
+    parent ? 'uk-comment-primary',
   ]
 %}
 <li>
   <article{{ attributes.addClass(classes) }}>
-    <header class="uk-comment-header">
-      {#
-        Hide the "new" indicator by default, let a piece of JavaScript ask the
-        server which comments are new for the user. Rendering the final "new"
-        indicator here would break the render cache.
-      #}
-      <mark class="uk-badge uk-float-right uk-hidden hidden" data-comment-timestamp="{{ new_indicator_timestamp }}"></mark>
-      <div class="uk-comment-avatar">{{ user_picture }}</div>
-      <h4 class="uk-comment-title">{{ title }}</h4>
-      <p class="uk-comment-meta">{{ submitted }}</p>
+    <header class="uk-comment-header uk-position-relative">
+      <div class="uk-grid-medium uk-flex-middle" uk-grid>
 
-      {#
-        Indicate the semantic relationship between parent and child comments for
-        accessibility. The list is difficult to navigate in a screen reader
-        without this information.
-      #}
-      {% if parent %}
-        <p class="visually-hidden">{{ parent }}</p>
-      {% endif %}
-
-      <span class="uk-hidden">{{ permalink }}</span>
-    </header>
-
-    <div{{ content_attributes }}>
-      <div class="uk-comment-body">
-        {% if title %}
-          {{ title_prefix }}
-          <h3{{ title_attributes.addClass('uk-hidden') }}>{{ title }}</h3>
-          {{ title_suffix }}
+        {% if user_picture %}
+          <div class="uk-width-auto">{{ user_picture }}</div>
         {% endif %}
 
-        {{ content }}
+        <div class="uk-width-expand">
+          <h4 class="uk-comment-title uk-margin-remove">{{ title }} <span class="uk-text-muted  uk-hidden-hover" uk-icon="link"></span></h4>
+          <p class="uk-comment-meta uk-margin-remove-top">{{ submitted }}</p>
+
+          {#
+            Hide the "new" indicator by default, let a piece of JavaScript ask the
+            server which comments are new for the user. Rendering the final "new"
+            indicator here would break the render cache.
+          #}
+          <mark class="uk-badge uk-label uk-float-right uk-hidden hidden" data-comment-timestamp="{{ new_indicator_timestamp }}"></mark>
+        </div>
+
+        {#
+          Indicate the semantic relationship between parent and child comments for
+          accessibility. The list is difficult to navigate in a screen reader
+          without this information.
+        #}
+        {% if parent %}
+          <p class="visually-hidden">{{ parent }}</p>
+        {% endif %}
+
+        <span class="uk-hidden">{{ permalink }}</span>
       </div>
+
+      <div class="uk-position-top-right uk-position-small uk-hidden-hover">
+        {{ content.links }}
+      </div>
+    </header>
+
+    <div{{ content_attributes.addClass('uk-comment-body') }}>
+      {% if title %}
+        {{ title_prefix }}
+        <h3{{ title_attributes.addClass('uk-hidden') }}>{{ title }}</h3>
+        {{ title_suffix }}
+      {% endif %}
+
+      {{ content|without('links') }}
     </div>
   </article>
 </li>

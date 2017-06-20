@@ -1,16 +1,16 @@
 uikit:
   remote: https://getuikit.com/
-  version: 2.27.2
+  version: 3.0.0-beta.25
   license:
     name: MIT
     url: https://github.com/uikit/uikit/blob/develop/LICENSE.md
     gpl-compatible: true
   css:
     base:
-      //cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.21/css/uikit.min.css: { type: external, minified: true, weight: -20 }
+      //cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.25/css/uikit.min.css: { type: external, minified: true, weight: -20 }
   js:
-    //cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.21/js/uikit.min.js: { type: external, minified: true, weight: -20 }
-    //cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.21/js/uikit-icons.min.js: { type: external, minified: true, weight: -20 }
+    //cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.25/js/uikit.min.js: { type: external, minified: true, weight: -20 }
+    //cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.25/js/uikit-icons.min.js: { type: external, minified: true, weight: -20 }
   dependencies:
     - core/drupal
     - core/jquery
@@ -46,6 +46,17 @@ active-link:
   js:
     js/uikit.active-link.js: {}
 
+comment-new-indicator:
+  version: VERSION
+  js:
+    js/uikit.comment-new-indicator.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/drupal
+    - history/api
+    - core/drupal.displace
+
 dropbutton:
   version: VERSION
   js:
@@ -55,14 +66,3 @@ tabledrag:
   version: VERSION
   js:
     js/uikit.tabledrag.js: {}
-
-font-awesome:
-  remote: http://fontawesome.io/
-  version: 4.6.3
-  license:
-    name: MIT
-    url: http://fontawesome.io/license/
-    gpl-compatible: true
-  css:
-    base:
-      //cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css: { type: external, minified: true }

@@ -137,7 +137,7 @@
       $('select[name=primary_tasks_style]').change(function () {
         primaryMenu
           .removeClass('uk-subnav')
-          .removeClass('uk-subnav-line')
+          .removeClass('uk-subnav-divider')
           .removeClass('uk-subnav-pill')
           .removeClass('uk-tab');
 
@@ -155,7 +155,7 @@
       });
 
       $('select[name=secondary_tasks_style]').change(function () {
-        secondaryMenu.removeClass('uk-subnav-line')
+        secondaryMenu.removeClass('uk-subnav-divider')
           .removeClass('uk-subnav-pill');
 
         if ($(this).val() !== '0') {

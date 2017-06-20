@@ -19,3 +19,4 @@ libraries-extend:
 
 libraries-override:
   core/drupal.tabledrag: uikit/tabledrag
+  comment/drupal.comment-new-indicator: uikit/comment-new-indicator

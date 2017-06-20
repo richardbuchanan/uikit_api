@@ -166,21 +166,20 @@ function uikit_field__field_tags($variables) {
 
   // Render the label, if it's not hidden.
   if (!$variables['label_hidden']) {
-    $output .= '<div class="uk-h4"' . $variables['title_attributes'] . '>' . $variables['label'] . '</div>';
+    $output .= '<h4>' . $variables['label'] . '</h4>';
   }
 
   // Render the items.
-  $output .= '<ul class="uk-subnav"' . $variables['content_attributes'] . '>';
+  $output .= '<ul class="uk-subnav">';
 
   foreach ($variables['items'] as $delta => $item) {
-    $classes = 'field-item ' . ($delta % 2 ? 'odd' : 'even');
-    $output .= '<li class="' . $classes . '"' . $variables['item_attributes'][$delta] . '>' . drupal_render($item) . '</li>';
+    $output .= '<li' . $variables['item_attributes'][$delta] . '>' . drupal_render($item) . '</li>';
   }
 
   $output .= '</ul>';
 
   // Render the top-level DIV.
-  $output = '<div class="' . $variables['classes'] . '"' . $variables['attributes'] . '>' . $output . '</div>';
+  $output = '<div' . $variables['attributes'] . '>' . $output . '</div>';
 
   return $output;
 }
@@ -220,9 +219,6 @@ function uikit_fieldset__collapsible($variables) {
   $element = $variables['element'];
   element_set_attributes($element, array('id'));
   _form_set_class($element, array('form-wrapper', 'uk-form-width-large'));
-
-  // Grouped fieldsets are fieldsets grouped together, such as vertical tabs.
-  $group_fieldset = isset($element['#group_fieldset']) && $element['#group_fieldset'];
 
   $output = '<ul' . drupal_attributes($element['#attributes']) . '>';
 
@@ -613,13 +609,13 @@ function uikit_link($variables) {
       return $text;
 
     case '<uk-parent>':
-      return '<a href="#"' . drupal_attributes($attributes) . '>' . $text . '</a>';
+      return '<a href="#" ' . drupal_attributes($attributes) . '>' . $text . '</a>';
 
     case '<uk-nav-divider>':
       return '';
 
     default:
-      return '<a href="' . check_plain(url($path, $options)) . '"' . drupal_attributes($attributes) . '>' . $text . '</a>';
+      return '<a href="' . check_plain(url($path, $options)) . '" ' . drupal_attributes($attributes) . '>' . $text . '</a>';
   }
 }
 
@@ -837,15 +833,9 @@ function uikit_menu_link(array $variables) {
     elseif ((!empty($element['#original_link']['depth'])) && ($element['#original_link']['depth'] == 1)) {
       // Use our own theme wrapper.
       unset($element['#below']['#theme_wrappers']);
-      $sub_menu = '<div class="uk-dropdown uk-dropdown-navbar uk-dropdown-bottom" aria-hidden="true">';
-      $sub_menu .= '<ul class="uk-nav uk-nav-navbar">' . drupal_render($element['#below']) . '</ul>';
+      $sub_menu = '<div class="uk-navbar-dropdown">';
+      $sub_menu .= '<ul class="uk-nav uk-navbar-dropdown-nav">' . drupal_render($element['#below']) . '</ul>';
       $sub_menu .= '</div>';
-
-      // Generate as standard dropdown.
-      $attributes['class'][] = 'uk-parent';
-      $attributes['data-uk-dropdown'] = '';
-      $attributes['aria-haspopup'] = 'true';
-      $attributes['aria-expanded'] = 'false';
     }
     elseif ((!empty($element['#original_link']['depth'])) && ($element['#original_link']['depth'] == 2)) {
       // Use our own theme wrapper.

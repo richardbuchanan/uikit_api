@@ -29,8 +29,6 @@
  *   http://www.w3.org/TR/WCAG-TECHS/H42.html for more information.
  *
  * @see template_preprocess_links()
- *
- * @ingroup uikit_themeable
  */
 #}
 {% if links -%}
@@ -41,14 +39,7 @@
       <h2{{ heading.attributes }}>{{ heading.text }}</h2>
     {%- endif -%}
   {%- endif -%}
-  {%
-    set classes = [
-      'uk-subnav',
-      'uk-subnav-divider',
-      'uk-margin',
-    ]
-  %}
-  <ul{{ attributes. addClass(classes) }}>
+  <ul{{ attributes }}>
     {%- for item in links -%}
       <li{{ item.attributes }}>
         {%- if item.link -%}

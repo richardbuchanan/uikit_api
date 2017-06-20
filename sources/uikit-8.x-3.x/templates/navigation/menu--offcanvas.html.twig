@@ -34,13 +34,13 @@
     {%
       set classes = [
         menu_level == 0 ? 'uk-nav',
-        menu_level == 0 ? 'uk-nav-offcanvas',
+        menu_level == 0 ? 'uk-nav-default',
         menu_level == 0 ? 'uk-nav-parent-icon',
         menu_level > 0 ? 'uk-nav-sub',
       ]
     %}
 
-    <ul{{ attributes.addClass(classes) }}{% if menu_level == 0 %} data-uk-nav{% endif %}>
+    <ul{{ attributes.addClass(classes) }}{% if menu_level == 0 %} uk-nav{% endif %}>
     {% for item in items %}
       {% set item_classes = [item.below ? 'uk-parent'] %}
       {% if item.display_item %}

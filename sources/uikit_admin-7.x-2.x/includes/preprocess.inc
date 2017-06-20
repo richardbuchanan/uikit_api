@@ -92,6 +92,7 @@ function uikit_admin_preprocess_button(&$variables) {
 
     switch ($variables['element']['#value']) {
       case 'Add':
+      case 'Apply':
       case 'Continue':
       case 'Create new account':
       case 'Create new set':
@@ -120,7 +121,6 @@ function uikit_admin_preprocess_button(&$variables) {
         $variables['element']['#attributes']['class'][] = 'uk-button-warning';
         break;
 
-      case 'Cancel':
       case 'Delete':
       case 'Delete content type':
       case 'Delete role':
@@ -142,6 +142,16 @@ function uikit_admin_preprocess_container(&$variables) {
     $save_cancel_container = isset($element['save']) && isset($element['cancel']);
     if ($save_cancel_container) {
       $variables['theme_hook_suggestions'][] = 'container__views_view_edit';
+    }
+  }
+
+  if (isset($element['#attributes']['class']) && is_array($element['#attributes']['class'])) {
+    $help_block = in_array('uk-form-help-block', $element['#attributes']['class']);
+
+    if ($help_block) {
+      if(($key = array_search('uk-form-row', $element['#attributes']['class'])) !== false) {
+        unset($variables['element']['#attributes']['class'][$key]);
+      }
     }
   }
 }
@@ -268,7 +278,6 @@ function uikit_admin_preprocess_link(&$variables) {
     if (empty($classes) || !in_array('uk-button', $classes)) {
       $variables['options']['attributes']['class'][] = 'uk-button';
     }
-    $variables['options']['attributes']['class'][] = 'uk-button-danger';
   }
 }
 
@@ -476,11 +485,123 @@ function uikit_admin_preprocess_status_report(&$variables) {
 }
 
 /**
+ * Implements hook_preprocess_HOOK() for system-themes-page.tpl.php.
+ */
+function uikit_admin_preprocess_system_themes_page(&$variables) {
+  $theme_groups = $variables['theme_groups'];
+  $variables['themes'] = array();
+
+  foreach ($variables['theme_group_titles'] as $state => $title) {
+    $variables['themes'][$state] = array();
+
+    foreach ($theme_groups[$state] as $key => $theme) {
+      $variables['themes'][$state][$key] = array(
+        'name' => $theme->info['name'],
+      );
+
+      // Style theme info.
+      $variables['themes'][$state][$key]['description'] = $theme->info['description'];
+      $variables['themes'][$state][$key]['name'] .= isset($theme->info['version']) ? ' ' . $theme->info['version'] : '';
+      $variables['themes'][$state][$key]['name'] .= count($theme->notes) ? ' (' . implode(', ', $theme->notes) . ')' : '';
+
+      if ($state == 'enabled') {
+        $screenshot_variables = array(
+          'path' => $theme->screenshot['path'],
+          'width' => '294',
+          'alt' => $theme->screenshot['alt'],
+          'title' => $theme->screenshot['title'],
+          'attributes' => array(
+            'class' => array('screenshot', 'uk-thumbnail', 'uk-float-left', 'uk-margin-right'),
+          ),
+        );
+
+        // Theme the screenshot.
+        $variables['themes'][$state][$key]['screenshot'] = $theme->screenshot ? theme('image', $screenshot_variables) : '<div class="no-screenshot">' . t('no screenshot') . '</div>';
+
+        $variables['themes'][$state][$key]['incompatibility'] = FALSE;
+        $variables['themes'][$state][$key]['links'] = array();
+
+        // Make sure to provide feedback on compatibility.
+        if (!empty($theme->incompatible_core)) {
+          $variables['themes'][$state][$key]['incompatibility'] = t('This version is not compatible with Drupal !core_version and should be replaced.', array('!core_version' => DRUPAL_CORE_COMPATIBILITY));
+        }
+        elseif (!empty($theme->incompatible_php)) {
+          if (substr_count($theme->info['php'], '.') < 2) {
+            $theme->info['php'] .= '.*';
+          }
+          $variables['themes'][$state][$key]['incompatibility'] = t('This theme requires PHP version @php_required and is incompatible with PHP version !php_version.', array(
+            '@php_required' => $theme->info['php'],
+            '!php_version' => phpversion(),
+          ));
+        }
+        else {
+          $variables['themes'][$state][$key]['links'] = theme('links', array(
+            'links' => $theme->operations,
+            'attributes' => array(
+              'class' => array(
+                'uk-subnav',
+                'uk-subnav-line',
+                'uk-margin-remove',
+                'uk-admin-theme-operations',
+              ),
+            ),
+          ));
+        }
+      }
+      else {
+        $screenshot_variables = array(
+          'path' => $theme->screenshot['path'],
+          'alt' => $theme->screenshot['alt'],
+          'title' => $theme->screenshot['title'],
+          'attributes' => array(
+            'class' => array('screenshot'),
+          ),
+        );
+
+        // Theme the screenshot.
+        $variables['themes'][$state][$key]['screenshot'] = $theme->screenshot ? theme('image', $screenshot_variables) : '<div class="no-screenshot">' . t('no screenshot') . '</div>';
+
+        $variables['themes'][$state][$key]['incompatibility'] = FALSE;
+        $variables['themes'][$state][$key]['links'] = array();
+
+        // Make sure to provide feedback on compatibility.
+        if (!empty($theme->incompatible_core)) {
+          $variables['themes'][$state][$key]['incompatibility'] = t('This version is not compatible with Drupal !core_version and should be replaced.', array('!core_version' => DRUPAL_CORE_COMPATIBILITY));
+        }
+        elseif (!empty($theme->incompatible_php)) {
+          if (substr_count($theme->info['php'], '.') < 2) {
+            $theme->info['php'] .= '.*';
+          }
+          $variables['themes'][$state][$key]['incompatibility'] = t('This theme requires PHP version @php_required and is incompatible with PHP version !php_version.', array(
+            '@php_required' => $theme->info['php'],
+            '!php_version' => phpversion(),
+          ));
+        }
+        else {
+          $variables['themes'][$state][$key]['links'] = theme('links', array(
+            'links' => $theme->operations,
+            'attributes' => array(
+              'class' => array(
+                'uk-subnav',
+                'uk-subnav-line',
+                'uk-margin-remove',
+                'uk-admin-theme-operations',
+              ),
+            ),
+          ));
+        }
+      }
+    }
+  }
+}
+
+/**
  * Implements template_preprocess_HOOK() for theme_table().
  */
 function uikit_admin_preprocess_table(&$variables) {
   $variables['attributes']['class'][] = 'uk-table-hover';
   $variables['attributes']['class'][] = 'uk-table-striped';
+  $variables['attributes']['class'][] = 'uk-table-middle';
 
   $id = isset($variables['attributes']['id']) ? $variables['attributes']['id'] : 0;
 

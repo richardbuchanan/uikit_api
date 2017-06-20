@@ -7,7 +7,7 @@
  * `uk-push-*` and `uk-pull-*`
  *
  * UIkit does not currently support source ordering based on device size. These
- * added utility classes add that support in.
+ * utility classes add that support in.
  */
 [class*='uk-push'],
 [class*='uk-pull'],

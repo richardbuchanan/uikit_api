@@ -33,7 +33,12 @@
  * @ingroup uikit_themeable
  */
 #}
-<div{{ attributes.addClass('uk-navbar-left') }}>
+{%
+  set classes = [
+    'uk-visible@m',
+  ]
+%}
+<div{{ attributes.addClass(classes) }}>
   {% set heading_id = attributes.id ~ '-menu'|clean_id %}
   {# Label. If not displayed, we still provide it for screen readers. #}
   {% if not configuration.label_display %}

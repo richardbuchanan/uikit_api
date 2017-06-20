@@ -3,8 +3,12 @@ status: true
 dependencies:
   module:
     - system
+    - uikit_components
   theme:
     - uikit
+third_party_settings:
+  uikit_components:
+    uikit_navbar_alignment: left
 id: uikit_branding
 theme: uikit
 region: navbar

@@ -35,26 +35,21 @@
       set classes = [
         menu_level == 0 ? 'uk-navbar-nav',
         menu_level > 0 ? 'uk-nav',
-        menu_level > 0 ? 'uk-nav-navbar',
+        menu_level > 0 ? 'uk-navbar-dropdown-nav',
       ]
     %}
 
     {% if menu_level > 0 %}
-      <div class="uk-dropdown uk-dropdown-navbar uk-dropdown-bottom">
+      <div class="uk-navbar-dropdown">
     {% endif %}
 
     <ul{{ attributes.addClass(classes) }}>
     {% for item in items %}
-      {% set item_classes = [item.below ? 'uk-parent'] %}
-      <li{{ item.attributes.addClass(item_classes) }}{% if menu_level == 0 and item.below %} data-uk-dropdown{% endif %}>
+      <li{{ item.attributes }}>
         {% if item.is_header %}
           {{  item.title }}
         {% elseif not item.is_divider %}
-          {% if item.has_url %}
-            {{ link(item.title, item.url) }}
-          {% else %}
-            <a href="">{{ item.title }}</a>
-          {% endif %}
+          {{ link(item.title, item.url) }}
         {% endif %}
         {% if item.below %}
           {{ menus.menu_links(item.below, attributes.removeClass(classes), menu_level + 1) }}

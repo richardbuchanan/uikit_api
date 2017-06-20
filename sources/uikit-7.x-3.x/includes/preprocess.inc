@@ -511,21 +511,24 @@ function uikit_preprocess_comment(&$variables) {
     $variables['classes_array'][] = 'uk-comment-primary';
   }
   $variables['title_attributes_array']['class'][] = 'uk-comment-title';
+  $variables['title_attributes_array']['class'][] = 'uk-margin-remove';
   $variables['content_attributes_array']['class'][] = 'uk-comment-body';
 
-  // Use the comment cid as the permalink text in the comment title.
+  // Use the comment id as the permalink text in the comment title.
+  $id = $variables['id'];
   $cid = $comment->cid;
   $uri = entity_uri('node', $node);
   $uri['options'] += array(
     'attributes' => array(
       'class' => array(
         'permalink',
+        'uk-link-reset',
       ),
       'rel' => 'bookmark',
     ),
     'fragment' => "comment-$cid",
   );
-  $variables['permalink'] = l(t('#@cid', array('@cid' => $cid)), $uri['path'], $uri['options']);
+  $variables['permalink'] = l(t('#@id', array('@id' => $id)), $uri['path'], $uri['options']);
 
   // Use the same uri for the title permalink.
   $variables['title'] = l(t('@subject', array('@subject' => $comment->subject)), $uri['path'], $uri['options']);
@@ -583,6 +586,13 @@ function uikit_preprocess_field(&$variables) {
   }
 
   $variables['classes_array'] = $classes;
+
+  if ($variables['element']['#field_name'] == 'field_tags') {
+    foreach ($variables['items'] as $delta => $item) {
+      $variables['item_attributes_array'][$delta]['class'][] = 'field-item';
+      $variables['item_attributes_array'][$delta]['class'][] = $delta % 2 ? 'odd' : 'even';
+    }
+  }
 }
 
 /**

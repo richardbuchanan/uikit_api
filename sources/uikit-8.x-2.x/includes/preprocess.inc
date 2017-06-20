@@ -119,7 +119,7 @@ function uikit_preprocess_block(&$variables) {
   switch ($region) {
     case 'navbar':
       // Get navbar alignment from block settings.
-      $variables['navbar_flip'] = $navbar_alignment = $block->getThirdPartySetting('uikit_components', 'navbar_alignment') ? 1 : 0;
+      $variables['navbar_flip'] = $navbar_alignment = $block->getThirdPartySetting('uikit_components', 'uikit_navbar_alignment') ? 1 : 0;
 
       if ($system_menu_block) {
         // Define #theme variable for navbar menus.
