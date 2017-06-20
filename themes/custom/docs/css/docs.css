@@ -78,6 +78,14 @@ a:hover,
 .uk-article-lead {
   font-weight: 600;
 }
+.profile .uk-article-lead {
+  font-weight: 400;
+}
+.profile blockquote {
+  float: right;
+  margin-top: 50px !important;
+  margin-left: 50px !important;
+}
 .uk-badge:not([class*='uk-badge-']),
 .uk-button-primary,
 .uk-pagination>.uk-active>span,

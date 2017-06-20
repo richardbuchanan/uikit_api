@@ -147,6 +147,128 @@ function docs_container__api($variables) {
 }
 
 /**
+ * Implements theme_field().
+ */
+function docs_field__field_about_me__user(&$variables) {
+  $output = '<div class="uk-margin-large-bottom">';
+  $username = $variables['element']['#object']->name;
+
+  // Render the label, if it's not hidden.
+  if (!$variables['label_hidden']) {
+    $output .= '<p class="uk-article-lead">About ' . $username . '</p>';
+  }
+
+  // Render the items.
+  foreach ($variables['items'] as $delta => $item) {
+    $output .= '<div>' . drupal_render($item) . '</div>';
+  }
+
+  $output .= '</div>';
+  return $output;
+}
+
+/**
+ * Implements theme_field().
+ */
+function docs_field__field_image__forum(&$variables) {
+  $output = '<div class="uk-panel uk-panel-box uk-panel-box-secondary uk-panel-header uk-margin-large-top uk-margin-large-bottom">';
+
+  // Render the label, if it's not hidden.
+  if (!$variables['label_hidden']) {
+    $output .= '<h3 class="uk-panel-title">' . $variables['label'] . '</h3>';
+  }
+
+  foreach ($variables['items'] as $delta => $item) {
+    $variables['items'][$delta]['#theme_hook_suggestions'][] = 'image__forum_post';
+    $output .= drupal_render($item);
+  }
+  $output .= '</div>';
+
+  return $output;
+}
+
+/**
+ * Implements theme_image().
+ */
+function docs_image__forum($variables) {
+  $attributes = $variables['attributes'];
+  $attributes['src'] = file_create_url($variables['path']);
+
+  foreach (array('width', 'height', 'alt', 'title') as $key) {
+
+    if (isset($variables[$key])) {
+      $attributes[$key] = $variables[$key];
+    }
+  }
+
+  $output = '<figure class="uk-thumbnail uk-margin-right">';
+  $output .= '<img' . drupal_attributes($attributes) . ' />';
+
+  if ($variables['title']) {
+    $output .= '<figcaption class="uk-thumbnail-caption">' . $variables['title'] . '</figcaption>';
+  }
+
+  $output .= '</figure>';
+  return $output;
+}
+
+/**
+ * Implements theme_image_formatter().
+ */
+function docs_image_formatter($variables) {
+  $item = $variables['item'];
+  $image = array(
+    'path' => $item['uri'],
+  );
+
+  if (array_key_exists('alt', $item)) {
+    $image['alt'] = $item['alt'];
+  }
+
+  if (isset($item['attributes'])) {
+    $image['attributes'] = $item['attributes'];
+  }
+
+  if (isset($item['width']) && isset($item['height'])) {
+    $image['width'] = $item['width'];
+    $image['height'] = $item['height'];
+  }
+
+  // Do not output an empty 'title' attribute.
+  if (isset($item['title']) && drupal_strlen($item['title']) > 0) {
+    $image['title'] = $item['title'];
+  }
+
+  if ($variables['image_style']) {
+    $image['style_name'] = $variables['image_style'];
+    $output = theme('image_style', $image);
+  }
+  else {
+    $output = theme('image', $image);
+  }
+
+  // The link path and link options are both optional, but for the options to be
+  // processed, the link path must at least be an empty string.
+  if (isset($variables['path']['path'])) {
+    $path = $variables['path']['path'];
+    $options = isset($variables['path']['options']) ? $variables['path']['options'] : array();
+
+    // When displaying an image inside a link, the html option must be TRUE.
+    $options['html'] = TRUE;
+
+    if ($variables['image_style'] && $variables['image_style'] == 'forum_image') {
+      uikit_get_cdn_asset('lightbox');
+      uikit_get_cdn_asset('slidenav');
+      $options['attributes']['data-uk-lightbox'] = "{group:'forum-post-images'}";
+    }
+
+    $output = l($output, $path, $options);
+  }
+
+  return $output;
+}
+
+/**
  * Implements theme_item_list().
  */
 function docs_item_list(&$variables) {

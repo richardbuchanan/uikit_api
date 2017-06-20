@@ -261,6 +261,23 @@ function docs_preprocess_menu_tree(&$variables) {
 }
 
 /**
+ * Implements template_preprocess_user_profile().
+ */
+function docs_preprocess_user_profile(&$variables) {
+  $account = $variables['elements']['#account'];
+  $signature = $account->signature;
+  $variables['elements']['signature'] = array(
+    '#markup' => $signature,
+    '#weight' => -9,
+  );
+
+  // Helpful $user_profile variable for templates.
+  foreach (element_children($variables['elements']) as $key) {
+    $variables['user_profile'][$key] = $variables['elements'][$key];
+  }
+}
+
+/**
  * Implements template_preprocess_views_view().
  */
 function docs_preprocess_views_view__advanced_forum_topic_list(&$variables) {
@@ -451,6 +468,17 @@ function docs_preprocess_forums(&$variables) {
     if (isset($mark_as_read['mark-read'])) {
       $variables['forum_tools'] = l($mark_as_read['mark-read']['title'], $mark_as_read['mark-read']['href']);
     }
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function docs_preprocess_image(&$variables) {
+  $style = isset($variables['style_name']) ? $variables['style_name'] : 0;
+
+  if ($style == 'forum_image') {
+    $variables['theme_hook_suggestions'][] = 'image__forum';
   }
 }
 
