@@ -136,8 +136,10 @@
       <?php endif; ?>
 
       <?php if ($messages): ?>
-        <div id="messages" class="uk-width-1-1">
-          <?php print $messages; ?>
+        <div id="messages">
+          <div class="<?php if ($is_front): ?>uk-width-small-2-3 uk-push-small-1-6 uk-width-medium-1-2 uk-push-medium-1-4<?php else: ?>uk-width-1-1<?php endif; ?>">
+            <?php print $messages; ?>
+          </div>
         </div>
       <?php endif; ?>
 

@@ -496,6 +496,12 @@ del.uk-text-danger a {
 body.front #footer {
   background: #2ba3d4;
 }
+body.front #messages {
+  background: #2ba3d4;
+}
+body.front .uk-alert {
+  margin-bottom: 0 !important;
+}
 .docs-margin-large-bottom {
   margin-bottom: 80px;
 }
@@ -585,6 +591,7 @@ body.front #footer {
   color: #444;
 }
 .docs-panel-link {
+  margin-bottom: 15px !important;
   padding: 30px 30px 60px 30px;
   border: 1px solid #e5e5e5;
   -webkit-backface-visibility: hidden;
