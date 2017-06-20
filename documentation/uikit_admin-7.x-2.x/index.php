@@ -9,7 +9,7 @@
  * @link https://www.drupal.org/theming Theming and Front End Development with Drupal @endlink
  * before reading the heavily-documented UIkit topics below.
  *
- * @section about_uikit About UIkit Admin
+ * @section about_uikit_admin About UIkit Admin
  * UIkit Admin is an administration theme using UIkit as a base theme.
  *
  * @section features Features
@@ -20,4 +20,10 @@
  * This theme is currently in the development stage and not recommended for use
  * on production sites. Visit the issue queue to report bugs and security issues
  * to help get us to a stable feature release.
+ *
+ * @section api_projects Projects
+ * Other project API's hosted on this site.
+ * - @link /api/uikit UIkit @endlink
+ * - @link /api/uikit_blog UIkit Blog @endlink
+ * - @link /api/uikit_components UIkit Components @endlink
  */

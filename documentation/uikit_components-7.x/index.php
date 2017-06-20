@@ -15,4 +15,10 @@
  * backend, such as empty navbar links. With this module you can add more
  * functionality to the UIkit frontend through the Drupal backend without the
  * need for contributed modules which may add more functionality than needed.
+ *
+ * @section api_projects Projects
+ * Other project API's hosted on this site.
+ * - @link /api/uikit UIkit @endlink
+ * - @link /api/uikit_admin UIkit Admin @endlink
+ * - @link /api/uikit_blog UIkit Blog @endlink
  */
