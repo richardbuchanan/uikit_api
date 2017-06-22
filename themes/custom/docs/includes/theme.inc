@@ -12,22 +12,28 @@
  * Implements theme_advanced_forum_simple_author_pane().
  */
 function docs_advanced_forum_simple_author_pane(&$variables) {
-  $output = '';
   $context = $variables['context'];
-  // Sending the context rather than the account makes it work for anon comments.
-  $name = theme('username', array('account' => $context));
-
   $account = user_load($context->uid);
-  $picture = theme('user_picture', array('account' => $account));
-  if (empty($picture)) {
-    $src = drupal_get_path('theme', 'docs') . '/templates/advanced_forum/placeholder_avatar.svg';
-    $picture = '<img class="uk-comment-avatar" src="/' . $src . '" width="50" height="50" alt="" />';
+
+  if (!empty($account->picture->uri)) {
+    $filepath = $account->picture->uri;
+  }
+  else {
+    $filepath = drupal_get_path('theme', 'docs') . '/templates/advanced_forum/placeholder_avatar.svg';
   }
 
-  $output .= $picture;
-  //$output .= '<h4 class="uk-comment-title">' . $name . '</h4>';
+  $alt = t("@user's picture", array('@user' => format_username($account)));
+  $style = variable_get('user_picture_style', '');
 
-  return $output;
+  return theme('image_style', array(
+    'style_name' => $style,
+    'path' => $filepath,
+    'alt' => $alt,
+    'title' => $alt,
+    'attributes' => array(
+      'class' => array('uk-comment-avatar'),
+    ),
+  ));
 }
 
 /**
