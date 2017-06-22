@@ -14,26 +14,34 @@
 function docs_advanced_forum_simple_author_pane(&$variables) {
   $context = $variables['context'];
   $account = user_load($context->uid);
-
-  if (!empty($account->picture->uri)) {
-    $filepath = $account->picture->uri;
-  }
-  else {
-    $filepath = drupal_get_path('theme', 'docs') . '/templates/advanced_forum/placeholder_avatar.svg';
-  }
-
   $alt = t("@user's picture", array('@user' => format_username($account)));
   $style = variable_get('user_picture_style', '');
 
-  return theme('image_style', array(
-    'style_name' => $style,
-    'path' => $filepath,
-    'alt' => $alt,
-    'title' => $alt,
-    'attributes' => array(
-      'class' => array('uk-comment-avatar'),
-    ),
-  ));
+  if (!empty($account->picture->uri)) {
+    $filepath = $account->picture->uri;
+
+    return theme('image_style', array(
+      'style_name' => $style,
+      'path' => $filepath,
+      'title' => $alt,
+      'alt' => $alt,
+      'attributes' => array(
+        'class' => array('uk-comment-avatar'),
+      ),
+    ));
+  }
+  else {
+    $filepath = variable_get('user_picture_default');
+
+    return theme('image', array(
+      'path' => $filepath,
+      'title' => $alt,
+      'alt' => $alt,
+      'attributes' => array(
+        'class' => array('uk-comment-avatar'),
+      ),
+    ));
+  }
 }
 
 /**
@@ -156,7 +164,7 @@ function docs_container__api($variables) {
  * Implements theme_field().
  */
 function docs_field__field_about_me__user(&$variables) {
-  $output = '<div class="uk-margin-large-bottom">';
+  $output = '<div class="uk-margin-bottom user-profile-about">';
   $username = $variables['element']['#object']->name;
 
   // Render the label, if it's not hidden.
@@ -201,21 +209,12 @@ function docs_image__forum($variables) {
   $attributes['src'] = file_create_url($variables['path']);
 
   foreach (array('width', 'height', 'alt', 'title') as $key) {
-
     if (isset($variables[$key])) {
       $attributes[$key] = $variables[$key];
     }
   }
 
-  $output = '<figure class="uk-thumbnail uk-margin-right">';
-  $output .= '<img' . drupal_attributes($attributes) . ' />';
-
-  if ($variables['title']) {
-    $output .= '<figcaption class="uk-thumbnail-caption">' . $variables['title'] . '</figcaption>';
-  }
-
-  $output .= '</figure>';
-  return $output;
+  return '<img' . drupal_attributes($attributes) . ' />';
 }
 
 /**

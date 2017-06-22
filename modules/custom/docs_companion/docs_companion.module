@@ -128,6 +128,144 @@ function docs_companion_form_messaging_simple_view_form_alter(&$form, &$form_sta
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter() for user_profile_form.
+ */
+function docs_companion_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
+  $pictures_enabled = variable_get('user_pictures', 0);
+  $signatures_enabled = variable_get('user_signatures', 0);
+
+  if ($pictures_enabled) {
+    $form['picture']['#weight'] = 0;
+  }
+
+  if ($signatures_enabled) {
+    $form['signature_settings']['#states'] = array(
+      'visible' => array(
+        ':input[name="field_random_quotes[und]"]' => array('checked' => FALSE),
+      ),
+    );
+    $form['field_random_quotes_author']['#states'] = array(
+      'visible' => array(
+        ':input[name="field_random_quotes[und]"]' => array('checked' => TRUE),
+      ),
+    );
+  }
+  else {
+    $form['field_random_quotes']['#disabled'] = TRUE;
+    $form['field_random_quotes']['#attributes']['class'][] = 'element-invisible';
+    $form['field_random_quotes']['#attributes']['class'][] = 'uk-hidden';
+
+    $form['field_random_quotes_author']['#disabled'] = TRUE;
+    $form['field_random_quotes_author']['#attributes']['class'][] = 'element-invisible';
+    $form['field_random_quotes_author']['#attributes']['class'][] = 'uk-hidden';
+  }
+
+  $form['#validate'][] = 'docs_companion_user_profile_form_validate';
+  $form['#submit'][] = 'docs_companion_user_profile_form_submit';
+}
+
+function docs_companion_user_profile_form_validate($form, &$form_state) {
+  $signatures_enabled = variable_get('user_signatures', 0);
+  $quotes = $form_state['values']['field_random_quotes']['und'][0]['value'];
+  $quotes_author = $form_state['values']['field_random_quotes_author']['und'][0]['value'];
+
+  if ($signatures_enabled && $quotes && $quotes_author) {
+    $a = lcfirst($quotes_author[0]);
+    $author = strtolower($quotes_author);
+    $author = explode(' ', $author);
+    $author = implode('_', $author);
+    $url = "https://www.brainyquote.com/quotes/authors/$a/$author.html";
+    $status_code = docs_companion_get_http_response_code($url);
+
+    if ($status_code != '200') {
+      $message = t('The author <em class="placeholder">@author</em> was not found. Please enter a new author.', array('@author' => $quotes_author));
+      form_set_error('field_random_quotes_author', $message);
+    }
+  }
+}
+
+function docs_companion_user_profile_form_submit($form, &$form_state) {
+  $signatures_enabled = variable_get('user_signatures', 0);
+  $quotes = $form_state['values']['field_random_quotes']['und'][0]['value'];
+  $quotes_author = $form_state['values']['field_random_quotes_author']['und'][0]['value'];
+
+  if ($signatures_enabled && $quotes && $quotes_author) {
+    docs_companion_save_author_quotes($quotes_author);
+  }
+}
+
+function docs_companion_get_http_response_code($url) {
+  $headers = get_headers($url);
+  return substr($headers[0], 9, 3);
+}
+
+function docs_companion_create_directory($destination = NULL) {
+  // A directory to operate on.
+  $path = file_default_scheme() . '://' . $destination;
+
+  if ($destination && !is_dir($path)) {
+    drupal_mkdir($path, NULL, TRUE);
+  }
+
+  return $path;
+}
+
+function docs_companion_save_author_quotes($quotes_author = NULL) {
+  if ($quotes_author) {
+    $a = lcfirst($quotes_author[0]);
+    $author = strtolower($quotes_author);
+    $author = explode(' ', $author);
+    $author = implode('_', $author);
+    $url = "https://www.brainyquote.com/quotes/authors/$a/$author.html";
+    $html = file_get_html($url);
+    $contents = '';
+    $quotes = $html->find('.b-qt');
+
+    foreach ($quotes as $index => $quote) {
+      $contents .= $quote->plaintext . "\n";
+    }
+
+    $contents = rtrim($contents);
+    $filename = "$author.txt";
+    $destination = docs_companion_create_directory("quotes/$a");
+    $is_file = is_file(drupal_realpath("$destination/$filename"));
+
+    if (!$is_file) {
+      file_save_data($contents, "$destination/$filename", FILE_EXISTS_REPLACE);
+    }
+  }
+}
+
+function docs_companion_get_author_quotes($author = NULL) {
+  $quotes = array();
+
+  if ($author) {
+    $a = lcfirst($author[0]);
+    $filename = "$author.txt";
+    $uri = file_default_scheme() . "://quotes/$a/$filename";
+    $is_file = is_file(drupal_realpath($uri));
+
+    if ($is_file) {
+      $quotes = file(drupal_realpath($uri));
+    }
+  }
+
+  return $quotes;
+}
+
+function docs_companion_get_random_quote($quotes_author = NULL) {
+  if ($quotes_author) {
+    $author = strtolower($quotes_author);
+    $author = explode(' ', $author);
+    $author = implode('_', $author);
+    $quotes_array = docs_companion_get_author_quotes($author);
+    srand((double)microtime()*1000000);
+    $random_quote = rand(0, count($quotes_array)-1);
+    return trim($quotes_array[$random_quote]);
+  }
+}
+
+/**
  * Redirect users to their messages page after deleting a simple message.
  *
  * @param array $form

@@ -266,10 +266,35 @@ function docs_preprocess_menu_tree(&$variables) {
 function docs_preprocess_user_profile(&$variables) {
   $account = $variables['elements']['#account'];
   $signature = $account->signature;
-  $variables['elements']['signature'] = array(
-    '#markup' => $signature,
-    '#weight' => -9,
+  $quotes = isset($account->field_random_quotes['und']) ? $account->field_random_quotes['und'][0]['value'] : 0;
+  $quotes_author = isset($account->field_random_quotes_author['und']) ? $account->field_random_quotes_author['und'][0]['value'] : 0;
+  $signature_output = '<div class="user-signature uk-float-right">';
+
+  $variables['elements']['user_picture']['#weight'] = 0;
+
+  if ($quotes && $quotes_author) {
+    $random_quote = docs_companion_get_random_quote($quotes_author);
+    $signature = "<p>$random_quote</p>";
+    $signature .= "<small>$quotes_author</small>";
+  }
+
+  if ($quotes || !empty($signature)) {
+    $signature_output .= "<blockquote>$signature</blockquote>";
+    $signature_output .= '</div>';
+
+    $variables['elements']['signature'] = array(
+      '#markup' => $signature_output,
+      '#weight' => 1,
+    );
+  }
+
+  $variables['elements']['divider'] = array(
+    '#markup' => '<hr class="uk-article-divider user-profile-divider">',
+    '#weight' => 2,
   );
+
+  $variables['elements']['field_about_me']['#weight'] = 3;
+  $variables['elements']['summary']['#weight'] = 4;
 
   // Helpful $user_profile variable for templates.
   foreach (element_children($variables['elements']) as $key) {
@@ -841,5 +866,64 @@ function docs_preprocess_textfield(&$variables) {
 
   if ($api_search) {
     $variables['theme_hook_suggestions'][] = 'textfield__api_search';
+  }
+}
+
+/**
+ * Implements template_preprocess_user_picture().
+ */
+function docs_preprocess_user_picture(&$variables) {
+  $variables['user_picture'] = '';
+  $variables['classes_array'] = array(
+    'uk-float-left',
+    'uk-margin-right',
+    'uk-margin-bottom',
+  );
+
+  if (variable_get('user_pictures', 0)) {
+    $account = $variables['account'];
+    if (!empty($account->picture)) {
+      // @TODO: Ideally this function would only be passed file objects, but
+      // since there's a lot of legacy code that JOINs the {users} table to
+      // {node} or {comments} and passes the results into this function if we
+      // a numeric value in the picture field we'll assume it's a file id
+      // and load it for them. Once we've got user_load_multiple() and
+      // comment_load_multiple() functions the user module will be able to load
+      // the picture files in mass during the object's load process.
+      if (is_numeric($account->picture)) {
+        $account->picture = file_load($account->picture);
+      }
+      if (!empty($account->picture->uri)) {
+        $filepath = $account->picture->uri;
+      }
+    }
+    elseif (variable_get('user_picture_default', '')) {
+      $filepath = variable_get('user_picture_default', '');
+    }
+    if (isset($filepath)) {
+      $alt = t("@user's picture", array('@user' => format_username($account)));
+      // If the image does not have a valid Drupal scheme (for eg. HTTP),
+      // don't load image styles.
+      if (module_exists('image') && file_valid_uri($filepath) && $style = variable_get('user_picture_style', '')) {
+        $variables['user_picture'] = theme('image_style', array(
+          'style_name' => $style,
+          'path' => $filepath,
+          'alt' => $alt,
+          'title' => $alt,
+          'attributes' => array(
+            'class' => array('uk-thumbnail'),
+          ),
+        ));
+      }
+      else {
+        $variables['user_picture'] = theme('image', array(
+          'path' => $filepath,
+          'alt' => $alt,
+          'attributes' => array(
+            'class' => array('uk-thumbnail'),
+          ),
+        ));
+      }
+    }
   }
 }

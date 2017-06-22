@@ -81,10 +81,16 @@ a:hover,
 .profile .uk-article-lead {
   font-weight: 400;
 }
-.profile blockquote {
-  float: right;
-  margin-top: 50px !important;
-  margin-left: 50px !important;
+.profile .user-signature>* {
+  margin-top: 0;
+}
+.profile h3 {
+  border: 0;
+}
+.profile .user-profile-about,
+.profile .user-profile-divider,
+.profile .user-profile-category {
+  clear: both;
 }
 .uk-badge:not([class*='uk-badge-']),
 .uk-button-primary,

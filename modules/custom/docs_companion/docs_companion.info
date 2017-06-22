@@ -2,3 +2,5 @@ name = Docs companion
 description = Helper module for the UIkit docs theme.
 core = 7.x
 package = UIkit
+
+dependencies[] = simplehtmldom
