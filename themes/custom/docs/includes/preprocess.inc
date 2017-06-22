@@ -207,7 +207,20 @@ function docs_preprocess_node(&$variables) {
     $variables['classes_array'][] = 'uk-comment';
     $variables['classes_array'][] = 'uk-margin-bottom';
     $account = $variables['account'];
+    $signature = '';
+
+    $random_quotes = $account->field_random_quotes['und'][0]['value'];
+    if ($random_quotes) {
+      $quotes_author = $account->field_random_quotes_author['und'][0]['value'];
+      $random_quote = docs_companion_get_random_quote($quotes_author);
+      $signature = "<p>$random_quote</p><small>$quotes_author</small>";
+    }
+    elseif (!empty($account->signature)) {
+      $signature = $account->signature;
+    }
+
     $variables['author_link'] = theme('username', array('account' => $account));
+    $variables['author_signature'] = $signature;
   }
 }
 
@@ -217,6 +230,7 @@ function docs_preprocess_node(&$variables) {
 function docs_preprocess_comment(&$variables) {
   if (isset($variables['theme_hook_suggestion']) && $variables['theme_hook_suggestion'] == 'advanced_forum_post') {
     $account = $variables['account'];
+    dpm($account);
 
     $comment = $variables['elements']['#comment'];
     $id = $variables['id'] + 1;

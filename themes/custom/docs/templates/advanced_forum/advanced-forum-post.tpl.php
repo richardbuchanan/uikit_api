@@ -71,12 +71,20 @@
       print render($content);
     ?>
 
-    <?php if (!empty($post_edited)): ?>
-      <?php print $post_edited ?>
-    <?php endif; ?>
+    <?php if (!empty($post_edited) || !empty($author_signature)): ?>
+      <div class="uk-display-inline-block uk-margin-top uk-margin-bottom uk-width-1-1">
+        <?php if (!empty($post_edited)): ?>
+          <div class="uk-float-left">
+            <?php print $post_edited ?>
+          </div>
+        <?php endif; ?>
 
-    <?php if (!empty($signature)): ?>
-      <?php print $signature ?>
+        <?php if (!empty($author_signature)): ?>
+          <div class="uk-float-right">
+            <blockquote><?php print $author_signature; ?></blockquote>
+          </div>
+        <?php endif; ?>
+      </div>
     <?php endif; ?>
 
     <div class="uk-margin-bottom">
@@ -92,4 +100,5 @@
   </div>
 </article>
 
+<hr class="uk-article-divider">
 <?php print render($content['comments']); ?>

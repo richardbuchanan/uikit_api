@@ -92,6 +92,10 @@ a:hover,
 .profile .user-profile-category {
   clear: both;
 }
+.forum-post .uk-comment-avatar,
+.uk-comment .uk-comment-avatar {
+  max-height: 50px;
+}
 .uk-badge:not([class*='uk-badge-']),
 .uk-button-primary,
 .uk-pagination>.uk-active>span,
