@@ -10,3 +10,11 @@
  *
  * @see preprocess.inc
  */
+
+/**
+ * Implements template_process_page().
+ */
+/* -- Delete this line if you want to use this function
+function STARTERKIT_process_page(&$variables) {
+}
+// */

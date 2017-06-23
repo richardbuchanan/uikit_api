@@ -12,11 +12,6 @@
  * @ingroup uikit_themeable
  */
 #}
-{%
-  set classes = [
-    'uk-form-stacked',
-  ]
-%}
-<form{{ attributes.addClass(classes) }}>
+<form{{ attributes.addClass('uk-form-stacked') }}>
   {{ children }}
 </form>

@@ -16,20 +16,9 @@
  * @ingroup uikit_themeable
  */
 #}
-{%
-  set details_classes = [
-    'uk-margin',
-  ]
-%}
-<details{{ attributes.addClass(details_classes) }}>
-  {%
-    set summary_classes = [
-      required ? 'js-form-required',
-      required ? 'form-required',
-    ]
-  %}
+<details{{ attributes.addClass('uk-margin') }}>
   {%- if title -%}
-    <summary{{ summary_attributes.addClass(summary_classes) }}>{{ title }}</summary>
+    <summary{{ summary_attributes }}>{{ title }}</summary>
   {%- endif -%}
 
   <div>

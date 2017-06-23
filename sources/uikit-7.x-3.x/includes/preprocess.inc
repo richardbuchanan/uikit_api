@@ -326,7 +326,7 @@ function uikit_preprocess_page(&$variables) {
   // Define navbar attributes.
   $variables['navbar_attributes_array'] = array(
     'id' => 'page-navbar',
-    'class' => 'uk-navbar-container',
+    'class' => array('uk-navbar-container'),
     'uk-navbar' => '',
   );
 

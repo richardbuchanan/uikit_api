@@ -46,10 +46,15 @@ function uikit_theme_suggestions_block_alter(array &$suggestions, array $variabl
   // Add block__REGION to theme suggestions.
   $suggestions[] = 'block__' . $region;
 
-  // Add block__REGION__menu to system menu blocks.
+  // Add block__REGION__menu to system menu blocks and block__navbar__item to
+  // non-system menu and non-system branding blocks.
+  $system_branding_block = $base_plugin_id == 'system_branding_block';
   $system_menu_block = $base_plugin_id == 'system_menu_block';
   if ($system_menu_block) {
     $suggestions[] = 'block__' . $region . '__menu';
+  }
+  elseif ($region == 'navbar' && !$system_branding_block) {
+    $suggestions[] = 'block__navbar__item';
   }
 }
 

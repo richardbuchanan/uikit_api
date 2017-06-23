@@ -37,12 +37,13 @@
     {{ title_suffix }}
   {% endif %}
 
-  <ul class="uk-comment-list">
-    {{ comments }}
-  </ul>
+  {% if comments %}
+    <ul class="uk-comment-list">
+      {{ comments }}
+    </ul>
+  {% endif %}
 
   {% if comment_form %}
-    <hr>
     <h2{{ content_attributes.addClass('uk-margin-top') }}>{{ 'Add new comment'|t }}</h2>
     {{ comment_form }}
   {% endif %}

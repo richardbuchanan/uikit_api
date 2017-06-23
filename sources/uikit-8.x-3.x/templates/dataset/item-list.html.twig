@@ -19,9 +19,6 @@
  * @see template_preprocess_item_list()
  */
 #}
-{% if context.list_style %}
-  {%- set attributes = attributes.addClass('item-list__' ~ context.list_style) %}
-{% endif %}
 {%
   set classes = [
     'uk-list',

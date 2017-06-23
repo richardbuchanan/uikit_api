@@ -48,21 +48,13 @@
 #}
 {%
   set classes = [
-    'js-form-item',
     'form-item',
-    'js-form-type-' ~ type|clean_class,
     name ? 'form-item-' ~ name|clean_class,
-    name ? 'js-form-item-' ~ name|clean_class,
-    title_display not in ['after', 'before'] ? 'form-no-label',
-    disabled == 'disabled' ? 'form-disabled',
-    errors ? 'form-item--error',
     'uk-margin',
-    grouped ? 'uk-margin-top',
   ]
 %}
 {%
   set description_classes = [
-    'description',
     description_display == 'invisible' ? 'visually-hidden',
     'uk-form-help-block',
   ]
@@ -95,7 +87,7 @@
   {% endif %}
 
   {% if errors %}
-    <div class="form-item--error-message uk-alert uk-alert-danger">
+    <div class="uk-alert uk-alert-danger">
       {{ errors }}
     </div>
   {% endif %}

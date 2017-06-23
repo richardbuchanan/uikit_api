@@ -22,27 +22,8 @@
  * @ingroup uikit_themeable
  */
 #}
-{%
-  set classes = [
-    'js-form-item',
-    'form-item',
-    'js-form-wrapper',
-    'form-wrapper',
-    'uk-margin',
-  ]
-%}
-<fieldset{{ attributes.addClass(classes) }}>
-  {%
-    set legend_span_classes = [
-      'fieldset-legend',
-      required ? 'js-form-required',
-      required ? 'form-required',
-    ]
-  %}
-  {#  Always wrap fieldset legends in a SPAN for CSS positioning. #}
-  <legend{{ legend.attributes }}>
-    <span{{ legend_span.attributes.addClass(legend_span_classes) }}>{{ legend.title }}</span>
-  </legend>
+<fieldset{{ attributes.addClass('uk-fieldset') }}>
+  <legend{{ legend.attributes.addClass('uk-legend') }}>{{ legend.title }}</legend>
   <div class="fieldset-wrapper">
     {% if errors %}
       <div>
