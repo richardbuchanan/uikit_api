@@ -1,0 +1,41 @@
+{#
+/**
+ * @file
+ * Theme override to display the branding block.
+ *
+ * Each branding element variable (logo, name, slogan) is only available if
+ * enabled in the block configuration.
+ *
+ * Available variables:
+ * - site_logo: Logo for site as defined in Appearance or theme settings.
+ * - site_name: Name for site as defined in Site information settings.
+ * - site_slogan: Slogan for site as defined in Site information settings.
+ *
+ * @see template_preprocess_block()
+ * @see uikit_preprocess_block()
+ *
+ * @ingroup uikit_blog_themeable
+ */
+#}
+{% if site_logo or site_name or site_slogan %}
+  {% if navbar_flip %}
+    <div class="uk-navbar-flip">
+  {% endif %}
+
+  {% if site_logo or site_name %}
+    <a href="{{ path('<front>') }}" title="{{ 'Home'|t }}" rel="home" class="uk-navbar-brand site-branding">
+      <img src="{{ site_logo }}" alt="{{ 'Home'|t }}" class="site-branding__logo" />
+      {% if site_name %}
+        <span class="site-branding__name uk-margin-left">{{ site_name }}</span>
+      {% endif %}
+    </a>
+  {% endif %}
+
+  {% if site_slogan %}
+    <span class="uk-navbar-brand site-branding__slogan">{{ site_slogan }}</span>
+  {% endif %}
+
+  {% if navbar_flip %}
+    </div>
+  {% endif %}
+{% endif %}

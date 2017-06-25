@@ -1,0 +1,55 @@
+/**
+ * @file
+ * Macro arrangement of a web page, including any grid systems.
+ */
+.uikit-blog-container-small {
+  box-sizing: border-box;
+  max-width: 800px;
+  margin: auto;
+  width: 100%;
+}
+@media (min-width: 1220px) {
+  .uikit-blog-container-small {
+    max-width: 920px;
+  }
+}
+.uikit-blog-container-small:after,
+.uikit-blog-container-small:before {
+  content: "";
+  display: table;
+}
+.uikit-blog-container-small:after {
+  clear: both;
+}
+@media (max-width: 767px) {
+  .uk-margin-large {
+    margin-bottom: 20px;
+  }
+  *+.uk-margin-large {
+    margin-top: 20px;
+  }
+}
+
+/**
+ * Navbar.
+ */
+.uk-blog-search-button {
+  top: 8px;
+  right: 8px;
+}
+@media (max-width: 620px) {
+  .uk-navbar-brand {
+    float: none;
+    text-align: center;
+  }
+  .uk-navbar-brand>img,
+  .uk-navbar-brand>.site-branding__name {
+    position: relative;
+    left: -30px;
+  }
+  .navbar-flip--search_form_block {
+    float: none;
+    height: 50px;
+    width: 100%;
+  }
+}

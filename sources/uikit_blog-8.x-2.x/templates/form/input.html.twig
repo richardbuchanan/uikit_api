@@ -1,0 +1,27 @@
+{#
+/**
+ * @file
+ * Theme override to display an input form element.
+ *
+ * Available variables:
+ * - attributes: A list of HTML attributes for the input element.
+ * - children: Optional additional rendered elements.
+ *
+ * @see template_preprocess_input()
+ * @see uikit_preprocess_input()
+ * @see uikit_blog_preprocess_input()
+ *
+ * @ingroup uikit_blog_themeable
+ */
+#}
+{%
+  set classes = [
+    attributes.type == 'submit' ? 'uk-button',
+    errors ? 'uk-form-danger',
+  ]
+%}
+{% if attributes.type != 'submit' %}
+  <input{{ attributes.addClass(classes) }} />{{ children }}
+{% else %}
+  <button{{ attributes }}>{{ attributes.value }}</button>{{ children }}
+{% endif %}

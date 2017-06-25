@@ -1,0 +1,184 @@
+/**
+ * @file
+ * UIkit theme settings styles.
+ *
+ * Provides graphical examples of many settings on the theme settings page.
+ */
+.uk-icon:not(a) {
+  cursor: default;
+}
+.uk-admin-demo {
+  float: right;
+}
+.uk-admin-text-medium {
+  font-size: 18px;
+}
+.uk-layout-container {
+  background: #fff;
+  height: 100%;
+  width: 100%;
+}
+.uk-layout-content,
+.uk-layout-sidebar {
+  position: relative;
+  float: left;
+}
+.uk-layout-content {
+  background: #ff9400;
+}
+.uk-layout-sidebar {
+  background: #0080ff;
+}
+.vertical-tabs-pane > .fieldset-wrapper > .fieldset-description {
+  padding: 5px 0 10px;
+}
+#logo-preview,
+#favicon-preview {
+  display: inline-block;
+  background: #fff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, .4);
+  margin: 10px 0;
+  padding: 5px;
+}
+
+/**
+ * Layout settings.
+ */
+#edit-standard-layout .uk-layout-wrapper {
+  height: 99px;
+  width: 176px;
+}
+#edit-tablet-layout .uk-layout-wrapper {
+  height: 132px;
+  width: 124px;
+}
+#edit-mobile-layout .uk-layout-wrapper {
+  height: 96px;
+  width: 54px;
+}
+#edit-standard-layout .form-type-radios,
+#edit-tablet-layout .form-type-radios,
+#edit-mobile-layout .form-type-radios {
+  float: left;
+  margin-top: 0;
+}
+#edit-standard-layout .uk-layout-content {
+  height: 100%;
+  width: 88px;
+}
+#edit-standard-layout .uk-layout-sidebar-left,
+#edit-standard-layout .uk-layout-sidebar-right {
+  height: 100%;
+  width: 40px;
+}
+#edit-standard-layout .uk-layout-holy-grail .uk-layout-content {
+  left: 44px;
+}
+#edit-standard-layout .uk-layout-holy-grail .uk-layout-sidebar-left,
+#edit-standard-layout .uk-layout-sidebars-left .uk-layout-sidebar-left {
+  left: -88px;
+}
+#edit-standard-layout .uk-layout-holy-grail .uk-layout-sidebar-right,
+#edit-tablet-layout .uk-layout-holy-grail .uk-layout-sidebar-right {
+  right: -8px;
+}
+#edit-standard-layout .uk-layout-sidebars-left .uk-layout-content {
+  left: 88px;
+}
+#edit-standard-layout .uk-layout-sidebars-left .uk-layout-sidebar-right {
+  left: -84px;
+}
+#edit-standard-layout .uk-layout-sidebars-right .uk-layout-sidebar-left,
+#edit-tablet-layout .uk-layout-sidebars-right .uk-layout-sidebar-left {
+  left: 4px;
+}
+#edit-standard-layout .uk-layout-sidebars-right .uk-layout-sidebar-right,
+#edit-tablet-layout .uk-layout-sidebars-right .uk-layout-sidebar-right {
+  left: 8px;
+}
+#edit-tablet-layout .uk-layout-content {
+  height: 100%;
+  width: 62px;
+}
+#edit-tablet-layout .uk-layout-holy-grail .uk-layout-content,
+#edit-tablet-layout .uk-layout-sidebar-left-stacked .uk-layout-content {
+  left: 31px;
+}
+#edit-tablet-layout .uk-layout-holy-grail .uk-layout-sidebar-left,
+#edit-tablet-layout .uk-layout-holy-grail .uk-layout-sidebar-right,
+#edit-tablet-layout .uk-layout-sidebars-left .uk-layout-sidebar-left,
+#edit-tablet-layout .uk-layout-sidebars-left .uk-layout-sidebar-right,
+#edit-tablet-layout .uk-layout-sidebars-right .uk-layout-sidebar-left,
+#edit-tablet-layout .uk-layout-sidebars-right .uk-layout-sidebar-right,
+#edit-tablet-layout .uk-layout-sidebar-left-stacked .uk-layout-sidebar-left {
+  height: 100%;
+  width: 27px;
+}
+#edit-tablet-layout .uk-layout-holy-grail .uk-layout-sidebar-left,
+#edit-tablet-layout .uk-layout-sidebars-left .uk-layout-sidebar-left {
+  left: -62px;
+}
+#edit-tablet-layout .uk-layout-sidebars-left .uk-layout-content {
+  left: 62px;
+}
+#edit-tablet-layout .uk-layout-sidebars-left .uk-layout-sidebar-right {
+  left: -58px;
+}
+#edit-tablet-layout .uk-layout-sidebar-left-stacked .uk-layout-sidebar-right {
+  width: 100%;
+}
+#edit-tablet-layout .uk-layout-sidebar-left-stacked .uk-layout-content,
+#edit-tablet-layout .uk-layout-sidebar-left-stacked .uk-layout-sidebar-left,
+#edit-tablet-layout .uk-layout-sidebar-right-stacked .uk-layout-content {
+  height: 101px;
+}
+#edit-tablet-layout .uk-layout-sidebar-left-stacked .uk-layout-content,
+#edit-tablet-layout .uk-layout-sidebar-right-stacked .uk-layout-content {
+  width: 92px;
+}
+#edit-tablet-layout .uk-layout-sidebar-left-stacked .uk-layout-sidebar-left {
+  left: -92px;
+}
+#edit-tablet-layout .uk-layout-sidebar-left-stacked .uk-layout-sidebar-right {
+  bottom: -4px;
+  height: 27px;
+}
+#edit-tablet-layout .uk-layout-sidebar-right-stacked .uk-layout-sidebar-left {
+  left: 4px;
+  height: 101px;
+  width: 27px;
+}
+#edit-tablet-layout .uk-layout-sidebar-right-stacked .uk-layout-sidebar-right {
+  bottom: -4px;
+  height: 27px;
+  width: 100%;
+}
+#edit-mobile-layout .uk-layout-sidebars-stacked .uk-layout-content,
+#edit-mobile-layout .uk-layout-sidebars-vertical .uk-layout-content {
+  height: 68px;
+  width: 100%;
+}
+#edit-mobile-layout .uk-layout-sidebars-stacked .uk-layout-sidebar-left,
+#edit-mobile-layout .uk-layout-sidebars-stacked .uk-layout-sidebar-right {
+  height: 12px;
+  width: 100%;
+}
+#edit-mobile-layout .uk-layout-sidebars-stacked .uk-layout-sidebar-left {
+  bottom: -2px;
+}
+#edit-mobile-layout .uk-layout-sidebars-stacked .uk-layout-sidebar-right {
+  bottom: -4px;
+}
+#edit-mobile-layout .uk-layout-sidebars-vertical .uk-layout-sidebar-left,
+#edit-mobile-layout .uk-layout-sidebars-vertical .uk-layout-sidebar-right {
+  top: 2px;
+  height: 26px;
+  width: 26px;
+}
+#edit-mobile-layout .uk-layout-sidebars-vertical .uk-layout-sidebar-right {
+  left: 2px;
+}
+#edit-device-width .form-type-textfield input[type=text],
+#edit-device-height .form-type-textfield input[type=text] {
+  max-width: 150px;
+}

@@ -1,0 +1,57 @@
+/**
+ * @file
+ * Purely visual styling (“look-and-feel”) for a component.
+ */
+
+/**
+ * Login form.
+ */
+#user-login-form .form-item-name {
+  margin-top: 0!important;
+}
+
+/**
+ * Nodes.
+ */
+.node--teaser .uk-panel-teaser a {
+  display: inline-block;
+  width: 100%;
+}
+.node--teaser .uk-panel-teaser img {
+  width: 100%;
+}
+.node-submitted-footer {
+  color: #999;
+}
+.node-submitted-footer .node--author-picture img {
+  max-width: 50px;
+}
+.node--tags span:not(:first-of-type) {
+}
+.node--tags span:not(:first-of-type):before {
+  display: inline-block;
+  content: "| ";
+  margin-right: 5px;
+}
+
+/**
+ * Tag fields.
+ */
+.uk-subnav>*>[class*=uk-icon-]:focus,
+.uk-subnav>*>[class*=uk-icon-]:hover {
+  color: inherit;
+}
+
+/**
+ * Views.
+ */
+.views--view--frontpage .views-row {
+  margin-bottom: 25px;
+}
+.views--view--frontpage .views-row:first-child {
+  margin-top: 25px;
+}
+.views--view--frontpage .views-row:not(:first-child) {
+  border-top: 1px solid #ddd;
+  padding-top: 25px;
+}

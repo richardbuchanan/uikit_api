@@ -1,0 +1,97 @@
+<?php
+
+/**
+ * @file
+ * UIkit Views.
+ *
+ * Companion module to the UIkit base theme to provide Views plugins.
+ */
+
+/**
+ * Implements hook_help().
+ */
+function uikit_views_help($path, $arg) {
+  $output = '';
+
+  // Setup translatable string arguments.
+  $t_args = array(
+    '!uikit' => 'https://www.drupal.org/project/uikit',
+
+    // Current plugin style components.
+    '!grid' => 'https://getuikit.com/docs/grid',
+    '!list' => 'https://getuikit.com/docs/list',
+    '!table' => 'https://getuikit.com/docs/table',
+
+    // @todo Future plugin style components.
+    '!accordion' => 'https://getuikit.com/docs/accordion',
+    '!card' => 'https://getuikit.com/docs/card',
+    '!cover' => 'https://getuikit.com/docs/cover',
+    '!nav' => 'https://getuikit.com/docs/nav',
+    '!slidenav' => 'https://getuikit.com/docs/slidenav',
+    '!subnav' => 'https://getuikit.com/docs/subnav',
+  );
+
+  switch ($path) {
+    case 'admin/help#uikit_views':
+      $output = '<p>' . t('The UIkit Views module provides Views plugins for the <a href="!uikit" target="_blank">UIkit theme</a>.', $t_args) . '</p>';
+      $output .= '<h3>' . t('Views plugins') . '</h3>';
+      $output .= '<p>' . t('<strong>Style</strong>: Style plugins control how a view is displayed. For the most part they are object wrappers around theme templates. Styles UIkit Views provides:') . '</p>';
+      $output .= '<ul>';
+      $output .= '<li>' . t('<a href="!grid" target="_blank">Grid</a>', $t_args) . '</li>';
+      $output .= '<li>' . t('<a href="!list" target="_blank">List</a>', $t_args) . '</li>';
+      $output .= '<li>' . t('<a href="!table" target="_blank">Table</a>', $t_args) . '</li>';
+      $output .= '</ul>';
+      break;
+  }
+
+  return $output;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function uikit_views_theme($existing, $type, $theme, $path) {
+  $uikit_views = drupal_get_path('module', 'uikit_views');
+
+  $hooks['uikit_view_grid'] = array(
+    'variables' => array('view' => NULL, 'options' => NULL, 'rows' => NULL, 'title' => NULL),
+    'path' => $uikit_views . '/templates',
+    'template' => 'uikit-view-grid',
+    'pattern' => 'uikit_view_grid__',
+    'preprocess functions' => array(
+      'template_preprocess_uikit_view_grid',
+    ),
+    'file' => 'uikit_views.theme.inc',
+  );
+  $hooks['uikit_view_list'] = array(
+    'variables' => array('view' => NULL, 'options' => NULL, 'rows' => NULL, 'title' => NULL),
+    'template' => 'templates/uikit-view-list',
+    'file' => 'templates/uikit_views.theme.inc',
+    'pattern' => 'uikit_view_list__',
+    'preprocess functions' => array(
+      'template_preprocess_uikit_view_list',
+    ),
+  );
+  $hooks['uikit_view_table'] = array(
+    'variables' => array('view' => NULL, 'options' => NULL, 'rows' => NULL, 'title' => NULL),
+    'path' => $uikit_views . '/templates',
+    'template' => 'uikit-view-table',
+    'pattern' => 'uikit_view_table__',
+    'preprocess functions' => array(
+      'template_preprocess_uikit_view_table',
+    ),
+    'file' => 'uikit_views.theme.inc',
+  );
+
+  return $hooks;
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function uikit_views_views_api() {
+  return array(
+    'api' => 3.0,
+    'template path' => drupal_get_path('module', 'uikit_views') . '/templates',
+  );
+}

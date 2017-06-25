@@ -1,0 +1,32 @@
+{#
+/**
+ * @file
+ * Theme override to display a form.
+ *
+ * Available variables
+ * - attributes: A list of HTML attributes for the wrapper element.
+ * - children: The child elements of the form.
+ *
+ * @see template_preprocess_form()
+ * @see uikit_blog_preprocess_form()
+ *
+ * @ingroup uikit_blog_themeable
+ */
+#}
+{%
+  set classes = [
+    'uk-form',
+    'uk-form-stacked',
+    form_id == 'user_login_form' ? 'uk-panel',
+    form_id == 'user_login_form' ? 'uk-panel-box',
+    form_id == 'user_login_form' ? 'uk-width-small-4-5',
+    form_id == 'user_login_form' ? 'uk-width-medium-1-2',
+    form_id == 'user_login_form' ? 'uk-width-large-1-3',
+    form_id == 'user_login_form' ? 'uk-push-small-1-10',
+    form_id == 'user_login_form' ? 'uk-push-medium-1-4',
+    form_id == 'user_login_form' ? 'uk-push-large-1-3',
+  ]
+%}
+<form{{ attributes.addClass(classes) }}>
+  {{ children }}
+</form>

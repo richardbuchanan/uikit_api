@@ -1,0 +1,47 @@
+/**
+ * @file
+ * Styling for the Field module.
+ */
+
+.field .field-label {
+  font-weight: bold;
+}
+.field-label-inline .field-label,
+.field-label-inline .field-items {
+  float: left; /*LTR*/
+}
+
+/* Form display */
+form .field-multiple-table {
+  margin: 0;
+}
+form .field-multiple-table th.field-label {
+  padding-left: 0; /*LTR*/
+}
+form .field-multiple-table td.field-multiple-drag {
+  width: 30px;
+  padding-right: 0; /*LTR*/
+}
+form .field-multiple-table td.field-multiple-drag a.tabledrag-handle {
+  padding-right: .5em; /*LTR*/
+}
+
+form .field-add-more-submit {
+  margin: .5em 0 0;
+}
+
+/* Customizations */
+.form-type-radio .uk-form-help-block,
+.form-type-checkbox .uk-form-help-block {
+  margin: 5px 0 0 1.3em;
+}
+.form-radios > .form-type-radio {
+  margin-top: 0.4em;
+  margin-bottom: 0.4em;
+}
+.form-type-checkbox.uk-form-row+.form-type-checkbox.uk-form-row {
+  margin-top: 0.75em;
+}
+.form-checkboxes .form-type-checkbox+.form-type-checkbox {
+  margin-top: 0;
+}

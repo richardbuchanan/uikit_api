@@ -1,0 +1,102 @@
+/**
+ * @file
+ * Macro arrangement of a web page, including any grid systems.
+ */
+.uikit-blog-container-small {
+  box-sizing: border-box;
+  max-width: 800px;
+  margin: auto;
+  width: 100%;
+}
+@media (min-width: 1220px) {
+  .uikit-blog-container-small {
+    max-width: 920px;
+  }
+}
+.uikit-blog-container-small:after,
+.uikit-blog-container-small:before {
+  content: "";
+  display: table;
+}
+.uikit-blog-container-small:after {
+  clear: both;
+}
+@media (max-width: 767px) {
+  .uk-margin-large {
+    margin-bottom: 20px;
+  }
+  *+.uk-margin-large {
+    margin-top: 20px;
+  }
+}
+
+/**
+ * Navbar.
+ */
+.search-block-form {
+  box-sizing: border-box;
+  display: block;
+  float: left;
+}
+.search-block-form>.uk-form {
+  position: relative;
+  display: inline-block!important;
+  max-width: 100%;
+  margin: 0!important;
+  padding: 10px 0;
+}
+@media (max-width: 620px) {
+  .uk-navbar-brand {
+    float: none;
+    text-align: center;
+  }
+  .uk-navbar-brand>img,
+  .uk-navbar-brand>.site-branding__name {
+    position: relative;
+    left: -30px;
+  }
+  .navbar-flip--search_form_block {
+    float: none;
+    height: 50px;
+    width: 100%;
+  }
+  .search-block-form {
+    float: none;
+    padding: 0 !important;
+  }
+  .search-block-form>.uk-form {
+    display: inline-block !important;
+    text-align: center;
+    margin-left: 10% !important;
+    margin-right: 10% !important;
+    width: 78%;
+  }
+  .search-block-form .form-search {
+    width: 100%;
+  }
+}
+@media (min-width: 767px) {
+  .search-block-form .form-search {
+    min-width: 200px;
+  }
+}
+
+/**
+ * Sticky nav.
+ */
+@media (max-width: 767px) {
+  body.toolbar-vertical [data-uk-sticky].uk-active,
+  body.toolbar-horizontal [data-uk-sticky].uk-active {
+    top: 0 !important;
+    position: static !important;
+  }
+}
+@media (min-width: 768px) {
+  body.toolbar-vertical [data-uk-sticky].uk-active,
+  body.toolbar-horizontal [data-uk-sticky].uk-active {
+    top: 39px !important;
+  }
+  body.toolbar-horizontal.toolbar-tray-open [data-uk-sticky].uk-active {
+    top: 78px !important;
+  }
+}

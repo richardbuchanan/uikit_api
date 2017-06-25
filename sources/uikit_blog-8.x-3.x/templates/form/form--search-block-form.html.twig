@@ -1,0 +1,18 @@
+{#
+/**
+ * @file
+ * Theme override to display the search block form.
+ *
+ * Available variables
+ * - attributes: A list of HTML attributes for the wrapper element.
+ * - children: The child elements of the form.
+ *
+ * @see template_preprocess_form()
+ * @see uikit_blog_preprocess_form()
+ *
+ * @ingroup uikit_blog_themeable
+ */
+#}
+<form{{ attributes.addClass('uk-position-relative') }}>
+  {{ children }}
+</form>

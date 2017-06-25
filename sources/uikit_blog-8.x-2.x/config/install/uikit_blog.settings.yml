@@ -1,0 +1,26 @@
+base_style: 'almost-flat'
+standard_sidebar_positions: 'holy-grail'
+tablet_sidebar_positions: 'sidebar-left-stacked'
+mobile_sidebar_positions: 'sidebars-stacked'
+page_container: 1
+page_centering: 1
+page_margin: 'uk-margin'
+navbar_container: 0
+navbar_centering: 0
+navbar_attached: 1
+navbar_margin_top: 0
+navbar_margin_bottom: 0
+primary_tasks_style: 'uk-tab'
+secondary_tasks_style: 'uk-subnav-line'
+display_breadcrumbs: 1
+breakcrumbs_home_link: 0
+breakcrumbs_current_page: 0
+node_date_format: 'custom'
+node_date_format__custom: 'F j'
+default_user_picture: 'default'
+uikit_tooltips: 1
+tooltip_alignment: 'top'
+tooltip_offset: '5'
+tooltip_animation: 0
+tooltip_delay: '0'
+tooltip_active_class: 'uk-active'

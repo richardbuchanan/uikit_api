@@ -1,0 +1,14 @@
+name = UIkit Views
+description = Provides Views plugins for the UIkit theme.
+core = 7.x
+package = UIkit
+
+dependencies[] = uikit_components
+dependencies[] = views
+
+files[] = plugins/UIkitViewsPluginStyleAccordion.inc
+files[] = plugins/UIkitViewsPluginStyleGrid.inc
+files[] = plugins/UIkitViewsPluginStyleList.inc
+files[] = plugins/UIkitViewsPluginStyleTable.inc
+
+stylesheets[all][] = css/uikit-views-preview.css
