@@ -8,9 +8,9 @@
 use Drupal\docs\Docs;
 
 define('UIKIT_7X_2X_CURRENT_VERSION', '7.x-2.5');
-define('UIKIT_7X_3X_CURRENT_VERSION', '7.x-3.0-beta4');
-define('UIKIT_8X_2X_CURRENT_VERSION', '8.x-2.7');
-define('UIKIT_8X_3X_CURRENT_VERSION', '8.x-3.0-beta5');
+define('UIKIT_7X_3X_CURRENT_VERSION', '7.x-3.0-beta5');
+define('UIKIT_8X_2X_CURRENT_VERSION', '8.x-2.8');
+define('UIKIT_8X_3X_CURRENT_VERSION', '8.x-3.0-beta8');
 
 /**
  * Implements hook_menu().

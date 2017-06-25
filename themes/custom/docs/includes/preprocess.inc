@@ -350,8 +350,12 @@ function docs_preprocess_views_view_field(&$variables) {
     $output = str_replace('sources/<wbr />uikit-8.x-2.x/<wbr />', '', $output);
     $output = str_replace('sources/<wbr />uikit-8.x-3.x/<wbr />', '', $output);
     $output = str_replace('sources/<wbr />uikit_admin-7.x-2.x/<wbr />', '', $output);
-    $output = str_replace('sources/<wbr />uikit_components-7.x-1.x/<wbr />', '', $output);
-    $output = str_replace('sources/<wbr />uikit_components-8.x-1.x/<wbr />', '', $output);
+    $output = str_replace('sources/<wbr />uikit_blog-8.x-2.x/<wbr />', '', $output);
+    $output = str_replace('sources/<wbr />uikit_blog-8.x-3.x/<wbr />', '', $output);
+    $output = str_replace('sources/<wbr />uikit_components-7.x-2.x/<wbr />', '', $output);
+    $output = str_replace('sources/<wbr />uikit_components-7.x-3.x/<wbr />', '', $output);
+    $output = str_replace('sources/<wbr />uikit_components-8.x-2.x/<wbr />', '', $output);
+    $output = str_replace('sources/<wbr />uikit_components-8.x-3.x/<wbr />', '', $output);
     $variables['output'] = $output;
   }
 }
@@ -535,8 +539,12 @@ function docs_preprocess_api_class_page(&$variables) {
     $alternatives = str_replace('8.x-2.x sources/uikit-8.x-2.x/', '8.x-2.x ', $alternatives);
     $alternatives = str_replace('8.x-3.x sources/uikit-8.x-3.x/', '8.x-3.x ', $alternatives);
     $alternatives = str_replace('7.x-2.x sources/uikit_admin-7.x-2.x/', '7.x-2.x ', $alternatives);
-    $alternatives = str_replace('7.x-1.x sources/uikit_components-7.x-1.x/', '7.x-1.x ', $alternatives);
-    $alternatives = str_replace('8.x-1.x sources/uikit_components-8.x-1.x/', '8.x-1.x ', $alternatives);
+    $alternatives = str_replace('8.x-2.x sources/uikit_blog-8.x-2.x/', '8.x-2.x ', $alternatives);
+    $alternatives = str_replace('8.x-3.x sources/uikit_blog-8.x-3.x/', '8.x-3.x ', $alternatives);
+    $alternatives = str_replace('7.x-2.x sources/uikit_components-7.x-2.x/', '7.x-2.x ', $alternatives);
+    $alternatives = str_replace('7.x-3.x sources/uikit_components-7.x-3.x/', '7.x-3.x ', $alternatives);
+    $alternatives = str_replace('8.x-2.x sources/uikit_components-8.x-2.x/', '8.x-2.x ', $alternatives);
+    $alternatives = str_replace('8.x-3.x sources/uikit_components-8.x-3.x/', '8.x-3.x ', $alternatives);
     $variables['alternatives'] = $alternatives;
   }
   if ($defined) {
@@ -546,8 +554,12 @@ function docs_preprocess_api_class_page(&$variables) {
     $defined = str_replace('sources/<wbr />uikit-8.x-2.x/<wbr />', '', $defined);
     $defined = str_replace('sources/<wbr />uikit-8.x-3.x/<wbr />', '', $defined);
     $defined = str_replace('sources/<wbr />uikit_admin-7.x-2.x/<wbr />', '', $defined);
-    $defined = str_replace('sources/<wbr />uikit_components-7.x-1.x/<wbr />', '', $defined);
-    $defined = str_replace('sources/<wbr />uikit_components-8.x-1.x/<wbr />', '', $defined);
+    $defined = str_replace('sources/<wbr />uikit_blog-8.x-2.x/<wbr />', '', $defined);
+    $defined = str_replace('sources/<wbr />uikit_blog-8.x-3.x/<wbr />', '', $defined);
+    $defined = str_replace('sources/<wbr />uikit_components-7.x-2.x/<wbr />', '', $defined);
+    $defined = str_replace('sources/<wbr />uikit_components-7.x-3.x/<wbr />', '', $defined);
+    $defined = str_replace('sources/<wbr />uikit_components-8.x-2.x/<wbr />', '', $defined);
+    $defined = str_replace('sources/<wbr />uikit_components-8.x-3.x/<wbr />', '', $defined);
     $variables['defined'] = $defined;
   }
 }
@@ -594,8 +606,12 @@ function docs_preprocess_api_file_page(&$variables) {
     $alternatives = str_replace('8.x-2.x sources/uikit-8.x-2.x/', '8.x-2.x ', $alternatives);
     $alternatives = str_replace('8.x-3.x sources/uikit-8.x-3.x/', '8.x-3.x ', $alternatives);
     $alternatives = str_replace('7.x-2.x sources/uikit_admin-7.x-2.x/', '7.x-2.x ', $alternatives);
-    $alternatives = str_replace('7.x-1.x sources/uikit_components-7.x-1.x/', '7.x-1.x ', $alternatives);
-    $alternatives = str_replace('8.x-1.x sources/uikit_components-8.x-1.x/', '8.x-1.x ', $alternatives);
+    $alternatives = str_replace('8.x-2.x sources/uikit_blog-8.x-2.x/', '8.x-2.x ', $alternatives);
+    $alternatives = str_replace('8.x-3.x sources/uikit_blog-8.x-3.x/', '8.x-3.x ', $alternatives);
+    $alternatives = str_replace('7.x-1.x sources/uikit_components-7.x-2.x/', '7.x-1.x ', $alternatives);
+    $alternatives = str_replace('8.x-1.x sources/uikit_components-7.x-3.x/', '8.x-1.x ', $alternatives);
+    $alternatives = str_replace('7.x-1.x sources/uikit_components-8.x-2.x/', '7.x-1.x ', $alternatives);
+    $alternatives = str_replace('8.x-1.x sources/uikit_components-8.x-3.x/', '8.x-1.x ', $alternatives);
     $variables['alternatives'] = $alternatives;
   }
   if ($defined) {
@@ -605,15 +621,23 @@ function docs_preprocess_api_file_page(&$variables) {
     $defined = str_replace('sources/uikit-8.x-2.x/', '', $defined);
     $defined = str_replace('sources/uikit-8.x-3.x/', '', $defined);
     $defined = str_replace('sources/uikit_admin-7.x-2.x/', '', $defined);
-    $defined = str_replace('sources/uikit_components-7.x-1.x/', '', $defined);
-    $defined = str_replace('sources/uikit_components-8.x-1.x/', '', $defined);
+    $defined = str_replace('sources/uikit_blog-8.x-2.x/', '', $defined);
+    $defined = str_replace('sources/uikit_blog-8.x-3.x/', '', $defined);
+    $defined = str_replace('sources/uikit_components-7.x-2.x/', '', $defined);
+    $defined = str_replace('sources/uikit_components-7.x-3.x/', '', $defined);
+    $defined = str_replace('sources/uikit_components-8.x-2.x/', '', $defined);
+    $defined = str_replace('sources/uikit_components-8.x-3.x/', '', $defined);
     $defined = str_replace('sources/<wbr />uikit-7.x-2.x/<wbr />', '', $defined);
     $defined = str_replace('sources/<wbr />uikit-7.x-3.x/<wbr />', '', $defined);
     $defined = str_replace('sources/<wbr />uikit-8.x-2.x/<wbr />', '', $defined);
     $defined = str_replace('sources/<wbr />uikit-8.x-3.x/<wbr />', '', $defined);
+    $defined = str_replace('sources/<wbr />uikit_blog-8.x-2.x/<wbr />', '', $defined);
+    $defined = str_replace('sources/<wbr />uikit_blog-8.x-3.x/<wbr />', '', $defined);
     $defined = str_replace('sources/<wbr />uikit_admin-7.x-2.x/<wbr />', '', $defined);
-    $defined = str_replace('sources/<wbr />uikit_components-7.x-1.x/<wbr />', '', $defined);
-    $defined = str_replace('sources/<wbr />uikit_components-8.x-1.x/<wbr />', '', $defined);
+    $defined = str_replace('sources/<wbr />uikit_components-7.x-2.x/<wbr />', '', $defined);
+    $defined = str_replace('sources/<wbr />uikit_components-7.x-3.x/<wbr />', '', $defined);
+    $defined = str_replace('sources/<wbr />uikit_components-8.x-2.x/<wbr />', '', $defined);
+    $defined = str_replace('sources/<wbr />uikit_components-8.x-3.x/<wbr />', '', $defined);
     $variables['defined'] = $defined;
   }
 }
@@ -650,8 +674,12 @@ function docs_preprocess_api_function_page(&$variables) {
     $defined = str_replace('sources/<wbr />uikit-8.x-2.x/<wbr />', '', $defined);
     $defined = str_replace('sources/<wbr />uikit-8.x-3.x/<wbr />', '', $defined);
     $defined = str_replace('sources/<wbr />uikit_admin-7.x-2.x/<wbr />', '', $defined);
-    $defined = str_replace('sources/<wbr />uikit_components-7.x-1.x/<wbr />', '', $defined);
-    $defined = str_replace('sources/<wbr />uikit_components-8.x-1.x/<wbr />', '', $defined);
+    $defined = str_replace('sources/<wbr />uikit_blog-8.x-2.x/<wbr />', '', $defined);
+    $defined = str_replace('sources/<wbr />uikit_blog-8.x-3.x/<wbr />', '', $defined);
+    $defined = str_replace('sources/<wbr />uikit_components-7.x-2.x/<wbr />', '', $defined);
+    $defined = str_replace('sources/<wbr />uikit_components-7.x-3.x/<wbr />', '', $defined);
+    $defined = str_replace('sources/<wbr />uikit_components-8.x-2.x/<wbr />', '', $defined);
+    $defined = str_replace('sources/<wbr />uikit_components-8.x-3.x/<wbr />', '', $defined);
     $variables['defined'] = $defined;
   }
 }
@@ -661,7 +689,41 @@ function docs_preprocess_api_function_page(&$variables) {
  */
 function docs_preprocess_api_functions(&$variables) {
   foreach ($variables['functions'] as $key => $function) {
-    $variables['functions'][$key]['file'] = str_replace('./', '', $function['file']);
+    $file = $function['file'];
+
+    if (strpos($file, 'uikit-7.x-2.x') !== false) {
+      $variables['functions'][$key]['file'] = str_replace('sources/<wbr />uikit-7.x-2.x/<wbr />', '', $file);
+    }
+    elseif (strpos($file, 'uikit-7.x-3.x') !== false) {
+      $variables['functions'][$key]['file'] = str_replace('sources/<wbr />uikit-7.x-3.x/<wbr />', '', $file);
+    }
+    elseif (strpos($file, 'uikit-8.x-2.x') !== false) {
+      $variables['functions'][$key]['file'] = str_replace('sources/<wbr />uikit-8.x-2.x/<wbr />', '', $file);
+    }
+    elseif (strpos($file, 'uikit-8.x-3.x') !== false) {
+      $variables['functions'][$key]['file'] = str_replace('sources/<wbr />uikit-8.x-3.x/<wbr />', '', $file);
+    }
+    elseif (strpos($file, 'uikit_admin-7.x-2.x') !== false) {
+      $variables['functions'][$key]['file'] = str_replace('sources/<wbr />uikit_admin-7.x-2.x/<wbr />', '', $file);
+    }
+    elseif (strpos($file, 'uikit_blog-8.x-2.x') !== false) {
+      $variables['functions'][$key]['file'] = str_replace('sources/<wbr />uikit_blog-8.x-2.x/<wbr />', '', $file);
+    }
+    elseif (strpos($file, 'uikit_blog-8.x-3.x') !== false) {
+      $variables['functions'][$key]['file'] = str_replace('sources/<wbr />uikit_blog-8.x-3.x/<wbr />', '', $file);
+    }
+    elseif (strpos($file, 'uikit_components-7.x-2.x') !== false) {
+      $variables['functions'][$key]['file'] = str_replace('sources/<wbr />uikit_components-7.x-2.x/<wbr />', '', $file);
+    }
+    elseif (strpos($file, 'uikit_components-7.x-3.x') !== false) {
+      $variables['functions'][$key]['file'] = str_replace('sources/<wbr />uikit_components-7.x-3.x/<wbr />', '', $file);
+    }
+    elseif (strpos($file, 'uikit_components-8.x-2.x') !== false) {
+      $variables['functions'][$key]['file'] = str_replace('sources/<wbr />uikit_components-8.x-2.x/<wbr />', '', $file);
+    }
+    elseif (strpos($file, 'uikit_components-8.x-3.x') !== false) {
+      $variables['functions'][$key]['file'] = str_replace('sources/<wbr />uikit_components-8.x-3.x/<wbr />', '', $file);
+    }
   }
 }
 
@@ -725,6 +787,13 @@ function docs_preprocess_api_group_page(&$variables) {
     $alternatives = str_replace('7.x-3.x documentation/uikit-7.x-3.x/', '7.x-3.x ', $alternatives);
     $alternatives = str_replace('8.x-2.x documentation/uikit-8.x-2.x/', '8.x-2.x ', $alternatives);
     $alternatives = str_replace('8.x-3.x documentation/uikit-8.x-3.x/', '8.x-3.x ', $alternatives);
+    $alternatives = str_replace('7.x-2.x documentation/uikit_admin-7.x-2.x/', '7.x-2.x ', $alternatives);
+    $alternatives = str_replace('8.x-2.x documentation/uikit_blog-8.x-2.x/', '8.x-2.x ', $alternatives);
+    $alternatives = str_replace('8.x-3.x documentation/uikit_blog-8.x-3.x/', '8.x-3.x ', $alternatives);
+    $alternatives = str_replace('7.x-2.x documentation/uikit_components-7.x-2.x/', '7.x-2.x ', $alternatives);
+    $alternatives = str_replace('7.x-3.x documentation/uikit_components-7.x-3.x/', '7.x-3.x ', $alternatives);
+    $alternatives = str_replace('8.x-2.x documentation/uikit_components-8.x-2.x/', '8.x-2.x ', $alternatives);
+    $alternatives = str_replace('8.x-3.x documentation/uikit_components-8.x-3.x/', '8.x-3.x ', $alternatives);
     $variables['alternatives'] = $alternatives;
   }
   if ($defined) {
@@ -733,6 +802,13 @@ function docs_preprocess_api_group_page(&$variables) {
     $defined = str_replace('documentation/<wbr />uikit-7.x-3.x/<wbr />', '', $defined);
     $defined = str_replace('documentation/<wbr />uikit-8.x-2.x/<wbr />', '', $defined);
     $defined = str_replace('documentation/<wbr />uikit-8.x-3.x/<wbr />', '', $defined);
+    $defined = str_replace('documentation/<wbr />uikit_admin-7.x-2.x/<wbr />', '', $defined);
+    $defined = str_replace('documentation/<wbr />uikit_blog-8.x-2.x/<wbr />', '', $defined);
+    $defined = str_replace('documentation/<wbr />uikit_blog-8.x-3.x/<wbr />', '', $defined);
+    $defined = str_replace('documentation/<wbr />uikit_components-7.x-2.x/<wbr />', '', $defined);
+    $defined = str_replace('documentation/<wbr />uikit_components-7.x-3.x/<wbr />', '', $defined);
+    $defined = str_replace('documentation/<wbr />uikit_components-8.x-2.x/<wbr />', '', $defined);
+    $defined = str_replace('documentation/<wbr />uikit_components-8.x-3.x/<wbr />', '', $defined);
     $variables['defined'] = $defined;
   }
 }

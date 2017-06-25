@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Theme override to display a block.
+ * Theme override to display the local actions block.
  *
  * Available variables:
  * - plugin_id: The ID of the block implementation.
@@ -23,19 +23,22 @@
  *   displayed after the main title tag that appears in the template.
  *
  * @see template_preprocess_block()
+ * @see uikit_preprocess_block()
  *
  * @ingroup uikit_themeable
  */
 #}
-<div{{ attributes }}>
-  {{ title_prefix }}
-  {% if label %}
-    <h2{{ title_attributes }}>{{ label }}</h2>
-  {% endif %}
-  {{ title_suffix }}
-  {% block content %}
-    <ul class="uk-subnav uk-width-1-1">
-      {{ content }}
-    </ul>
-  {% endblock %}
-</div>
+{% if content %}
+  <div{{ attributes }}>
+    {{ title_prefix }}
+    {% if label %}
+      <h2{{ title_attributes }}>{{ label }}</h2>
+    {% endif %}
+    {{ title_suffix }}
+    {% block content %}
+      <ul class="uk-subnav uk-width-1-1">
+        {{ content }}
+      </ul>
+    {% endblock %}
+  </div>
+{{ endif }}

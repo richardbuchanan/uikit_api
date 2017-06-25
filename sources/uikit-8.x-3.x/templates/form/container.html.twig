@@ -21,4 +21,12 @@
  * @ingroup uikit_themeable
  */
 #}
-{{ children }}
+{%
+  set classes = [
+    has_parent ? 'js-form-wrapper',
+    has_parent ? 'form-wrapper',
+    'uk-form-row',
+    'toolbar-menu-administration' not in attributes ? 'uk-margin',
+  ]
+%}
+<div{{ attributes.addClass(classes) }}>{{ children }}</div>

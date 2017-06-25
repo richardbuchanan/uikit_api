@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Theme override for page titles.
+ * Theme override to display page titles.
  *
  * Available variables:
  * - title_attributes: HTML attributes for the page title element.
@@ -19,6 +19,8 @@
     'uk-article-title',
   ]
 %}
-{{ title_prefix }}
-<h1{{ title_attributes.addClass(classes) }}>{{ title }}</h1>
-{{ title_suffix }}
+{% if title|render %}
+  {{ title_prefix }}
+  <h1{{ title_attributes.addClass(classes) }}>{{ title }}</h1>
+  {{ title_suffix }}
+{% endif %}

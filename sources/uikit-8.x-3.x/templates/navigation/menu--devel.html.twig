@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Theme override to display an offcanvas menu.
+ * Theme override to display the devel menu.
  *
  * Available variables:
  * - menu_name: The machine name of the menu.
@@ -17,8 +17,6 @@
  *     that are not currently visible.
  *   - in_active_trail: TRUE if the link is in the active trail.
  *
- * @see uikit_preprocess_menu__offcanvas()
- *
  * @ingroup uikit_themeable
  */
 #}
@@ -33,32 +31,15 @@
 {% macro menu_links(items, attributes, menu_level) %}
   {% import _self as menus %}
   {% if items %}
-    {%
-      set classes = [
-        menu_level == 0 ? 'uk-nav',
-        menu_level == 0 ? 'uk-nav-offcanvas',
-        menu_level == 0 ? 'uk-nav-parent-icon',
-        menu_level > 0 ? 'uk-nav-sub',
-      ]
-    %}
-
-    <ul{{ attributes.addClass(classes) }}{% if menu_level == 0 %} data-uk-nav{% endif %}>
+    <ul{{ attributes.addClass('toolbar-menu') }}>
     {% for item in items %}
-      {% set item_classes = [item.below ? 'uk-parent'] %}
-      {% if item.display_item %}
-        <li{{ item.attributes.addClass(item_classes) }}>
-          {% if item.has_url %}
-            {{ link(item.title, item.url) }}
-          {% else %}
-            <a href="#">{{ item.title }}</a>
-          {% endif %}
-          {% if item.below %}
-            {{ menus.menu_links(item.below, attributes.removeClass(classes), menu_level + 1) }}
-          {% endif %}
+      <li{{ item.attributes }}>
+        {{ link(item.title, item.url) }}
+        {% if item.below %}
+          {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
         {% endif %}
       </li>
     {% endfor %}
     </ul>
-
   {% endif %}
 {% endmacro %}

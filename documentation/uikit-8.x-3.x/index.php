@@ -37,10 +37,4 @@
  * - @link theme_settings UIkit theme settings @endlink
  * - @link uikit_themeable UIkit theme implementations @endlink
  * - @link /project-maintainers Project maintainers @endlink
- *
- * @section api_projects Projects
- * Other project API's hosted on this site.
- * - @link /api/uikit_admin UIkit Admin @endlink
- * - @link /api/uikit_blog UIkit Blog @endlink
- * - @link /api/uikit_components UIkit Components @endlink
  */

@@ -25,8 +25,10 @@ use Drupal\Core\Form\FormStateInterface;
 function uikit_form_search_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   // SearchPageForm assigns a class to the help link as a string instead of an
   // an array. Let's fix that first.
-  $help_link_classes = explode(' ' , $form['help_link']['#options']['attributes']['class']);
-  $form['help_link']['#options']['attributes']['class'] = $help_link_classes;
+  if (!is_array($form['help_link']['#options']['attributes']['class'])) {
+    $help_link_classes = explode(' ', $form['help_link']['#options']['attributes']['class']);
+    $form['help_link']['#options']['attributes']['class'] = $help_link_classes;
+  }
 
   // Now add some classes to the help link for better spacing below the search
   // input.
@@ -55,6 +57,15 @@ function uikit_theme_suggestions_block_alter(array &$suggestions, array $variabl
   }
   elseif ($region == 'navbar' && !$system_branding_block) {
     $suggestions[] = 'block__navbar__item';
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter() for container templates.
+ */
+function uikit_theme_suggestions_container_alter(array &$suggestions, array $variables) {
+  if (isset($variables['element']['administration_menu'])) {
+    $suggestions[] = 'container__admin__toolbar';
   }
 }
 

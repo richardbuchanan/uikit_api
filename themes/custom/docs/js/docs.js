@@ -1,20 +1,5 @@
 (function($) {
 
-  $(document).ready(function() {
-    bodyMinHeight();
-    footerPosition();
-  });
-
-  $(window).resize(function() {
-    bodyMinHeight();
-    footerPosition();
-  });
-
-  $(document).click(function() {
-    bodyMinHeight();
-    footerPosition();
-  });
-
   $(function() {
     // Prevent empty anchor tags from being followed.
     $('article').on('click', '[href="#"], [href=""]', function (e) {
@@ -56,6 +41,13 @@
     });
   });
 
+  function tableDoubleScroll() {
+    var overflowContainer = $('.uk-overflow-container');
+
+    overflowContainer.doubleScroll();
+    $('.doubleScroll-scroll').css('width', overflowContainer.find('table:not(.sticky-header)').width());
+  }
+
   function bodyMinHeight() {
     var adminMenu = typeof Drupal.settings.admin_menu !== 'undefined';
     var adminMenuHeight = adminMenu ? 29 : 0;
@@ -90,6 +82,22 @@
       }
     }
   }
+
+  $(window).resize(function() {
+    bodyMinHeight();
+    footerPosition();
+  });
+
+  $(document).click(function() {
+    bodyMinHeight();
+    footerPosition();
+  });
+
+  $(document).ready(function() {
+    bodyMinHeight();
+    footerPosition();
+    tableDoubleScroll();
+  });
 
 })(jQuery);
 

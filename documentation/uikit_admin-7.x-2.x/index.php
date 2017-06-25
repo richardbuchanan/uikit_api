@@ -20,10 +20,4 @@
  * This theme is currently in the development stage and not recommended for use
  * on production sites. Visit the issue queue to report bugs and security issues
  * to help get us to a stable feature release.
- *
- * @section api_projects Projects
- * Other project API's hosted on this site.
- * - @link /api/uikit UIkit @endlink
- * - @link /api/uikit_blog UIkit Blog @endlink
- * - @link /api/uikit_components UIkit Components @endlink
  */

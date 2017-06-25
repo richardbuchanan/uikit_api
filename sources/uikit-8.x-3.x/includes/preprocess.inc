@@ -11,7 +11,7 @@
  * @see process.inc
  */
 
-use Drupal\Core\Render\Markup;
+use Drupal\Component\Utility\Html;
 use Drupal\Core\Template\Attribute;
 use Drupal\Core\Url;
 use Drupal\block\Entity\Block;
@@ -82,6 +82,10 @@ function uikit_preprocess_page(&$variables) {
  * Implements template_preprocess_region().
  */
 function uikit_preprocess_region(&$variables) {
+  // Provide an id attribute to help themers.
+  $region = $variables['region'];
+  $variables['attributes']['id'] = "region--$region";
+
   if ($variables['region'] == 'navbar') {
     $variables['content_left'] = [];
     $variables['content_center'] = [];
@@ -121,7 +125,13 @@ function uikit_preprocess_region(&$variables) {
  * Implements template_preprocess_block().
  */
 function uikit_preprocess_block(&$variables) {
-  $system_menu_block = $variables['base_plugin_id'] == 'system_menu_block';
+  // Provide an id attribute to help themers.
+  $id = $variables['elements']['#id'];
+  $id = Html::cleanCssIdentifier($id);
+  $variables['attributes']['id'] = $id;
+
+  $base_plugin_id = $variables['base_plugin_id'];
+  $system_menu_block = $base_plugin_id == 'system_menu_block';
   $block = Block::load($variables['elements']['#id']);
   $region = $block->getRegion();
 

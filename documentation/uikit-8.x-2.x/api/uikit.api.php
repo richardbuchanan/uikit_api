@@ -316,10 +316,7 @@
  *
  * UIkit implements hook overrides by the use of template files and an include
  * file, which are used to override the default implementations provided by
- * Drupal. The folder structure of UIkit helps identify whether the template is
- * overriding a default template or theme hook:
- * - templates: Overrides default templates
- * - includes/theme.inc: Overrides default theme hooks
+ * Drupal.
  *
  * Contrary to Drupal 7, in Drupal 8 template files (*.html.twig files) must be
  * stored in the 'templates' sub folder. The templates folder is further divided

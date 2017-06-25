@@ -9,6 +9,9 @@
  * All menus receive the uk-list class, which disrupts the flow of the toolbar
  * tray menus. We may end up adding a toolbar tray menu template in the future.
  */
+#toolbar-administration {
+  z-index: 1000 !important;
+}
 .toolbar-tray>nav>ul,
 .toolbar-tray>nav>ul>li:nth-child(n+2),
 .toolbar-tray>nav>ul>li>ul {
@@ -36,4 +39,24 @@
 .uk-button-group>input {
   font: 400 14px/20px "Helvetica Neue",Helvetica,Arial,sans-serif !important;
   vertical-align: top !important;
+}
+
+/**
+ * Sticky nav.
+ */
+@media (max-width: 767px) {
+  body.toolbar-vertical [uk-sticky],
+  body.toolbar-horizontal [uk-sticky] {
+    top: 0 !important;
+    position: static !important;
+  }
+}
+@media (min-width: 768px) {
+  body.toolbar-vertical [uk-sticky],
+  body.toolbar-horizontal [uk-sticky] {
+    top: 39px !important;
+  }
+  body.toolbar-horizontal.toolbar-tray-open [uk-sticky] {
+    top: 78px !important;
+  }
 }

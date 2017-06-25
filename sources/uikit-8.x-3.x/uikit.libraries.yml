@@ -7,13 +7,14 @@ uikit:
     gpl-compatible: true
   css:
     base:
-      //cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.25/css/uikit.min.css: { type: external, minified: true, weight: -20 }
+      //cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.25/css/uikit.min.css: { type: external, minified: true }
   js:
-    //cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.25/js/uikit.min.js: { type: external, minified: true, weight: -20 }
-    //cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.25/js/uikit-icons.min.js: { type: external, minified: true, weight: -20 }
+    //cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.25/js/uikit.min.js: { type: external, minified: true }
+    //cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.25/js/uikit-icons.min.js: { type: external, minified: true }
   dependencies:
-    - core/drupal
     - core/jquery
+    - core/jquery.once
+    - core/drupal
 
 uikit.admin:
   version: VERSION
@@ -24,8 +25,8 @@ uikit.admin:
     js/uikit.admin.js: {}
   dependencies:
     - core/jquery
-    - core/drupal
     - core/jquery.once
+    - core/drupal
 
 global-style:
   version: VERSION

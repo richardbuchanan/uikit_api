@@ -23,15 +23,28 @@
  *   displayed after the main title tag that appears in the template.
  *
  * @see template_preprocess_block()
+ * @see uikit_preprocess_block()
+ *
+ * @ingroup uikit_themeable
  */
 #}
-<div{{ attributes }}>
-  {{ title_prefix }}
-  {% if label %}
-    <h2{{ title_attributes }}>{{ label }}</h2>
-  {% endif %}
-  {{ title_suffix }}
-  {% block content %}
-    {{ content }}
-  {% endblock %}
-</div>
+{%
+  set classes = [
+    'block',
+    'block-' ~ configuration.provider|clean_class,
+    'block-' ~ plugin_id|clean_class,
+  ]
+%}
+{% if content %}
+  <div{{ attributes.addClass(classes) }}>
+    {{ title_prefix }}
+    {% if label %}
+      <h2{{ title_attributes }}>{{ label }}</h2>
+    {% endif %}
+    {{ title_suffix }}
+
+    {% block content %}
+      {{ content }}
+    {% endblock %}
+  </div>
+{% endif %}
