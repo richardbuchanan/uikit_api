@@ -356,6 +356,18 @@ function docs_preprocess_views_view_field(&$variables) {
     $output = str_replace('sources/<wbr />uikit_components-7.x-3.x/<wbr />', '', $output);
     $output = str_replace('sources/<wbr />uikit_components-8.x-2.x/<wbr />', '', $output);
     $output = str_replace('sources/<wbr />uikit_components-8.x-3.x/<wbr />', '', $output);
+
+    $output = str_replace('sources/uikit-7.x-2.x/', '', $output);
+    $output = str_replace('sources/uikit-7.x-3.x/', '', $output);
+    $output = str_replace('sources/uikit-8.x-2.x/', '', $output);
+    $output = str_replace('sources/uikit-8.x-3.x/', '', $output);
+    $output = str_replace('sources/uikit_admin-7.x-2.x/', '', $output);
+    $output = str_replace('sources/uikit_blog-8.x-2.x/', '', $output);
+    $output = str_replace('sources/uikit_blog-8.x-3.x/', '', $output);
+    $output = str_replace('sources/uikit_components-7.x-2.x/', '', $output);
+    $output = str_replace('sources/uikit_components-7.x-3.x/', '', $output);
+    $output = str_replace('sources/uikit_components-8.x-2.x/', '', $output);
+    $output = str_replace('sources/uikit_components-8.x-3.x/', '', $output);
     $variables['output'] = $output;
   }
 }
