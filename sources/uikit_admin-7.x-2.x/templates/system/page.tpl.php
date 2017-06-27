@@ -72,7 +72,7 @@
  * @see uikit_process_page()
  * @see html.tpl.php
  *
- * @ingroup uikit_themeable
+ * @ingroup uikit_admin_themeable
  */
 ?>
 <header id="page-header" class="uk-panel uk-panel-box uk-margin-bottom">

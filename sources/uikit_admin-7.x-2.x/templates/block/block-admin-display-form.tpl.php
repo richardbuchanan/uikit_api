@@ -22,7 +22,7 @@
  * @see template_preprocess_block_admin_display_form()
  * @see theme_block_admin_display()
  *
- * @ingroup uikit_themeable
+ * @ingroup uikit_admin_themeable
  */
 ?>
 <?php

@@ -3,6 +3,8 @@
 /**
  * @file
  * Implements theme_status_report().
+ *
+ * @ingroup uikit_admin_themeable
  */
 ?>
 

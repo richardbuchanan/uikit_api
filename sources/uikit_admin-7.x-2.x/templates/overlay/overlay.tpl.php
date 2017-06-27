@@ -18,7 +18,7 @@
  * @see template_preprocess_overlay()
  * @see template_process()
  *
- * @ingroup themeable
+ * @ingroup uikit_admin_themeable
  */
 ?>
 

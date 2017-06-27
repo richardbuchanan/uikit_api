@@ -47,7 +47,7 @@
  * @see template_preprocess_block()
  * @see template_process()
  *
- * @ingroup uikit_themeable
+ * @ingroup uikit_admin_themeable
  */
 ?>
 <div id="<?php print $block_html_id; ?>" class="<?php print $classes; ?>"<?php print $attributes; ?>>

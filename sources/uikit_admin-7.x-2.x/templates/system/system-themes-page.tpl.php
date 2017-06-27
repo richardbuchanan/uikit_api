@@ -17,6 +17,8 @@
  *   - links: Themed links for enabling/disabling/uninstalling the theme. Also
  *     contains a link to the theme settings if the theme is either installed or
  *     set as the administration theme.
+ *
+ * @ingroup uikit_admin_themeable
  */
 ?>
 <div id="system-themes-page">
