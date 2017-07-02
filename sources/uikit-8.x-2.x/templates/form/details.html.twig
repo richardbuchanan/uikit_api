@@ -17,33 +17,26 @@
  * @ingroup uikit_themeable
  */
 #}
-{%
-  set details_classes = [
-    'uk-form-row',
-    'uk-accordion',
-  ]
-%}
-<details{{ attributes.addClass(details_classes) }}>
-  {%
-    set summary_classes = [
-      required ? 'js-form-required',
-      required ? 'form-required',
-      'uk-accordion-title'
-    ]
-  %}
+{{ attach_library('uikit/uikit.accordion.gradient') }}
+<div{{ accordion_attributes }}>
   {%- if title -%}
-    <summary{{ summary_attributes.addClass(summary_classes) }}>{{ title }}</summary>
+    <h3{{ accordion_title_attributes }}>{{ title }}</h3>
   {%- endif -%}
 
-  <div class="uk-accordion-content">
+  <div{{ accordion_content_attributes }}>
     {% if errors %}
-      <div>
+      <div{{ error_classes }}>
         {{ errors }}
       </div>
     {% endif %}
 
-    {{ description }}
+    {% if description %}
+      <div{{ description_attributes }}>
+        {{ description }}
+      </div>
+    {% endif %}
+
     {{ children }}
     {{ value }}
   </div>
-</details>
+</div>

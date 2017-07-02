@@ -4,6 +4,29 @@
  */
 
 /**
+ * Inline forms.
+ */
+.container-inline div {
+  display: block;
+}
+.container-inline>div {
+  display: inline-block;
+}
+.container-inline input {
+  width: auto;
+}
+
+/**
+ * Image widget.
+ */
+.image-widget-data .uk-button-danger {
+  margin-left: 15px;
+}
+.image-widget-data>.form-item:first-child {
+  margin-bottom: 15px;
+}
+
+/**
  * Toolbar module.
  *
  * All menus receive the uk-list class, which disrupts the flow of the toolbar

@@ -54,8 +54,8 @@
         {{ dropbutton.text }}
       {%- endif -%}
 
-      <div data-uk-dropdown="{mode:'click'}">
-        <a class="uk-button"><i class="uk-icon-caret-down"></i></a>
+      <div data-uk-dropdown="{mode:'click', pos:'bottom-right'}">
+        <a{{ droplink_attributes }}><i class="uk-icon-caret-down"></i></a>
 
         <div class="uk-dropdown uk-dropdown-small">
           {%

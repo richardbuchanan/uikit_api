@@ -19,6 +19,45 @@
 use Drupal\block\Entity\Block;
 
 /**
+ * Implements hook_form_FORM_ID_alter() for the search form.
+ */
+function uikit_form_search_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  // Drupal core does not place the submit buttons or the help link in container
+  // elements. First copy, then remove these elements.
+  $submit = $form['basic']['submit'];
+  $help_link = $form['help_link'];
+  unset($form['basic']['submit']);
+
+  // Create the new containers.
+  $form['basic']['actions'] = [
+    '#type' => 'actions',
+  ];
+  $form['help_link'] = [
+    '#type' => 'container',
+  ];
+
+  // Place the submit buttons and help link inside their respective containers.
+  $form['basic']['actions']['submit'] = $submit;
+  $form['help_link']['help'] = $help_link;
+
+  // Now do the same for the advanced search form, if set.
+  if (isset($form['advanced'])) {
+    $advanced_submit = $form['advanced']['submit'];
+    unset($form['advanced']['submit']);
+
+    // Remove the prefix and suffix from the advanced submit element.
+    unset($advanced_submit['#prefix']);
+    unset($advanced_submit['#suffix']);
+
+    $form['advanced']['actions'] = [
+      '#type' => 'actions',
+    ];
+
+    $form['advanced']['actions']['submit'] = $advanced_submit;
+  }
+}
+
+/**
  * Implements hook_theme_suggestions_HOOK_alter() for block templates.
  */
 function uikit_theme_suggestions_block_alter(array &$suggestions, array $variables) {

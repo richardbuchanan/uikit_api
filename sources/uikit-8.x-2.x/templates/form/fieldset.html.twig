@@ -32,6 +32,7 @@
   ]
 %}
 <fieldset{{ attributes.addClass(classes) }}>
+  {% set legend_classes = [legend_span.attributes.hasClass('visually-hidden') ? 'visually-hidden'] %}
   {%
     set legend_span_classes = [
       'fieldset-legend',
@@ -40,7 +41,7 @@
     ]
   %}
   {#  Always wrap fieldset legends in a SPAN for CSS positioning. #}
-  <legend{{ legend.attributes }}>
+  <legend{{ legend.attributes.addClass(legend_classes) }}>
     <span{{ legend_span.attributes.addClass(legend_span_classes) }}>{{ legend.title }}</span>
   </legend>
   <div class="fieldset-wrapper">

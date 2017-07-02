@@ -25,9 +25,11 @@
  * @see template_preprocess_field()
  * @see comment_preprocess_field()
  * @see uikit_preprocess_field__comment()
+ *
+ * @ingroup uikit_themeable
  */
 #}
-{% if comments or comment_form %}
+{% if comments and comment_form %}
   <hr class="uk-article-divider">
 {% endif %}
 
@@ -36,11 +38,11 @@
     {{ title_prefix }}
     <h2 id="comments"{{ title_attributes.addClass('uk-margin-top') }}>{{ label }} ({{ comment_count }})</h2>
     {{ title_suffix }}
-  {% endif %}
 
-  <ul class="uk-comment-list">
-    {{ comments }}
-  </ul>
+    <ul class="uk-comment-list">
+      {{ comments }}
+    </ul>
+  {% endif %}
 
   {% if comment_form %}
     <hr class="uk-article-divider">

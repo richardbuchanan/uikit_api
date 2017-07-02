@@ -30,20 +30,22 @@
     'warning': 'uk-alert-warning',
   }
 %}
-{% for type, messages in message_list %}
-  <div role="contentinfo" aria-label="{{ status_headings[type] }}"{{ attributes|without('role', 'aria-label') }}>
-    {% if status_headings[type] %}
-      <h2 class="visually-hidden">{{ status_headings[type] }}</h2>
-    {% endif %}
-    <div class="uk-alert {{ status_classes[type] }}" role="alert" data-uk-alert>
-      <a class="uk-alert-close uk-close"></a>
-      {% if messages|length > 1 %}
-        {% for message in messages %}
-          <p>{{ message }}</p>
-        {% endfor %}
-      {% else %}
-        <p>{{ messages|first }}</p>
+{% if message_list|length %}
+  {% for type, messages in message_list %}
+    <div role="contentinfo" aria-label="{{ status_headings[type] }}"{{ attributes|without('role', 'aria-label') }}>
+      {% if status_headings[type] %}
+        <h2 class="visually-hidden">{{ status_headings[type] }}</h2>
       {% endif %}
+      <div class="uk-alert {{ status_classes[type] }}" role="alert" data-uk-alert>
+        <a class="uk-alert-close uk-close"></a>
+        {% if messages|length > 1 %}
+          {% for message in messages %}
+            <p>{{ message }}</p>
+          {% endfor %}
+        {% else %}
+          <p>{{ messages|first }}</p>
+        {% endif %}
+      </div>
     </div>
-  </div>
-{% endfor %}
+  {% endfor %}
+{% endif %}

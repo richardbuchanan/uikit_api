@@ -205,6 +205,61 @@ function uikit_preprocess_comment(&$variables) {
 }
 
 /**
+ * Implements template_preprocess_details().
+ */
+function uikit_preprocess_details(&$variables) {
+  // Set the accordion attributes.
+  $attributes = $variables['attributes'];
+  $accordion_attributes = new Attribute;
+
+  foreach ($attributes as $attribute => $value) {
+    if ($attribute != 'class' && $attribute != 'open') {
+      $accordion_attributes->setAttribute($attribute, $value);
+    }
+    elseif ($attribute == 'class') {
+      foreach ($value as $class) {
+        $accordion_attributes->addClass($class);
+      }
+    }
+  }
+  $accordion_attributes->addClass('uk-form-row');
+  $accordion_attributes->addClass('uk-accordion');
+
+  // Set the data-uk-accordion attribute based on the #open value.
+  $open = isset($variables['element']['#open']) ? $variables['element']['#open'] : FALSE;
+  if ($open) {
+    $accordion_attributes->setAttribute('data-uk-accordion', '{showfirst: true}');
+  }
+  else {
+    $accordion_attributes->setAttribute('data-uk-accordion', '{showfirst: false}');
+  }
+
+  $variables['accordion_attributes'] = $accordion_attributes;
+
+  // Set the accordion title attributes.
+  $accordion_title_attributes = new Attribute;
+  $accordion_title_attributes->addClass('uk-accordion-title');
+  $variables['accordion_title_attributes'] = $accordion_title_attributes;
+
+  // Set the accordion content attributes.
+  $accordion_content_attributes = new Attribute;
+  $accordion_content_attributes->addClass('uk-accordion-content');
+  $variables['accordion_content_attributes'] = $accordion_content_attributes;
+
+  // Set the error classes.
+  $error_classes = new Attribute;
+  $error_classes->addClass('uk-alert');
+  $error_classes->addClass('uk-alert-danger');
+  $variables['error_classes'] = $error_classes;
+
+  // Set the description attributes.
+  $description_attributes = new Attribute;
+  $description_attributes->addClass('uk-form-help-block');
+  $description_attributes->addClass('uk-margin-small-bottom');
+  $variables['description_attributes'] = $description_attributes;
+}
+
+/**
  * Implements template_preprocess_field() for field--comment.html.twig.
  */
 function uikit_preprocess_field__comment(&$variables) {
@@ -221,13 +276,6 @@ function uikit_preprocess_field__comment(&$variables) {
 }
 
 /**
- * Implements template_preprocess_details().
- */
-function uikit_preprocess_details(&$variables) {
-  $variables['#attached']['library'][] = UIkit::getUIkitComponent('accordion');
-}
-
-/**
  * Implements hook_preprocess_HOOK() for feed-icon.html.twig.
  *
  * Feed icon on the front page is missing the site name, as reported in
@@ -241,25 +289,18 @@ function uikit_preprocess_feed_icon(&$variables) {
 }
 
 /**
- * Implements template_preprocess_form_element().
- */
-function uikit_preprocess_form_element(&$variables) {
-  $element = $variables['element'];
-
-  // Grouped form elements do not need the uk-form-row class. This adds a
-  // grouped variable to use in form-element.html.twig.
-  $groups = isset($element['#groups']) && is_array($element['#groups']);
-  $variables['grouped'] = FALSE;
-  if ($groups) {
-    $variables['grouped'] = TRUE;
-  }
-}
-
-/**
  * Implements template_preprocess_form_element() for form-element--advanced.html.twig.
  */
 function uikit_preprocess_form_element__advanced(&$variables) {
   $variables['#attached']['library'][] = UIkit::getUIkitComponent('form-advanced');
+
+  if (is_object($variables['label']['#title'])) {
+    $label = $variables['label']['#title']->getUntranslatedString();
+  }
+  else {
+    $label = $variables['label']['#title'];
+  }
+  $variables['label_text'] = t('@label', ['@label' => $label]);
 }
 
 /**
@@ -274,6 +315,12 @@ function uikit_preprocess_input(&$variables) {
   }
 
   $variables['errors'] = $errors;
+
+  if ($variables['element']['#type'] == 'file') {
+    $variables['#attached']['library'][] = UIkit::getUIkitComponent('form-file');
+    $title = $variables['element']['#title']->getUntranslatedString();
+    $variables['title'] = t('@title', ['@title' => $title]);
+  }
 }
 
 /**
